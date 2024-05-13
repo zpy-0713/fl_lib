@@ -1,0 +1,21 @@
+{
+  "add": "Añadir",
+  "all": "Todos",
+  "authRequired": "Autenticación requerida",
+  "bioAuth": "Autenticación biométrica",
+  "cancel": "Cancelar",
+  "day": "Días",
+  "empty": "Vacío",
+  "fail": "Fracaso",
+  "file": "Archivo",
+  "hour": "Horas",
+  "minute": "Minutos",
+  "ok": "Bien",
+  "pwd": "Contraseña",
+  "rename": "Renombrar",
+  "second": "Segundos",
+  "select": "Seleccionar",
+  "success": "Éxito",
+  "tag": "Etiqueta",
+  "update": "Actualizar"
+}

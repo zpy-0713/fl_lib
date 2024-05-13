@@ -1,0 +1,21 @@
+{
+  "add": "追加",
+  "all": "全て",
+  "authRequired": "認証が必要",
+  "bioAuth": "生体認証",
+  "cancel": "キャンセル",
+  "day": "日",
+  "empty": "空",
+  "fail": "失敗",
+  "file": "ファイル",
+  "hour": "時間",
+  "minute": "分",
+  "ok": "いいです",
+  "pwd": "パスワード",
+  "rename": "名前変更",
+  "second": "秒",
+  "select": "選択",
+  "success": "成功",
+  "tag": "タグ",
+  "update": "更新"
+}

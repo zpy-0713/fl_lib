@@ -1,0 +1,21 @@
+{
+  "add": "Tambah",
+  "all": "Semua",
+  "authRequired": "Autentikasi diperlukan",
+  "bioAuth": "Autentikasi biometrik",
+  "cancel": "Batal",
+  "day": "Hari",
+  "empty": "Kosong",
+  "fail": "Gagal",
+  "file": "Berkas",
+  "hour": "Jam",
+  "minute": "Menit",
+  "ok": "Baik",
+  "pwd": "Kata sandi",
+  "rename": "Ubah nama",
+  "second": "Detik",
+  "select": "Pilih",
+  "success": "Sukses",
+  "tag": "Label",
+  "update": "Perbarui"
+}

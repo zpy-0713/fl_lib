@@ -1,0 +1,21 @@
+{
+  "add": "Toevoegen",
+  "all": "Alle",
+  "authRequired": "Authenticatie vereist",
+  "bioAuth": "Biometrische authenticatie",
+  "cancel": "Annuleren",
+  "day": "Dagen",
+  "empty": "Leeg",
+  "fail": "Mislukking",
+  "file": "Bestand",
+  "hour": "Uren",
+  "minute": "Minuten",
+  "ok": "Goed",
+  "pwd": "Wachtwoord",
+  "rename": "Hernoemen",
+  "second": "Seconden",
+  "select": "Selecteren",
+  "success": "Succes",
+  "tag": "Tag",
+  "update": "Bijwerken"
+}

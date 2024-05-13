@@ -1,0 +1,21 @@
+{
+  "add": "添加",
+  "all": "所有",
+  "authRequired": "需要认证",
+  "bioAuth": "生物认证",
+  "cancel": "取消",
+  "day": "天",
+  "empty": "空",
+  "fail": "失败",
+  "file": "文件",
+  "hour": "时",
+  "minute": "分",
+  "ok": "好",
+  "pwd": "密码",
+  "rename": "重命名",
+  "second": "秒",
+  "select": "选择",
+  "success": "成功",
+  "tag": "标签",
+  "update": "更新"
+}
