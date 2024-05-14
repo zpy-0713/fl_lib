@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  /// System status bar height
   static double? barHeight;
+  /// Draw title bar inside Flutter
   static bool drawTitlebar = false;
 
   const CustomAppBar({
@@ -79,12 +81,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  static Future<void> hideTitleBar() async {
+  static Future<void> updateTitlebarHeight(bool hideTitleBar) async {
     switch (Platform.operatingSystem) {
       case 'macos':
         barHeight = 27;
         break;
       case 'linux' || 'windows':
+        if (!hideTitleBar) break;
         barHeight = 37;
         drawTitlebar = true;
         break;

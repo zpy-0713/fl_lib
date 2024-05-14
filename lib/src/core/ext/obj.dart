@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-extension Object<T> on T {
+extension ObjectX<T> on T {
   bool get isBaseType {
     if (this == null) return true;
     return this is String ||
@@ -14,6 +14,6 @@ extension Object<T> on T {
   List<T> get asList => [this];
 
   T? nullOrSelf(bool cond) => cond ? this : null;
-  
+
   ValueNotifier<T> get vn => ValueNotifier<T>(this);
 }

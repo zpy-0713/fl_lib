@@ -1,13 +1,8 @@
 import 'dart:io';
 
-import 'package:fl_lib/src/res/l10n.dart';
 import 'package:fl_lib/src/core/utils/platform/base.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
-// ignore: depend_on_referenced_packages
-import 'package:local_auth_android/local_auth_android.dart';
-// ignore: depend_on_referenced_packages
-import 'package:local_auth_darwin/types/auth_messages_ios.dart';
 import 'package:local_auth/error_codes.dart' as errs;
 
 abstract final class BioAuth {
@@ -55,24 +50,11 @@ abstract final class BioAuth {
     try {
       await _auth.stopAuthentication();
       final reuslt = await _auth.authenticate(
-          localizedReason: l10n.authRequired,
+          localizedReason: '🔐',
           options: const AuthenticationOptions(
             biometricOnly: true,
             stickyAuth: true,
-          ),
-          authMessages: [
-            AndroidAuthMessages(
-              biometricHint: l10n.bioAuth,
-              biometricNotRecognized: l10n.fail,
-              biometricRequiredTitle: l10n.authRequired,
-              biometricSuccess: l10n.success,
-              cancelButton: l10n.cancel,
-            ),
-            IOSAuthMessages(
-              lockOut: l10n.authRequired,
-              cancelButton: l10n.ok,
-            ),
-          ]);
+          ),);
       if (reuslt) {
         return AuthResult.success;
       }

@@ -23,6 +23,10 @@ abstract final class UIs {
   );
   static const text13Grey = TextStyle(color: Colors.grey, fontSize: 13);
   static const text15 = TextStyle(fontSize: 15);
+  static const text15Bold = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+  );
   static const text18 = TextStyle(fontSize: 18);
   static const text27 = TextStyle(fontSize: 27);
   static const textGrey = TextStyle(color: Colors.grey);
@@ -79,6 +83,8 @@ abstract final class UIs {
   static var colorSeed = const Color.fromARGB(255, 72, 15, 15);
 
   static var primaryColor = colorSeed;
+
+  static const halfAlpha = Color.fromARGB(37, 125, 125, 125);
 
   static const bgColor = DynColor(light: Colors.white, dark: Colors.black);
 

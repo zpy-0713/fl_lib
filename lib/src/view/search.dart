@@ -1,5 +1,4 @@
 import 'package:fl_lib/fl_lib.dart';
-import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 
 final class SearchPage<T> extends SearchDelegate<T> {
@@ -59,7 +58,7 @@ final class SearchPage<T> extends SearchDelegate<T> {
       },
       success: (list) {
         if (list == null || list.isEmpty) {
-          return Center(child: Text(l10n.empty));
+          return const Center(child: Text('~'));
         }
 
         return ListView.builder(

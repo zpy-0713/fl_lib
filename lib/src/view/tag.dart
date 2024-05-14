@@ -1,9 +1,4 @@
-import 'package:fl_lib/src/core/ext/ctx/common.dart';
-import 'package:fl_lib/src/core/ext/ctx/dialog.dart';
-import 'package:fl_lib/src/res/l10n.dart';
-import 'package:fl_lib/src/res/ui.dart';
-import 'package:fl_lib/src/view/card.dart';
-import 'package:fl_lib/src/view/input.dart';
+import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
 const _kTagBtnHeight = 31.0;
@@ -24,14 +19,14 @@ class TagBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _wrap(
-      Text(
+    return _Wrap(
+      onTap: onTap,
+      color: color ?? UIs.halfAlpha,
+      child: Text(
         content,
         textAlign: TextAlign.center,
         style: isEnable ? UIs.text13 : UIs.text13Grey,
       ),
-      onTap: onTap,
-      color: color,
     );
   }
 }
@@ -42,6 +37,9 @@ class TagEditor extends StatefulWidget {
   final void Function(String old, String new_)? onRenameTag;
   final List<String> allTags;
   final Color? color;
+  final String renameL10n;
+  final String tagL10n;
+  final String addL10n;
 
   const TagEditor({
     super.key,
@@ -50,6 +48,9 @@ class TagEditor extends StatefulWidget {
     this.onRenameTag,
     this.allTags = const <String>[],
     this.color,
+    required this.renameL10n,
+    required this.tagL10n,
+    required this.addL10n,
   });
 
   @override
@@ -81,7 +82,7 @@ class _TagEditorState extends State<TagEditor> {
 
     /// Add vertical divider if suggestions.length > 0
     final counts = tags.length + suggestionLen + (suggestionLen == 0 ? 0 : 1);
-    if (counts == 0) return Text(l10n.tag);
+    if (counts == 0) return Text(widget.tagL10n);
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: _kTagBtnHeight),
       child: ListView.builder(
@@ -103,8 +104,19 @@ class _TagEditorState extends State<TagEditor> {
   }
 
   Widget _buildTagItem(String tag, {bool isAdd = false}) {
-    return _wrap(
-      Row(
+    return _Wrap(
+      onTap: () {
+        if (isAdd) {
+          widget.tags.add(tag);
+        } else {
+          widget.tags.remove(tag);
+        }
+        widget.onChanged?.call(widget.tags);
+        setState(() {});
+      },
+      onLongPress: () => _showRenameDialog(tag),
+      color: widget.color,
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -120,29 +132,18 @@ class _TagEditorState extends State<TagEditor> {
           ),
         ],
       ),
-      onTap: () {
-        if (isAdd) {
-          widget.tags.add(tag);
-        } else {
-          widget.tags.remove(tag);
-        }
-        widget.onChanged?.call(widget.tags);
-        setState(() {});
-      },
-      onLongPress: () => _showRenameDialog(tag),
-      color: widget.color,
     );
   }
 
   void _showAddTagDialog() {
     final textEditingController = TextEditingController();
     context.showRoundDialog(
-      title: l10n.add,
+      title: widget.addL10n,
       child: Input(
         autoFocus: true,
         icon: Icons.tag,
         controller: textEditingController,
-        hint: l10n.tag,
+        hint: widget.tagL10n,
       ),
       actions: [
         TextButton(
@@ -152,7 +153,7 @@ class _TagEditorState extends State<TagEditor> {
             widget.onChanged?.call(widget.tags);
             context.pop();
           },
-          child: Text(l10n.add),
+          child: Text(widget.addL10n),
         ),
       ],
     );
@@ -161,12 +162,12 @@ class _TagEditorState extends State<TagEditor> {
   void _showRenameDialog(String tag) {
     final textEditingController = TextEditingController(text: tag);
     context.showRoundDialog(
-      title: l10n.rename,
+      title: widget.renameL10n,
       child: Input(
         autoFocus: true,
         icon: Icons.abc,
         controller: textEditingController,
-        hint: l10n.tag,
+        hint: widget.tagL10n,
       ),
       actions: [
         TextButton(
@@ -177,7 +178,7 @@ class _TagEditorState extends State<TagEditor> {
             context.pop();
             setState(() {});
           },
-          child: Text(l10n.rename),
+          child: Text(widget.renameL10n),
         ),
       ],
     );
@@ -189,6 +190,7 @@ class TagSwitcher extends StatelessWidget implements PreferredSizeWidget {
   final double width;
   final void Function(String?) onTagChanged;
   final String? initTag;
+  final String allL10n;
 
   const TagSwitcher({
     super.key,
@@ -196,6 +198,7 @@ class TagSwitcher extends StatelessWidget implements PreferredSizeWidget {
     required this.width,
     required this.onTagChanged,
     this.initTag,
+    required this.allL10n,
   });
 
   @override
@@ -216,7 +219,7 @@ class TagSwitcher extends StatelessWidget implements PreferredSizeWidget {
             itemBuilder: (context, index) {
               final item = items[index];
               return TagBtn(
-                content: item == null ? l10n.all : '#$item',
+                content: item == null ? allL10n : '#$item',
                 isEnable: initTag == item,
                 onTap: () => onTagChanged(item),
               );
@@ -232,27 +235,37 @@ class TagSwitcher extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(_kTagBtnHeight);
 }
 
-Widget _wrap(
-  Widget child, {
-  void Function()? onTap,
-  void Function()? onLongPress,
-  Color? color,
-}) {
-  return Padding(
-    padding: const EdgeInsets.all(3),
-    child: ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-      child: Material(
-        color: color,
-        child: InkWell(
-          onTap: onTap,
-          onLongPress: onLongPress,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(11.7, 2.7, 11.7, 0),
-            child: child,
+final class _Wrap extends StatelessWidget {
+  final Widget child;
+  final void Function()? onTap;
+  final void Function()? onLongPress;
+  final Color? color;
+
+  const _Wrap({
+    required this.child,
+    this.onTap,
+    this.onLongPress,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(3),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+        child: Material(
+          color: color,
+          child: InkWell(
+            onTap: onTap,
+            onLongPress: onLongPress,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 11),
+              child: Center(child: child),
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
