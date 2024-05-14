@@ -32,10 +32,9 @@ extension StringX on String {
     return this;
   }
 
-  /// Not valid for Windows's file path.
-  String? get fileName {
+  String? getFileName([String? seperator]) {
     if (isEmpty) return null;
-    return split('/').last;
+    return split(seperator ?? Pfs.seperator).last;
   }
 
   String joinPath(
