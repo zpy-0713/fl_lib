@@ -26,7 +26,7 @@ export 'src/core/utils/platform/perm.dart';
 export 'src/core/utils/platform/auth.dart';
 export 'src/core/utils/platform/base.dart';
 export 'src/core/utils/markdown.dart';
-export 'src/core/utils/rnode.dart';
+export 'src/model/rnode.dart';
 export 'src/core/utils/func.dart';
 export 'src/model/update.dart';
 export 'src/model/dyn_color.dart';

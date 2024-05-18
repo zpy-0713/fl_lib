@@ -89,8 +89,8 @@ extension BoxX on Box {
       );
 
   /// Convert db to json
-  Map<String, dynamic> toJson({bool includeInternal = true}) {
-    final json = <String, dynamic>{};
+  Map<String, T> toJson<T>({bool includeInternal = true}) {
+    final json = <String, T>{};
     for (final key in keys) {
       if (key is String &&
           key.startsWith(_internalPreffix) &&
