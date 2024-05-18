@@ -6,6 +6,7 @@ import 'package:fl_lib/src/core/ext/string.dart';
 import 'package:fl_lib/src/core/logger.dart';
 import 'package:fl_lib/src/core/utils/platform/base.dart';
 import 'package:fl_lib/src/model/update.dart';
+import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppUpdateIface {
@@ -22,10 +23,9 @@ abstract final class AppUpdateIface {
   }
 
   static Future<void> doUpdate({
+    required BuildContext context,
     required int build,
     required String url,
-    required BuildContext context,
-    required String updateL10n,
     bool force = false,
   }) async {
     if (isWeb) return;
@@ -68,7 +68,7 @@ abstract final class AppUpdateIface {
               context.pop();
               _doUpdate(update, context);
             },
-            child: Text(updateL10n),
+            child: Text(l10n.update),
           )
         ],
       );
@@ -78,7 +78,7 @@ abstract final class AppUpdateIface {
     // ignore: use_build_context_synchronously
     context.showSnackBarWithAction(
       content: tip,
-      action: updateL10n,
+      action: l10n.update,
       onTap: () => _doUpdate(update, context),
     );
   }

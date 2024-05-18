@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fl_lib/src/core/utils/platform/base.dart';
+import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth/error_codes.dart' as errs;
@@ -50,11 +51,12 @@ abstract final class BioAuth {
     try {
       await _auth.stopAuthentication();
       final reuslt = await _auth.authenticate(
-          localizedReason: '🔐',
-          options: const AuthenticationOptions(
-            biometricOnly: true,
-            stickyAuth: true,
-          ),);
+        localizedReason: '🔐 ${l10n.authRequired}',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          stickyAuth: true,
+        ),
+      );
       if (reuslt) {
         return AuthResult.success;
       }

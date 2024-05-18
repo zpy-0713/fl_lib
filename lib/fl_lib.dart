@@ -10,6 +10,7 @@ export 'src/core/ext/locale.dart';
 export 'src/core/ext/uint8list.dart';
 export 'src/core/ext/iter.dart';
 export 'src/core/ext/color.dart';
+export 'src/core/ext/ctx/l10n.dart';
 export 'src/core/ext/ctx/dialog.dart';
 export 'src/core/ext/ctx/snackbar.dart';
 export 'src/core/ext/ctx/common.dart';

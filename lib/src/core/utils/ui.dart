@@ -72,37 +72,38 @@ abstract final class Btns {
   static TextButton ok<T>({
     bool? red,
     void Function()? onTap,
-    String? ok,
+    required String ok,
   }) {
     return TextButton(
       onPressed: onTap?.call,
-      child: Text(ok ?? '✔', style: (red ?? false) ? UIs.textRed : null),
+      child: Text(ok, style: (red ?? false) ? UIs.textRed : null),
     );
   }
 
   static TextButton cancel<T>({
     void Function()? onTap,
-    String? cancel,
+    required String cancel,
   }) {
     return TextButton(
       onPressed: onTap?.call,
-      child: Text(cancel ?? '✖'),
+      child: Text(cancel),
     );
   }
 
   static List<TextButton> oks<T>({
     bool red = false,
     void Function()? onTap,
+    required String okStr,
   }) {
-    return [ok(red: red, onTap: onTap)];
+    return [ok(red: red, onTap: onTap, ok: okStr)];
   }
 
   static List<TextButton> okCancels<T>({
     void Function()? onTapOk,
     void Function()? onTapCancel,
     bool? red,
-    String? okStr,
-    String? cancelStr,
+    required String okStr,
+    required String cancelStr,
   }) {
     return [
       ok(onTap: onTapOk, ok: okStr, red: red),

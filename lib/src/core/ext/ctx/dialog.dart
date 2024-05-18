@@ -1,5 +1,6 @@
 import 'package:choice/choice.dart';
 import 'package:fl_lib/fl_lib.dart';
+import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 
 extension DialogX on BuildContext {
@@ -72,13 +73,13 @@ extension DialogX on BuildContext {
             _recoredPwd[id] = val;
           }
         },
-        label: label,
+        label: label ?? l10n.pwd,
       ),
     );
   }
 
   Future<List<T>?> showPickDialog<T>({
-    required String title,
+    String? title,
     required List<T?> items,
     String Function(T)? name,
     bool multi = true,
@@ -89,7 +90,7 @@ extension DialogX on BuildContext {
   }) async {
     var vals = initial ?? <T>[];
     final sure = await showRoundDialog<bool>(
-      title: title,
+      title: title ?? l10n.select,
       child: SingleChildScrollView(
         child: Choice<T>(
           onChanged: (value) => vals = value,
@@ -118,7 +119,7 @@ extension DialogX on BuildContext {
         if (actions != null) ...actions,
         TextButton(
           onPressed: () => pop(true),
-          child: Text(ok ?? 'ok'),
+          child: Text(ok ?? l10n.ok),
         ),
       ],
     );
@@ -129,7 +130,7 @@ extension DialogX on BuildContext {
   }
 
   Future<T?> showPickSingleDialog<T>({
-    required String title,
+    String? title,
     required List<T?> items,
     String Function(T)? name,
     T? initial,
@@ -153,7 +154,7 @@ extension DialogX on BuildContext {
   }
 
   Future<List<T>?> showPickWithTagDialog<T>({
-    required String? title,
+    String? title,
     required List<T?> Function(String? tag) itemsBuilder,
     required ValueNotifier<List<String>> tags,
     String Function(T)? name,
@@ -179,7 +180,6 @@ extension DialogX on BuildContext {
               width: 300,
               initTag: tag.value,
               onTagChanged: (e) => tag.value = e,
-              allL10n: all,
             ),
           ),
           const Divider(),
@@ -219,7 +219,7 @@ extension DialogX on BuildContext {
         if (actions != null) ...actions,
         TextButton(
           onPressed: () => pop(true),
-          child: Text(ok ?? 'ok'),
+          child: Text(ok ?? l10n.ok),
         ),
       ],
     );

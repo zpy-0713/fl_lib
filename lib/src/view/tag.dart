@@ -1,4 +1,5 @@
 import 'package:fl_lib/fl_lib.dart';
+import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 
 const _kTagBtnHeight = 31.0;
@@ -37,9 +38,6 @@ class TagEditor extends StatefulWidget {
   final void Function(String old, String new_)? onRenameTag;
   final List<String> allTags;
   final Color? color;
-  final String renameL10n;
-  final String tagL10n;
-  final String addL10n;
 
   const TagEditor({
     super.key,
@@ -48,9 +46,6 @@ class TagEditor extends StatefulWidget {
     this.onRenameTag,
     this.allTags = const <String>[],
     this.color,
-    required this.renameL10n,
-    required this.tagL10n,
-    required this.addL10n,
   });
 
   @override
@@ -82,7 +77,7 @@ class _TagEditorState extends State<TagEditor> {
 
     /// Add vertical divider if suggestions.length > 0
     final counts = tags.length + suggestionLen + (suggestionLen == 0 ? 0 : 1);
-    if (counts == 0) return Text(widget.tagL10n);
+    if (counts == 0) return Text(l10n.tag);
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: _kTagBtnHeight),
       child: ListView.builder(
@@ -138,12 +133,12 @@ class _TagEditorState extends State<TagEditor> {
   void _showAddTagDialog() {
     final textEditingController = TextEditingController();
     context.showRoundDialog(
-      title: widget.addL10n,
+      title: l10n.add,
       child: Input(
         autoFocus: true,
         icon: Icons.tag,
         controller: textEditingController,
-        hint: widget.tagL10n,
+        hint: l10n.tag,
       ),
       actions: [
         TextButton(
@@ -153,7 +148,7 @@ class _TagEditorState extends State<TagEditor> {
             widget.onChanged?.call(widget.tags);
             context.pop();
           },
-          child: Text(widget.addL10n),
+          child: Text(l10n.add),
         ),
       ],
     );
@@ -162,12 +157,12 @@ class _TagEditorState extends State<TagEditor> {
   void _showRenameDialog(String tag) {
     final textEditingController = TextEditingController(text: tag);
     context.showRoundDialog(
-      title: widget.renameL10n,
+      title: l10n.rename,
       child: Input(
         autoFocus: true,
         icon: Icons.abc,
         controller: textEditingController,
-        hint: widget.tagL10n,
+        hint: l10n.tag,
       ),
       actions: [
         TextButton(
@@ -178,7 +173,7 @@ class _TagEditorState extends State<TagEditor> {
             context.pop();
             setState(() {});
           },
-          child: Text(widget.renameL10n),
+          child: Text(l10n.rename),
         ),
       ],
     );
@@ -190,7 +185,6 @@ class TagSwitcher extends StatelessWidget implements PreferredSizeWidget {
   final double width;
   final void Function(String?) onTagChanged;
   final String? initTag;
-  final String allL10n;
 
   const TagSwitcher({
     super.key,
@@ -198,7 +192,6 @@ class TagSwitcher extends StatelessWidget implements PreferredSizeWidget {
     required this.width,
     required this.onTagChanged,
     this.initTag,
-    required this.allL10n,
   });
 
   @override
@@ -219,7 +212,7 @@ class TagSwitcher extends StatelessWidget implements PreferredSizeWidget {
             itemBuilder: (context, index) {
               final item = items[index];
               return TagBtn(
-                content: item == null ? allL10n : '#$item',
+                content: item == null ? l10n.all : '#$item',
                 isEnable: initTag == item,
                 onTap: () => onTagChanged(item),
               );

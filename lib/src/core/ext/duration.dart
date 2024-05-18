@@ -1,23 +1,21 @@
+import 'package:fl_lib/src/res/l10n.dart';
+
 extension DurationX on Duration {
-  String toAgoStr({
-    String? day,
-    String? hour,
-    String? minute,
-    String? second,
-  }) {
-    final days = inDays;
+  String get toAgoStr {
+    final abs_ = abs();
+    final days = abs_.inDays;
     if (days > 0) {
-      return '$days ${day ?? 'd'}';
+      return '$days ${l10n.day}';
     }
-    final hours = inHours % 24;
+    final hours = abs_.inHours;
     if (hours > 0) {
-      return '$hours ${hour ?? 'h'}';
+      return '$hours ${l10n.hour}';
     }
-    final minutes = inMinutes % 60;
+    final minutes = abs_.inMinutes;
     if (minutes > 0) {
-      return '$minutes ${minute ?? 'm'}';
+      return '$minutes ${l10n.minute}';
     }
-    final seconds = inSeconds % 60;
-    return '$seconds ${second ?? 's'}';
+    final seconds = abs_.inSeconds;
+    return '$seconds ${l10n.second}';
   }
 }

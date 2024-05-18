@@ -10,6 +10,7 @@ void main() async {
 
   for (final entity in srcDir) {
     if (entity is File && entity.path.endsWith('.dart')) {
+      if (entity.path.startsWith('l10n')) continue;
       if (entity.path == 'lib/src/res/l10n.dart') continue;
       exportAll.writeln("export '${entity.path.replaceFirst('lib/', '')}';");
     }
