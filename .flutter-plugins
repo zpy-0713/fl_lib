@@ -1,7 +1,9 @@
 # This is a generated file; do not edit or check into version control.
+app_links=/home/lolli/.pub-cache/hosted/pub.dev/app_links-6.0.2/
 countly_flutter=/home/lolli/.pub-cache/hosted/pub.dev/countly_flutter-24.4.0/
 file_picker=/home/lolli/.pub-cache/hosted/pub.dev/file_picker-8.0.3/
 flutter_plugin_android_lifecycle=/home/lolli/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.19/
+gtk=/home/lolli/.pub-cache/hosted/pub.dev/gtk-2.1.0/
 icloud_storage=/home/lolli/.pub-cache/hosted/pub.dev/icloud_storage-2.2.0/
 local_auth=/home/lolli/.pub-cache/hosted/pub.dev/local_auth-2.2.0/
 local_auth_android=/home/lolli/.pub-cache/hosted/pub.dev/local_auth_android-1.0.38/
@@ -26,4 +28,4 @@ url_launcher_linux=/home/lolli/.pub-cache/hosted/pub.dev/url_launcher_linux-3.1.
 url_launcher_macos=/home/lolli/.pub-cache/hosted/pub.dev/url_launcher_macos-3.2.0/
 url_launcher_web=/home/lolli/.pub-cache/hosted/pub.dev/url_launcher_web-2.3.1/
 url_launcher_windows=/home/lolli/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.1/
-window_manager=/home/lolli/.pub-cache/hosted/pub.dev/window_manager-0.3.8/
+window_manager=/home/lolli/.pub-cache/hosted/pub.dev/window_manager-0.3.9/
