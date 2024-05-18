@@ -2,11 +2,15 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class DebugPage extends StatelessWidget {
-  final ValueListenable<List<Widget>> notifier;
-  final void Function() onClear;
+typedef DebugPageArgs = ({
+  ValueListenable<List<Widget>> notifier,
+  void Function() onClear,
+});
 
-  const DebugPage({super.key, required this.notifier, required this.onClear});
+class DebugPage extends StatelessWidget {
+  final DebugPageArgs? args;
+
+  const DebugPage({super.key, this.args});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +24,7 @@ class DebugPage extends StatelessWidget {
         backgroundColor: Colors.black,
         actions: [
           IconButton(
-            onPressed: onClear,
+            onPressed: args?.onClear,
             icon: const Icon(Icons.delete, color: Colors.white),
           ),
         ],
@@ -31,6 +35,8 @@ class DebugPage extends StatelessWidget {
   }
 
   Widget _buildTerminal(BuildContext context) {
+    final notifier = args?.notifier;
+    if (notifier == null) return UIs.placeholder;
     return Container(
       padding: const EdgeInsets.all(10),
       color: Colors.black,

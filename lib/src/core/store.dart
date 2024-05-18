@@ -97,7 +97,11 @@ extension BoxX on Box {
           !includeInternal) {
         continue;
       }
-      json[key] = get(key);
+      try {
+        json[key] = get(key) as T;
+      } catch (_) {
+        debugPrint('BoxX.toJson("$key") is: ${get(key).runtimeType}');
+      }
     }
     return json;
   }
