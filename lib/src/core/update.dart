@@ -46,7 +46,7 @@ abstract final class AppUpdateIface {
     }
     Loggers.app.info('Update available: $newest');
 
-    final fileUrl = update.url.current;
+    final fileUrl = update.url.current?.current;
 
     if (fileUrl == null || !await _isUrlAvailable(fileUrl)) {
       Loggers.app.warning('Update file not available');
@@ -58,7 +58,6 @@ abstract final class AppUpdateIface {
     final tip = 'v1.0.$newest\n${update.changelog.current}';
 
     if (min != null && min > build) {
-      // ignore: use_build_context_synchronously
       context.showRoundDialog(
         title: 'v1.0.$newest',
         child: Text(update.changelog.current ?? '~'),
@@ -75,7 +74,6 @@ abstract final class AppUpdateIface {
       return;
     }
 
-    // ignore: use_build_context_synchronously
     context.showSnackBarWithAction(
       content: tip,
       action: l10n.update,
@@ -87,7 +85,7 @@ abstract final class AppUpdateIface {
     AppUpdate update,
     BuildContext context
   ) async {
-    final url = update.url.current;
+    final url = update.url.current?.current;
     if (url == null) {
       Loggers.app.warning('Update url not is null');
       return;

@@ -167,6 +167,7 @@ extension DialogX on BuildContext {
   }) async {
     var vals = initial ?? <T>[];
     final tag = ValueNotifier<String?>(null);
+    final media = MediaQuery.of(this);
     final sure = await showRoundDialog<bool>(
       title: title,
       child: Column(
@@ -183,36 +184,39 @@ extension DialogX on BuildContext {
             ),
           ),
           const Divider(),
-          SingleChildScrollView(
-            child: ValBuilder(
-              listenable: tag,
-              builder: (val) {
-                final items = itemsBuilder(val);
-                return Choice<T>(
-                  onChanged: (value) => vals = value,
-                  multiple: multi,
-                  clearable: clearable,
-                  value: vals,
-                  builder: (state, _) {
-                    return Wrap(
-                      children: List<Widget>.generate(
-                        items.length,
-                        (index) {
-                          final item = items[index];
-                          if (item == null) return UIs.placeholder;
-                          return ChoiceChipX<T>(
-                            label: name?.call(item) ?? item.toString(),
-                            state: state,
-                            value: item,
-                          );
-                        },
-                      ),
-                    );
-                  },
-                );
-              },
+          ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: media.size.height * 0.5),
+            child: SingleChildScrollView(
+              child: ValBuilder(
+                listenable: tag,
+                builder: (val) {
+                  final items = itemsBuilder(val);
+                  return Choice<T>(
+                    onChanged: (value) => vals = value,
+                    multiple: multi,
+                    clearable: clearable,
+                    value: vals,
+                    builder: (state, _) {
+                      return Wrap(
+                        children: List<Widget>.generate(
+                          items.length,
+                          (index) {
+                            final item = items[index];
+                            if (item == null) return UIs.placeholder;
+                            return ChoiceChipX<T>(
+                              label: name?.call(item) ?? item.toString(),
+                              state: state,
+                              value: item,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
-          )
+          ),
         ],
       ),
       actions: [
