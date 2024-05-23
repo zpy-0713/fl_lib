@@ -2,10 +2,17 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-typedef DebugPageArgs = ({
-  ValueListenable<List<Widget>> notifier,
-  void Function() onClear,
-});
+final class DebugPageArgs {
+  final ValueListenable<List<Widget>> notifier;
+  final void Function() onClear;
+  final String? title;
+
+  const DebugPageArgs({
+    required this.notifier,
+    required this.onClear,
+    this.title,
+  });
+}
 
 class DebugPage extends StatelessWidget {
   final DebugPageArgs? args;
@@ -20,7 +27,10 @@ class DebugPage extends StatelessWidget {
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back, color: Colors.white),
         ),
-        title: const Text('Logs', style: TextStyle(color: Colors.white)),
+        title: Text(
+          args?.title ?? 'Logs',
+          style: const TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.black,
         actions: [
           IconButton(
