@@ -6,6 +6,7 @@ import 'package:window_manager/window_manager.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// System status bar height
   static double? barHeight;
+
   /// Draw title bar inside Flutter
   static bool drawTitlebar = false;
 
@@ -36,48 +37,50 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: (barHeight ?? 0) + kToolbarHeight,
     );
     if (!drawTitlebar) return bar;
-    return Stack(
-      children: [
-        bar,
-        Positioned(
-          right: 0,
-          top: 0,
-          child: GestureDetector(
-            onVerticalDragStart: (_) {
-              windowManager.startDragging();
-            },
-            onHorizontalDragStart: (_) {
-              windowManager.startDragging();
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                IconButton(
-                  icon: Transform.translate(
-                    offset: const Offset(0, -3.5),
-                    child: const Icon(Icons.minimize, size: 13),
+    return GestureDetector(
+      onVerticalDragStart: (_) {
+        windowManager.startDragging();
+      },
+      onHorizontalDragStart: (_) {
+        windowManager.startDragging();
+      },
+      child: Stack(
+        children: [
+          bar,
+          Positioned(
+            right: 0,
+            top: 0,
+            child: GestureDetector(
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  IconButton(
+                    icon: Transform.translate(
+                      offset: const Offset(0, -3.5),
+                      child: const Icon(Icons.minimize, size: 13),
+                    ),
+                    onPressed: () => windowManager.minimize(),
                   ),
-                  onPressed: () => windowManager.minimize(),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.crop_square, size: 13),
-                  onPressed: () async {
-                    if (await windowManager.isMaximized()) {
-                      windowManager.unmaximize();
-                    } else {
-                      windowManager.maximize();
-                    }
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close, size: 14),
-                  onPressed: () => windowManager.close(),
-                ),
-              ],
+                  IconButton(
+                    icon: const Icon(Icons.crop_square, size: 13),
+                    onPressed: () async {
+                      if (await windowManager.isMaximized()) {
+                        windowManager.unmaximize();
+                      } else {
+                        windowManager.maximize();
+                      }
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close, size: 14),
+                    onPressed: () => windowManager.close(),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
