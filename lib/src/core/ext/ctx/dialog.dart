@@ -86,7 +86,6 @@ extension DialogX on BuildContext {
     List<T>? initial,
     bool clearable = false,
     List<Widget>? actions,
-    String? ok,
   }) async {
     var vals = initial ?? <T>[];
     final sure = await showRoundDialog<bool>(
@@ -119,7 +118,7 @@ extension DialogX on BuildContext {
         if (actions != null) ...actions,
         TextButton(
           onPressed: () => pop(true),
-          child: Text(ok ?? l10n.ok),
+          child: Text(l10n.ok),
         ),
       ],
     );
@@ -136,7 +135,6 @@ extension DialogX on BuildContext {
     T? initial,
     bool clearable = false,
     List<Widget>? actions,
-    String? ok,
   }) async {
     final vals = await showPickDialog<T>(
       title: title,
@@ -145,7 +143,6 @@ extension DialogX on BuildContext {
       multi: false,
       initial: initial == null ? null : [initial],
       actions: actions,
-      ok: ok,
     );
     if (vals != null && vals.isNotEmpty) {
       return vals.first;
@@ -162,8 +159,6 @@ extension DialogX on BuildContext {
     bool clearable = false,
     bool multi = false,
     List<Widget>? actions,
-    String? ok,
-    required String all,
   }) async {
     var vals = initial ?? <T>[];
     final tag = ValueNotifier<String?>(null);
@@ -183,7 +178,7 @@ extension DialogX on BuildContext {
               onTagChanged: (e) => tag.value = e,
             ),
           ),
-          const Divider(),
+          const Divider(color: Color.fromARGB(30, 158, 158, 158)),
           ConstrainedBox(
             constraints: BoxConstraints(maxHeight: media.size.height * 0.5),
             child: SingleChildScrollView(
@@ -223,7 +218,7 @@ extension DialogX on BuildContext {
         if (actions != null) ...actions,
         TextButton(
           onPressed: () => pop(true),
-          child: Text(ok ?? l10n.ok),
+          child: Text(l10n.ok),
         ),
       ],
     );
