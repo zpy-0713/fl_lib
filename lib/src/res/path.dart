@@ -6,9 +6,9 @@ import 'package:path_provider/path_provider.dart';
 
 abstract final class Paths {
   /// Await [Paths.init] before using any of the paths
-  static Future<void> init(String appName) async {
+  static Future<void> init(String appName, {String? bakName}) async {
     await _setDoc(appName);
-    _bakName = appName + _bakName;
+    _bakName = (bakName ?? appName) + _bakName;
     _bakPath = _docDir!.absolute.path.joinPath(_bakName);
 
     _dlDir = Directory(await _setDl());
