@@ -21,6 +21,8 @@ class ChoiceChipX<T> extends StatelessWidget {
         label: Text(label),
         side: BorderSide.none,
         showCheckmark: true,
+        selectedColor: const Color.fromARGB(47, 110, 110, 110),
+        backgroundColor: const Color.fromARGB(16, 84, 84, 84),
         padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 8),
         labelPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
         selected: state.selected(value),
