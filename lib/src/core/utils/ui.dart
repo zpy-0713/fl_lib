@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fl_lib/src/core/ext/string.dart';
 import 'package:fl_lib/src/core/ext/uint8list.dart';
 import 'package:fl_lib/src/core/utils/platform/base.dart';
+import 'package:fl_lib/src/res/l10n.dart';
 import 'package:fl_lib/src/res/ui.dart';
 import 'package:fl_lib/src/view/appbar.dart';
 import 'package:flutter/material.dart';
@@ -70,44 +71,39 @@ abstract final class SystemUIs {
 abstract final class Btns {
   /// - [onTap] If return false, the dialog will not be closed.
   static TextButton ok<T>({
-    bool? red,
+    bool red = false,
     void Function()? onTap,
-    required String ok,
   }) {
     return TextButton(
       onPressed: onTap?.call,
-      child: Text(ok, style: (red ?? false) ? UIs.textRed : null),
+      child: Text(l10n.ok, style: red ? UIs.textRed : null),
     );
   }
 
   static TextButton cancel<T>({
     void Function()? onTap,
-    required String cancel,
   }) {
     return TextButton(
       onPressed: onTap?.call,
-      child: Text(cancel),
+      child: Text(l10n.cancel),
     );
   }
 
   static List<TextButton> oks<T>({
     bool red = false,
     void Function()? onTap,
-    required String okStr,
   }) {
-    return [ok(red: red, onTap: onTap, ok: okStr)];
+    return [ok(red: red, onTap: onTap)];
   }
 
   static List<TextButton> okCancels<T>({
     void Function()? onTapOk,
     void Function()? onTapCancel,
-    bool? red,
-    required String okStr,
-    required String cancelStr,
+    bool red = false,
   }) {
     return [
-      ok(onTap: onTapOk, ok: okStr, red: red),
-      cancel(onTap: onTapCancel, cancel: cancelStr),
+      ok(onTap: onTapOk, red: red),
+      cancel(onTap: onTapCancel),
     ];
   }
 }
