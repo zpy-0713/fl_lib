@@ -30,5 +30,13 @@ Common library for the my Flutter projects.
    }
    ```
 
+4. Init `Paths`
+   ```dart
+   void main() async {
+     await Paths.init();
+     runApp(MyApp());
+   }
+   ```
+
 ### Attention
 Remember to run `./export_all.dart` after changing any file in this library.

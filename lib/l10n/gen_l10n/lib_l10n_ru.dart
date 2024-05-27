@@ -23,6 +23,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get day => 'Дни';
 
   @override
+  String get edit => 'Редактировать';
+
+  @override
   String get empty => 'Пусто';
 
   @override
@@ -33,6 +36,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get hour => 'Часы';
+
+  @override
+  String get key => 'Ключ';
 
   @override
   String get minute => 'Минуты';
@@ -60,4 +66,7 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get update => 'Обновить';
+
+  @override
+  String get value => 'значение';
 }

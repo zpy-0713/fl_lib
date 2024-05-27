@@ -146,6 +146,12 @@ abstract class LibLocalizations {
   /// **'Days'**
   String get day;
 
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
   /// No description provided for @empty.
   ///
   /// In en, this message translates to:
@@ -169,6 +175,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Hours'**
   String get hour;
+
+  /// No description provided for @key.
+  ///
+  /// In en, this message translates to:
+  /// **'Key'**
+  String get key;
 
   /// No description provided for @minute.
   ///
@@ -223,6 +235,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Update'**
   String get update;
+
+  /// No description provided for @value.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get value;
 }
 
 class _LibLocalizationsDelegate extends LocalizationsDelegate<LibLocalizations> {

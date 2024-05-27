@@ -23,6 +23,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get day => 'Tage';
 
   @override
+  String get edit => 'Bearbeiten';
+
+  @override
   String get empty => 'Leer';
 
   @override
@@ -33,6 +36,9 @@ class LibLocalizationsDe extends LibLocalizations {
 
   @override
   String get hour => 'Stunden';
+
+  @override
+  String get key => 'Schlüssel';
 
   @override
   String get minute => 'Minuten';
@@ -60,4 +66,7 @@ class LibLocalizationsDe extends LibLocalizations {
 
   @override
   String get update => 'Aktualisieren';
+
+  @override
+  String get value => 'Wert';
 }

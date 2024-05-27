@@ -5,10 +5,12 @@
   "bioAuth": "Biometrische Authentifizierung",
   "cancel": "Abbrechen",
   "day": "Tage",
+  "edit": "Bearbeiten",
   "empty": "Leer",
   "fail": "Fehlschlag",
   "file": "Datei",
   "hour": "Stunden",
+  "key": "Schlüssel",
   "minute": "Minuten",
   "ok": "Gut",
   "pwd": "Passwort",
@@ -17,5 +19,6 @@
   "select": "Auswählen",
   "success": "Erfolg",
   "tag": "Etikett",
-  "update": "Aktualisieren"
+  "update": "Aktualisieren",
+  "value": "Wert"
 }

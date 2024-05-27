@@ -5,10 +5,12 @@
   "bioAuth": "生物認證",
   "cancel": "取消",
   "day": "天",
+  "edit": "編輯",
   "empty": "空",
   "fail": "失敗",
   "file": "文件",
   "hour": "時",
+  "key": "鍵",
   "minute": "分",
   "ok": "好",
   "pwd": "密碼",
@@ -17,5 +19,6 @@
   "select": "選擇",
   "success": "成功",
   "tag": "標籤",
-  "update": "更新"
+  "update": "更新",
+  "value": "值"
 }

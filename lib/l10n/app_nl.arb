@@ -5,10 +5,12 @@
   "bioAuth": "Biometrische authenticatie",
   "cancel": "Annuleren",
   "day": "Dagen",
+  "edit": "Bewerken",
   "empty": "Leeg",
   "fail": "Mislukking",
   "file": "Bestand",
   "hour": "Uren",
+  "key": "Sleutel",
   "minute": "Minuten",
   "ok": "Goed",
   "pwd": "Wachtwoord",
@@ -17,5 +19,6 @@
   "select": "Selecteren",
   "success": "Succes",
   "tag": "Tag",
-  "update": "Bijwerken"
+  "update": "Bijwerken",
+  "value": "Waarde"
 }

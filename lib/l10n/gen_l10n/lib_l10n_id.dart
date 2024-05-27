@@ -23,6 +23,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get day => 'Hari';
 
   @override
+  String get edit => 'Edit';
+
+  @override
   String get empty => 'Kosong';
 
   @override
@@ -33,6 +36,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get hour => 'Jam';
+
+  @override
+  String get key => 'Kunci';
 
   @override
   String get minute => 'Menit';
@@ -60,4 +66,7 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get update => 'Perbarui';
+
+  @override
+  String get value => 'Nilai';
 }

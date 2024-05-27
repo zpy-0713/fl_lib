@@ -5,10 +5,12 @@
   "bioAuth": "Autentikasi biometrik",
   "cancel": "Batal",
   "day": "Hari",
+  "edit": "Edit",
   "empty": "Kosong",
   "fail": "Gagal",
   "file": "Berkas",
   "hour": "Jam",
+  "key": "Kunci",
   "minute": "Menit",
   "ok": "Baik",
   "pwd": "Kata sandi",
@@ -17,5 +19,6 @@
   "select": "Pilih",
   "success": "Sukses",
   "tag": "Label",
-  "update": "Perbarui"
+  "update": "Perbarui",
+  "value": "Nilai"
 }

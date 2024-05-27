@@ -23,6 +23,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get day => '日';
 
   @override
+  String get edit => '編集';
+
+  @override
   String get empty => '空';
 
   @override
@@ -33,6 +36,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get hour => '時間';
+
+  @override
+  String get key => 'キー';
 
   @override
   String get minute => '分';
@@ -60,4 +66,7 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get update => '更新';
+
+  @override
+  String get value => '値';
 }

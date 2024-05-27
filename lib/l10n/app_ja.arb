@@ -5,10 +5,12 @@
   "bioAuth": "生体認証",
   "cancel": "キャンセル",
   "day": "日",
+  "edit": "編集",
   "empty": "空",
   "fail": "失敗",
   "file": "ファイル",
   "hour": "時間",
+  "key": "キー",
   "minute": "分",
   "ok": "いいです",
   "pwd": "パスワード",
@@ -17,5 +19,6 @@
   "select": "選択",
   "success": "成功",
   "tag": "タグ",
-  "update": "更新"
+  "update": "更新",
+  "value": "値"
 }

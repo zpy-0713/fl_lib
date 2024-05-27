@@ -23,6 +23,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get day => '天';
 
   @override
+  String get edit => '编辑';
+
+  @override
   String get empty => '空';
 
   @override
@@ -33,6 +36,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get hour => '时';
+
+  @override
+  String get key => '键';
 
   @override
   String get minute => '分';
@@ -60,6 +66,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get update => '更新';
+
+  @override
+  String get value => '值';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -85,6 +94,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get day => '天';
 
   @override
+  String get edit => '編輯';
+
+  @override
   String get empty => '空';
 
   @override
@@ -95,6 +107,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get hour => '時';
+
+  @override
+  String get key => '鍵';
 
   @override
   String get minute => '分';
@@ -122,4 +137,7 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get update => '更新';
+
+  @override
+  String get value => '值';
 }
