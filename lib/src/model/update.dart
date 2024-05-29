@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
+import 'package:fl_lib/src/core/dio.dart';
 import 'package:fl_lib/src/core/utils/platform/base.dart';
 
 class AppUpdate {
@@ -15,7 +15,7 @@ class AppUpdate {
   final AppUpdatePlatformSpecific<Map<String, dynamic>> url;
 
   static Future<AppUpdate> fromUrl(String url) async {
-    final resp = await Dio().get(url);
+    final resp = await myDio.get(url);
     return AppUpdate.fromJson(resp.data);
   }
 

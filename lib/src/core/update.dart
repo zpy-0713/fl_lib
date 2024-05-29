@@ -48,9 +48,6 @@ abstract final class AppUpdateIface {
     }
 
     final min = update.build.min.current;
-
-    final tip = 'v1.0.$newest\n${update.changelog.current}';
-
     if (min != null && min > build) {
       context.showRoundDialog(
         title: 'v1.0.$newest',
@@ -68,6 +65,7 @@ abstract final class AppUpdateIface {
       return;
     }
 
+    final tip = 'v1.0.$newest\n${update.changelog.current}';
     context.showSnackBarWithAction(
       content: tip,
       action: l10n.update,

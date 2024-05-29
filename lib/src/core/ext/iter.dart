@@ -21,22 +21,6 @@ extension IterX<T> on Iterable<T> {
 
   T? get lastOrNull => isEmpty ? null : last;
 
-  Iterable<T> whereNotNull() sync* {
-    for (var element in this) {
-      if (element != null) {
-        yield element;
-      }
-    }
-  }
-
-  Iterable<E> mapNotNull<E>(E Function(T) f) sync* {
-    for (var element in this) {
-      if (element != null) {
-        yield f(element);
-      }
-    }
-  }
-
   T? firstWhereOrNull(bool Function(T element) test) {
     try {
       return firstWhere(test);
