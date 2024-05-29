@@ -86,13 +86,21 @@ extension DialogX on BuildContext {
     List<T>? initial,
     bool clearable = false,
     List<Widget>? actions,
+    bool addOkBtn = true,
   }) async {
     var vals = initial ?? <T>[];
+    final btns = actions ?? <Widget>[];
+    if (multi && addOkBtn) {
+      btns.add(TextButton(onPressed: () => pop(true), child: Text(l10n.ok)));
+    }
     final sure = await showRoundDialog<bool>(
       title: title ?? l10n.select,
       child: SingleChildScrollView(
         child: Choice<T>(
-          onChanged: (value) => vals = value,
+          onChanged: (value) {
+            vals = value;
+            if (!multi) pop(true);
+          },
           multiple: multi,
           clearable: clearable,
           value: vals,
@@ -114,13 +122,7 @@ extension DialogX on BuildContext {
           },
         ),
       ),
-      actions: [
-        if (actions != null) ...actions,
-        TextButton(
-          onPressed: () => pop(true),
-          child: Text(l10n.ok),
-        ),
-      ],
+      actions: btns.isEmpty ? null : btns,
     );
     if (sure == true && vals.isNotEmpty) {
       return vals;

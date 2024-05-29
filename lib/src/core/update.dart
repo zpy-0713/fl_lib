@@ -1,11 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fl_lib/src/core/ext/ctx/common.dart';
-import 'package:fl_lib/src/core/ext/ctx/dialog.dart';
-import 'package:fl_lib/src/core/ext/ctx/snackbar.dart';
-import 'package:fl_lib/src/core/ext/string.dart';
-import 'package:fl_lib/src/core/logger.dart';
-import 'package:fl_lib/src/core/utils/platform/base.dart';
-import 'package:fl_lib/src/model/update.dart';
+import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -46,10 +40,10 @@ abstract final class AppUpdateIface {
     }
     Loggers.app.info('Update available: $newest');
 
-    final fileUrl = update.url.current?.current;
+    final fileUrl = update.url.current?[CpuArch.current.name] as String?;
 
     if (fileUrl == null || !await _isUrlAvailable(fileUrl)) {
-      Loggers.app.warning('Update file not available');
+      Loggers.app.warning('Update file not available: $fileUrl');
       return;
     }
 
@@ -65,7 +59,7 @@ abstract final class AppUpdateIface {
           TextButton(
             onPressed: () {
               context.pop();
-              _doUpdate(update, context);
+              _doUpdate(context, fileUrl);
             },
             child: Text(l10n.update),
           )
@@ -77,20 +71,14 @@ abstract final class AppUpdateIface {
     context.showSnackBarWithAction(
       content: tip,
       action: l10n.update,
-      onTap: () => _doUpdate(update, context),
+      onTap: () => _doUpdate(context, fileUrl),
     );
   }
 
   static Future<void> _doUpdate(
-    AppUpdate update,
-    BuildContext context
+    BuildContext context,
+    String url
   ) async {
-    final url = update.url.current?.current;
-    if (url == null) {
-      Loggers.app.warning('Update url not is null');
-      return;
-    }
-
     switch (Pfs.type) {
       case Pfs.windows || Pfs.linux || Pfs.ios || Pfs.macos || Pfs.android:
         await url.launch();

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:fl_lib/src/core/utils/platform/arch.dart';
 import 'package:fl_lib/src/core/utils/platform/base.dart';
 
 class AppUpdate {
@@ -13,7 +12,7 @@ class AppUpdate {
 
   final AppUpdatePlatformSpecific<String> changelog;
   final AppUpdateBuild build;
-  final AppUpdateArchSpec<AppUpdatePlatformSpecific<String>> url;
+  final AppUpdatePlatformSpecific<Map<String, dynamic>> url;
 
   static Future<AppUpdate> fromUrl(String url) async {
     final resp = await Dio().get(url);
@@ -23,7 +22,7 @@ class AppUpdate {
   factory AppUpdate.fromJson(Map<String, dynamic> json) => AppUpdate(
         changelog: AppUpdatePlatformSpecific.fromJson(json["changelog"]),
         build: AppUpdateBuild.fromJson(json["build"]),
-        url: AppUpdateArchSpec.fromJson(json["urls"]),
+        url: AppUpdatePlatformSpecific.fromJson(json["urls"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -56,47 +55,6 @@ class AppUpdateBuild {
         "min": min.toJson(),
         "last": last.toJson(),
       };
-}
-
-class AppUpdateArchSpec<T> {
-  final T? x64;
-  final T? arm;
-  final T? arm64;
-  final T? rv64;
-
-  AppUpdateArchSpec({
-    required this.x64,
-    required this.arm,
-    required this.arm64,
-    required this.rv64,
-  });
-
-  factory AppUpdateArchSpec.fromRawJson(String str) =>
-      AppUpdateArchSpec.fromJson(json.decode(str));
-
-  factory AppUpdateArchSpec.fromJson(Map<String, dynamic> json) =>
-      AppUpdateArchSpec(
-        x64: json["x64"],
-        arm: json["arm"],
-        arm64: json["arm64"],
-        rv64: json["rv64"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "x64": x64,
-        "arm": arm,
-        "arm64": arm64,
-        "rv64": rv64,
-      };
-
-  T? get current {
-    final arch = CpuArch.current;
-    return switch (arch) {
-      CpuArch.arm => arm,
-      CpuArch.arm64 => arm64,
-      CpuArch.x64 => x64,
-    };
-  }
 }
 
 class AppUpdatePlatformSpecific<T> {
