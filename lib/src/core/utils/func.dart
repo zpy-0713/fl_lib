@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 abstract final class Funcs {
   static const int _defaultDurationTime = 377;
   static const String _defaultThrottleId = 'default';
@@ -7,18 +5,20 @@ abstract final class Funcs {
     _defaultThrottleId: 0
   };
 
-  static void throttle(
-    VoidCallback? func, {
+  static T? throttle<T>(
+    T Function() func, {
     String id = _defaultThrottleId,
     int duration = _defaultDurationTime,
     Function? continueClick,
   }) {
     final currentTime = DateTime.now().millisecondsSinceEpoch;
     if (currentTime - (startTimeMap[id] ?? 0) > duration) {
-      func?.call();
+      final ret = func();
       startTimeMap[id] = DateTime.now().millisecondsSinceEpoch;
+      return ret;
     } else {
       continueClick?.call();
+      return null;
     }
   }
 }
