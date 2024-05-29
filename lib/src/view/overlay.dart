@@ -115,7 +115,8 @@ class _BlurOverlayState extends State<BlurOverlay>
             if (_overlayEntry == null) return;
             _removeOverlay();
           },
-          child: GestureDetector(
+          child: InkWell(
+            borderRadius: BorderRadius.circular(7),
             onLongPress: () => _showOverlay(context),
             child: widget.child,
           ),

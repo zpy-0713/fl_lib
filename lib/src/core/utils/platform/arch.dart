@@ -9,6 +9,10 @@ enum CpuArch {
   arm,
   ;
 
+  static const amd64Codes = ['x86_64', 'amd64'];
+  static const arm64Codes = ['arm64', 'aarch64', 'armv8', 'armv8a', 'arm64-v8a', 'arm64e'];
+  static const armCodes = ['arm', 'armv7', 'armv7a', 'armv7l', 'armv6', 'armv6l', 'armeabi', 'armeabi-v7a', 'armv5', 'armv5te'];
+
   static CpuArch get current {
     switch (Pfs.type) {
       case Pfs.windows:
@@ -24,12 +28,10 @@ enum CpuArch {
           throw Exception('Failed to run uname -m: ${cpu.stderr}');
         }
         final output = cpu.stdout.toString().trim();
-        return switch (output) {
-          'x86_64' => CpuArch.x64,
-          'arm64' => CpuArch.arm64,
-          'armv7l' => CpuArch.arm,
-          _ => throw UnsupportedError('Unsupported CPU architecture: $output'),
-        };
+        if (amd64Codes.contains(output)) return CpuArch.x64;
+        if (arm64Codes.contains(output)) return CpuArch.arm64;
+        if (armCodes.contains(output)) return CpuArch.arm;
+        throw UnsupportedError('Unsupported CPU architecture: $output');
       case Pfs.web || Pfs.unknown:
         throw UnsupportedError('Unsupported platform: ${Pfs.type}');
     }
