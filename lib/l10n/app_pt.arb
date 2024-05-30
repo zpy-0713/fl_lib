@@ -20,5 +20,6 @@
   "success": "Sucesso",
   "tag": "Etiqueta",
   "update": "Atualizar",
-  "value": "Valor"
+  "value": "Valor",
+  "yesterday": "Ontem"
 }

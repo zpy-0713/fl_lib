@@ -69,4 +69,7 @@ class LibLocalizationsFr extends LibLocalizations {
 
   @override
   String get value => 'Valeur';
+
+  @override
+  String get yesterday => 'Hier';
 }

@@ -20,5 +20,6 @@
   "success": "成功",
   "tag": "标签",
   "update": "更新",
-  "value": "值"
+  "value": "值",
+  "yesterday": "昨天"
 }

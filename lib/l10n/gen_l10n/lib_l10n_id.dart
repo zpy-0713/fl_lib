@@ -69,4 +69,7 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get value => 'Nilai';
+
+  @override
+  String get yesterday => 'Kemarin';
 }

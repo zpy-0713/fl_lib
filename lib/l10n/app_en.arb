@@ -20,5 +20,6 @@
   "success": "Success",
   "tag": "Tag",
   "update": "Update",
-  "value": "Value"
+  "value": "Value",
+  "yesterday": "Yesterday"
 }

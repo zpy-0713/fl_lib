@@ -20,5 +20,6 @@
   "success": "成功",
   "tag": "タグ",
   "update": "更新",
-  "value": "値"
+  "value": "値",
+  "yesterday": "昨日"
 }

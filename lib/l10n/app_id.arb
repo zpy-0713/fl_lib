@@ -20,5 +20,6 @@
   "success": "Sukses",
   "tag": "Label",
   "update": "Perbarui",
-  "value": "Nilai"
+  "value": "Nilai",
+  "yesterday": "Kemarin"
 }

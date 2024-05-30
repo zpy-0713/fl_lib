@@ -69,6 +69,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get value => '值';
+
+  @override
+  String get yesterday => '昨天';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -140,4 +143,7 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get value => '值';
+
+  @override
+  String get yesterday => '昨天';
 }

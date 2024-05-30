@@ -69,4 +69,7 @@ class LibLocalizationsPt extends LibLocalizations {
 
   @override
   String get value => 'Valor';
+
+  @override
+  String get yesterday => 'Ontem';
 }

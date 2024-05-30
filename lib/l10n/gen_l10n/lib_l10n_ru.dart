@@ -69,4 +69,7 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get value => 'значение';
+
+  @override
+  String get yesterday => 'Вчера';
 }

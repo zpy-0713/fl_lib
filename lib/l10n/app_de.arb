@@ -20,5 +20,6 @@
   "success": "Erfolg",
   "tag": "Etikett",
   "update": "Aktualisieren",
-  "value": "Wert"
+  "value": "Wert",
+  "yesterday": "Gestern"
 }

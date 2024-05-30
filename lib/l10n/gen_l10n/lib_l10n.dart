@@ -241,6 +241,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Value'**
   String get value;
+
+  /// No description provided for @yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get yesterday;
 }
 
 class _LibLocalizationsDelegate extends LocalizationsDelegate<LibLocalizations> {

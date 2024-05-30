@@ -20,5 +20,6 @@
   "success": "Succes",
   "tag": "Tag",
   "update": "Bijwerken",
-  "value": "Waarde"
+  "value": "Waarde",
+  "yesterday": "Gisteren"
 }
