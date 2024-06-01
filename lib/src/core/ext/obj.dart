@@ -17,3 +17,6 @@ extension ObjectX<T> on T {
 
   ValueNotifier<T> get vn => ValueNotifier<T>(this);
 }
+
+/// Nullable ValueNotifier -> nvn
+ValueNotifier<T?> nvn<T>() => ValueNotifier<T?>(null);

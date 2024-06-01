@@ -39,6 +39,7 @@ dependencies:
     git:
       ref: main
       url: https://github.com/lollipopkit/webdav_client
+  extended_image: ^8.2.1
 
 dev_dependencies:
   flutter_test:

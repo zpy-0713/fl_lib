@@ -7,77 +7,55 @@ import 'package:path_provider/path_provider.dart';
 abstract final class Paths {
   /// Await [Paths.init] before using any of the paths
   static Future<void> init(String appName, {String? bakName}) async {
-    await _setDoc(appName);
-    _bakName = (bakName ?? appName) + _bakName;
-    _bakPath = _docDir!.absolute.path.joinPath(_bakName);
-
-    _dlDir = Directory(await _setDl());
-    await _dlDir?.create();
-    _fileDir = Directory(await _setFile());
-    await _fileDir?.create();
-    _audioDir = Directory(await _setAudio());
-    await _audioDir?.create();
-    _videoDir = Directory(await _setVideo());
-    await _videoDir?.create();
-    _imgDir = Directory(await _setImg());
-    await _imgDir?.create();
+    doc = await _getDoc(appName);
+    dl = await _initDir('dl');
+    file = await _initDir('file');
+    audio = await _initDir('audio');
+    video = await _initDir('video');
+    img = await _initDir('img');
+    cache = await _initDir('cache');
+    font = await _initPath('font.ttf');
+    bak = await _initPath('backup.json');
   }
 
-  static Directory? _docDir;
-  static Future<void> _setDoc(String appName) async {
+  static late final String doc;
+  static Future<String> _getDoc(String appName) async {
     assert(!isWeb);
-    if (_docDir != null) return;
 
     if (isAndroid) {
       final dir = await getExternalStorageDirectory();
-      if (dir != null) {
-        _docDir = dir;
-        return;
-      }
-      // fallthrough to getApplicationDocumentsDirectory
+      if (dir != null) return dir.path;
     }
 
-    final Directory dir = await getApplicationDocumentsDirectory();
+    final dir = await getApplicationDocumentsDirectory();
     if (isWindows) {
-      final base = Platform.environment['APPDATA'] ?? dir.path;
-      final wDir = base.joinPath(appName);
-      _docDir = await Directory(wDir).create();
-      return;
+      final winDir = Platform.environment['APPDATA']?.joinPath(appName);
+      // This dir may not exist
+      return (await Directory(winDir ?? dir.path).create()).path;
     }
-    _docDir = dir;
+    return dir.path;
   }
 
-  static String get doc => _docDir!.path;
+  static late final String dl;
+  static late final String file;
+  static late final String audio;
+  static late final String video;
+  static late final String img;
+  static late final String cache;
+  static late final String bak;
+  static late final String font;
 
-  static Directory? _dlDir;
-  static Future<String> _setDl() async => _docDir!.absolute.path.joinPath('dl');
-  static String get dl => _dlDir!.path;
+  static final temp = Directory.systemTemp.path;
 
-  static Directory? _fileDir;
-  static Future<String> _setFile() async =>
-      _docDir!.absolute.path.joinPath('file');
-  static String get file => _fileDir!.path;
+  static Future<String> _initDir(String subPath) async {
+    final dir = Directory(doc.joinPath(subPath));
+    if (!await dir.exists()) {
+      await dir.create();
+    }
+    return dir.path;
+  }
 
-  static Directory? _audioDir;
-  static Future<String> _setAudio() async =>
-      _docDir!.absolute.path.joinPath('audio');
-  static String get audio => _audioDir!.path;
-
-  static Directory? _videoDir;
-  static Future<String> _setVideo() async =>
-      _docDir!.absolute.path.joinPath('video');
-  static String get video => _videoDir!.path;
-
-  static Directory? _imgDir;
-  static Future<String> _setImg() async =>
-      _docDir!.absolute.path.joinPath('img');
-  static String get img => _imgDir!.path;
-
-  static String _bakName = '_backup.json';
-  static String get bakName => _bakName;
-  static String _bakPath = _bakName;
-  static String get bakPath => _bakPath;
-
-  static const fontName = 'font.ttf';
-  static String get fontPath => _docDir!.absolute.path.joinPath(fontName);
+  static Future<String> _initPath(String subPath) async {
+    return doc.joinPath(subPath);
+  }
 }
