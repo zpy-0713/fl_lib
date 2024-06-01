@@ -34,8 +34,10 @@ extension StringX on String {
 
   String? getFileName([String? seperator]) {
     if (isEmpty) return null;
-    return split(seperator ?? Pfs.seperator).last;
+    return split(seperator ?? Pfs.seperator).lastOrNull;
   }
+
+  String? get fileName => getFileName();
 
   String joinPath(
     String path2, {

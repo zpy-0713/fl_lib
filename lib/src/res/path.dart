@@ -5,6 +5,16 @@ import 'package:fl_lib/src/core/utils/platform/base.dart';
 import 'package:path_provider/path_provider.dart';
 
 abstract final class Paths {
+  static late final String doc;
+  static late final String dl;
+  static late final String file;
+  static late final String audio;
+  static late final String video;
+  static late final String img;
+  static late final String cache;
+  static late final String bak;
+  static late final String font;
+
   /// Await [Paths.init] before using any of the paths
   static Future<void> init(String appName, {String? bakName}) async {
     doc = await _getDoc(appName);
@@ -15,10 +25,9 @@ abstract final class Paths {
     img = await _initDir('img');
     cache = await _initDir('cache');
     font = await _initPath('font.ttf');
-    bak = await _initPath('backup.json');
+    bak = await _initPath(bakName ?? 'backup.json');
   }
 
-  static late final String doc;
   static Future<String> _getDoc(String appName) async {
     assert(!isWeb);
 
@@ -35,15 +44,6 @@ abstract final class Paths {
     }
     return dir.path;
   }
-
-  static late final String dl;
-  static late final String file;
-  static late final String audio;
-  static late final String video;
-  static late final String img;
-  static late final String cache;
-  static late final String bak;
-  static late final String font;
 
   static final temp = Directory.systemTemp.path;
 
