@@ -20,6 +20,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get cancel => 'Annuleren';
 
   @override
+  String get copy => 'Kopiëren';
+
+  @override
   String get day => 'Dagen';
 
   @override

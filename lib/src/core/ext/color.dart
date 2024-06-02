@@ -19,6 +19,20 @@ extension ColorX on Color {
     return getBrightnessFromColor == Brightness.light;
   }
 
+  Color operator +(int val) {
+    final r = (red + val).clamp(0, 255);
+    final g = (green + val).clamp(0, 255);
+    final b = (blue + val).clamp(0, 255);
+    return Color.fromARGB(alpha, r, g, b);
+  }
+
+  Color operator -(int val) {
+    final r = (red - val).clamp(0, 255);
+    final g = (green - val).clamp(0, 255);
+    final b = (blue - val).clamp(0, 255);
+    return Color.fromARGB(alpha, r, g, b);
+  }
+
   Brightness get getBrightnessFromColor {
     return ThemeData.estimateBrightnessForColor(this);
   }

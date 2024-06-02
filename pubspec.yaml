@@ -10,7 +10,6 @@ environment:
 
 dependencies:
   after_layout: ^1.2.0
-  app_links: ^6.0.1
   choice: ^2.3.2
   countly_flutter: ^24.4.0
   dio: ^5.4.2+1
@@ -39,7 +38,6 @@ dependencies:
     git:
       ref: main
       url: https://github.com/lollipopkit/webdav_client
-  extended_image: ^8.2.1
 
 dev_dependencies:
   flutter_test:

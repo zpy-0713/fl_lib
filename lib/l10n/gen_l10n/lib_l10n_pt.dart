@@ -20,6 +20,9 @@ class LibLocalizationsPt extends LibLocalizations {
   String get cancel => 'Cancelar';
 
   @override
+  String get copy => 'Copiar';
+
+  @override
   String get day => 'Dias';
 
   @override

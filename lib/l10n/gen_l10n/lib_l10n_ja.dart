@@ -20,6 +20,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get cancel => 'キャンセル';
 
   @override
+  String get copy => 'コピーする';
+
+  @override
   String get day => '日';
 
   @override

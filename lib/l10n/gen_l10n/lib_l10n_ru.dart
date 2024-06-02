@@ -20,6 +20,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get cancel => 'Отмена';
 
   @override
+  String get copy => 'Копировать';
+
+  @override
   String get day => 'Дни';
 
   @override

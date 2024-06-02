@@ -30,24 +30,35 @@ extension DialogX on BuildContext {
   Future<T> showLoadingDialog<T>({
     required Future<T> Function() fn,
     bool barrierDismiss = false,
+    void Function(Object e, StackTrace s)? onErr,
   }) async {
-    BuildContext? ctx;
     showRoundDialog(
       child: UIs.centerSizedLoading,
       barrierDismiss: barrierDismiss,
-      onContext: (c) => ctx = c,
     );
 
     try {
-      return await fn();
-    } catch (e) {
-      rethrow;
-    } finally {
-      /// Wait for context to be unmounted
-      await Future.delayed(const Duration(milliseconds: 100));
-      if (ctx?.mounted == true) {
-        ctx?.pop();
+      final ret = await fn();
+      pop();
+      return ret;
+    } catch (e, s) {
+      pop();
+
+      if (onErr != null) {
+        onErr(e, s);
+      } else {
+        showRoundDialog(
+          title: l10n.fail,
+          child: SimpleMarkdown(data: '$e\n$s'),
+          actions: [
+            TextButton(
+              onPressed: () => Pfs.copy('$e\n$s'),
+              child: Text(l10n.copy),
+            ),
+          ],
+        );
       }
+      rethrow;
     }
   }
 

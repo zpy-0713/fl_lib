@@ -20,6 +20,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get cancel => '取消';
 
   @override
+  String get copy => '复制';
+
+  @override
   String get day => '天';
 
   @override
@@ -92,6 +95,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get cancel => '取消';
+
+  @override
+  String get copy => '複製';
 
   @override
   String get day => '天';
