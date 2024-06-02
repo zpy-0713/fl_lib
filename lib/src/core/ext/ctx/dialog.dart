@@ -47,16 +47,7 @@ extension DialogX on BuildContext {
       if (onErr != null) {
         onErr(e, s);
       } else {
-        showRoundDialog(
-          title: l10n.fail,
-          child: SimpleMarkdown(data: '$e\n$s'),
-          actions: [
-            TextButton(
-              onPressed: () => Pfs.copy('$e\n$s'),
-              child: Text(l10n.copy),
-            ),
-          ],
-        );
+        showErrDialog(e: e, s: s);
       }
       rethrow;
     }
@@ -239,5 +230,22 @@ extension DialogX on BuildContext {
       return vals;
     }
     return null;
+  }
+
+  void showErrDialog({
+    required Object e,
+    required StackTrace s,
+    String? operation,
+  }) {
+    showRoundDialog(
+      title: operation ?? l10n.fail,
+      child: SimpleMarkdown(data: '$e\n```\n$s\n```'),
+      actions: [
+        TextButton(
+          onPressed: () => Pfs.copy('$e\n$s'),
+          child: Text(l10n.copy),
+        ),
+      ],
+    );
   }
 }
