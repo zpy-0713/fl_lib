@@ -29,7 +29,7 @@ abstract final class AppUpdate {
     required int build,
   }) async {
     final resp = await myDio.get(url);
-    final data = json.decode(resp.data as String) as Map<String, dynamic>;
+    final data = resp.data as Map<String, dynamic>;
     _data = data;
     _build = build;
     _locale = locale;
@@ -68,11 +68,16 @@ abstract final class AppUpdate {
     final buildStr = _build.toString();
     final biggerKeys = val.keys.where((e) => e.compareTo(buildStr) > 0);
     final sb = StringBuffer();
-    var idx = 0;
-    for (final key in biggerKeys.toList().reversed) {
-      idx++;
+    final reversed = biggerKeys.toList().reversed.toList();
+    final len = reversed.length;
+    for (var idx = 0; idx < len; idx++) {
       sb.write('$idx. ');
-      sb.writeln(val[key]);
+      final key = reversed[idx];
+      if (idx != len - 1) {
+        sb.writeln(val[key]);
+      } else {
+        sb.write(val[key]);
+      }
     }
     _changelog = sb.toString();
     return _changelog;

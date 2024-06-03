@@ -6,6 +6,12 @@ extension SnackBarX on BuildContext {
         content: Text(text),
         behavior: SnackBarBehavior.floating,
       ));
+  
+  void showSnackBarWidget(Widget widget) =>
+      ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+        content: widget,
+        behavior: SnackBarBehavior.floating,
+      ));
 
   void showSnackBarWithAction({
     required String content,
@@ -14,6 +20,21 @@ extension SnackBarX on BuildContext {
   }) {
     ScaffoldMessenger.of(this).showSnackBar(SnackBar(
       content: Text(content),
+      behavior: SnackBarBehavior.floating,
+      action: SnackBarAction(
+        label: action,
+        onPressed: onTap,
+      ),
+    ));
+  }
+
+  void showSnackBarWidgetWithAction({
+    required Widget content,
+    required String action,
+    required GestureTapCallback onTap,
+  }) {
+    ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+      content: content,
       behavior: SnackBarBehavior.floating,
       action: SnackBarAction(
         label: action,

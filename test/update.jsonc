@@ -15,6 +15,12 @@
 // L10N is the key to locate the localization, it's a string.
 // eg: `zh` `ja` and etc.
 {
+    // Reversed for future use. Not implemented yet.
+    "alias": {
+        // The key is the alias name, the value is the real name.
+        // All keys in RES will be replaced with the value.
+        "apple": ["ios", "macos"]
+    },
     "build": {
         // Keys are OS-ARCH
         // 

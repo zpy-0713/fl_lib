@@ -9,14 +9,12 @@ extension DialogX on BuildContext {
     List<Widget>? actions,
     String? title,
     bool barrierDismiss = true,
-    void Function(BuildContext)? onContext,
     int? titleMaxLines,
   }) async {
     return await showDialog<T>(
       context: this,
       barrierDismissible: barrierDismiss,
-      builder: (ctx) {
-        onContext?.call(ctx);
+      builder: (_) {
         return AlertDialog(
           title: title != null ? Text(title, maxLines: titleMaxLines) : null,
           content: child,

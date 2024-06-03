@@ -40,47 +40,38 @@ abstract final class AppUpdateIface {
 
     final changelog = AppUpdate.changelog ?? '~';
 
-    switch (result.$2) {
-      case AppUpdateLevel.normal:
-        final tip = 'v1.0.$newest\n$changelog';
-        context.showSnackBarWithAction(
-          content: tip,
-          action: l10n.update,
-          onTap: () => _doUpdate(context, fileUrl),
-        );
-        break;
-      case AppUpdateLevel.recommended:
-        context.showRoundDialog(
-          title: 'v1.0.$newest',
-          child: Text(changelog),
-          actions: [
-            TextButton(
-              onPressed: () {
-                context.pop();
-                _doUpdate(context, fileUrl);
-              },
-              child: Text(l10n.update),
-            )
-          ],
-        );
-        break;
-      case AppUpdateLevel.forced:
-        context.showRoundDialog(
-          title: 'v1.0.$newest',
-          child: Text(changelog),
-          barrierDismiss: false,
-          actions: [
-            TextButton(
-              onPressed: () => _doUpdate(context, fileUrl),
-              child: Text(l10n.update),
-            )
-          ],
-        );
-        break;
-      case AppUpdateLevel.nil:
-        // Pass
-        break;
+    final size = MediaQuery.of(context).size;
+
+    void showUpdateDialog([bool force = false]) {
+      context.showRoundDialog(
+        title: 'v1.0.$newest',
+        child: SizedBox(
+          width: size.width * 0.8,
+          child: SimpleMarkdown(data: changelog),
+        ),
+        barrierDismiss: !force,
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (!force) context.pop();
+              _doUpdate(context, fileUrl);
+            },
+            child: Text(l10n.update),
+          )
+        ],
+      );
     }
+
+    return switch (result.$2) {
+      AppUpdateLevel.normal => context.showSnackBarWithAction(
+          content: 'v1.0.$newest',
+          action: l10n.update,
+          onTap: showUpdateDialog,
+        ),
+      AppUpdateLevel.recommended => showUpdateDialog(),
+      AppUpdateLevel.forced => showUpdateDialog(true),
+      AppUpdateLevel.nil => (),
+    };
   }
 
   static Future<void> _doUpdate(BuildContext context, String url) async {
