@@ -4,7 +4,7 @@ import 'package:fl_lib/src/core/utils/platform/base.dart';
 
 /// Archs that Flutter can runs on.
 enum CpuArch {
-  x64,
+  amd64,
   arm64,
   arm,
   ;
@@ -18,7 +18,7 @@ enum CpuArch {
       case Pfs.windows:
         final cpu = Platform.environment['PROCESSOR_ARCHITECTURE'];
         return switch (cpu) {
-          'AMD64' => CpuArch.x64,
+          'AMD64' => CpuArch.amd64,
           'ARM64' => CpuArch.arm64,
           _ => throw UnsupportedError('Unsupported CPU architecture: $cpu'),
         };
@@ -28,7 +28,7 @@ enum CpuArch {
           throw Exception('Failed to run uname -m: ${cpu.stderr}');
         }
         final output = cpu.stdout.toString().trim();
-        if (amd64Codes.contains(output)) return CpuArch.x64;
+        if (amd64Codes.contains(output)) return CpuArch.amd64;
         if (arm64Codes.contains(output)) return CpuArch.arm64;
         if (armCodes.contains(output)) return CpuArch.arm;
         throw UnsupportedError('Unsupported CPU architecture: $output');

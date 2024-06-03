@@ -1,112 +1,226 @@
 import 'dart:convert';
 
-import 'package:fl_lib/src/core/dio.dart';
-import 'package:fl_lib/src/core/utils/platform/base.dart';
+import 'package:fl_lib/fl_lib.dart';
 
-class AppUpdate {
-  const AppUpdate({
-    required this.changelog,
-    required this.build,
-    required this.url,
-  });
+abstract final class AppUpdate {
+  static final _arch = CpuArch.current.name;
+  static final _os = Pfs.type.name;
+  static final _osArch = '$_os-$_arch';
+  static var _resKey = '${chan.name}-$_osArch';
+  static var _chanOs = '${chan.name}-$_os';
 
-  final AppUpdatePlatformSpecific<String> changelog;
-  final AppUpdateBuild build;
-  final AppUpdatePlatformSpecific<Map<String, dynamic>> url;
+  static var _chan = AppUpdateChan.stable;
+  static AppUpdateChan get chan => _chan;
+  static set chan(AppUpdateChan value) {
+    if (value == _chan) return;
+    _chan = value;
+    _resKey = '${chan.name}-$_osArch';
+    _chanOs = '${chan.name}-$_os';
+    _getAll();
+  }
 
-  static Future<AppUpdate> fromUrl(String url) async {
+  static var _build = 0;
+  static var _data = <String, dynamic>{};
+  static var _locale = '';
+
+  static Future<void> fromUrl({
+    required String url,
+    required String locale,
+    required int build,
+  }) async {
     final resp = await myDio.get(url);
-    return AppUpdate.fromJson(resp.data);
+    final data = json.decode(resp.data as String) as Map<String, dynamic>;
+    _data = data;
+    _build = build;
+    _locale = locale;
+    _getAll();
   }
 
-  factory AppUpdate.fromJson(Map<String, dynamic> json) => AppUpdate(
-        changelog: AppUpdatePlatformSpecific.fromJson(json["changelog"]),
-        build: AppUpdateBuild.fromJson(json["build"]),
-        url: AppUpdatePlatformSpecific.fromJson(json["urls"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "changelog": changelog.toJson(),
-        "build": build.toJson(),
-        "urls": url.toJson(),
-      };
-}
-
-class AppUpdateBuild {
-  AppUpdateBuild({
-    required this.min,
-    required this.last,
-  });
-
-  final AppUpdatePlatformSpecific<int> min;
-  final AppUpdatePlatformSpecific<int> last;
-
-  factory AppUpdateBuild.fromRawJson(String str) =>
-      AppUpdateBuild.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory AppUpdateBuild.fromJson(Map<String, dynamic> json) => AppUpdateBuild(
-        min: AppUpdatePlatformSpecific.fromJson(json["min"]),
-        last: AppUpdatePlatformSpecific.fromJson(json["last"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "min": min.toJson(),
-        "last": last.toJson(),
-      };
-}
-
-class AppUpdatePlatformSpecific<T> {
-  AppUpdatePlatformSpecific({
-    required this.mac,
-    required this.ios,
-    required this.android,
-    required this.windows,
-    required this.linux,
-    required this.web,
-  });
-
-  final T? mac;
-  final T? ios;
-  final T? android;
-  final T? windows;
-  final T? linux;
-  final T? web;
-
-  factory AppUpdatePlatformSpecific.fromRawJson(String str) =>
-      AppUpdatePlatformSpecific.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory AppUpdatePlatformSpecific.fromJson(Map<String, dynamic> json) =>
-      AppUpdatePlatformSpecific(
-        mac: json["mac"],
-        ios: json["ios"],
-        android: json["android"],
-        windows: json["windows"],
-        linux: json["linux"],
-        web: json["web"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "mac": mac,
-        "ios": ios,
-        "android": android,
-        "windows": windows,
-        "linux": linux,
-        "web": web,
-      };
-
-  T? get current {
-    return switch (Pfs.type) {
-      Pfs.macos => mac,
-      Pfs.ios => ios,
-      Pfs.android => android,
-      Pfs.windows => windows,
-      Pfs.linux => linux,
-      Pfs.web => web,
-      _ => null,
-    };
+  static void fromStr({
+    required String raw,
+    required int build,
+    required String locale,
+  }) {
+    final data = json.decode(raw) as Map<String, dynamic>;
+    _data = data;
+    _build = build;
+    _locale = locale;
+    _getAll();
   }
+
+  static void _getAll() {
+    _changelog = _url = _version = null;
+    // Keep this order
+    _getChangelog();
+    _getVersion();
+    _getUrl();
+  }
+
+  static String? _changelog;
+  static String? get changelog => _changelog;
+  static String? _getChangelog() {
+    if (_changelog != null) return _changelog;
+
+    final changelogMap = _data['changelog'] as Map<String, dynamic>? ?? {};
+    final val = (changelogMap[_locale] ?? changelogMap['default'])
+        as Map<String, dynamic>?;
+    if (val == null) return null;
+    final buildStr = _build.toString();
+    final biggerKeys = val.keys.where((e) => e.compareTo(buildStr) > 0);
+    final sb = StringBuffer();
+    var idx = 0;
+    for (final key in biggerKeys.toList().reversed) {
+      idx++;
+      sb.write('$idx. ');
+      sb.writeln(val[key]);
+    }
+    _changelog = sb.toString();
+    return _changelog;
+  }
+
+  static String? _url;
+  static String? get url => _url;
+  static String? _getUrl() {
+    if (_url != null) return _url;
+
+    final urlMap = _data['urls'] as Map<String, dynamic>?;
+    if (urlMap == null) return null;
+
+    final overrideMap = urlMap['overrides'] as Map<String, dynamic>?;
+    if (overrideMap != null) {
+      final overrideUrl = _byResKey<String>(overrideMap);
+      if (overrideUrl != null) return overrideUrl;
+    }
+
+    final baseUrls = urlMap['base'] as Map<String, dynamic>?;
+    if (baseUrls == null) return null;
+    final baseUrl = _byResKey<String>(baseUrls);
+    if (baseUrl == null) return null;
+
+    final suffixUrls = urlMap['suffix'] as Map<String, dynamic>?;
+    if (suffixUrls == null) return null;
+
+    final suffixUrl = _byResKey<String>(suffixUrls);
+    if (suffixUrl == null) return null;
+    final suffixUrlFmted = _fmt(suffixUrl, _version!.$1);
+
+    _url = '$baseUrl$suffixUrlFmted';
+    return _url;
+  }
+
+  static AppUpdateCheckResult? _version;
+  static AppUpdateCheckResult? get version => _version;
+  static AppUpdateCheckResult? _getVersion() {
+    if (_version != null) return _version;
+
+    final buildMap = _data['build'] as Map<String, dynamic>?;
+    if (buildMap == null) return null;
+
+    final chanMap = buildMap[chan.name] as Map<String, dynamic>?;
+    if (chanMap == null) return null;
+
+    final map = _byOsArch<Map<String, dynamic>>(chanMap);
+    if (map == null) return null;
+
+    try {
+      _version = AppUpdateVer.fromJson(map).parse(_build);
+    } catch (e) {
+      Loggers.app.warning('AppUpdateVer.fromJson failed', e);
+    }
+    return _version;
+  }
+
+  static T? _byResKey<T extends Object>(Map<String, dynamic>? data) {
+    if (data == null) return null;
+    // Keep this order
+    final resKeys = [_resKey, _osArch, _chanOs, _os, chan.name, 'default'];
+    for (final key in resKeys) {
+      final val = data[key];
+      if (val != null && val is T) return val;
+    }
+    return null;
+  }
+
+  static T? _byOsArch<T extends Object>(Map<String, dynamic>? data) {
+    if (data == null) return null;
+    // Keep this order
+    final resKeys = [_osArch, _os, 'default'];
+    for (final key in resKeys) {
+      final val = data[key];
+      if (val != null && val is T) return val;
+    }
+    return null;
+  }
+
+  static String _fmt(String s, int build) {
+    return s
+        .replaceAll('{VERSION}', '$build')
+        .replaceAll('{ARCH}', _arch)
+        .replaceAll('{CHAN}', chan.name);
+  }
+
+  // static Map<String, String> _asStrMap(Map<String, dynamic> data) {
+  //   final ret = <String, String>{};
+  //   for (final key in data.keys) {
+  //     final val = data[key];
+  //     if (val is String) {
+  //       ret[key] = val;
+  //     }
+  //   }
+  //   return ret;
+  // }
+}
+
+enum AppUpdateChan {
+  beta,
+  stable,
+  ;
+}
+
+typedef AppUpdateCheckResult = (int latest, AppUpdateLevel level);
+
+final class AppUpdateVer {
+  final int latest;
+  final int? min;
+  final int? urgent;
+
+  AppUpdateVer({
+    required this.latest,
+    this.min,
+    this.urgent,
+  });
+
+  factory AppUpdateVer.fromJson(Map<String, dynamic> data) {
+    return AppUpdateVer(
+      latest: data['latest'] as int,
+      min: data['min'] as int?,
+      urgent: data['urgent'] as int?,
+    );
+  }
+
+  AppUpdateCheckResult parse(int build) {
+    if (latest <= build) return (latest, AppUpdateLevel.nil);
+    if (urgent != null && urgent! > build) {
+      return (latest, AppUpdateLevel.forced);
+    }
+    if (min != null && min! > build) {
+      return (latest, AppUpdateLevel.recommended);
+    }
+    return (latest, AppUpdateLevel.normal);
+  }
+}
+
+enum AppUpdateLevel {
+  /// No update
+  nil,
+
+  /// Show snackbar
+  normal,
+
+  /// Show dialog
+  recommended,
+
+  /// Forced to update
+  forced,
+  ;
 }

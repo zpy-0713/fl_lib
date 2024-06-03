@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
@@ -6,31 +5,24 @@ import 'package:flutter/material.dart';
 abstract final class AppUpdateIface {
   static final newestBuild = ValueNotifier<int?>(null);
 
-  static Future<bool> _isUrlAvailable(String url) async {
-    try {
-      final resp = await Dio().head(url);
-      return resp.statusCode == 200;
-    } catch (e) {
-      Loggers.app.warning('HEAD update file failed', e);
-      return false;
-    }
-  }
-
   static Future<void> doUpdate({
     required BuildContext context,
     required int build,
     required String url,
     bool force = false,
+    bool beta = false,
   }) async {
     if (isWeb) return;
 
-    final update = await AppUpdate.fromUrl(url);
+    await AppUpdate.fromUrl(url: url, locale: l10n.localeName, build: build);
 
-    final newest = update.build.last.current;
-    if (newest == null) {
+    final result = AppUpdate.version;
+    if (result == null) {
       Loggers.app.warning('Update not available on ${Pfs.type}');
       return;
     }
+
+    final newest = result.$1;
 
     newestBuild.value = newest;
 
@@ -40,43 +32,58 @@ abstract final class AppUpdateIface {
     }
     Loggers.app.info('Update available: $newest');
 
-    final fileUrl = update.url.current?[CpuArch.current.name] as String?;
-
-    if (fileUrl == null || !await _isUrlAvailable(fileUrl)) {
+    final fileUrl = AppUpdate.url;
+    if (fileUrl == null) {
       Loggers.app.warning('Update file not available: $fileUrl');
       return;
     }
 
-    final min = update.build.min.current;
-    if (min != null && min > build) {
-      context.showRoundDialog(
-        title: 'v1.0.$newest',
-        child: Text(update.changelog.current ?? '~'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              context.pop();
-              _doUpdate(context, fileUrl);
-            },
-            child: Text(l10n.update),
-          )
-        ],
-      );
-      return;
-    }
+    final changelog = AppUpdate.changelog ?? '~';
 
-    final tip = 'v1.0.$newest\n${update.changelog.current}';
-    context.showSnackBarWithAction(
-      content: tip,
-      action: l10n.update,
-      onTap: () => _doUpdate(context, fileUrl),
-    );
+    switch (result.$2) {
+      case AppUpdateLevel.normal:
+        final tip = 'v1.0.$newest\n$changelog';
+        context.showSnackBarWithAction(
+          content: tip,
+          action: l10n.update,
+          onTap: () => _doUpdate(context, fileUrl),
+        );
+        break;
+      case AppUpdateLevel.recommended:
+        context.showRoundDialog(
+          title: 'v1.0.$newest',
+          child: Text(changelog),
+          actions: [
+            TextButton(
+              onPressed: () {
+                context.pop();
+                _doUpdate(context, fileUrl);
+              },
+              child: Text(l10n.update),
+            )
+          ],
+        );
+        break;
+      case AppUpdateLevel.forced:
+        context.showRoundDialog(
+          title: 'v1.0.$newest',
+          child: Text(changelog),
+          barrierDismiss: false,
+          actions: [
+            TextButton(
+              onPressed: () => _doUpdate(context, fileUrl),
+              child: Text(l10n.update),
+            )
+          ],
+        );
+        break;
+      case AppUpdateLevel.nil:
+        // Pass
+        break;
+    }
   }
 
-  static Future<void> _doUpdate(
-    BuildContext context,
-    String url
-  ) async {
+  static Future<void> _doUpdate(BuildContext context, String url) async {
     switch (Pfs.type) {
       case Pfs.windows || Pfs.linux || Pfs.ios || Pfs.macos || Pfs.android:
         await url.launch();
