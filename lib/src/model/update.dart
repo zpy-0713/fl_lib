@@ -103,12 +103,13 @@ abstract final class AppUpdate {
     if (baseUrl == null) return null;
 
     final suffixUrls = urlMap['suffix'] as Map<String, dynamic>?;
-    if (suffixUrls == null) return null;
-
     final suffixUrl = _byResKey<String>(suffixUrls);
-    if (suffixUrl == null) return null;
+    if (suffixUrl == null) {
+      _url = baseUrl;
+      return _url;
+    }
+    
     final suffixUrlFmted = _fmt(suffixUrl, _version!.$1);
-
     _url = '$baseUrl$suffixUrlFmted';
     return _url;
   }
