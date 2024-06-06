@@ -10,6 +10,8 @@ extension DialogX on BuildContext {
     String? title,
     bool barrierDismiss = true,
     int? titleMaxLines,
+    EdgeInsetsGeometry? actionsPadding,
+    EdgeInsetsGeometry? contentPadding,
   }) async {
     return await showDialog<T>(
       context: this,
@@ -19,7 +21,8 @@ extension DialogX on BuildContext {
           title: title != null ? Text(title, maxLines: titleMaxLines) : null,
           content: child,
           actions: actions,
-          actionsPadding: const EdgeInsets.all(17),
+          actionsPadding: actionsPadding ?? const EdgeInsets.all(17),
+          contentPadding: contentPadding,
         );
       },
     );
