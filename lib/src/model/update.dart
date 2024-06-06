@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:fl_lib/fl_lib.dart';
 
 abstract final class AppUpdate {
@@ -23,13 +24,20 @@ abstract final class AppUpdate {
   static var _data = <String, dynamic>{};
   static var _locale = '';
 
+  static String _rmComment(String raw) {
+    return (raw.split('\n')..removeWhere((e) => e.trimLeft().startsWith('//')))
+        .join('\n');
+  }
+
   static Future<void> fromUrl({
     required String url,
     required String locale,
     required int build,
   }) async {
-    final resp = await myDio.get(url);
-    final data = resp.data as Map<String, dynamic>;
+    final resp = await myDio.get(url,
+        options: Options(responseType: ResponseType.plain));
+    final text = _rmComment(resp.data);
+    final data = json.decode(text) as Map<String, dynamic>;
     _data = data;
     _build = build;
     _locale = locale;
@@ -41,7 +49,8 @@ abstract final class AppUpdate {
     required int build,
     required String locale,
   }) {
-    final data = json.decode(raw) as Map<String, dynamic>;
+    final text = _rmComment(raw);
+    final data = json.decode(text) as Map<String, dynamic>;
     _data = data;
     _build = build;
     _locale = locale;
@@ -71,7 +80,7 @@ abstract final class AppUpdate {
     final reversed = biggerKeys.toList().reversed.toList();
     final len = reversed.length;
     for (var idx = 0; idx < len; idx++) {
-      sb.write('$idx. ');
+      sb.write('${idx + 1}. ');
       final key = reversed[idx];
       if (idx != len - 1) {
         sb.writeln(val[key]);
@@ -108,7 +117,7 @@ abstract final class AppUpdate {
       _url = baseUrl;
       return _url;
     }
-    
+
     final suffixUrlFmted = _fmt(suffixUrl, _version!.$1);
     _url = '$baseUrl$suffixUrlFmted';
     return _url;

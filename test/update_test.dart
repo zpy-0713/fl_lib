@@ -7,14 +7,12 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('parse update', () async {
     const build = 1;
-    final raw = (await File('test/update.jsonc').readAsLines()
-          ..removeWhere((e) => e.trimLeft().startsWith('//')))
-        .join('\n');
+    final raw = await File('test/update.jsonc').readAsString();
     expect(l10n.localeName, 'en');
     AppUpdate.fromStr(raw: raw, locale: l10n.localeName, build: build);
     expect(
       AppUpdate.changelog,
-      '1. add some features' '\n2. fix some bugs\n',
+      '1. add some features\n2. fix some bugs',
     );
     expect(AppUpdate.version, (3, AppUpdateLevel.recommended));
     expect(
