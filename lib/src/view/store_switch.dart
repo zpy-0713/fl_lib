@@ -21,15 +21,39 @@ class StoreSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isBusy = false.vn;
+    // Only show [FadeIn] when previous state is busy.
+    var lastIsBusy = false;
+
     return ValBuilder(
-      listenable: prop.listenable(),
-      builder: (value) {
-        return Switch(
-          value: value,
-          onChanged: (value) async {
-            if (validator?.call(value) == false) return;
-            await callback?.call(value);
-            prop.put(value);
+      listenable: isBusy,
+      builder: (busy) {
+        return ValBuilder(
+          listenable: prop.listenable(),
+          builder: (value) {
+            if (busy) {
+              lastIsBusy = true;
+              return UIs.centerSizedLoadingSmall.paddingOnly(right: 17);
+            }
+
+            final switcher = Switch(
+              value: value,
+              onChanged: (value) async {
+                if (validator?.call(value) == false) return;
+                isBusy.value = true;
+                await callback?.call(value);
+                isBusy.value = false;
+                prop.put(value);
+              },
+            );
+
+            if (lastIsBusy) {
+              final ret = FadeIn(child: switcher);
+              lastIsBusy = false;
+              return ret;
+            }
+
+            return switcher;
           },
         );
       },
