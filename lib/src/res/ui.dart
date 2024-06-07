@@ -60,6 +60,15 @@ abstract final class UIs {
     ),
   );
 
+  static Widget dot({Color? color, double? size}) => Container(
+        width: size ?? 7,
+        height: size ?? 7,
+        decoration: BoxDecoration(
+          color: color ?? primaryColor,
+          shape: BoxShape.circle,
+        ),
+      );
+
   static const centerLoading = Center(child: CircularProgressIndicator());
 
   static const centerSizedLoadingSmall = SizedBox(
