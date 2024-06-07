@@ -40,8 +40,9 @@ final class AutoHideState extends State<AutoHide> {
     super.dispose();
   }
 
+  bool get visible => _visible;
+
   void show() {
-    debugPrint('show');
     if (_visible) return;
     setState(() {
       _visible = true;
@@ -49,24 +50,35 @@ final class AutoHideState extends State<AutoHide> {
     _setupTimer();
   }
 
+  void hide() {
+    if (!_visible) return;
+    setState(() {
+      _visible = false;
+    });
+    _timer?.cancel();
+    _timer = null;
+  }
+
   void _setupTimer() {
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 3), (_) {
+
+    /// Use [Timer] here, because [Future.delayed] can't be canceled.
+    _timer = Timer(const Duration(seconds: 3), () {
       if (_isScrolling) return;
       if (!_visible) return;
       final canScroll =
           widget.controller.positions.any((e) => e.maxScrollExtent >= 0);
       if (!canScroll) return;
 
-      setState(() {
-        _visible = false;
-      });
-      _timer?.cancel();
-      _timer = null;
+      hide();
     });
   }
 
+  bool autoHideEnabled = true;
+
   void _scrollListener() {
+    if (!autoHideEnabled) return;
+    
     if (_isScrolling) return;
     _isScrolling = true;
 
