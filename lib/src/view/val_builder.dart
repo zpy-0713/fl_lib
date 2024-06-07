@@ -33,3 +33,33 @@ final class ListenBuilder extends ListenableBuilder {
           builder: (_, __) => builder(),
         );
 }
+
+final class PreferredSizeValBuilder<T> extends ValBuilder<T>
+    implements PreferredSizeWidget {
+  final Size preferSize;
+
+  PreferredSizeValBuilder({
+    super.key,
+    required super.listenable,
+    required super.builder,
+    this.preferSize = const Size.fromHeight(kToolbarHeight),
+  });
+
+  @override
+  Size get preferredSize => preferSize;
+}
+
+final class PreferredSizeListenBuilder extends ListenBuilder
+    implements PreferredSizeWidget {
+  final Size preferSize;
+
+  PreferredSizeListenBuilder({
+    super.key,
+    required super.listenable,
+    required super.builder,
+    this.preferSize = const Size.fromHeight(kToolbarHeight),
+  });
+
+  @override
+  Size get preferredSize => preferSize;
+}
