@@ -23,7 +23,6 @@ export 'src/core/ext/theme_data.dart';
 export 'src/core/ext/datetime.dart';
 export 'src/core/ext/string.dart';
 export 'src/core/dio.dart';
-export 'src/core/countly.dart';
 export 'src/core/utils/ui.dart';
 export 'src/core/utils/platform/arch.dart';
 export 'src/core/utils/platform/perm.dart';

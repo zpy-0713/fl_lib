@@ -1,4 +1,3 @@
-import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
 /// Define it as a named record, makes it easier for refactor.
@@ -26,9 +25,6 @@ class AppRoute<Ret, Arg> {
     Arg? args,
     Route<Ret>? route,
   }) {
-    /// Add global middlewares here.
-    Analysis.recordView(path);
-
     final ret = middlewares?.any((e) => !e((context: context, route: this)));
     if (ret == true) return Future.value(null);
 
