@@ -13,11 +13,15 @@ abstract final class AppUpdate {
   static var _chan = AppUpdateChan.stable;
   static AppUpdateChan get chan => _chan;
   static set chan(AppUpdateChan value) {
+    _updateChanRelated(value);
+    _getAll();
+  }
+
+  static void _updateChanRelated(AppUpdateChan value) {
     if (value == _chan) return;
     _chan = value;
-    _resKey = '${chan.name}-$_osArch';
-    _chanOs = '${chan.name}-$_os';
-    _getAll();
+    _resKey = '${_chan.name}-$_osArch';
+    _chanOs = '${_chan.name}-$_os';
   }
 
   static var _build = 0;
@@ -131,17 +135,39 @@ abstract final class AppUpdate {
     final buildMap = _data['build'] as Map<String, dynamic>?;
     if (buildMap == null) return null;
 
-    final chanMap = buildMap[chan.name] as Map<String, dynamic>?;
-    if (chanMap == null) return null;
+    AppUpdateCheckResult? parse(AppUpdateChan chan) {
+      final chanMap = buildMap[chan.name] as Map<String, dynamic>?;
+      if (chanMap == null) return null;
 
-    final map = _byOsArch<Map<String, dynamic>>(chanMap);
-    if (map == null) return null;
+      final map = _byOsArch<Map<String, dynamic>>(chanMap);
+      if (map == null) return null;
 
-    try {
-      _version = AppUpdateVer.fromJson(map).parse(_build);
-    } catch (e) {
-      Loggers.app.warning('AppUpdateVer.fromJson failed', e);
+      try {
+        return AppUpdateVer.fromJson(map).parse(_build);
+      } catch (e) {
+        Loggers.app.warning('AppUpdateVer.fromJson failed', e);
+      }
+      return null;
     }
+
+    AppUpdateCheckResult? parseBeta() {
+      final betaResult = parse(AppUpdateChan.beta);
+      final stableResult = parse(AppUpdateChan.stable);
+      if (betaResult == null) {
+        _updateChanRelated(AppUpdateChan.stable);
+        return stableResult;
+      }
+      if (stableResult == null) return betaResult;
+      if (betaResult.$1 >= stableResult.$1) return betaResult;
+      _updateChanRelated(AppUpdateChan.stable);
+      return stableResult;
+    }
+
+    _version = switch (chan) {
+      AppUpdateChan.beta => parseBeta(),
+      AppUpdateChan.stable => parse(AppUpdateChan.stable),
+    };
+
     return _version;
   }
 

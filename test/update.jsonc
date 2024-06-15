@@ -30,9 +30,9 @@
                 // If current <, will be shown via a snackbar.
                 "latest": 3,
                 // If current <, will show a dialog instead of a snackbar.
-                "min": 2,
+                "min": 3,
                 // If current <, will be forced to update to the version.
-                "urgent": 1
+                "urgent": 2
             }
         },
         "stable": {
