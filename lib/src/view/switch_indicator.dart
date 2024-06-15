@@ -91,7 +91,7 @@ class _SwitchState extends State<SwitchIndicator>
           };
     return ClipOval(
       child: ColoredBox(
-        color: Colors.grey,
+        color: const Color.fromARGB(237, 215, 215, 215),
         child: Padding(
           padding: const EdgeInsets.all(7),
           child: icon,

@@ -9,7 +9,6 @@ environment:
   flutter: ">=3.22.0"
 
 dependencies:
-  after_layout: ^1.2.0
   choice: ^2.3.2
   dio: ^5.4.2+1
   file_picker: ^8.0.0+1
