@@ -2,7 +2,6 @@ library fl_lib;
 
 export 'src/core/logger.dart';
 export 'src/core/mixin/after_layout.dart';
-export 'src/core/pocketbase.dart';
 export 'src/core/update.dart';
 export 'src/core/store.dart';
 export 'src/core/build_mode.dart';
