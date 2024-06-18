@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
 final myDio = Dio(BaseOptions(
-  headers: {'x-lk-client': '1'},
+  headers: {'lk-app-client': '1'},
+  validateStatus: (_) => true,
 ));
