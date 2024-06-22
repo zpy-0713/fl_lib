@@ -118,6 +118,29 @@ enum Pfs {
     final data = await Clipboard.getData(Clipboard.kTextPlain);
     return data?.text;
   }
+
+  /// Reveal file / dir in file app.
+  /// 
+  /// **Only available on desktop**
+  /// 
+  /// - macos: Finder
+  /// - windows: Explorer
+  /// - linux: xdg-open
+  static Future<void> revealPath(String path) async {
+    switch (type) {
+      case Pfs.macos:
+        await Process.run('open', ['--reveal', path]);
+        break;
+      case Pfs.windows:
+        await Process.run('explorer', ['/select,', path]);
+        break;
+      case Pfs.linux:
+        await Process.run('xdg-open', [path]);
+        break;
+      default:
+        throw UnimplementedError('Not supported platform: $type');
+    }
+  }
 }
 
 final isAndroid = Pfs.type == Pfs.android;
