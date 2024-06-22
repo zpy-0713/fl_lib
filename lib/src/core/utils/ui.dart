@@ -56,13 +56,13 @@ abstract final class SystemUIs {
     if (!isDesktop) return;
 
     await windowManager.ensureInitialized();
-    await CustomAppBar.updateTitlebarHeight(hideTitleBar);
+    if (hideTitleBar) await CustomAppBar.updateTitlebarHeight();
 
     final windowOptions = WindowOptions(
       center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
-      titleBarStyle: CustomAppBar.drawTitlebar ? TitleBarStyle.hidden : null,
+      titleBarStyle: hideTitleBar ? TitleBarStyle.hidden : null,
       minimumSize: const Size(300, 300),
       size: size,
     );
