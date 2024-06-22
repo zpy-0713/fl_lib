@@ -64,19 +64,47 @@ enum Pfs {
     return null;
   }();
 
-  static bool get canShare => switch (type) {
-        Pfs.windows || Pfs.linux => false,
-        _ => true,
-      };
+  /// Open share sheet on mobile, reveal in file explorer on desktop.
+  /// - [path] or [bytes] or [content] is required.
+  static Future<void> share({
+    String? path,
+    Uint8List? bytes,
+    String? content,
+    String? name,
+    String? mime,
+  }) async {
+    if (path == null && bytes == null && content == null) {
+      throw ArgumentError('path or bytes or content is required');
+    }
 
-  static Future<void> sharePath(String path,
-      {String? name, String? mime}) async {
-    if (!canShare) return;
-    await Share.shareXFiles([XFile(path, name: name, mimeType: mime)]);
+    if (isDesktop) {
+      if (path != null) {
+        await revealPath(path);
+      } else {
+        final tempDir = Directory.systemTemp;
+        final file = File('${tempDir.path}/$name');
+        if (bytes != null) {
+          await file.writeAsBytes(bytes);
+        } else {
+          await file.writeAsString(content!);
+        }
+        await revealPath(file.path);
+      }
+      return;
+    }
+
+    final XFile xfile;
+    if (path != null) {
+      xfile = XFile(path, name: name, mimeType: mime);
+    } else if (bytes != null) {
+      xfile = XFile.fromData(bytes, name: name, mimeType: mime);
+    } else {
+      xfile = XFile.fromData(utf8.encode(content!), name: name, mimeType: mime);
+    }
+    await Share.shareXFiles([xfile]);
   }
 
   static Future<void> shareStr(String name, String data, {String? mime}) async {
-    if (!canShare) return;
     await Share.shareXFiles(
       [XFile.fromData(utf8.encode(data), name: name, mimeType: mime)],
     );
@@ -120,9 +148,9 @@ enum Pfs {
   }
 
   /// Reveal file / dir in file app.
-  /// 
+  ///
   /// **Only available on desktop**
-  /// 
+  ///
   /// - macos: Finder
   /// - windows: Explorer
   /// - linux: xdg-open
