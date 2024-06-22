@@ -48,7 +48,11 @@ abstract final class SystemUIs {
     }
   }
 
-  static void initDesktopWindow(bool hideTitleBar) async {
+  static void initDesktopWindow({
+    required bool hideTitleBar,
+    Size? size,
+    WindowListener? listener,
+  }) async {
     if (!isDesktop) return;
 
     await windowManager.ensureInitialized();
@@ -60,10 +64,14 @@ abstract final class SystemUIs {
       skipTaskbar: false,
       titleBarStyle: CustomAppBar.drawTitlebar ? TitleBarStyle.hidden : null,
       minimumSize: const Size(300, 300),
+      size: size,
     );
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
       await windowManager.focus();
+      if (listener != null) {
+        windowManager.addListener(listener);
+      }
     });
   }
 }

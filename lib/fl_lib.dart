@@ -17,6 +17,7 @@ export 'src/core/ext/ctx/snackbar.dart';
 export 'src/core/ext/ctx/common.dart';
 export 'src/core/ext/num.dart';
 export 'src/core/ext/obj.dart';
+export 'src/core/ext/size.dart';
 export 'src/core/ext/order.dart';
 export 'src/core/ext/duration.dart';
 export 'src/core/ext/enum.dart';
