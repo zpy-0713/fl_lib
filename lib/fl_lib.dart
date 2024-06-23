@@ -51,6 +51,7 @@ export 'src/view/markdown.dart';
 export 'src/view/row.dart';
 export 'src/view/choice.dart';
 export 'src/view/store_switch.dart';
+export 'src/view/intro_page.dart';
 export 'src/view/count_down_btn.dart';
 export 'src/view/auto_hide.dart';
 export 'src/view/kv_editor.dart';
