@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/core/ext/string.dart';
 import 'package:fl_lib/src/core/ext/uint8list.dart';
 import 'package:fl_lib/src/core/utils/platform/base.dart';
@@ -68,7 +69,7 @@ abstract final class SystemUIs {
     );
     await windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.focus();
-      await windowManager.show();
+      if (BuildMode.isRelease) await windowManager.show();
       if (listener != null) {
         windowManager.addListener(listener);
       }

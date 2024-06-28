@@ -27,6 +27,7 @@ class Input extends StatefulWidget {
   final void Function()? onTap;
   final void Function(PointerDownEvent)? onTapOutside;
   final EditableTextContextMenuBuilder? contextMenuBuilder;
+  final int? maxLength;
 
   const Input({
     super.key,
@@ -54,6 +55,7 @@ class Input extends StatefulWidget {
     this.onTap,
     this.onTapOutside,
     this.contextMenuBuilder,
+    this.maxLength,
   }) : assert(
           !(obscureText && suffix != null),
           'suffix != null && obscureText',
@@ -118,6 +120,7 @@ class _InputState extends State<Input> {
           buildCounter: widget.counterBuilder,
           onTap: widget.onTap,
           onTapOutside: widget.onTapOutside,
+          maxLength: widget.maxLength,
         ),
       _ => TextField(
           controller: widget.controller,
@@ -145,6 +148,7 @@ class _InputState extends State<Input> {
           onTap: widget.onTap,
           onTapOutside: widget.onTapOutside,
           contextMenuBuilder: widget.contextMenuBuilder,
+          maxLength: widget.maxLength,
         )
     };
     if (widget.noWrap) return child;
