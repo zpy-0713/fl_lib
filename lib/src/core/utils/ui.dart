@@ -48,7 +48,7 @@ abstract final class SystemUIs {
     }
   }
 
-  static void initDesktopWindow({
+  static Future<void> initDesktopWindow({
     required bool hideTitleBar,
     Size? size,
     WindowListener? listener,
@@ -66,9 +66,9 @@ abstract final class SystemUIs {
       minimumSize: const Size(300, 300),
       size: size,
     );
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
+    await windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.focus();
+      await windowManager.show();
       if (listener != null) {
         windowManager.addListener(listener);
       }
