@@ -1,12 +1,7 @@
 import 'dart:io';
 
 import 'package:fl_lib/fl_lib.dart';
-import 'package:fl_lib/src/core/ext/string.dart';
-import 'package:fl_lib/src/core/ext/uint8list.dart';
-import 'package:fl_lib/src/core/utils/platform/base.dart';
 import 'package:fl_lib/src/res/l10n.dart';
-import 'package:fl_lib/src/res/ui.dart';
-import 'package:fl_lib/src/view/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:window_manager/window_manager.dart';
