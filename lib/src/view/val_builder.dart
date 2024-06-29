@@ -2,20 +2,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 final class ValBuilder<T> extends ValueListenableBuilder<T> {
+  final ValueListenable<T> listenable;
+
   ValBuilder({
     super.key,
-    required ValueListenable<T> listenable,
+    required this.listenable,
     required Widget Function(T) builder,
   }) : super(
           valueListenable: listenable,
           builder: (_, val, __) => builder(val),
         );
-}
 
-final class ValChildBuilder<T> extends ValueListenableBuilder<T> {
-  ValChildBuilder({
+  ValBuilder.child({
     super.key,
-    required ValueListenable<T> listenable,
+    required this.listenable,
     required Widget Function(T, Widget?) builder,
     super.child,
   }) : super(
@@ -32,22 +32,17 @@ final class ListenBuilder extends ListenableBuilder {
   }) : super(
           builder: (_, __) => builder(),
         );
-}
 
-final class PreferredSizeValBuilder<T> extends ValBuilder<T>
-    implements PreferredSizeWidget {
-  final Size preferSize;
-
-  PreferredSizeValBuilder({
+  ListenBuilder.child({
     super.key,
     required super.listenable,
-    required super.builder,
-    this.preferSize = const Size.fromHeight(kToolbarHeight),
-  });
-
-  @override
-  Size get preferredSize => preferSize;
+    required Widget Function(Widget?) builder,
+    super.child,
+  }) : super(
+          builder: (_, child) => builder(child),
+        );
 }
+
 
 final class PreferredSizeListenBuilder extends ListenBuilder
     implements PreferredSizeWidget {
