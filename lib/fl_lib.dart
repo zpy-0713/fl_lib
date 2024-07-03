@@ -59,6 +59,7 @@ export 'src/view/auto_hide.dart';
 export 'src/view/kv_editor.dart';
 export 'src/view/popup_menu.dart';
 export 'src/view/input.dart';
+export 'src/view/exit_confirm.dart';
 export 'src/view/icon_btn.dart';
 export 'src/view/expand_tile.dart';
 export 'src/view/overlay.dart';

@@ -32,6 +32,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get empty => '空';
 
   @override
+  String get exitConfirmTip => '再次返回以退出';
+
+  @override
   String get fail => '失败';
 
   @override
@@ -107,6 +110,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get empty => '空';
+
+  @override
+  String get exitConfirmTip => '再次返回以退出';
 
   @override
   String get fail => '失敗';

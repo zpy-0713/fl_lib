@@ -8,6 +8,7 @@
   "day": "天",
   "edit": "編輯",
   "empty": "空",
+  "exitConfirmTip": "再次返回以退出",
   "fail": "失敗",
   "file": "文件",
   "hour": "時",

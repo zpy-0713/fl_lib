@@ -8,6 +8,7 @@
   "day": "日",
   "edit": "編集",
   "empty": "空",
+  "exitConfirmTip": "もう一度戻ると終了します",
   "fail": "失敗",
   "file": "ファイル",
   "hour": "時間",

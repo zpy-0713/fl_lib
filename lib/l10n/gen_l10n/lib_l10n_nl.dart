@@ -32,6 +32,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get empty => 'Leeg';
 
   @override
+  String get exitConfirmTip => 'Druk nogmaals op terug om te sluiten';
+
+  @override
   String get fail => 'Mislukking';
 
   @override

@@ -32,6 +32,9 @@ class LibLocalizationsPt extends LibLocalizations {
   String get empty => 'Vazio';
 
   @override
+  String get exitConfirmTip => 'Pressione voltar novamente para sair';
+
+  @override
   String get fail => 'Falha';
 
   @override

@@ -32,6 +32,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get empty => '空';
 
   @override
+  String get exitConfirmTip => 'もう一度戻ると終了します';
+
+  @override
   String get fail => '失敗';
 
   @override

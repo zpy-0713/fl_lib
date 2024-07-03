@@ -32,6 +32,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get empty => 'Kosong';
 
   @override
+  String get exitConfirmTip => 'Tekan kembali lagi untuk keluar';
+
+  @override
   String get fail => 'Gagal';
 
   @override

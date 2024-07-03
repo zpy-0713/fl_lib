@@ -164,6 +164,12 @@ abstract class LibLocalizations {
   /// **'Empty'**
   String get empty;
 
+  /// No description provided for @exitConfirmTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Press back again to exit'**
+  String get exitConfirmTip;
+
   /// No description provided for @fail.
   ///
   /// In en, this message translates to:

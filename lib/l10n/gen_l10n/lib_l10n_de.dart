@@ -32,6 +32,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get empty => 'Leer';
 
   @override
+  String get exitConfirmTip => 'Noch einmal zurück, um zu beenden';
+
+  @override
   String get fail => 'Fehlschlag';
 
   @override

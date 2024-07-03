@@ -32,6 +32,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get empty => 'Пусто';
 
   @override
+  String get exitConfirmTip => 'Нажмите назад еще раз, чтобы выйти';
+
+  @override
   String get fail => 'Неудача';
 
   @override
