@@ -1,6 +1,8 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
+typedef IntroPageBuilder = Widget Function(BuildContext ctx, double padTop);
+
 final class IntroPage extends StatefulWidget {
   final List<Widget> pages;
   final void Function(BuildContext context) onDone;
@@ -9,6 +11,29 @@ final class IntroPage extends StatefulWidget {
 
   @override
   State<IntroPage> createState() => _IntroPageState();
+
+  static Widget title({IconData? icon, String? text, bool big = false}) {
+    assert(icon != null || text != null);
+
+    Widget child;
+    if (icon != null) {
+      child = Icon(icon, size: big ? 41 : null);
+    } else if (text != null) {
+      child = Text(
+        text,
+        style: big
+            ? const TextStyle(fontSize: 41, fontWeight: FontWeight.w500)
+            : UIs.textGrey,
+      );
+    } else {
+      child = const SizedBox();
+    }
+    if (!big) {
+      child = Padding(
+          padding: const EdgeInsets.symmetric(vertical: 13), child: child);
+    }
+    return Center(child: child);
+  }
 }
 
 final class _IntroPageState extends State<IntroPage> {
