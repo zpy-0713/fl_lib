@@ -154,7 +154,7 @@ class _InputState extends State<Input> {
     if (widget.noWrap) return child;
     return CardX(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 17),
+        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 5),
         child: child,
       ),
     );
