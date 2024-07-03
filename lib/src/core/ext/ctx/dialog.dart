@@ -127,7 +127,7 @@ extension DialogX on BuildContext {
       ),
       actions: btns.isEmpty ? null : btns,
     );
-    if (sure == true && vals.isNotEmpty) {
+    if (sure == true) {
       return vals;
     }
     return null;
