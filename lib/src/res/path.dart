@@ -24,8 +24,8 @@ abstract final class Paths {
     video = await _initDir('video');
     img = await _initDir('img');
     cache = await _initDir('cache');
-    font = await _initPath('font.ttf');
-    bak = await _initPath(bakName ?? 'backup.json');
+    font = doc.joinPath('font.ttf');
+    bak = doc.joinPath(bakName ?? 'backup.json');
   }
 
   static Future<String> _getDoc(String appName) async {
@@ -36,12 +36,17 @@ abstract final class Paths {
       if (dir != null) return dir.path;
     }
 
-    final dir = await getApplicationDocumentsDirectory();
-    if (isWindows) {
-      final winDir = Platform.environment['APPDATA']?.joinPath(appName);
-      // This dir may not exist
-      return (await Directory(winDir ?? dir.path).create()).path;
+    if (isLinux || isWindows) {
+      final path = switch (Pfs.type) {
+        Pfs.linux => Platform.environment['HOME'],
+        Pfs.windows => Platform.environment['APPDATA'],
+        _ => null,
+      };
+      final dir = Directory(path?.joinPath(appName) ?? '.${appName}_data');
+      return (await dir.create()).path;
     }
+
+    final dir = await getApplicationDocumentsDirectory();
     return dir.path;
   }
 
@@ -53,9 +58,5 @@ abstract final class Paths {
       await dir.create();
     }
     return dir.path;
-  }
-
-  static Future<String> _initPath(String subPath) async {
-    return doc.joinPath(subPath);
   }
 }
