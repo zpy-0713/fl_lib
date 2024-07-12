@@ -56,9 +56,11 @@ class VNode<T> extends RNode implements ValueListenable<T> {
   }
 
   @override
-  String toString() => 'RVNode($value)';
+  String toString() => 'VNode($value)';
+}
 
-  ValBuilder<T> listen(Widget Function(T) builder) {
+extension ValueListenableX<T> on ValueListenable<T> {
+  ValBuilder<T> listenVal(Widget Function(T) builder) {
     return ValBuilder<T>(listenable: this, builder: builder);
   }
 }
