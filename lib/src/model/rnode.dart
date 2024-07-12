@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 /// [RNode] is RebuildNode.
 class RNode implements Listenable {
@@ -18,7 +18,7 @@ class RNode implements Listenable {
 
   /// Trigger all listeners.
   /// - [delay] if true, rebuild will be delayed.
-  Future<void> build({bool delay = false}) async {
+  Future<void> notify({bool delay = false}) async {
     if (delay) await Future.delayed(const Duration(milliseconds: 277));
     for (final listener in _listeners) {
       listener();
@@ -27,6 +27,19 @@ class RNode implements Listenable {
 
   /// Add this node's listeners to another node.
   void chain(RNode node) {
-    node.addListener(build);
+    node.addListener(notify);
+  }
+}
+
+class RVNode<T> extends RNode implements ValueListenable {
+  T _value;
+
+  RVNode(T value) : _value = value;
+
+  @override
+  T get value => _value;
+  set value(T newVal) {
+    _value = newVal;
+    notify();
   }
 }

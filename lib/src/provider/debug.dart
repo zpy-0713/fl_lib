@@ -49,11 +49,11 @@ class DebugProvider {
     if (widgets.value.length > maxLines) {
       widgets.value.removeRange(0, widgets.value.length - maxLines);
     }
-    widgets.notifyListeners();
+    widgets.notify();
   }
 
   void clear() {
     widgets.value.clear();
-    widgets.notifyListeners();
+    widgets.notify();
   }
 }

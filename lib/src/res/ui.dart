@@ -87,6 +87,11 @@ abstract final class UIs {
     ),
   );
 
+  static const smallLinearLoading = SizedBox(
+    height: 37,
+    child: LinearProgressIndicator(),
+  );
+
   /// Colors
 
   static var colorSeed = const Color.fromARGB(255, 72, 15, 15);

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fl_lib/fl_lib.dart';
 
 extension ObjectX<T> on T {
   bool get isBaseType {
@@ -15,8 +15,8 @@ extension ObjectX<T> on T {
 
   T? nullOrSelf(bool cond) => cond ? this : null;
 
-  ValueNotifier<T> get vn => ValueNotifier<T>(this);
+  RVNode<T> get vn => RVNode<T>(this);
 }
 
 /// Nullable ValueNotifier -> nvn
-ValueNotifier<T?> nvn<T>() => ValueNotifier<T?>(null);
+RVNode<T?> nvn<T>() => RVNode<T?>(null);
