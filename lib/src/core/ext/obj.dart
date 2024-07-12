@@ -15,8 +15,8 @@ extension ObjectX<T> on T {
 
   T? nullOrSelf(bool cond) => cond ? this : null;
 
-  RVNode<T> get vn => RVNode<T>(this);
+  VNode<T> get vn => VNode<T>(this);
 }
 
 /// Nullable ValueNotifier -> nvn
-RVNode<T?> nvn<T>() => RVNode<T?>(null);
+VNode<T?> nvn<T>() => VNode<T?>(null);
