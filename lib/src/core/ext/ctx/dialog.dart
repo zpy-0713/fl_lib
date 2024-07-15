@@ -12,15 +12,25 @@ extension DialogX on BuildContext {
     int? titleMaxLines,
     EdgeInsetsGeometry? actionsPadding,
     EdgeInsetsGeometry? contentPadding,
+    Widget? Function(BuildContext ctx)? titleBuilder,
+    Widget? Function(BuildContext ctx)? childBuilder,
+    List<Widget>? Function(BuildContext ctx)? actionsBuilder,
   }) async {
     return await showDialog<T>(
       context: this,
       barrierDismissible: barrierDismiss,
-      builder: (_) {
+      builder: (ctx) {
+        final title_ = switch (titleBuilder) {
+          null => title != null ? Text(title, maxLines: titleMaxLines) : null,
+          _ => titleBuilder(ctx),
+        };
+        final child_ = childBuilder?.call(ctx) ?? child;
+        final actions_ = actionsBuilder?.call(ctx) ?? actions;
+
         return AlertDialog(
-          title: title != null ? Text(title, maxLines: titleMaxLines) : null,
-          content: child,
-          actions: actions,
+          title: title_,
+          content: child_,
+          actions: actions_,
           actionsPadding: actionsPadding ?? const EdgeInsets.all(17),
           contentPadding: contentPadding,
         );

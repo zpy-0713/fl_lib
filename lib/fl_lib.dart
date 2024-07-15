@@ -56,6 +56,7 @@ export 'src/view/intro_page.dart';
 export 'src/view/count_down_btn.dart';
 export 'src/view/auto_hide.dart';
 export 'src/view/kv_editor.dart';
+export 'src/view/btn.dart';
 export 'src/view/popup_menu.dart';
 export 'src/view/input.dart';
 export 'src/view/exit_confirm.dart';
