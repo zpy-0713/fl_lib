@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 ///   - macOS: <kbd>Cmd+Enter</kbd>
 ///   - Linux & Windows: <kbd>Ctrl+Enter</kbd>
 final class KeyboardCtrlListener {
-  final VoidCallback callback;
+  final bool? Function() callback;
   late final Set<PhysicalKeyboardKey> ctrlKeys;
   final PhysicalKeyboardKey key;
 
@@ -47,8 +47,7 @@ final class KeyboardCtrlListener {
 
       final isSuffixPressed = key == this.key;
       if (_isCtrlPressing && isSuffixPressed) {
-        callback();
-        return true;
+        return callback() ?? true;
       }
     } else if (event is KeyUpEvent) {
       final key = event.physicalKey;
