@@ -33,10 +33,6 @@ dependencies:
   shortid: ^0.1.2
   url_launcher: ^6.2.6
   window_manager: ^0.3.9
-  webdav_client:
-    git:
-      ref: main
-      url: https://github.com/lollipopkit/webdav_client
 
 dev_dependencies:
   flutter_test:

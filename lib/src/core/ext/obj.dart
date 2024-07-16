@@ -11,9 +11,11 @@ extension ObjectX<T> on T {
         this is Map;
   }
 
-  List<T> get asList => [this];
-
-  T? nullOrSelf(bool cond) => cond ? this : null;
+  /// Return null if this is null, otherwise return the result of [f]
+  /// 
+  /// Bad:
+  ///  - `null.nullOr(() => 1)` => `null ?? 1`
+  A? nullOr<A>(A Function() f) => this == null ? null : f();
 
   VNode<T> get vn => VNode<T>(this);
 }

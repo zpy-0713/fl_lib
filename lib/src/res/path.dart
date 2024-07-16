@@ -38,7 +38,7 @@ abstract final class Paths {
 
     if (isLinux || isWindows) {
       final path = switch (Pfs.type) {
-        Pfs.linux => Platform.environment['HOME'],
+        Pfs.linux => Platform.environment['HOME']?.joinPath('.config'),
         Pfs.windows => Platform.environment['APPDATA'],
         _ => null,
       };
