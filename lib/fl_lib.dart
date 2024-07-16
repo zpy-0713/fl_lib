@@ -50,6 +50,7 @@ export 'src/view/fade_in.dart';
 export 'src/view/switch_indicator.dart';
 export 'src/view/markdown.dart';
 export 'src/view/row.dart';
+export 'src/core/utils/keyboard.dart';
 export 'src/view/choice.dart';
 export 'src/view/store_switch.dart';
 export 'src/view/intro_page.dart';
