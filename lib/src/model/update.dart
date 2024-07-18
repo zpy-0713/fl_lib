@@ -81,7 +81,7 @@ abstract final class AppUpdate {
     final biggerKeys = val.keys.where((e) {
       final v = int.tryParse(e);
       if (v == null) return false;
-      return v >= _build;
+      return v > _build;
     });
     final sb = StringBuffer();
     final reversed = biggerKeys.toList().reversed.toList();
