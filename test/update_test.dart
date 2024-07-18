@@ -56,4 +56,18 @@ void main() {
       '/releases/download/v1.0.3/GPTBox_3_amd64.AppImage',
     );
   });
+
+  test('test update3', () async {
+    const build = 1013;
+    AppUpdate.chan = AppUpdateChan.beta;
+    final raw = await File('test/update3.json').readAsString();
+    expect(l10n.localeName, 'en');
+    AppUpdate.fromStr(raw: raw, locale: l10n.localeName, build: build);
+    expect(AppUpdate.changelog, '');
+    expect(AppUpdate.version, (1014, AppUpdateLevel.normal));
+    expect(
+      AppUpdate.url,
+      'https://cdn.lolli.tech/serverbox/pkg/ServerBox_1014_amd64.AppImage',
+    );
+  });
 }
