@@ -43,7 +43,18 @@ abstract final class Paths {
         _ => null,
       };
       final dir = Directory(path?.joinPath(appName) ?? '.${appName}_data');
-      return (await dir.create()).path;
+      final p = (await dir.create()).path;
+
+      // Move the db data created wrongly in the doc dir
+      if (isLinux) {
+        // $DOC/*.hive -> $HOME/.config/$APP/*.hive
+        final wrong = await getApplicationDocumentsDirectory();
+        await for (final file in wrong.list()) {
+          if (file is! File || !file.path.endsWith('.hive')) continue;
+          file.rename(p.joinPath(file.path.split('/').last));
+        }
+      }
+      return p;
     }
 
     final dir = await getApplicationDocumentsDirectory();

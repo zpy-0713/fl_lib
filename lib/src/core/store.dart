@@ -36,10 +36,14 @@ class PersistentStore {
 
   PersistentStore(this.boxName);
 
-  Future<void> init() async => box = await Hive.openBox(
-        boxName,
-        //encryptionCipher: SecureStore._cipher,
-      );
+  Future<void> init() async {
+    
+    box = await Hive.openBox(
+      boxName,
+      path: Paths.doc,
+      //encryptionCipher: SecureStore._cipher,
+    );
+  }
 
   StoreProperty<T> property<T>(
     String key,
