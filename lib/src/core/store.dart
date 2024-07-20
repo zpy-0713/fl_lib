@@ -37,6 +37,12 @@ class PersistentStore {
 
   /// To use [encryptionCipher], must call [SecureStore.init] first
   Future<void> init() async {
+    if (SecureStore._cipher == null) {
+      final unencrypted = await Hive.openBox(boxName, path: Paths.doc);
+      box = unencrypted;
+      return;
+    }
+
     final enc = await Hive.openBox(
       '${boxName}_enc',
       path: Paths.doc,
@@ -58,7 +64,9 @@ class PersistentStore {
         for (final key in unencrypted.keys) {
           enc.put(key, unencrypted.get(key));
         }
-        await unencrypted.deleteFromDisk();
+        await unencrypted.close();
+        await unencryptedFile.delete();
+
         debugPrint('Migrated $boxName');
       } catch (e) {
         debugPrint('Failed to migrate $boxName: $e');
