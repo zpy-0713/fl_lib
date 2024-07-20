@@ -1,33 +1,32 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// abstract final class SecureStore {
-//   static const _secureStorage = FlutterSecureStorage();
+abstract final class SecureStore {
+  static HiveAesCipher? _cipher;
 
-//   static HiveAesCipher? _cipher;
+  static const _hiveKey = 'hive_key';
 
-//   static const _hiveKey = 'hive_key';
-
-//   static Future<void> init() async {
-//     final encryptionKeyString = await _secureStorage.read(key: _hiveKey);
-//     if (encryptionKeyString == null) {
-//       final key = Hive.generateSecureKey();
-//       await _secureStorage.write(
-//         key: _hiveKey,
-//         value: base64UrlEncode(key),
-//       );
-//     }
-//     final key = await _secureStorage.read(key: _hiveKey);
-//     if (key == null) {
-//       throw Exception('Failed to init SecureStore');
-//     }
-//     final encryptionKeyUint8List = base64Url.decode(key);
-//     _cipher = HiveAesCipher(encryptionKeyUint8List);
-//   }
-// }
+  static Future<void> init() async {
+    final prefs = await SharedPreferences.getInstance();
+    final encryptionKeyString = prefs.getString(_hiveKey);
+    if (encryptionKeyString == null) {
+      final key = Hive.generateSecureKey();
+      await prefs.setString(_hiveKey, base64UrlEncode(key));
+    }
+    final key = prefs.getString(_hiveKey);
+    if (key == null) {
+      throw Exception('Failed to init SecureStore');
+    }
+    final encryptionKeyUint8List = base64Url.decode(key);
+    _cipher = HiveAesCipher(encryptionKeyUint8List);
+  }
+}
 
 class PersistentStore {
   late final Box box;
@@ -36,13 +35,37 @@ class PersistentStore {
 
   PersistentStore(this.boxName);
 
+  /// To use [encryptionCipher], must call [SecureStore.init] first
   Future<void> init() async {
-    
-    box = await Hive.openBox(
-      boxName,
+    final enc = await Hive.openBox(
+      '${boxName}_enc',
       path: Paths.doc,
-      //encryptionCipher: SecureStore._cipher,
+      encryptionCipher: SecureStore._cipher,
     );
+
+    final unencryptedFile = File('${Paths.doc.joinPath(boxName)}.hive');
+    if (await unencryptedFile.exists()) {
+      // Do migration
+      try {
+        final unencrypted = await Hive.openBox(boxName, path: Paths.doc);
+
+        /// [SecureStore._cipher] is null, skip
+        if (SecureStore._cipher == null) {
+          box = unencrypted;
+          return;
+        }
+        debugPrint('Migrating $boxName');
+        for (final key in unencrypted.keys) {
+          enc.put(key, unencrypted.get(key));
+        }
+        await unencrypted.deleteFromDisk();
+        debugPrint('Migrated $boxName');
+      } catch (e) {
+        debugPrint('Failed to migrate $boxName: $e');
+      }
+    }
+
+    box = enc;
   }
 
   StoreProperty<T> property<T>(
