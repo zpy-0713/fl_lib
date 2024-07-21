@@ -5,10 +5,11 @@ import 'dart:io';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract final class SecureStore {
-  static HiveAesCipher? _cipher;
+abstract final class _SecureStore {
+  static HiveAesCipher? cipher;
 
   static const _hiveKey = 'hive_key';
 
@@ -24,7 +25,7 @@ abstract final class SecureStore {
       throw Exception('Failed to init SecureStore');
     }
     final encryptionKeyUint8List = base64Url.decode(key);
-    _cipher = HiveAesCipher(encryptionKeyUint8List);
+    cipher = HiveAesCipher(encryptionKeyUint8List);
   }
 }
 
@@ -35,38 +36,31 @@ class PersistentStore {
 
   PersistentStore(this.boxName);
 
-  /// To use [encryptionCipher], must call [SecureStore.init] first
   Future<void> init() async {
-    if (SecureStore._cipher == null) {
-      final unencrypted = await Hive.openBox(boxName, path: Paths.doc);
-      box = unencrypted;
-      return;
-    }
+    if (_SecureStore.cipher == null) await _SecureStore.init();
+
+    final path = switch (Pfs.type) {
+      /// The default path of Hive is the HOME dir
+      Pfs.linux || Pfs.windows => Paths.doc,
+      _ => (await getApplicationDocumentsDirectory()).path,
+    };
 
     final enc = await Hive.openBox(
       '${boxName}_enc',
-      path: Paths.doc,
-      encryptionCipher: SecureStore._cipher,
+      path: path,
+      encryptionCipher: _SecureStore.cipher,
     );
 
-    final unencryptedFile = File('${Paths.doc.joinPath(boxName)}.hive');
+    final unencryptedFile = File('${path.joinPath(boxName)}.hive');
     if (await unencryptedFile.exists()) {
       // Do migration
       try {
-        final unencrypted = await Hive.openBox(boxName, path: Paths.doc);
-
-        /// [SecureStore._cipher] is null, skip
-        if (SecureStore._cipher == null) {
-          box = unencrypted;
-          return;
-        }
-        debugPrint('Migrating $boxName');
+        final unencrypted = await Hive.openBox(boxName, path: path);
         for (final key in unencrypted.keys) {
           enc.put(key, unencrypted.get(key));
         }
         await unencrypted.close();
         await unencryptedFile.delete();
-
         debugPrint('Migrated $boxName');
       } catch (e) {
         debugPrint('Failed to migrate $boxName: $e');
