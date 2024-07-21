@@ -8,35 +8,53 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract final class SharedPref {
+abstract final class PrefStore {
   static SharedPreferences? _instance;
-  static SharedPreferences get instance {
-    if (_instance == null) {
-      throw Exception('SharedPref not initialized');
-    }
-    return _instance!;
-  }
 
   static Future<void> init() async {
     if (_instance != null) return;
     SharedPreferences.setPrefix('');
     _instance = await SharedPreferences.getInstance();
   }
+
+  static T? get<T>(String key, [T? defaultValue]) {
+    final val = _instance?.get(key);
+    if (val == null) return defaultValue;
+    if (val is! T) {
+      debugPrint('SharedPref.get("$key") is: ${val.runtimeType}');
+      return defaultValue;
+    }
+    return val as T;
+  }
+
+  static Future<bool> set(String key, Object val) {
+    return switch (val) {
+          final bool val => _instance?.setBool(key, val),
+          final double val => _instance?.setDouble(key, val),
+          final int val => _instance?.setInt(key, val),
+          final String val => _instance?.setString(key, val),
+          final List<String> val => _instance?.setStringList(key, val),
+          _ => () {
+              debugPrint('SharedPref.init: "$key" is ${val.runtimeType}');
+            }(),
+        } ??
+        Future.value(false);
+  }
 }
 
-abstract final class _SecureStore {
+abstract final class SecureStore {
   static HiveAesCipher? cipher;
 
-  static const _hiveKey = 'hive_key';
+  static const hiveKey = 'hive_key';
 
   static Future<void> init() async {
-    final prefs = SharedPref.instance;
-    final encryptionKeyString = prefs.getString(_hiveKey);
+    final encryptionKeyString = PrefStore.get<String>(hiveKey) ??
+        PrefStore.get<String>('flutter.$hiveKey');
     if (encryptionKeyString == null) {
       final key = Hive.generateSecureKey();
-      await prefs.setString(_hiveKey, base64UrlEncode(key));
+      await PrefStore.set(hiveKey, base64UrlEncode(key));
     }
-    final key = prefs.getString(_hiveKey);
+    final key = PrefStore.get<String>(hiveKey);
     if (key == null) {
       throw Exception('Failed to init SecureStore');
     }
@@ -53,7 +71,7 @@ class PersistentStore {
   PersistentStore(this.boxName);
 
   Future<void> init() async {
-    if (_SecureStore.cipher == null) await _SecureStore.init();
+    if (SecureStore.cipher == null) await SecureStore.init();
 
     final path = switch (Pfs.type) {
       /// The default path of Hive is the HOME dir
@@ -64,7 +82,7 @@ class PersistentStore {
     final enc = await Hive.openBox(
       '${boxName}_enc',
       path: path,
-      encryptionCipher: _SecureStore.cipher,
+      encryptionCipher: SecureStore.cipher,
     );
 
     final unencryptedFile = File('${path.joinPath(boxName)}.hive');
