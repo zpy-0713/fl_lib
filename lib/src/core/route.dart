@@ -23,7 +23,7 @@ class AppRoute<Ret, Arg> {
     BuildContext context, {
     Key? key,
     Arg? args,
-    Route<Ret>? route,
+    PageRoute<Ret>? route,
   }) {
     final ret = middlewares?.any((e) => !e((context: context, route: this)));
     if (ret == true) return Future.value(null);

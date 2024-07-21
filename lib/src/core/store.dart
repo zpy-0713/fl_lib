@@ -8,13 +8,29 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+abstract final class SharedPref {
+  static SharedPreferences? _instance;
+  static SharedPreferences get instance {
+    if (_instance == null) {
+      throw Exception('SharedPref not initialized');
+    }
+    return _instance!;
+  }
+
+  static Future<void> init() async {
+    if (_instance != null) return;
+    SharedPreferences.setPrefix('');
+    _instance = await SharedPreferences.getInstance();
+  }
+}
+
 abstract final class _SecureStore {
   static HiveAesCipher? cipher;
 
   static const _hiveKey = 'hive_key';
 
   static Future<void> init() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = SharedPref.instance;
     final encryptionKeyString = prefs.getString(_hiveKey);
     if (encryptionKeyString == null) {
       final key = Hive.generateSecureKey();
