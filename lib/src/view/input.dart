@@ -44,7 +44,7 @@ class Input extends StatefulWidget {
     this.action,
     this.node,
     this.autoCorrect = false,
-    this.suggestion = false,
+    this.suggestion = true,
     this.errorText,
     this.prefix,
     this.autoFocus = false,
