@@ -38,10 +38,14 @@ extension DialogX on BuildContext {
     );
   }
 
-  Future<T> showLoadingDialog<T>({
+  /// If an error occurs, the dialog will be closed and an error dialog will be displayed.
+  /// If [onErr] returns true, the error will be rethrown.
+  Future<T?> showLoadingDialog<T>({
     required Future<T> Function() fn,
     bool barrierDismiss = false,
-    void Function(Object e, StackTrace s)? onErr,
+
+    /// return true to rethrow
+    bool Function(Object e, StackTrace s)? onErr,
   }) async {
     showRoundDialog(
       child: UIs.centerSizedLoading,
@@ -56,11 +60,13 @@ extension DialogX on BuildContext {
       pop();
 
       if (onErr != null) {
-        onErr(e, s);
-      } else {
-        showErrDialog(e: e, s: s);
+        final throwErr = onErr(e, s);
+        if (throwErr == true) {
+          rethrow;
+        }
       }
-      rethrow;
+      showErrDialog(e: e, s: s);
+      return null;
     }
   }
 
