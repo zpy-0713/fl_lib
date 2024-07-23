@@ -2,26 +2,36 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 
-final class KvEditor extends StatefulWidget {
+final class KvEditorArgs {
   final Map<String, String> data;
-  final int kWidthFlex;
-  final int vWidthFlex;
   final Widget Function(String k, String v)? entryBuilder;
+
+  const KvEditorArgs({
+    required this.data,
+    this.entryBuilder,
+  });
+}
+
+final class KvEditor extends StatefulWidget {
+  final KvEditorArgs? args;
 
   const KvEditor({
     super.key,
-    required this.data,
-    this.kWidthFlex = 1,
-    this.vWidthFlex = 2,
-    this.entryBuilder,
-  });
+    this.args,
+  }) : assert(args != null);
+
+  static const route = AppRoute<Map<String, String>, KvEditorArgs>(
+    page: KvEditor.new,
+    path: '/kv_editor',
+  );
 
   @override
   State<KvEditor> createState() => _KvEditorState();
 }
 
 class _KvEditorState extends State<KvEditor> {
-  late final Map<String, String> _map = Map.of(widget.data);
+  late final args = widget.args!;
+  late final Map<String, String> _map = Map.of(args.data);
   final _listKey = GlobalKey<AnimatedListState>();
   late MediaQueryData _media;
 
@@ -64,7 +74,7 @@ class _KvEditorState extends State<KvEditor> {
   }
 
   Widget _buildItem(String k, String v, int idx, Animation<double> animation) {
-    return switch (widget.entryBuilder) {
+    return switch (args.entryBuilder) {
       null => _buildDefaultItem(k, v, idx, animation),
       final func => func(k, v),
     };

@@ -23,7 +23,7 @@ final class BioAuthPage extends StatefulWidget {
 
   static const route = AppRoute<bool, BioAuthPageArgs>(
     page: BioAuthPage.new,
-    path: '/bioAuth',
+    path: '/bio_auth',
   );
 
   @override
