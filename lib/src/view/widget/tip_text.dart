@@ -26,6 +26,7 @@ final class TipText extends StatelessWidget {
           const WidgetSpan(child: UIs.width13),
           WidgetSpan(
             child: InkWell(
+              borderRadius: BorderRadius.circular(20),
               onTap: () {
                 context.showRoundDialog(
                   title: '🪄',
