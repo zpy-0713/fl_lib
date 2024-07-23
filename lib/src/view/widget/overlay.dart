@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:fl_lib/src/core/ext/obj.dart';
-import 'package:fl_lib/src/view/val_builder.dart';
+import 'package:fl_lib/src/view/widget/val_builder.dart';
 import 'package:flutter/material.dart';
 
 class BlurOverlay extends StatefulWidget {

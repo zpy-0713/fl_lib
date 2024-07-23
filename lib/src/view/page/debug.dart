@@ -17,7 +17,12 @@ final class DebugPageArgs {
 class DebugPage extends StatelessWidget {
   final DebugPageArgs? args;
 
-  const DebugPage({super.key, this.args});
+  const DebugPage({super.key, this.args}) : assert(args != null);
+
+  static const route = AppRoute<void, DebugPageArgs>(
+    page: DebugPage.new,
+    path: '/debug',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class DebugPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
         ),
         title: Text(
-          args?.title ?? 'Logs',
+          args!.title ?? 'Logs',
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
@@ -45,8 +50,7 @@ class DebugPage extends StatelessWidget {
   }
 
   Widget _buildTerminal(BuildContext context) {
-    final notifier = args?.notifier;
-    if (notifier == null) return UIs.placeholder;
+    final notifier = args!.notifier;
     return Container(
       padding: const EdgeInsets.all(10),
       color: Colors.black,

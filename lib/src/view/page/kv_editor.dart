@@ -30,8 +30,8 @@ final class KvEditor extends StatefulWidget {
 }
 
 class _KvEditorState extends State<KvEditor> {
-  late final args = widget.args!;
-  late final Map<String, String> _map = Map.of(args.data);
+  late final _args = widget.args!;
+  late final Map<String, String> _map = Map.of(_args.data);
   final _listKey = GlobalKey<AnimatedListState>();
   late MediaQueryData _media;
 
@@ -74,7 +74,7 @@ class _KvEditorState extends State<KvEditor> {
   }
 
   Widget _buildItem(String k, String v, int idx, Animation<double> animation) {
-    return switch (args.entryBuilder) {
+    return switch (_args.entryBuilder) {
       null => _buildDefaultItem(k, v, idx, animation),
       final func => func(k, v),
     };
