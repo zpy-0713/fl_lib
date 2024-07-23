@@ -8,6 +8,7 @@
   "day": "Días",
   "edit": "Editar",
   "empty": "Vacío",
+  "exit": "Salir",
   "exitConfirmTip": "Presiona atrás nuevamente para salir",
   "fail": "Fracaso",
   "file": "Archivo",
@@ -21,6 +22,7 @@
   "select": "Seleccionar",
   "success": "Éxito",
   "tag": "Etiqueta",
+  "tapToAuth": "Haga clic para verificar",
   "update": "Actualizar",
   "value": "Valor",
   "yesterday": "Ayer"

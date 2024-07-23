@@ -8,6 +8,7 @@
   "day": "日",
   "edit": "編集",
   "empty": "空",
+  "exit": "終了",
   "exitConfirmTip": "もう一度戻ると終了します",
   "fail": "失敗",
   "file": "ファイル",
@@ -21,6 +22,7 @@
   "select": "選択",
   "success": "成功",
   "tag": "タグ",
+  "tapToAuth": "認証するにはクリックしてください",
   "update": "更新",
   "value": "値",
   "yesterday": "昨日"

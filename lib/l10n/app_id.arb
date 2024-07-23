@@ -8,6 +8,7 @@
   "day": "Hari",
   "edit": "Edit",
   "empty": "Kosong",
+  "exit": "Keluar",
   "exitConfirmTip": "Tekan kembali lagi untuk keluar",
   "fail": "Gagal",
   "file": "Berkas",
@@ -21,6 +22,7 @@
   "select": "Pilih",
   "success": "Sukses",
   "tag": "Label",
+  "tapToAuth": "Klik untuk memverifikasi",
   "update": "Perbarui",
   "value": "Nilai",
   "yesterday": "Kemarin"

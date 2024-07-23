@@ -8,6 +8,7 @@
   "day": "天",
   "edit": "编辑",
   "empty": "空",
+  "exit": "退出",
   "exitConfirmTip": "再次返回以退出",
   "fail": "失败",
   "file": "文件",
@@ -21,6 +22,7 @@
   "select": "选择",
   "success": "成功",
   "tag": "标签",
+  "tapToAuth": "点击以认证",
   "update": "更新",
   "value": "值",
   "yesterday": "昨天"

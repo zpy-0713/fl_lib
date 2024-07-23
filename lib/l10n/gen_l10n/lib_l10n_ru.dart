@@ -32,6 +32,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get empty => 'Пусто';
 
   @override
+  String get exit => 'Выйти';
+
+  @override
   String get exitConfirmTip => 'Нажмите назад еще раз, чтобы выйти';
 
   @override
@@ -69,6 +72,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get tag => 'Тег';
+
+  @override
+  String get tapToAuth => 'Нажмите для подтверждения';
 
   @override
   String get update => 'Обновить';

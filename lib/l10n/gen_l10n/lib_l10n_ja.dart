@@ -32,6 +32,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get empty => '空';
 
   @override
+  String get exit => '終了';
+
+  @override
   String get exitConfirmTip => 'もう一度戻ると終了します';
 
   @override
@@ -69,6 +72,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get tag => 'タグ';
+
+  @override
+  String get tapToAuth => '認証するにはクリックしてください';
 
   @override
   String get update => '更新';

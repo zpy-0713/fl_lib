@@ -8,6 +8,7 @@
   "day": "Dagen",
   "edit": "Bewerken",
   "empty": "Leeg",
+  "exit": "Afsluiten",
   "exitConfirmTip": "Druk nogmaals op terug om te sluiten",
   "fail": "Mislukking",
   "file": "Bestand",
@@ -21,6 +22,7 @@
   "select": "Selecteren",
   "success": "Succes",
   "tag": "Tag",
+  "tapToAuth": "Klik om te verifiëren",
   "update": "Bijwerken",
   "value": "Waarde",
   "yesterday": "Gisteren"

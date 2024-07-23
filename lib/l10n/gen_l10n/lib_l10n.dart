@@ -164,6 +164,12 @@ abstract class LibLocalizations {
   /// **'Empty'**
   String get empty;
 
+  /// No description provided for @exit.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get exit;
+
   /// No description provided for @exitConfirmTip.
   ///
   /// In en, this message translates to:
@@ -241,6 +247,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Tag'**
   String get tag;
+
+  /// No description provided for @tapToAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'Click to verify'**
+  String get tapToAuth;
 
   /// No description provided for @update.
   ///

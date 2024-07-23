@@ -32,6 +32,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get empty => '空';
 
   @override
+  String get exit => '退出';
+
+  @override
   String get exitConfirmTip => '再次返回以退出';
 
   @override
@@ -69,6 +72,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get tag => '标签';
+
+  @override
+  String get tapToAuth => '点击以认证';
 
   @override
   String get update => '更新';
@@ -112,6 +118,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get empty => '空';
 
   @override
+  String get exit => '退出';
+
+  @override
   String get exitConfirmTip => '再次返回以退出';
 
   @override
@@ -149,6 +158,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get tag => '標籤';
+
+  @override
+  String get tapToAuth => '點擊以認證';
 
   @override
   String get update => '更新';

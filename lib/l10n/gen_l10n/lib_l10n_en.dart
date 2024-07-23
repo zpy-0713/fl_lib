@@ -32,6 +32,9 @@ class LibLocalizationsEn extends LibLocalizations {
   String get empty => 'Empty';
 
   @override
+  String get exit => 'Exit';
+
+  @override
   String get exitConfirmTip => 'Press back again to exit';
 
   @override
@@ -69,6 +72,9 @@ class LibLocalizationsEn extends LibLocalizations {
 
   @override
   String get tag => 'Tag';
+
+  @override
+  String get tapToAuth => 'Click to verify';
 
   @override
   String get update => 'Update';

@@ -32,6 +32,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get empty => 'Kosong';
 
   @override
+  String get exit => 'Keluar';
+
+  @override
   String get exitConfirmTip => 'Tekan kembali lagi untuk keluar';
 
   @override
@@ -69,6 +72,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get tag => 'Label';
+
+  @override
+  String get tapToAuth => 'Klik untuk memverifikasi';
 
   @override
   String get update => 'Perbarui';

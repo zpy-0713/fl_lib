@@ -1,3 +1,4 @@
+import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
 /// Define it as a named record, makes it easier for refactor.
@@ -19,6 +20,8 @@ class AppRoute<Ret, Arg> {
     this.middlewares,
   });
 
+  bool get isAlreadyIn => AppRouteObserver.currentRoute?.name == path;
+
   Future<Ret?> go(
     BuildContext context, {
     Key? key,
@@ -35,4 +38,29 @@ class AppRoute<Ret, Arg> {
         );
     return Navigator.push<Ret>(context, route_);
   }
+}
+
+final class AppRouteObserver extends NavigatorObserver {
+  static final _routes = <RouteSettings>[];
+  static List<RouteSettings> get routes => _routes;
+  
+  static final instance = AppRouteObserver._();
+
+  AppRouteObserver._() : super();
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    if (route is PageRoute) {
+      _routes.add(route.settings);
+    }
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    if (route is PageRoute) {
+      _routes.remove(route.settings);
+    }
+  }
+
+  static RouteSettings? get currentRoute => _routes.lastOrNull;
 }

@@ -32,6 +32,9 @@ class LibLocalizationsFr extends LibLocalizations {
   String get empty => 'Vide';
 
   @override
+  String get exit => 'Quitter';
+
+  @override
   String get exitConfirmTip => 'Appuyez à nouveau sur retour pour quitter';
 
   @override
@@ -69,6 +72,9 @@ class LibLocalizationsFr extends LibLocalizations {
 
   @override
   String get tag => 'Étiquette';
+
+  @override
+  String get tapToAuth => 'Cliquez pour vérifier';
 
   @override
   String get update => 'Mettre à jour';

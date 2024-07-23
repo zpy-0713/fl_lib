@@ -16,7 +16,7 @@ final class ExitConfirm extends StatefulWidget {
   @override
   State<ExitConfirm> createState() => _ExitConfirmState();
 
-  static void exitApp(BuildContext context) {
+  static void exitApp() {
     SystemNavigator.pop();
   }
 
