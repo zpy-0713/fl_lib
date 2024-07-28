@@ -114,9 +114,10 @@ final class _Wrap extends StatelessWidget {
 }
 
 final class TagTile extends StatelessWidget {
+  final Set<String> allTags;
   final ValueNotifier<Set<String>> tags;
 
-  const TagTile({super.key, required this.tags});
+  const TagTile({super.key, required this.tags, required this.allTags});
 
   @override
   Widget build(BuildContext context) {
@@ -129,9 +130,9 @@ final class TagTile extends StatelessWidget {
               vals.isEmpty ? null : Text(vals.join(', '), style: UIs.textGrey),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () async {
-            final allTags = (tags.value..addAll(vals)).toList();
+            final allTags_ = (allTags..addAll(vals)).toList();
             final res = await context.showPickDialog(
-              items: allTags.toList(),
+              items: allTags_.toList(),
               initial: vals.toList(),
               clearable: true,
               actions: [
@@ -177,7 +178,7 @@ final class TagTile extends StatelessWidget {
             if (res == null) return;
             tags.value = res.toSet();
           },
-        ).cardx;
+        );
       },
     );
   }
