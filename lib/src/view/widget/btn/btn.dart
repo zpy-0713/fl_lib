@@ -40,12 +40,14 @@ enum BtnType {
 /// Put if here, or the template macro will work incorrectly.
 void _defaultOnTap(BuildContext context) => context.pop();
 
-const kGap = 17.0;
+const _kGap = 7.0;
 
-const kPadding = EdgeInsets.symmetric(horizontal: 23, vertical: 15);
+const _kPadding = EdgeInsets.all(7);
 
 /// A placeholder icon that can't be displayed.
-const unDisplayableIcon = Icon(MingCute.question_line);
+const _placeholderIcon = Icon(MingCute.question_line);
+
+const _borderRadius = BorderRadius.all(Radius.circular(13));
 
 final class Btn extends StatelessWidget {
   /// The callback when the button is tapped.
@@ -94,7 +96,6 @@ final class Btn extends StatelessWidget {
   ///
   /// {@macro btntype_is_column_or_row}
   /// default is [MainAxisSize.max], or `null`.
-  /// TODO: Change to [MainAxisSize.min] by default?
   final MainAxisSize? mainAxisSize;
 
   const Btn.text({
@@ -128,10 +129,10 @@ final class Btn extends StatelessWidget {
     this.onTap = _defaultOnTap,
     this.gap,
     this.textStyle,
-    this.padding = kPadding,
-  })  : type = BtnType.column,
-        mainAxisAlignment = MainAxisAlignment.spaceBetween,
-        mainAxisSize = MainAxisSize.max;
+    this.padding = _kPadding,
+    this.mainAxisAlignment,
+    this.mainAxisSize,
+  }) : type = BtnType.column;
 
   const Btn.row({
     super.key,
@@ -140,10 +141,10 @@ final class Btn extends StatelessWidget {
     this.onTap = _defaultOnTap,
     this.gap,
     this.textStyle,
-    this.padding = kPadding,
-  })  : type = BtnType.row,
-        mainAxisAlignment = MainAxisAlignment.spaceBetween,
-        mainAxisSize = MainAxisSize.max;
+    this.padding = _kPadding,
+    this.mainAxisAlignment,
+    this.mainAxisSize,
+  }) : type = BtnType.row;
 
   Btn.ok({
     super.key,
@@ -185,10 +186,13 @@ final class Btn extends StatelessWidget {
         ' The icon will be ignored.',
       );
     }
-    return TextButton(
-      onPressed: onTap == null ? null : () => onTap?.call(context),
+    final child = InkWell(
+      borderRadius: _borderRadius,
+      onTap: onTap == null ? null : () => onTap?.call(context),
       child: Text(text, style: textStyle),
     );
+    if (padding == null) return child;
+    return Padding(padding: padding!, child: child);
   }
 
   Widget _icon(BuildContext context) {
@@ -196,11 +200,16 @@ final class Btn extends StatelessWidget {
       debugPrint('[icon] can\'t be null if [type] == [BtnType.icon].');
     }
 
-    return IconButton(
-      onPressed: onTap == null ? null : () => onTap?.call(context),
-      icon: icon ?? unDisplayableIcon,
-      tooltip: text,
+    final child = InkWell(
+      borderRadius: _borderRadius,
+      onTap: onTap == null ? null : () => onTap?.call(context),
+      child: Tooltip(
+        message: text,
+        child: icon ?? _placeholderIcon,
+      ),
     );
+    if (padding == null) return child;
+    return Padding(padding: padding!, child: child);
   }
 
   Widget _column(BuildContext context) {
@@ -208,16 +217,20 @@ final class Btn extends StatelessWidget {
       debugPrint('[icon] can\'t be null if [type] == [BtnType.column].');
     }
 
+    Widget child = Column(
+      children: [
+        icon ?? _placeholderIcon,
+        SizedBox(height: gap ?? _kGap),
+        Text(text, style: textStyle),
+      ],
+    );
+    if (padding != null) {
+      child = Padding(padding: padding!, child: child);
+    }
     return InkWell(
-      borderRadius: BorderRadius.circular(13),
+      borderRadius: _borderRadius,
       onTap: onTap == null ? null : () => onTap?.call(context),
-      child: Column(
-        children: [
-          icon ?? unDisplayableIcon,
-          SizedBox(height: gap ?? kGap),
-          Text(text, style: textStyle),
-        ],
-      ).paddingSymmetric(horizontal: 23, vertical: 15),
+      child: child,
     );
   }
 
@@ -227,18 +240,23 @@ final class Btn extends StatelessWidget {
     }
 
     final isRTL = Directionality.of(context) == TextDirection.rtl;
-    final icon_ = icon ?? unDisplayableIcon;
-    final gap_ = SizedBox(height: gap ?? kGap);
+    final icon_ = icon ?? _placeholderIcon;
+    final gap_ = SizedBox(height: gap ?? _kGap);
     final text_ = Text(text, style: textStyle);
     final children = isRTL ? [text_, gap_, icon_] : [icon_, gap_, text_];
+
+    Widget child = Row(
+      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+      mainAxisSize: mainAxisSize ?? MainAxisSize.max,
+      children: children,
+    );
+    if (padding != null) {
+      child = Padding(padding: padding!, child: child);
+    }
     return InkWell(
-      borderRadius: BorderRadius.circular(13),
+      borderRadius: _borderRadius,
       onTap: onTap == null ? null : () => onTap?.call(context),
-      child: Row(
-        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
-        mainAxisSize: mainAxisSize ?? MainAxisSize.max,
-        children: children,
-      ),
+      child: child,
     );
   }
 }
