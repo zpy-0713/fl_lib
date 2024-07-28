@@ -186,13 +186,13 @@ final class Btn extends StatelessWidget {
         ' The icon will be ignored.',
       );
     }
-    final child = InkWell(
-      borderRadius: _borderRadius,
-      onTap: onTap == null ? null : () => onTap?.call(context),
+    return TextButton(
+      onPressed: onTap == null ? null : () => onTap?.call(context),
+      style: padding != null
+          ? ButtonStyle(padding: WidgetStateProperty.all(padding))
+          : null,
       child: Text(text, style: textStyle),
     );
-    if (padding == null) return child;
-    return Padding(padding: padding!, child: child);
   }
 
   Widget _icon(BuildContext context) {

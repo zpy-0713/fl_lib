@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
 const _level2Color = {
-  'INFO': Color(0xffbb2d6f),
+  'INFO': Colors.cyan,
   'WARNING': Colors.yellow,
-  'ERROR': Colors.red,
+  'ERROR': Color(0xffbb2d6f),
 };
 
 final class DebugProvider {

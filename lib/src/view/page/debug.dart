@@ -21,6 +21,7 @@ class DebugPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const pad = EdgeInsets.all(13);
     return Scaffold(
       appBar: CustomAppBar(
         leading: IconButton(
@@ -34,12 +35,26 @@ class DebugPage extends StatelessWidget {
         backgroundColor: Colors.black,
         actions: [
           Btn.icon(
-            icon: const Icon(Icons.copy, color: Colors.white),
+            icon: const Icon(Icons.copy, color: Colors.white, size: 20),
             onTap: (_) => DebugProvider.copy(),
+            padding: pad,
           ),
           Btn.icon(
-            onTap: (_) => DebugProvider.clear(),
+            onTap: (_) {
+              context.showRoundDialog(
+                title: 'Clear logs?',
+                actions: [
+                  Btn.ok(
+                    onTap: (_) {
+                      DebugProvider.clear();
+                      context.pop();
+                    },
+                  ),
+                ],
+              );
+            },
             icon: const Icon(Icons.delete, color: Colors.white),
+            padding: pad,
           ),
         ],
       ),
