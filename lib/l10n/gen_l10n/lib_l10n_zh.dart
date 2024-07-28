@@ -20,6 +20,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get cancel => '取消';
 
   @override
+  String get clear => '清除';
+
+  @override
   String get copy => '复制';
 
   @override
@@ -51,6 +54,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get minute => '分';
+
+  @override
+  String get name => '名称';
 
   @override
   String get ok => '好';
@@ -106,6 +112,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get cancel => '取消';
 
   @override
+  String get clear => '清除';
+
+  @override
   String get copy => '複製';
 
   @override
@@ -137,6 +146,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get minute => '分';
+
+  @override
+  String get name => '名稱';
 
   @override
   String get ok => '好';

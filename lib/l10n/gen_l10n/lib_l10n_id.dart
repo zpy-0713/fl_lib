@@ -20,6 +20,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get cancel => 'Batal';
 
   @override
+  String get clear => 'Bersihkan';
+
+  @override
   String get copy => 'Salin';
 
   @override
@@ -51,6 +54,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get minute => 'Menit';
+
+  @override
+  String get name => 'Nama';
 
   @override
   String get ok => 'Baik';

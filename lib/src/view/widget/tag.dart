@@ -1,6 +1,7 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 const _kTagBtnHeight = 31.0;
 
@@ -32,156 +33,8 @@ class TagBtn extends StatelessWidget {
   }
 }
 
-class TagEditor extends StatefulWidget {
-  final List<String> tags;
-  final void Function(List<String>)? onChanged;
-  final void Function(String old, String new_)? onRenameTag;
-  final List<String> allTags;
-  final Color? color;
-
-  const TagEditor({
-    super.key,
-    required this.tags,
-    this.onChanged,
-    this.onRenameTag,
-    this.allTags = const <String>[],
-    this.color,
-  });
-
-  @override
-  State<StatefulWidget> createState() => _TagEditorState();
-}
-
-class _TagEditorState extends State<TagEditor> {
-  @override
-  Widget build(BuildContext context) {
-    return CardX(
-      child: ListTile(
-        // Align the place of TextField.prefixIcon
-        leading: const Padding(
-          padding: EdgeInsets.only(left: 6),
-          child: Icon(Icons.tag),
-        ),
-        title: _buildTags(widget.tags),
-        trailing: IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () => _showAddTagDialog(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTags(List<String> tags) {
-    final suggestions = widget.allTags.where((e) => !tags.contains(e)).toList();
-    final suggestionLen = suggestions.length;
-
-    /// Add vertical divider if suggestions.length > 0
-    final counts = tags.length + suggestionLen + (suggestionLen == 0 ? 0 : 1);
-    if (counts == 0) return Text(l10n.tag);
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: _kTagBtnHeight),
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          if (index < tags.length) {
-            return _buildTagItem(tags[index]);
-          } else if (index > tags.length) {
-            return _buildTagItem(
-              suggestions[index - tags.length - 1],
-              isAdd: true,
-            );
-          }
-          return const VerticalDivider();
-        },
-        itemCount: counts,
-      ),
-    );
-  }
-
-  Widget _buildTagItem(String tag, {bool isAdd = false}) {
-    return _Wrap(
-      onTap: () {
-        if (isAdd) {
-          widget.tags.add(tag);
-        } else {
-          widget.tags.remove(tag);
-        }
-        widget.onChanged?.call(widget.tags);
-        setState(() {});
-      },
-      onLongPress: () => _showRenameDialog(tag),
-      color: widget.color,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            '#$tag',
-            textAlign: TextAlign.center,
-            style: isAdd ? UIs.text13Grey : UIs.text13,
-          ),
-          const SizedBox(width: 4.0),
-          Icon(
-            isAdd ? Icons.add_circle : Icons.cancel,
-            size: 13.7,
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showAddTagDialog() {
-    final textEditingController = TextEditingController();
-    context.showRoundDialog(
-      title: l10n.add,
-      child: Input(
-        autoFocus: true,
-        icon: Icons.tag,
-        controller: textEditingController,
-        hint: l10n.tag,
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            final tag = textEditingController.text;
-            widget.tags.add(tag.trim());
-            widget.onChanged?.call(widget.tags);
-            context.pop();
-          },
-          child: Text(l10n.add),
-        ),
-      ],
-    );
-  }
-
-  void _showRenameDialog(String tag) {
-    final textEditingController = TextEditingController(text: tag);
-    context.showRoundDialog(
-      title: l10n.rename,
-      child: Input(
-        autoFocus: true,
-        icon: Icons.abc,
-        controller: textEditingController,
-        hint: l10n.tag,
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            final newTag = textEditingController.text.trim();
-            if (newTag.isEmpty) return;
-            widget.onRenameTag?.call(tag, newTag);
-            context.pop();
-            setState(() {});
-          },
-          child: Text(l10n.rename),
-        ),
-      ],
-    );
-  }
-}
-
 class TagSwitcher extends StatelessWidget implements PreferredSizeWidget {
-  final ValueNotifier<List<String>> tags;
+  final ValueNotifier<Set<String>> tags;
   final double width;
   final void Function(String?) onTagChanged;
   final String? initTag;
@@ -231,13 +84,11 @@ class TagSwitcher extends StatelessWidget implements PreferredSizeWidget {
 final class _Wrap extends StatelessWidget {
   final Widget child;
   final void Function()? onTap;
-  final void Function()? onLongPress;
   final Color? color;
 
   const _Wrap({
     required this.child,
     this.onTap,
-    this.onLongPress,
     this.color,
   });
 
@@ -251,7 +102,6 @@ final class _Wrap extends StatelessWidget {
           color: color,
           child: InkWell(
             onTap: onTap,
-            onLongPress: onLongPress,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 11),
               child: Center(child: child),
@@ -259,6 +109,76 @@ final class _Wrap extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+final class TagTile extends StatelessWidget {
+  final ValueNotifier<Set<String>> tags;
+
+  const TagTile({super.key, required this.tags});
+
+  @override
+  Widget build(BuildContext context) {
+    return tags.listenVal(
+      (vals) {
+        return ListTile(
+          leading: const Icon(MingCute.hashtag_line),
+          title: Text(l10n.tag),
+          subtitle:
+              vals.isEmpty ? null : Text(vals.join(', '), style: UIs.textGrey),
+          trailing: const Icon(Icons.keyboard_arrow_right),
+          onTap: () async {
+            final allTags = (tags.value..addAll(vals)).toList();
+            final res = await context.showPickDialog(
+              items: allTags.toList(),
+              initial: vals.toList(),
+              clearable: true,
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    context.pop();
+                    tags.value = {};
+                  },
+                  child: Text(l10n.clear),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    context.pop();
+                    final ctrl = TextEditingController();
+                    void onSave() {
+                      final s = ctrl.text.trim();
+                      if (s.isEmpty) return;
+                      tags.value = tags.value..add(s);
+                      context.pop();
+                    }
+
+                    context.showRoundDialog(
+                      title: l10n.add,
+                      child: Input(
+                        controller: ctrl,
+                        type: TextInputType.text,
+                        label: l10n.tag,
+                        icon: MingCute.hashtag_line,
+                        hint: l10n.name,
+                        suggestion: true,
+                        autoCorrect: true,
+                        autoFocus: true,
+                        onSubmitted: (_) => onSave(),
+                      ),
+                      actions: [Btn.ok(onTap: (_) => onSave())],
+                    );
+                  },
+                  child: Text(l10n.add),
+                ),
+              ],
+            );
+
+            if (res == null) return;
+            tags.value = res.toSet();
+          },
+        ).cardx;
+      },
     );
   }
 }

@@ -20,6 +20,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get cancel => 'Abbrechen';
 
   @override
+  String get clear => 'Löschen';
+
+  @override
   String get copy => 'Kopieren';
 
   @override
@@ -51,6 +54,9 @@ class LibLocalizationsDe extends LibLocalizations {
 
   @override
   String get minute => 'Minuten';
+
+  @override
+  String get name => 'Name';
 
   @override
   String get ok => 'Gut';

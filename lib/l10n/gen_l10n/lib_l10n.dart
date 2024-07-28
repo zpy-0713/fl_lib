@@ -14,6 +14,7 @@ import 'lib_l10n_ja.dart';
 import 'lib_l10n_nl.dart';
 import 'lib_l10n_pt.dart';
 import 'lib_l10n_ru.dart';
+import 'lib_l10n_tr.dart';
 import 'lib_l10n_zh.dart';
 
 /// Callers can lookup localized strings with an instance of LibLocalizations
@@ -106,6 +107,7 @@ abstract class LibLocalizations {
     Locale('nl'),
     Locale('pt'),
     Locale('ru'),
+    Locale('tr'),
     Locale('zh'),
     Locale('zh', 'TW')
   ];
@@ -139,6 +141,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
 
   /// No description provided for @copy.
   ///
@@ -205,6 +213,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Minutes'**
   String get minute;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
 
   /// No description provided for @ok.
   ///
@@ -282,7 +296,7 @@ class _LibLocalizationsDelegate extends LocalizationsDelegate<LibLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'id', 'ja', 'nl', 'pt', 'ru', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'id', 'ja', 'nl', 'pt', 'ru', 'tr', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_LibLocalizationsDelegate old) => false;
@@ -311,6 +325,7 @@ LibLocalizations lookupLibLocalizations(Locale locale) {
     case 'nl': return LibLocalizationsNl();
     case 'pt': return LibLocalizationsPt();
     case 'ru': return LibLocalizationsRu();
+    case 'tr': return LibLocalizationsTr();
     case 'zh': return LibLocalizationsZh();
   }
 

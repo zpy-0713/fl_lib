@@ -20,6 +20,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get cancel => 'キャンセル';
 
   @override
+  String get clear => 'クリア';
+
+  @override
   String get copy => 'コピーする';
 
   @override
@@ -51,6 +54,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get minute => '分';
+
+  @override
+  String get name => '名前';
 
   @override
   String get ok => 'いいです';

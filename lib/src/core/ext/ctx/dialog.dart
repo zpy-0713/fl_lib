@@ -174,7 +174,7 @@ extension DialogX on BuildContext {
   Future<List<T>?> showPickWithTagDialog<T>({
     String? title,
     required List<T?> Function(String? tag) itemsBuilder,
-    required ValueNotifier<List<String>> tags,
+    required ValueNotifier<Set<String>> tags,
     String Function(T)? name,
     List<T>? initial,
     bool clearable = false,

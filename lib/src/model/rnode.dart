@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// [RNode] is RebuildNode.
-class RNode implements Listenable {
+/// 
+/// [ChangeNotifier.notifyListeners] works not properly in some cases.
+class RNode implements ChangeNotifier {
   final List<VoidCallback> _listeners = [];
 
   RNode();
@@ -26,13 +28,30 @@ class RNode implements Listenable {
   Future<void> notify({bool delay = false}) async {
     if (delay) await Future.delayed(const Duration(milliseconds: 277));
     for (final listener in _listeners) {
-      listener();
+      try {
+        listener();
+      } catch (e, s) {
+        Loggers.app.warning('RNode.notify', e, s);
+      }
     }
   }
 
   /// Add this node's listeners to another node.
   void chain(RNode node) {
     node.addListener(notify);
+  }
+
+  @override
+  void dispose() {
+    _listeners.clear();
+  }
+
+  @override
+  bool get hasListeners => _listeners.isNotEmpty;
+
+  @override
+  void notifyListeners() {
+    notify();
   }
 }
 
@@ -43,13 +62,15 @@ extension RNodeX on RNode {
   }
 }
 
-class VNode<T> extends RNode implements ValueListenable<T> {
+class VNode<T> extends RNode implements ValueNotifier<T> {
   T _value;
 
   VNode(T value) : _value = value;
 
   @override
   T get value => _value;
+
+  @override
   set value(T newVal) {
     _value = newVal;
     notify();

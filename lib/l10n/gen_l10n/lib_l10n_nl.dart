@@ -20,6 +20,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get cancel => 'Annuleren';
 
   @override
+  String get clear => 'Leegmaken';
+
+  @override
   String get copy => 'Kopiëren';
 
   @override
@@ -51,6 +54,9 @@ class LibLocalizationsNl extends LibLocalizations {
 
   @override
   String get minute => 'Minuten';
+
+  @override
+  String get name => 'Naam';
 
   @override
   String get ok => 'Goed';

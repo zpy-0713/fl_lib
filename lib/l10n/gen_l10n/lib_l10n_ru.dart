@@ -20,6 +20,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get cancel => 'Отмена';
 
   @override
+  String get clear => 'Очистить';
+
+  @override
   String get copy => 'Копировать';
 
   @override
@@ -51,6 +54,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get minute => 'Минуты';
+
+  @override
+  String get name => 'Имя';
 
   @override
   String get ok => 'Хорошо';
