@@ -29,9 +29,9 @@ final class TipText extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               onTap: () {
                 context.showRoundDialog(
-                  title: '🪄',
+                  title: '⭐️',
                   child: Text(tip),
-                  actionsBuilder: (ctx) => Btns.oks(onTap: () => ctx.pop()),
+                  actions: [Btn.ok()],
                 );
               },
               child: const Icon(

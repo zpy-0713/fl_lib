@@ -1,8 +1,6 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
-import 'card.dart';
-
 class Input extends StatefulWidget {
   final TextEditingController? controller;
   final int maxLines;
