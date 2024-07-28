@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 final class DebugPageArgs {
-  final ValueListenable<List<Widget>> notifier;
+  final ValueListenable<List<Widget>?> notifier;
   final void Function() onClear;
   final String? title;
 
@@ -15,9 +15,9 @@ final class DebugPageArgs {
 }
 
 class DebugPage extends StatelessWidget {
-  final DebugPageArgs? args;
+  final DebugPageArgs args;
 
-  const DebugPage({super.key, this.args}) : assert(args != null);
+  const DebugPage({super.key, required this.args});
 
   static const route = AppRoute<void, DebugPageArgs>(
     page: DebugPage.new,
@@ -33,13 +33,13 @@ class DebugPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
         ),
         title: Text(
-          args!.title ?? 'Logs',
+          args.title ?? 'Logs',
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
         actions: [
           IconButton(
-            onPressed: args?.onClear,
+            onPressed: args.onClear,
             icon: const Icon(Icons.delete, color: Colors.white),
           ),
         ],
@@ -50,7 +50,6 @@ class DebugPage extends StatelessWidget {
   }
 
   Widget _buildTerminal(BuildContext context) {
-    final notifier = args!.notifier;
     return Container(
       padding: const EdgeInsets.all(10),
       color: Colors.black,
@@ -59,8 +58,9 @@ class DebugPage extends StatelessWidget {
           color: Colors.white,
         ),
         child: ValBuilder(
-          listenable: notifier,
+          listenable: args.notifier,
           builder: (widgets) {
+            if (widgets == null || widgets.isEmpty) return UIs.placeholder;
             return ListView.builder(
               itemCount: widgets.length,
               itemBuilder: (context, index) {

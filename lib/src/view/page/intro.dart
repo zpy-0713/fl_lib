@@ -11,9 +11,9 @@ final class IntroPageArgs {
 }
 
 final class IntroPage extends StatefulWidget {
-  final IntroPageArgs? args;
+  final IntroPageArgs args;
 
-  const IntroPage({super.key, this.args}) : assert(args != null);
+  const IntroPage({super.key, required this.args});
 
   @override
   State<IntroPage> createState() => _IntroPageState();
@@ -41,7 +41,9 @@ final class IntroPage extends StatefulWidget {
     }
     if (!big) {
       child = Padding(
-          padding: const EdgeInsets.symmetric(vertical: 13), child: child);
+        padding: const EdgeInsets.symmetric(vertical: 13),
+        child: child,
+      );
     }
     return Center(child: child);
   }
@@ -50,7 +52,7 @@ final class IntroPage extends StatefulWidget {
 final class _IntroPageState extends State<IntroPage> {
   final _pageController = PageController();
   final _currentPage = 0.vn;
-  late final _args = widget.args!;
+  late final _args = widget.args;
   late final _pageCount = _args.pages.length;
 
   @override

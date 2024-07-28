@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:choice/choice.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/res/l10n.dart';
@@ -38,14 +40,14 @@ extension DialogX on BuildContext {
     );
   }
 
-  /// If an error occurs, the dialog will be closed and an error dialog will be displayed.
-  /// If [onErr] returns true, the error will be rethrown.
+  /// If an error occurs:
+  /// - the dialog will be closed and an error dialog will be displayed
+  /// - the [onErr] function will be called (awaited)
+  /// - the return value will be `null`
   Future<T?> showLoadingDialog<T>({
     required Future<T> Function() fn,
     bool barrierDismiss = false,
-
-    /// return true to rethrow
-    bool Function(Object e, StackTrace s)? onErr,
+    FutureOr Function(Object e, StackTrace s)? onErr,
   }) async {
     showRoundDialog(
       child: UIs.centerSizedLoading,
@@ -59,13 +61,8 @@ extension DialogX on BuildContext {
     } catch (e, s) {
       pop();
 
-      if (onErr != null) {
-        final throwErr = onErr(e, s);
-        if (throwErr == true) {
-          rethrow;
-        }
-      }
       showErrDialog(e: e, s: s);
+      await onErr?.call(e, s);
       return null;
     }
   }

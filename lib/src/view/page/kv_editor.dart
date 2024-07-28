@@ -13,12 +13,12 @@ final class KvEditorArgs {
 }
 
 final class KvEditor extends StatefulWidget {
-  final KvEditorArgs? args;
+  final KvEditorArgs args;
 
   const KvEditor({
     super.key,
-    this.args,
-  }) : assert(args != null);
+    required this.args,
+  });
 
   static const route = AppRoute<Map<String, String>, KvEditorArgs>(
     page: KvEditor.new,
@@ -30,7 +30,7 @@ final class KvEditor extends StatefulWidget {
 }
 
 class _KvEditorState extends State<KvEditor> {
-  late final _args = widget.args!;
+  late final _args = widget.args;
   late final Map<String, String> _map = Map.of(_args.data);
   final _listKey = GlobalKey<AnimatedListState>();
   late MediaQueryData _media;

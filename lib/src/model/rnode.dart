@@ -64,3 +64,17 @@ extension ValueListenableX<T> on ValueListenable<T> {
     return ValBuilder<T>(listenable: this, builder: builder);
   }
 }
+
+/// Used for constrcuting a const [ValueListenable].
+final class EmptyListenable<T> implements ValueListenable<T?> {
+  @override
+  void addListener(VoidCallback listener) {}
+
+  @override
+  void removeListener(VoidCallback listener) {}
+
+  @override
+  T? get value => null;
+
+  const EmptyListenable();
+}
