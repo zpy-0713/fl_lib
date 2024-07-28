@@ -1,15 +1,10 @@
 import 'package:fl_lib/fl_lib.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 final class DebugPageArgs {
-  final ValueListenable<List<Widget>?> notifier;
-  final void Function() onClear;
   final String? title;
 
   const DebugPageArgs({
-    required this.notifier,
-    required this.onClear,
     this.title,
   });
 }
@@ -38,8 +33,12 @@ class DebugPage extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
         actions: [
-          IconButton(
-            onPressed: args.onClear,
+          Btn.icon(
+            icon: const Icon(Icons.copy, color: Colors.white),
+            onTap: (_) => DebugProvider.instance.copy(),
+          ),
+          Btn.icon(
+            onTap: (_) => DebugProvider.instance.clear(),
             icon: const Icon(Icons.delete, color: Colors.white),
           ),
         ],
@@ -58,9 +57,9 @@ class DebugPage extends StatelessWidget {
           color: Colors.white,
         ),
         child: ValBuilder(
-          listenable: args.notifier,
+          listenable: DebugProvider.widgets,
           builder: (widgets) {
-            if (widgets == null || widgets.isEmpty) return UIs.placeholder;
+            if (widgets.isEmpty) return UIs.placeholder;
             return ListView.builder(
               itemCount: widgets.length,
               itemBuilder: (context, index) {
