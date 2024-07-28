@@ -160,6 +160,12 @@ abstract class LibLocalizations {
   /// **'Days'**
   String get day;
 
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
   /// No description provided for @edit.
   ///
   /// In en, this message translates to:

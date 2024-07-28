@@ -29,6 +29,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get day => 'Tage';
 
   @override
+  String get delete => 'Löschen';
+
+  @override
   String get edit => 'Bearbeiten';
 
   @override

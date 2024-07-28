@@ -98,10 +98,15 @@ class _KvEditorState extends State<KvEditor> {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          IconBtn(icon: Icons.edit, onTap: () => _onTapEdit(k, index)),
-          IconBtn(
-            icon: Icons.delete,
-            onTap: () => _onTapDelete(k, index),
+          Btn.icon(
+            text: l10n.edit,
+            icon: const Icon(Icons.edit),
+            onTap: (_) => _onTapEdit(k, index),
+          ),
+          Btn.icon(
+            text: l10n.delete,
+            icon: const Icon(Icons.delete),
+            onTap: (_) => _onTapDelete(k, index),
           ),
         ],
       ),

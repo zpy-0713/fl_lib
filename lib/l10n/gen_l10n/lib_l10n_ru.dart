@@ -29,6 +29,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get day => 'Дни';
 
   @override
+  String get delete => 'Удалить';
+
+  @override
   String get edit => 'Редактировать';
 
   @override

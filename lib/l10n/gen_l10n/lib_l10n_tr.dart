@@ -29,6 +29,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get day => 'gün';
 
   @override
+  String get delete => 'Sil';
+
+  @override
   String get edit => 'düzenle';
 
   @override

@@ -1,6 +1,7 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 /// The callback when the button is tapped.
 typedef BtnOnTap = void Function(BuildContext);
@@ -44,7 +45,7 @@ const kGap = 17.0;
 const kPadding = EdgeInsets.symmetric(horizontal: 23, vertical: 15);
 
 /// A placeholder icon that can't be displayed.
-const unDisplayableIcon = Icon(IconData(0));
+const unDisplayableIcon = Icon(MingCute.question_line);
 
 final class Btn extends StatelessWidget {
   /// The callback when the button is tapped.

@@ -29,6 +29,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get day => '天';
 
   @override
+  String get delete => '删除';
+
+  @override
   String get edit => '编辑';
 
   @override
@@ -119,6 +122,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get day => '天';
+
+  @override
+  String get delete => '刪除';
 
   @override
   String get edit => '編輯';

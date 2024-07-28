@@ -59,7 +59,6 @@ export 'src/view/widget/btn/btn.dart';
 export 'src/view/widget/popup_menu.dart';
 export 'src/view/widget/input.dart';
 export 'src/view/widget/exit_confirm.dart';
-export 'src/view/widget/btn/icon_btn.dart';
 export 'src/view/widget/expand_tile.dart';
 export 'src/view/widget/overlay.dart';
 export 'src/view/widget/appbar.dart';

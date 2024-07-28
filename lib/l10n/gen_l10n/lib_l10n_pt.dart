@@ -29,6 +29,9 @@ class LibLocalizationsPt extends LibLocalizations {
   String get day => 'Dias';
 
   @override
+  String get delete => 'Excluir';
+
+  @override
   String get edit => 'Editar';
 
   @override
