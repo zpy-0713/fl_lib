@@ -1,3 +1,4 @@
+import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
 import 'card.dart';
@@ -100,7 +101,8 @@ class _InputState extends State<Input> {
         labelText: widget.label,
         errorText: widget.errorText,
         border: InputBorder.none,
-        icon: widget.icon == null ? null : Icon(widget.icon),
+        icon:
+            widget.icon == null ? null : Icon(widget.icon).paddingOnly(left: 5),
         suffixIcon: suffix,
       ),
       keyboardType: widget.type,
