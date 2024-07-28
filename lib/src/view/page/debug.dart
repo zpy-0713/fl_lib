@@ -35,10 +35,10 @@ class DebugPage extends StatelessWidget {
         actions: [
           Btn.icon(
             icon: const Icon(Icons.copy, color: Colors.white),
-            onTap: (_) => DebugProvider.instance.copy(),
+            onTap: (_) => DebugProvider.copy(),
           ),
           Btn.icon(
-            onTap: (_) => DebugProvider.instance.clear(),
+            onTap: (_) => DebugProvider.clear(),
             icon: const Icon(Icons.delete, color: Colors.white),
           ),
         ],
@@ -62,9 +62,7 @@ class DebugPage extends StatelessWidget {
             if (widgets.isEmpty) return UIs.placeholder;
             return ListView.builder(
               itemCount: widgets.length,
-              itemBuilder: (context, index) {
-                return widgets[index];
-              },
+              itemBuilder: (_, index) => widgets[index],
             );
           },
         ),

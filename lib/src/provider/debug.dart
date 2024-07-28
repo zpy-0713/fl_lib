@@ -15,11 +15,7 @@ final class DebugProvider {
   static final widgets = <Widget>[].vn;
   static final lines = <String>[];
 
-  DebugProvider._();
-
-  static final instance = DebugProvider._();
-
-  void addLog(LogRecord record) {
+  static void addLog(LogRecord record) {
     final color = _level2Color[record.level.name] ?? Colors.blue;
     final title = '[${DateTime.now().hourMinute}][${record.loggerName}]';
     final level = '[${record.level}]';
@@ -57,11 +53,11 @@ final class DebugProvider {
     }
   }
 
-  void clear() {
+  static void clear() {
     widgets.value.clear();
     lines.clear();
     widgets.notify();
   }
 
-  void copy() => Pfs.copy(lines.join('\n'));
+  static void copy() => Pfs.copy(lines.join('\n'));
 }
