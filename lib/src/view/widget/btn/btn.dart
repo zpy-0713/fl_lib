@@ -9,13 +9,13 @@ typedef BtnOnTap = void Function(BuildContext);
 /// {@template btntype}
 /// The type of the button.
 /// - [BtnType.text] => [TextButton]
-/// - [BtnType.icon] => [IconButton]
+/// - [BtnType.icon] => [Icon] wrapped by [InkWell]
 /// - [BtnType.column] => [Column] wrapped by [InkWell]
 /// - [BtnType.row] => [Row] wrapped by [InkWell]
 /// {@endtemplate}
 ///
 /// {@template btntype_is_column_or_row}
-/// If [type] is [BtnType.column] or [BtnType.row],
+/// If [type] is [BtnType.column], [BtnType.row],
 /// {@endtemplate}
 /// some properties will be ignored.
 enum BtnType {
@@ -47,7 +47,7 @@ const _kPadding = EdgeInsets.all(7);
 /// A placeholder icon that can't be displayed.
 const _placeholderIcon = Icon(MingCute.question_line);
 
-const _borderRadius = BorderRadius.all(Radius.circular(13));
+const _borderRadius = BorderRadius.all(Radius.circular(30));
 
 final class Btn extends StatelessWidget {
   /// The callback when the button is tapped.
@@ -83,7 +83,7 @@ final class Btn extends StatelessWidget {
   /// The padding of the button.
   ///
   /// {@macro btntype_is_column_or_row}
-  /// default is [BtnX.kPadding], or `null`.
+  /// or [BtnType.icon], default is [_kPadding], or `null`.
   final EdgeInsetsGeometry? padding;
 
   /// The alignment of the [Column] or [Row].
@@ -115,7 +115,7 @@ final class Btn extends StatelessWidget {
     required this.icon,
     this.text = '',
     this.onTap = _defaultOnTap,
-    this.padding,
+    this.padding = _kPadding,
   })  : type = BtnType.icon,
         gap = null,
         mainAxisAlignment = null,
@@ -200,16 +200,16 @@ final class Btn extends StatelessWidget {
       debugPrint('[icon] can\'t be null if [type] == [BtnType.icon].');
     }
 
-    final child = InkWell(
+    Widget child = Tooltip(
+      message: text,
+      child: icon ?? _placeholderIcon,
+    );
+    if (padding != null) child = Padding(padding: padding!, child: child);
+    return InkWell(
       borderRadius: _borderRadius,
       onTap: onTap == null ? null : () => onTap?.call(context),
-      child: Tooltip(
-        message: text,
-        child: icon ?? _placeholderIcon,
-      ),
+      child: child,
     );
-    if (padding == null) return child;
-    return Padding(padding: padding!, child: child);
   }
 
   Widget _column(BuildContext context) {
@@ -259,4 +259,45 @@ final class Btn extends StatelessWidget {
       child: child,
     );
   }
+}
+
+/// Make a convention here to return null if you cancel,
+/// click on the outside of the dialogue box,
+/// and return true if you click on the confirmation.
+///
+/// Keeps naming `Btnx` for better input experience.
+extension Btnx on Btn {
+  List<Widget> get toList => [this];
+
+  /// A [Btn.ok] which pops `true`
+  ///
+  /// {@template btnx_ok_non_final}
+  /// Use a getter instead of a `final` var to avoid [l10n] unfollowing.
+  /// {@endtemplate}
+  static Btn get ok => Btn.ok(onTap: (c) => c.pop(true));
+
+  /// A [Btn.ok] which pops `true` and is red.
+  ///
+  /// {@macro btnx_ok_non_final}
+  static Btn get okRed => Btn.ok(onTap: (c) => c.pop(true), red: true);
+
+  /// A list `[Btnx.ok]`
+  ///
+  /// {@macro btnx_ok_non_final}
+  static List<Widget> get oks => ok.toList;
+
+  /// A list `[Btnx.okRed]`
+  ///
+  /// {@macro btnx_ok_non_final}
+  static List<Widget> get okReds => okRed.toList;
+
+  /// A list `[Btn.cancel(), Btnx.ok]`
+  ///
+  /// {@macro btnx_ok_non_final}
+  static List<Widget> get cancelOk => [Btn.cancel(), ok];
+
+  /// A list `[Btn.cancel(), Btnx.okRed]`
+  ///
+  /// {@macro btnx_ok_non_final}
+  static List<Widget> get cancelRedOk => [Btn.cancel(), Btnx.okRed];
 }

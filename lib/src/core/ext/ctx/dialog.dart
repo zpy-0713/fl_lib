@@ -44,13 +44,10 @@ extension DialogX on BuildContext {
   /// - the dialog will be closed and an error dialog will be displayed
   /// - the [onErr] function will be called (awaited)
   /// - the return value will be `null`
-  ///
-  /// [fn] can't returns `null`, or the caller of this func can't know if [fn]
-  /// has been executed successfully.
-  Future<T?> showLoadingDialog<T>({
+  Future<(T? val, Object? err)> showLoadingDialog<T>({
     required Future<T> Function() fn,
     bool barrierDismiss = false,
-    FutureOr Function(Object e, StackTrace s)? onErr,
+    FutureOr<void> Function(Object e, StackTrace s)? onErr,
   }) async {
     showRoundDialog(
       child: UIs.centerSizedLoading,
@@ -60,13 +57,13 @@ extension DialogX on BuildContext {
     try {
       final ret = await fn();
       pop();
-      return ret;
+      return (ret, null);
     } catch (e, s) {
       pop();
 
       showErrDialog(e: e, s: s);
       await onErr?.call(e, s);
-      return null;
+      return (null, e);
     }
   }
 

@@ -6,26 +6,37 @@ part 'observer.dart';
 /// Define it as a named record, makes it easier for refactor.
 typedef Middleware<T extends AppRouteIface> = ({BuildContext context, T route});
 
+/// {@template app_route_iface}
+/// An app route.
+/// {@endtemplate}
 final class AppRouteIface {
+  /// The path of the route.
   final String path;
 
+  /// {@macro app_route_iface}
   const AppRouteIface({required this.path});
 
+  /// Returns true if the current route is the same as this route.
   bool get isAlreadyIn => AppRouteObserver.currentRoute?.name == path;
 }
 
+/// A route with non-null arguments.
 final class AppRoute<Ret, Arg extends Object> extends AppRouteIface {
   final Widget Function({Key? key, required Arg args}) page;
 
   /// If [middlewares] returns false, the navigation will be canceled.
   final List<bool Function(Middleware<AppRoute<Ret, Arg>>)>? middlewares;
 
+  /// {@macro app_route_iface}
   const AppRoute({
     required this.page,
     required super.path,
     this.middlewares,
   });
 
+  /// {@template app_route_go}
+  /// Navigate to the route.
+  /// {@endtemplate}
   Future<Ret?> go(
     BuildContext context, {
     Key? key,
@@ -44,18 +55,21 @@ final class AppRoute<Ret, Arg extends Object> extends AppRouteIface {
   }
 }
 
+/// A route with nullable arguments.
 final class AppRouteArg<Ret, Arg extends Object> extends AppRouteIface {
   final Widget Function({Key? key, Arg? args}) page;
 
   /// If [middlewares] returns false, the navigation will be canceled.
   final List<bool Function(Middleware<AppRouteArg<Ret, Arg>>)>? middlewares;
 
+  /// {@macro app_route_iface}
   const AppRouteArg({
     required this.page,
     required super.path,
     this.middlewares,
   });
 
+  /// {@macro app_route_go}
   Future<Ret?> go(
     BuildContext context, {
     Key? key,
@@ -74,18 +88,21 @@ final class AppRouteArg<Ret, Arg extends Object> extends AppRouteIface {
   }
 }
 
+/// A route without arguments.
 final class AppRouteNoArg<Ret> extends AppRouteIface {
   final Widget Function({Key? key}) page;
 
   /// If [middlewares] returns false, the navigation will be canceled.
   final List<bool Function(Middleware<AppRouteNoArg<Ret>>)>? middlewares;
 
+  /// {@macro app_route_iface}
   const AppRouteNoArg({
     required this.page,
     required super.path,
     this.middlewares,
   });
 
+  /// {@macro app_route_go}
   Future<Ret?> go(
     BuildContext context, {
     Key? key,
