@@ -44,7 +44,7 @@ extension DialogX on BuildContext {
   /// - the dialog will be closed and an error dialog will be displayed
   /// - the [onErr] function will be called (awaited)
   /// - the return value will be `null`
-  Future<Res<T>> showLoadingDialog<T extends Object>({
+  Future<Res<T>> showLoadingDialog<T>({
     required Future<T> Function() fn,
     bool barrierDismiss = false,
     FutureOr<void> Function([Object e, StackTrace s])? onErr,
@@ -54,12 +54,11 @@ extension DialogX on BuildContext {
       barrierDismiss: barrierDismiss,
     );
 
-    fn = () async {
+    return Resx.tryCatch(() async {
       final ret = await fn();
       pop();
       return ret;
-    };
-    return Resx.tryCatch(fn, onErr: (e, s) {
+    }, onErr: (e, s) {
       pop();
       showErrDialog(e: e, s: s);
       onErr?.call(e, s);
