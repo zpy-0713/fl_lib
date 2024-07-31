@@ -12,11 +12,15 @@ abstract final class Paths {
   static late final String video;
   static late final String img;
   static late final String cache;
+  static late final String bakName;
   static late final String bak;
   static late final String font;
 
   /// Await [Paths.init] before using any of the paths
-  static Future<void> init(String appName, {String? bakName}) async {
+  static Future<void> init(
+    String appName, {
+    String bakName = 'backup.json',
+  }) async {
     doc = await _getDoc(appName);
     dl = await _initDir('dl');
     file = await _initDir('file');
@@ -25,7 +29,8 @@ abstract final class Paths {
     img = await _initDir('img');
     cache = await _initDir('cache');
     font = doc.joinPath('font.ttf');
-    bak = doc.joinPath(bakName ?? 'backup.json');
+    Paths.bakName = bakName;
+    bak = doc.joinPath(bakName);
   }
 
   static Future<String> _getDoc(String appName) async {

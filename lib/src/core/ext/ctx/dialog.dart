@@ -44,27 +44,26 @@ extension DialogX on BuildContext {
   /// - the dialog will be closed and an error dialog will be displayed
   /// - the [onErr] function will be called (awaited)
   /// - the return value will be `null`
-  Future<(T? val, Object? err)> showLoadingDialog<T>({
+  Future<Res<T>> showLoadingDialog<T extends Object>({
     required Future<T> Function() fn,
     bool barrierDismiss = false,
-    FutureOr<void> Function(Object e, StackTrace s)? onErr,
+    FutureOr<void> Function([Object e, StackTrace s])? onErr,
   }) async {
     showRoundDialog(
       child: UIs.centerSizedLoading,
       barrierDismiss: barrierDismiss,
     );
 
-    try {
+    fn = () async {
       final ret = await fn();
       pop();
-      return (ret, null);
-    } catch (e, s) {
+      return ret;
+    };
+    return Resx.tryCatch(fn, onErr: (e, s) {
       pop();
-
       showErrDialog(e: e, s: s);
-      await onErr?.call(e, s);
-      return (null, e);
-    }
+      onErr?.call(e, s);
+    });
   }
 
   static final _recoredPwd = <String, String>{};
