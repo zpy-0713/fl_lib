@@ -47,7 +47,7 @@ const _kPadding = EdgeInsets.all(7);
 /// A placeholder icon that can't be displayed.
 const _placeholderIcon = Icon(MingCute.question_line);
 
-const _borderRadius = BorderRadius.all(Radius.circular(30));
+const _kBorderRadius = BorderRadius.all(Radius.circular(30));
 
 final class Btn extends StatelessWidget {
   /// The callback when the button is tapped.
@@ -98,6 +98,11 @@ final class Btn extends StatelessWidget {
   /// default is [MainAxisSize.max], or `null`.
   final MainAxisSize? mainAxisSize;
 
+  /// Border radius of the button.
+  ///
+  /// Not effect on [BtnType.text].
+  final BorderRadius? borderRadius;
+
   const Btn.text({
     super.key,
     required this.text,
@@ -108,6 +113,7 @@ final class Btn extends StatelessWidget {
         gap = null,
         mainAxisAlignment = null,
         mainAxisSize = null,
+        borderRadius = null,
         icon = null;
 
   const Btn.icon({
@@ -120,6 +126,7 @@ final class Btn extends StatelessWidget {
         gap = null,
         mainAxisAlignment = null,
         mainAxisSize = null,
+        borderRadius = null,
         textStyle = null;
 
   const Btn.column({
@@ -132,6 +139,7 @@ final class Btn extends StatelessWidget {
     this.padding = _kPadding,
     this.mainAxisAlignment,
     this.mainAxisSize,
+    this.borderRadius = _kBorderRadius,
   }) : type = BtnType.column;
 
   const Btn.row({
@@ -144,12 +152,27 @@ final class Btn extends StatelessWidget {
     this.padding = _kPadding,
     this.mainAxisAlignment,
     this.mainAxisSize,
+    this.borderRadius = _kBorderRadius,
   }) : type = BtnType.row;
+
+  const Btn.tile({
+    super.key,
+    required this.text,
+    required this.icon,
+    this.onTap = _defaultOnTap,
+    this.gap = 20,
+    this.textStyle = const TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+    this.padding = const EdgeInsets.symmetric(vertical: 13, horizontal: 20),
+    this.mainAxisAlignment,
+    this.mainAxisSize,
+    this.borderRadius = const BorderRadius.all(Radius.circular(13)),
+  }): type = BtnType.row;
 
   Btn.ok({
     super.key,
     this.onTap = _defaultOnTap,
     bool red = false,
+    borderRadius = _kBorderRadius,
   })  : text = l10n.ok,
         icon = null,
         type = BtnType.text,
@@ -157,11 +180,13 @@ final class Btn extends StatelessWidget {
         padding = null,
         mainAxisAlignment = null,
         mainAxisSize = null,
+        borderRadius = null,
         textStyle = red ? UIs.textRed : null;
 
   Btn.cancel({
     super.key,
     this.onTap = _defaultOnTap,
+    borderRadius = _kBorderRadius,
   })  : text = l10n.cancel,
         icon = null,
         type = BtnType.text,
@@ -169,6 +194,7 @@ final class Btn extends StatelessWidget {
         padding = null,
         mainAxisAlignment = null,
         mainAxisSize = null,
+        borderRadius = null,
         textStyle = null;
 
   @override
@@ -176,7 +202,7 @@ final class Btn extends StatelessWidget {
         BtnType.text => _text(context),
         BtnType.icon => _icon(context),
         BtnType.column => _column(context),
-        BtnType.row => _tile(context),
+        BtnType.row => _row(context),
       };
 
   Widget _text(BuildContext context) {
@@ -206,7 +232,7 @@ final class Btn extends StatelessWidget {
     );
     if (padding != null) child = Padding(padding: padding!, child: child);
     return InkWell(
-      borderRadius: _borderRadius,
+      borderRadius: borderRadius ?? _kBorderRadius,
       onTap: onTap == null ? null : () => onTap?.call(context),
       child: child,
     );
@@ -228,20 +254,20 @@ final class Btn extends StatelessWidget {
       child = Padding(padding: padding!, child: child);
     }
     return InkWell(
-      borderRadius: _borderRadius,
+      borderRadius: borderRadius ?? _kBorderRadius,
       onTap: onTap == null ? null : () => onTap?.call(context),
       child: child,
     );
   }
 
-  Widget _tile(BuildContext context) {
+  Widget _row(BuildContext context) {
     if (icon == null) {
       debugPrint('[icon] can\'t be null if [type] == [BtnType.tile].');
     }
 
     final isRTL = Directionality.of(context) == TextDirection.rtl;
     final icon_ = icon ?? _placeholderIcon;
-    final gap_ = SizedBox(height: gap ?? _kGap);
+    final gap_ = SizedBox(width: gap ?? _kGap);
     final text_ = Text(text, style: textStyle);
     final children = isRTL ? [text_, gap_, icon_] : [icon_, gap_, text_];
 
@@ -254,7 +280,7 @@ final class Btn extends StatelessWidget {
       child = Padding(padding: padding!, child: child);
     }
     return InkWell(
-      borderRadius: _borderRadius,
+      borderRadius: borderRadius ?? _kBorderRadius,
       onTap: onTap == null ? null : () => onTap?.call(context),
       child: child,
     );
