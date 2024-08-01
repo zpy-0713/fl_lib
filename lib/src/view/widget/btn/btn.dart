@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 /// The callback when the button is tapped.
-typedef BtnOnTap = void Function(BuildContext);
+typedef BtnOnTap = void Function(BuildContext c);
 
 /// {@template btntype}
 /// The type of the button.

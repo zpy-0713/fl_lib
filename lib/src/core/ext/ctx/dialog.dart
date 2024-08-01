@@ -47,7 +47,7 @@ extension DialogX on BuildContext {
   Future<Res<T>> showLoadingDialog<T>({
     required Future<T> Function() fn,
     bool barrierDismiss = false,
-    FutureOr<void> Function([Object e, StackTrace s])? onErr,
+    FutureOr<void> Function(Object e, StackTrace s)? onErr,
   }) async {
     showRoundDialog(
       child: UIs.centerSizedLoading,
