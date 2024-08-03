@@ -148,6 +148,12 @@ abstract class LibLocalizations {
   /// **'Clear'**
   String get clear;
 
+  /// No description provided for @clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Clipboard'**
+  String get clipboard;
+
   /// No description provided for @copy.
   ///
   /// In en, this message translates to:
@@ -177,6 +183,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Empty'**
   String get empty;
+
+  /// No description provided for @example.
+  ///
+  /// In en, this message translates to:
+  /// **'Example'**
+  String get example;
 
   /// No description provided for @exit.
   ///
@@ -208,6 +220,12 @@ abstract class LibLocalizations {
   /// **'Hours'**
   String get hour;
 
+  /// No description provided for @import.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get import;
+
   /// No description provided for @key.
   ///
   /// In en, this message translates to:
@@ -225,6 +243,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Name'**
   String get name;
+
+  /// No description provided for @network.
+  ///
+  /// In en, this message translates to:
+  /// **'Network'**
+  String get network;
 
   /// No description provided for @ok.
   ///

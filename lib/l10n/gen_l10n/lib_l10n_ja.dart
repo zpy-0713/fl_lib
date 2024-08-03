@@ -23,6 +23,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get clear => 'クリア';
 
   @override
+  String get clipboard => 'クリップボード';
+
+  @override
   String get copy => 'コピーする';
 
   @override
@@ -36,6 +39,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get empty => '空';
+
+  @override
+  String get example => '例';
 
   @override
   String get exit => '終了';
@@ -53,6 +59,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get hour => '時間';
 
   @override
+  String get import => 'インポート';
+
+  @override
   String get key => 'キー';
 
   @override
@@ -60,6 +69,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get name => '名前';
+
+  @override
+  String get network => 'ネットワーク';
 
   @override
   String get ok => 'いいです';

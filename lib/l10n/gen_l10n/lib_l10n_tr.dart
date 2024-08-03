@@ -23,6 +23,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get clear => 'temizle';
 
   @override
+  String get clipboard => 'Pano';
+
+  @override
   String get copy => 'kopyala';
 
   @override
@@ -36,6 +39,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get empty => 'boş';
+
+  @override
+  String get example => 'Örnek';
 
   @override
   String get exit => 'çıkış';
@@ -53,6 +59,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get hour => 'saat';
 
   @override
+  String get import => 'İçe Aktar';
+
+  @override
   String get key => 'anahtar';
 
   @override
@@ -60,6 +69,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get name => 'ad';
+
+  @override
+  String get network => 'Ağ';
 
   @override
   String get ok => 'tamam';

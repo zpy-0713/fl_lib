@@ -23,6 +23,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get clear => 'Bersihkan';
 
   @override
+  String get clipboard => 'Papan klip';
+
+  @override
   String get copy => 'Salin';
 
   @override
@@ -36,6 +39,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get empty => 'Kosong';
+
+  @override
+  String get example => 'Contoh';
 
   @override
   String get exit => 'Keluar';
@@ -53,6 +59,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get hour => 'Jam';
 
   @override
+  String get import => 'Impor';
+
+  @override
   String get key => 'Kunci';
 
   @override
@@ -60,6 +69,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get name => 'Nama';
+
+  @override
+  String get network => 'Jaringan';
 
   @override
   String get ok => 'Baik';

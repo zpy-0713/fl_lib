@@ -23,6 +23,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get clear => '清除';
 
   @override
+  String get clipboard => '剪切板';
+
+  @override
   String get copy => '复制';
 
   @override
@@ -36,6 +39,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get empty => '空';
+
+  @override
+  String get example => '示例';
 
   @override
   String get exit => '退出';
@@ -53,6 +59,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get hour => '时';
 
   @override
+  String get import => '导入';
+
+  @override
   String get key => '键';
 
   @override
@@ -60,6 +69,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get name => '名称';
+
+  @override
+  String get network => '网络';
 
   @override
   String get ok => '好';
@@ -118,6 +130,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get clear => '清除';
 
   @override
+  String get clipboard => '剪貼簿';
+
+  @override
   String get copy => '複製';
 
   @override
@@ -131,6 +146,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get empty => '空';
+
+  @override
+  String get example => '範例';
 
   @override
   String get exit => '退出';
@@ -148,6 +166,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get hour => '時';
 
   @override
+  String get import => '導入';
+
+  @override
   String get key => '鍵';
 
   @override
@@ -155,6 +176,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get name => '名稱';
+
+  @override
+  String get network => '網絡';
 
   @override
   String get ok => '好';

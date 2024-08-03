@@ -23,6 +23,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get clear => 'Очистить';
 
   @override
+  String get clipboard => 'Буфер обмена';
+
+  @override
   String get copy => 'Копировать';
 
   @override
@@ -36,6 +39,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get empty => 'Пусто';
+
+  @override
+  String get example => 'Пример';
 
   @override
   String get exit => 'Выйти';
@@ -53,6 +59,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get hour => 'Часы';
 
   @override
+  String get import => 'Импортировать';
+
+  @override
   String get key => 'Ключ';
 
   @override
@@ -60,6 +69,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get name => 'Имя';
+
+  @override
+  String get network => 'Сеть';
 
   @override
   String get ok => 'Хорошо';

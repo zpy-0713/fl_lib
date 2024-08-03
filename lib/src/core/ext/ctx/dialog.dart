@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:choice/choice.dart';
+import 'package:dio/dio.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 extension DialogX on BuildContext {
   Future<T?> showRoundDialog<T>({
@@ -260,4 +264,124 @@ extension DialogX on BuildContext {
       ],
     );
   }
+
+  /// Show a dialog to import data from file, network or clipboard.
+  /// - [title] is the title of the dialog
+  /// - [modelDef] is the [Map] definition of the model, it will be displayed like:
+  ///   ```jsonc
+  ///   {"name": "", "age": 0}
+  ///   ```
+  Future<Uint8List?> showImportDialog({
+    required String title,
+    Map<String, dynamic>? modelDef,
+  }) async {
+    title = '$title - ${l10n.import}';
+    final _ImportFrom from = await showRoundDialog(
+      title: title,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Btn.tile(
+            onTap: (c) => c.pop(_ImportFrom.file),
+            text: l10n.file,
+            icon: const Icon(MingCute.file_line),
+          ),
+          Btn.tile(
+            onTap: (c) => c.pop(_ImportFrom.network),
+            text: l10n.network,
+            icon: const Icon(ZondIcons.network),
+          ),
+          Btn.tile(
+            onTap: (c) => c.pop(_ImportFrom.clipboard),
+            text: l10n.clipboard,
+            icon: const Icon(MingCute.clipboard_line),
+          ),
+          if (modelDef != null)
+            ExpandTile(
+              title: Text(l10n.example),
+              children: [
+                SimpleMarkdown(data: '''
+```json
+[
+${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
+]
+```'''),
+              ],
+            ),
+        ],
+      ),
+    );
+    switch (from) {
+      case _ImportFrom.file:
+        final file = await Pfs.pickFile();
+        if (file == null) return null;
+        return file.bytes;
+      case _ImportFrom.network:
+        final urlCtrl = TextEditingController();
+        final headersCtrl = TextEditingController();
+        await showRoundDialog(
+          title: title,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Input(
+                  icon: ZondIcons.network,
+                  label: 'Url',
+                  hint: 'https://a.com',
+                  controller: urlCtrl,
+                  maxLines: 3,
+                  minLines: 1,
+                  onSubmitted: (p0) => pop(),
+                ),
+                UIs.height7,
+                Input(
+                  icon: HeroIcons.queue_list,
+                  label: 'Headers',
+                  hint: 'key1: value1\nkey2: value2',
+                  controller: headersCtrl,
+                  maxLines: 5,
+                  minLines: 2,
+                  onSubmitted: (p0) => pop(),
+                ),
+              ],
+            ),
+          ),
+          actions: Btnx.oks,
+        );
+        final url = urlCtrl.text;
+        final headers = <String, String>{};
+        try {
+          final lines = headersCtrl.text.split('\n');
+          for (final line in lines) {
+            final parts = line.split(':');
+            if (parts.length != 2) continue;
+            headers[parts[0].trim()] = parts[1].trim();
+          }
+        } catch (e, s) {
+          Loggers.app.warning('showImportDialog parse headers', e, s);
+        }
+        if (url.isEmpty) return null;
+        final resp = await myDio.get(
+          url,
+          options: Options(
+              headers: headers.isEmpty ? null : headers,
+              responseType: ResponseType.bytes),
+        );
+        return resp.data;
+      case _ImportFrom.clipboard:
+        final text = await Pfs.paste();
+        if (text == null) return null;
+        return Uint8List.fromList(text.codeUnits);
+      default:
+        throw Exception('Unknown import source: $from');
+    }
+  }
+}
+
+enum _ImportFrom {
+  file,
+  network,
+  clipboard,
+  ;
 }

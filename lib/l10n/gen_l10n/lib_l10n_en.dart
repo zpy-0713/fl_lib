@@ -23,6 +23,9 @@ class LibLocalizationsEn extends LibLocalizations {
   String get clear => 'Clear';
 
   @override
+  String get clipboard => 'Clipboard';
+
+  @override
   String get copy => 'Copy';
 
   @override
@@ -36,6 +39,9 @@ class LibLocalizationsEn extends LibLocalizations {
 
   @override
   String get empty => 'Empty';
+
+  @override
+  String get example => 'Example';
 
   @override
   String get exit => 'Exit';
@@ -53,6 +59,9 @@ class LibLocalizationsEn extends LibLocalizations {
   String get hour => 'Hours';
 
   @override
+  String get import => 'Import';
+
+  @override
   String get key => 'Key';
 
   @override
@@ -60,6 +69,9 @@ class LibLocalizationsEn extends LibLocalizations {
 
   @override
   String get name => 'Name';
+
+  @override
+  String get network => 'Network';
 
   @override
   String get ok => 'Okay';
