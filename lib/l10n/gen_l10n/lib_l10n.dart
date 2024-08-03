@@ -124,17 +124,41 @@ abstract class LibLocalizations {
   /// **'All'**
   String get all;
 
+  /// No description provided for @askContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'{msg}. Continue?'**
+  String askContinue(Object msg);
+
+  /// No description provided for @attention.
+  ///
+  /// In en, this message translates to:
+  /// **'Attention'**
+  String get attention;
+
   /// No description provided for @authRequired.
   ///
   /// In en, this message translates to:
   /// **'Authentication required'**
   String get authRequired;
 
+  /// No description provided for @backup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get backup;
+
   /// No description provided for @bioAuth.
   ///
   /// In en, this message translates to:
   /// **'Biometric authentication'**
   String get bioAuth;
+
+  /// No description provided for @bright.
+  ///
+  /// In en, this message translates to:
+  /// **'Bright'**
+  String get bright;
 
   /// No description provided for @cancel.
   ///
@@ -154,11 +178,29 @@ abstract class LibLocalizations {
   /// **'Clipboard'**
   String get clipboard;
 
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @content.
+  ///
+  /// In en, this message translates to:
+  /// **'Content'**
+  String get content;
+
   /// No description provided for @copy.
   ///
   /// In en, this message translates to:
   /// **'Copy'**
   String get copy;
+
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get dark;
 
   /// No description provided for @day.
   ///
@@ -172,6 +214,30 @@ abstract class LibLocalizations {
   /// **'Delete'**
   String get delete;
 
+  /// No description provided for @device.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get device;
+
+  /// No description provided for @disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get disabled;
+
+  /// No description provided for @doc.
+  ///
+  /// In en, this message translates to:
+  /// **'Documentation'**
+  String get doc;
+
+  /// No description provided for @download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get download;
+
   /// No description provided for @edit.
   ///
   /// In en, this message translates to:
@@ -183,6 +249,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Empty'**
   String get empty;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
 
   /// No description provided for @example.
   ///
@@ -208,11 +280,29 @@ abstract class LibLocalizations {
   /// **'Failure'**
   String get fail;
 
+  /// No description provided for @feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get feedback;
+
   /// No description provided for @file.
   ///
   /// In en, this message translates to:
   /// **'File'**
   String get file;
+
+  /// No description provided for @fold.
+  ///
+  /// In en, this message translates to:
+  /// **'Fold'**
+  String get fold;
+
+  /// No description provided for @folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder'**
+  String get folder;
 
   /// No description provided for @hour.
   ///
@@ -250,6 +340,12 @@ abstract class LibLocalizations {
   /// **'Network'**
   String get network;
 
+  /// No description provided for @notExistFmt.
+  ///
+  /// In en, this message translates to:
+  /// **'{file} not exist'**
+  String notExistFmt(Object file);
+
   /// No description provided for @ok.
   ///
   /// In en, this message translates to:
@@ -267,6 +363,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Rename'**
   String get rename;
+
+  /// No description provided for @restore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get restore;
 
   /// No description provided for @second.
   ///
@@ -303,6 +405,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Update'**
   String get update;
+
+  /// No description provided for @user.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get user;
 
   /// No description provided for @value.
   ///

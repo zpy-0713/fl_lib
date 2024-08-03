@@ -8,17 +8,10 @@ final class CenterGreyTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildTitle(text);
-  }
-
-  Widget _buildTitle(String text) {
     return Padding(
       padding: const EdgeInsets.only(top: 23, bottom: 17),
       child: Center(
-        child: Text(
-          text,
-          style: UIs.textGrey,
-        ),
+        child: Text(text, style: UIs.textGrey),
       ),
     );
   }

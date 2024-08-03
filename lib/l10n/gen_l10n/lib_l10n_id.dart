@@ -11,10 +11,24 @@ class LibLocalizationsId extends LibLocalizations {
   String get all => 'Semua';
 
   @override
+  String askContinue(Object msg) {
+    return '$msg, lanjutkan?';
+  }
+
+  @override
+  String get attention => 'Perhatian';
+
+  @override
   String get authRequired => 'Autentikasi diperlukan';
 
   @override
+  String get backup => 'Cadangkan';
+
+  @override
   String get bioAuth => 'Autentikasi biometrik';
+
+  @override
+  String get bright => 'Terang';
 
   @override
   String get cancel => 'Batal';
@@ -26,7 +40,16 @@ class LibLocalizationsId extends LibLocalizations {
   String get clipboard => 'Papan klip';
 
   @override
+  String get close => 'Menutup';
+
+  @override
+  String get content => 'Konten';
+
+  @override
   String get copy => 'Salin';
+
+  @override
+  String get dark => 'Gelap';
 
   @override
   String get day => 'Hari';
@@ -35,10 +58,25 @@ class LibLocalizationsId extends LibLocalizations {
   String get delete => 'Hapus';
 
   @override
+  String get device => 'Perangkat';
+
+  @override
+  String get disabled => 'Dengan disabilitas';
+
+  @override
+  String get doc => 'Dokumentasi';
+
+  @override
+  String get download => 'Unduh';
+
+  @override
   String get edit => 'Edit';
 
   @override
   String get empty => 'Kosong';
+
+  @override
+  String get error => 'Kesalahan';
 
   @override
   String get example => 'Contoh';
@@ -53,7 +91,16 @@ class LibLocalizationsId extends LibLocalizations {
   String get fail => 'Gagal';
 
   @override
+  String get feedback => 'Masukan';
+
+  @override
   String get file => 'Berkas';
+
+  @override
+  String get fold => 'Lipat';
+
+  @override
+  String get folder => 'Folder';
 
   @override
   String get hour => 'Jam';
@@ -74,6 +121,11 @@ class LibLocalizationsId extends LibLocalizations {
   String get network => 'Jaringan';
 
   @override
+  String notExistFmt(Object file) {
+    return '$file tidak ada';
+  }
+
+  @override
   String get ok => 'Baik';
 
   @override
@@ -81,6 +133,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get rename => 'Ubah nama';
+
+  @override
+  String get restore => 'Pulihkan';
 
   @override
   String get second => 'Detik';
@@ -99,6 +154,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get update => 'Perbarui';
+
+  @override
+  String get user => 'Username';
 
   @override
   String get value => 'Nilai';

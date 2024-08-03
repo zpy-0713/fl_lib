@@ -11,10 +11,24 @@ class LibLocalizationsEs extends LibLocalizations {
   String get all => 'Todos';
 
   @override
+  String askContinue(Object msg) {
+    return '$msg, ¿continuar?';
+  }
+
+  @override
+  String get attention => 'Atención';
+
+  @override
   String get authRequired => 'Autenticación requerida';
 
   @override
+  String get backup => 'Copia de seguridad';
+
+  @override
   String get bioAuth => 'Autenticación biométrica';
+
+  @override
+  String get bright => 'Brillante';
 
   @override
   String get cancel => 'Cancelar';
@@ -26,7 +40,16 @@ class LibLocalizationsEs extends LibLocalizations {
   String get clipboard => 'Portapapeles';
 
   @override
+  String get close => 'Cerrar';
+
+  @override
+  String get content => 'Contenido';
+
+  @override
   String get copy => 'Copiar';
+
+  @override
+  String get dark => 'Oscuro';
 
   @override
   String get day => 'Días';
@@ -35,10 +58,25 @@ class LibLocalizationsEs extends LibLocalizations {
   String get delete => 'Eliminar';
 
   @override
+  String get device => 'Dispositivo';
+
+  @override
+  String get disabled => 'Deshabilitado';
+
+  @override
+  String get doc => 'Documentación';
+
+  @override
+  String get download => 'Descargar';
+
+  @override
   String get edit => 'Editar';
 
   @override
   String get empty => 'Vacío';
+
+  @override
+  String get error => 'Error';
 
   @override
   String get example => 'Ejemplo';
@@ -53,7 +91,16 @@ class LibLocalizationsEs extends LibLocalizations {
   String get fail => 'Fracaso';
 
   @override
+  String get feedback => 'Retroalimentación';
+
+  @override
   String get file => 'Archivo';
+
+  @override
+  String get fold => 'Doblar';
+
+  @override
+  String get folder => 'Carpeta';
 
   @override
   String get hour => 'Horas';
@@ -74,6 +121,11 @@ class LibLocalizationsEs extends LibLocalizations {
   String get network => 'Red';
 
   @override
+  String notExistFmt(Object file) {
+    return '$file no existe';
+  }
+
+  @override
   String get ok => 'Bien';
 
   @override
@@ -81,6 +133,9 @@ class LibLocalizationsEs extends LibLocalizations {
 
   @override
   String get rename => 'Renombrar';
+
+  @override
+  String get restore => 'Restaurar';
 
   @override
   String get second => 'Segundos';
@@ -99,6 +154,9 @@ class LibLocalizationsEs extends LibLocalizations {
 
   @override
   String get update => 'Actualizar';
+
+  @override
+  String get user => 'Usuario';
 
   @override
   String get value => 'Valor';

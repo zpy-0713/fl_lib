@@ -11,10 +11,24 @@ class LibLocalizationsDe extends LibLocalizations {
   String get all => 'Alle';
 
   @override
+  String askContinue(Object msg) {
+    return '$msg. Weiter?';
+  }
+
+  @override
+  String get attention => 'Achtung';
+
+  @override
   String get authRequired => 'Authentifizierung erforderlich';
 
   @override
+  String get backup => 'Sichern';
+
+  @override
   String get bioAuth => 'Biometrische Authentifizierung';
+
+  @override
+  String get bright => 'Hell';
 
   @override
   String get cancel => 'Abbrechen';
@@ -26,7 +40,16 @@ class LibLocalizationsDe extends LibLocalizations {
   String get clipboard => 'Zwischenablage';
 
   @override
+  String get close => 'Schließen';
+
+  @override
+  String get content => 'Inhalt';
+
+  @override
   String get copy => 'Kopieren';
+
+  @override
+  String get dark => 'Dunkel';
 
   @override
   String get day => 'Tage';
@@ -35,10 +58,25 @@ class LibLocalizationsDe extends LibLocalizations {
   String get delete => 'Löschen';
 
   @override
+  String get device => 'Gerät';
+
+  @override
+  String get disabled => 'Behinderte';
+
+  @override
+  String get doc => 'Dokumentation';
+
+  @override
+  String get download => 'Download';
+
+  @override
   String get edit => 'Bearbeiten';
 
   @override
   String get empty => 'Leer';
+
+  @override
+  String get error => 'Fehler';
 
   @override
   String get example => 'Beispiel';
@@ -53,7 +91,16 @@ class LibLocalizationsDe extends LibLocalizations {
   String get fail => 'Fehlschlag';
 
   @override
+  String get feedback => 'Feedback';
+
+  @override
   String get file => 'Datei';
+
+  @override
+  String get fold => 'Falten';
+
+  @override
+  String get folder => 'Ordner';
 
   @override
   String get hour => 'Stunden';
@@ -74,6 +121,11 @@ class LibLocalizationsDe extends LibLocalizations {
   String get network => 'Netzwerk';
 
   @override
+  String notExistFmt(Object file) {
+    return '$file existiert nicht';
+  }
+
+  @override
   String get ok => 'Gut';
 
   @override
@@ -81,6 +133,9 @@ class LibLocalizationsDe extends LibLocalizations {
 
   @override
   String get rename => 'Umbenennen';
+
+  @override
+  String get restore => 'Wiederherstellen';
 
   @override
   String get second => 'Sekunden';
@@ -99,6 +154,9 @@ class LibLocalizationsDe extends LibLocalizations {
 
   @override
   String get update => 'Aktualisieren';
+
+  @override
+  String get user => 'Benutzer';
 
   @override
   String get value => 'Wert';

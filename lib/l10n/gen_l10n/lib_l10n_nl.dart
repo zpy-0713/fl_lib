@@ -11,10 +11,24 @@ class LibLocalizationsNl extends LibLocalizations {
   String get all => 'Alle';
 
   @override
+  String askContinue(Object msg) {
+    return '$msg. Doorgaan?';
+  }
+
+  @override
+  String get attention => 'Aandacht';
+
+  @override
   String get authRequired => 'Authenticatie vereist';
 
   @override
+  String get backup => 'Back-up';
+
+  @override
   String get bioAuth => 'Biometrische authenticatie';
+
+  @override
+  String get bright => 'nl: Donker, Licht\n';
 
   @override
   String get cancel => 'Annuleren';
@@ -26,7 +40,16 @@ class LibLocalizationsNl extends LibLocalizations {
   String get clipboard => 'Klembord';
 
   @override
+  String get close => 'Sluiten';
+
+  @override
+  String get content => 'Inhoud';
+
+  @override
   String get copy => 'Kopiëren';
+
+  @override
+  String get dark => 'Donker';
 
   @override
   String get day => 'Dagen';
@@ -35,10 +58,25 @@ class LibLocalizationsNl extends LibLocalizations {
   String get delete => 'Verwijderen';
 
   @override
+  String get device => 'Apparaat';
+
+  @override
+  String get disabled => 'Uitgeschakeld';
+
+  @override
+  String get doc => 'Documentatie';
+
+  @override
+  String get download => 'Downloaden';
+
+  @override
   String get edit => 'Bewerken';
 
   @override
   String get empty => 'Leeg';
+
+  @override
+  String get error => 'Fout';
 
   @override
   String get example => 'Voorbeeld';
@@ -53,7 +91,16 @@ class LibLocalizationsNl extends LibLocalizations {
   String get fail => 'Mislukking';
 
   @override
+  String get feedback => 'Feedback';
+
+  @override
   String get file => 'Bestand';
+
+  @override
+  String get fold => 'Vouwen';
+
+  @override
+  String get folder => 'Map';
 
   @override
   String get hour => 'Uren';
@@ -74,6 +121,11 @@ class LibLocalizationsNl extends LibLocalizations {
   String get network => 'Netwerk';
 
   @override
+  String notExistFmt(Object file) {
+    return '$file bestaat niet';
+  }
+
+  @override
   String get ok => 'Goed';
 
   @override
@@ -81,6 +133,9 @@ class LibLocalizationsNl extends LibLocalizations {
 
   @override
   String get rename => 'Hernoemen';
+
+  @override
+  String get restore => 'Herstellen';
 
   @override
   String get second => 'Seconden';
@@ -99,6 +154,9 @@ class LibLocalizationsNl extends LibLocalizations {
 
   @override
   String get update => 'Bijwerken';
+
+  @override
+  String get user => 'Gebruiker';
 
   @override
   String get value => 'Waarde';

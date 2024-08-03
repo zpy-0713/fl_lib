@@ -11,10 +11,24 @@ class LibLocalizationsZh extends LibLocalizations {
   String get all => '所有';
 
   @override
+  String askContinue(Object msg) {
+    return '$msg，继续吗？';
+  }
+
+  @override
+  String get attention => '注意';
+
+  @override
   String get authRequired => '需要认证';
 
   @override
+  String get backup => '备份';
+
+  @override
   String get bioAuth => '生物认证';
+
+  @override
+  String get bright => '亮';
 
   @override
   String get cancel => '取消';
@@ -26,7 +40,16 @@ class LibLocalizationsZh extends LibLocalizations {
   String get clipboard => '剪切板';
 
   @override
+  String get close => '关闭';
+
+  @override
+  String get content => '内容';
+
+  @override
   String get copy => '复制';
+
+  @override
+  String get dark => '暗';
 
   @override
   String get day => '天';
@@ -35,10 +58,25 @@ class LibLocalizationsZh extends LibLocalizations {
   String get delete => '删除';
 
   @override
+  String get device => '设备';
+
+  @override
+  String get disabled => '已禁用';
+
+  @override
+  String get doc => '文档';
+
+  @override
+  String get download => '下载';
+
+  @override
   String get edit => '编辑';
 
   @override
   String get empty => '空';
+
+  @override
+  String get error => '错误';
 
   @override
   String get example => '示例';
@@ -53,7 +91,16 @@ class LibLocalizationsZh extends LibLocalizations {
   String get fail => '失败';
 
   @override
+  String get feedback => '反馈';
+
+  @override
   String get file => '文件';
+
+  @override
+  String get fold => '折叠';
+
+  @override
+  String get folder => '文件夹';
 
   @override
   String get hour => '时';
@@ -74,6 +121,11 @@ class LibLocalizationsZh extends LibLocalizations {
   String get network => '网络';
 
   @override
+  String notExistFmt(Object file) {
+    return '$file 不存在';
+  }
+
+  @override
   String get ok => '好';
 
   @override
@@ -81,6 +133,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get rename => '重命名';
+
+  @override
+  String get restore => '恢复';
 
   @override
   String get second => '秒';
@@ -101,6 +156,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get update => '更新';
 
   @override
+  String get user => '用户';
+
+  @override
   String get value => '值';
 
   @override
@@ -118,10 +176,24 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get all => '所有';
 
   @override
+  String askContinue(Object msg) {
+    return '$msg，繼續嗎？';
+  }
+
+  @override
+  String get attention => '注意';
+
+  @override
   String get authRequired => '需要認證';
 
   @override
+  String get backup => '備份';
+
+  @override
   String get bioAuth => '生物認證';
+
+  @override
+  String get bright => '亮';
 
   @override
   String get cancel => '取消';
@@ -133,7 +205,16 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get clipboard => '剪貼簿';
 
   @override
+  String get close => '關閉';
+
+  @override
+  String get content => '內容';
+
+  @override
   String get copy => '複製';
+
+  @override
+  String get dark => '暗';
 
   @override
   String get day => '天';
@@ -142,10 +223,25 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get delete => '刪除';
 
   @override
+  String get device => 'Cihaz';
+
+  @override
+  String get disabled => '已禁用';
+
+  @override
+  String get doc => '文檔';
+
+  @override
+  String get download => '下載';
+
+  @override
   String get edit => '編輯';
 
   @override
   String get empty => '空';
+
+  @override
+  String get error => '錯誤';
 
   @override
   String get example => '範例';
@@ -160,7 +256,16 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get fail => '失敗';
 
   @override
+  String get feedback => '反饋';
+
+  @override
   String get file => '文件';
+
+  @override
+  String get fold => '摺疊';
+
+  @override
+  String get folder => '資料夾';
 
   @override
   String get hour => '時';
@@ -181,6 +286,11 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get network => '網絡';
 
   @override
+  String notExistFmt(Object file) {
+    return '$file 不存在';
+  }
+
+  @override
   String get ok => '好';
 
   @override
@@ -188,6 +298,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get rename => '重命名';
+
+  @override
+  String get restore => '恢復';
 
   @override
   String get second => '秒';
@@ -206,6 +319,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get update => '更新';
+
+  @override
+  String get user => '使用者';
 
   @override
   String get value => '值';

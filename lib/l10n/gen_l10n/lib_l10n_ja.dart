@@ -11,10 +11,24 @@ class LibLocalizationsJa extends LibLocalizations {
   String get all => '全て';
 
   @override
+  String askContinue(Object msg) {
+    return '$msg、続行しますか？';
+  }
+
+  @override
+  String get attention => '注意';
+
+  @override
   String get authRequired => '認証が必要';
 
   @override
+  String get backup => 'バックアップ';
+
+  @override
   String get bioAuth => '生体認証';
+
+  @override
+  String get bright => '明るい';
 
   @override
   String get cancel => 'キャンセル';
@@ -26,7 +40,16 @@ class LibLocalizationsJa extends LibLocalizations {
   String get clipboard => 'クリップボード';
 
   @override
+  String get close => '閉じる';
+
+  @override
+  String get content => 'コンテンツ';
+
+  @override
   String get copy => 'コピーする';
+
+  @override
+  String get dark => '暗い';
 
   @override
   String get day => '日';
@@ -35,10 +58,25 @@ class LibLocalizationsJa extends LibLocalizations {
   String get delete => '削除';
 
   @override
+  String get device => '装置';
+
+  @override
+  String get disabled => '無効';
+
+  @override
+  String get doc => 'ドキュメント';
+
+  @override
+  String get download => 'ダウンロード';
+
+  @override
   String get edit => '編集';
 
   @override
   String get empty => '空';
+
+  @override
+  String get error => 'エラー';
 
   @override
   String get example => '例';
@@ -53,7 +91,16 @@ class LibLocalizationsJa extends LibLocalizations {
   String get fail => '失敗';
 
   @override
+  String get feedback => 'フィードバック';
+
+  @override
   String get file => 'ファイル';
+
+  @override
+  String get fold => '折る';
+
+  @override
+  String get folder => 'フォルダ';
 
   @override
   String get hour => '時間';
@@ -74,6 +121,11 @@ class LibLocalizationsJa extends LibLocalizations {
   String get network => 'ネットワーク';
 
   @override
+  String notExistFmt(Object file) {
+    return '$fileは存在しません';
+  }
+
+  @override
   String get ok => 'いいです';
 
   @override
@@ -81,6 +133,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get rename => '名前変更';
+
+  @override
+  String get restore => 'リストア';
 
   @override
   String get second => '秒';
@@ -99,6 +154,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get update => '更新';
+
+  @override
+  String get user => 'ユーザー';
 
   @override
   String get value => '値';
