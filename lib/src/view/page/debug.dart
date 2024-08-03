@@ -1,4 +1,5 @@
 import 'package:fl_lib/fl_lib.dart';
+import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 
 final class DebugPageArgs {
@@ -29,7 +30,7 @@ class DebugPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
         ),
         title: Text(
-          args.title ?? 'Logs',
+          args.title ?? l10n.log,
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,

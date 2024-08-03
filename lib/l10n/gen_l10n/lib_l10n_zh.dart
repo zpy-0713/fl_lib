@@ -88,6 +88,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get exitConfirmTip => '再次返回以退出';
 
   @override
+  String get export => '导出';
+
+  @override
   String get fail => '失败';
 
   @override
@@ -110,6 +113,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get key => '键';
+
+  @override
+  String get log => '日志';
 
   @override
   String get minute => '分';
@@ -253,6 +259,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get exitConfirmTip => '再次返回以退出';
 
   @override
+  String get export => '匯出';
+
+  @override
   String get fail => '失敗';
 
   @override
@@ -275,6 +284,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get key => '鍵';
+
+  @override
+  String get log => '日誌';
 
   @override
   String get minute => '分';

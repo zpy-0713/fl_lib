@@ -88,6 +88,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get exitConfirmTip => 'çıkmak için tekrar geri dön';
 
   @override
+  String get export => 'Dışa aktar';
+
+  @override
   String get fail => 'başarısız';
 
   @override
@@ -110,6 +113,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get key => 'anahtar';
+
+  @override
+  String get log => 'Kayıt';
 
   @override
   String get minute => 'dakika';

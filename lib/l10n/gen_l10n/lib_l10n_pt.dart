@@ -88,6 +88,9 @@ class LibLocalizationsPt extends LibLocalizations {
   String get exitConfirmTip => 'Pressione voltar novamente para sair';
 
   @override
+  String get export => 'Exportar';
+
+  @override
   String get fail => 'Falha';
 
   @override
@@ -110,6 +113,9 @@ class LibLocalizationsPt extends LibLocalizations {
 
   @override
   String get key => 'Chave';
+
+  @override
+  String get log => 'Log';
 
   @override
   String get minute => 'Minutos';

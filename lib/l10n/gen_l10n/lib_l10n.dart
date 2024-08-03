@@ -274,6 +274,12 @@ abstract class LibLocalizations {
   /// **'Press back again to exit'**
   String get exitConfirmTip;
 
+  /// No description provided for @export.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get export;
+
   /// No description provided for @fail.
   ///
   /// In en, this message translates to:
@@ -321,6 +327,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Key'**
   String get key;
+
+  /// No description provided for @log.
+  ///
+  /// In en, this message translates to:
+  /// **'Log'**
+  String get log;
 
   /// No description provided for @minute.
   ///
