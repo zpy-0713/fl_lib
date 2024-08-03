@@ -161,7 +161,7 @@ final class Btn extends StatelessWidget {
     required this.icon,
     this.onTap = _defaultOnTap,
     this.gap = 20,
-    this.textStyle = const TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+    this.textStyle = const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
     this.padding = const EdgeInsets.symmetric(vertical: 13, horizontal: 20),
     this.mainAxisAlignment,
     this.mainAxisSize,
