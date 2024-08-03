@@ -400,6 +400,12 @@ abstract class LibLocalizations {
   /// **'Success'**
   String get success;
 
+  /// No description provided for @sync.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronize'**
+  String get sync;
+
   /// No description provided for @tag.
   ///
   /// In en, this message translates to:

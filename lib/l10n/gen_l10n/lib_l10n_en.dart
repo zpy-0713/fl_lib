@@ -153,6 +153,9 @@ class LibLocalizationsEn extends LibLocalizations {
   String get success => 'Success';
 
   @override
+  String get sync => 'Synchronize';
+
+  @override
   String get tag => 'Tag';
 
   @override

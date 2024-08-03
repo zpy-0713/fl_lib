@@ -153,6 +153,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get success => '成功';
 
   @override
+  String get sync => '同期';
+
+  @override
   String get tag => 'タグ';
 
   @override

@@ -153,6 +153,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get success => 'başarılı';
 
   @override
+  String get sync => 'Senkronize etmek';
+
+  @override
   String get tag => 'etiket';
 
   @override

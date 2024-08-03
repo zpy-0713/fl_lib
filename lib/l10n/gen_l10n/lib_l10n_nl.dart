@@ -153,6 +153,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get success => 'Succes';
 
   @override
+  String get sync => 'Synchroniseren';
+
+  @override
   String get tag => 'Tag';
 
   @override

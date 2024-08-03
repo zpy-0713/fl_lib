@@ -153,6 +153,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get success => 'Erfolg';
 
   @override
+  String get sync => 'Synchronisieren';
+
+  @override
   String get tag => 'Etikett';
 
   @override

@@ -153,6 +153,9 @@ class LibLocalizationsFr extends LibLocalizations {
   String get success => 'Succès';
 
   @override
+  String get sync => 'Synchroniser';
+
+  @override
   String get tag => 'Étiquette';
 
   @override

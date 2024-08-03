@@ -153,6 +153,9 @@ class LibLocalizationsPt extends LibLocalizations {
   String get success => 'Sucesso';
 
   @override
+  String get sync => 'Sincronizar';
+
+  @override
   String get tag => 'Etiqueta';
 
   @override

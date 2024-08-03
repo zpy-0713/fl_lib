@@ -153,6 +153,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get success => '成功';
 
   @override
+  String get sync => '同步';
+
+  @override
   String get tag => '标签';
 
   @override
@@ -322,6 +325,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get success => '成功';
+
+  @override
+  String get sync => '同步';
 
   @override
   String get tag => '標籤';

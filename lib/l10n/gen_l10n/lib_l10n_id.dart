@@ -153,6 +153,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get success => 'Sukses';
 
   @override
+  String get sync => 'Sinkronisasi';
+
+  @override
   String get tag => 'Label';
 
   @override

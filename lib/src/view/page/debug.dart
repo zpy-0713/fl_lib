@@ -44,14 +44,12 @@ class DebugPage extends StatelessWidget {
             onTap: (_) {
               context.showRoundDialog(
                 title: 'Clear logs?',
-                actions: [
-                  Btn.ok(
-                    onTap: (_) {
-                      DebugProvider.clear();
-                      context.pop();
-                    },
-                  ),
-                ],
+                actions: Btn.ok(
+                  onTap: (_) {
+                    DebugProvider.clear();
+                    context.pop();
+                  },
+                ).toList,
               );
             },
             icon: const Icon(Icons.delete, color: Colors.white),

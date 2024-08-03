@@ -153,6 +153,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get success => 'Успех';
 
   @override
+  String get sync => 'Синхронизировать';
+
+  @override
   String get tag => 'Тег';
 
   @override
