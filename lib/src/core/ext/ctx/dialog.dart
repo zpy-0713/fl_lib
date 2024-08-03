@@ -276,7 +276,7 @@ extension DialogX on BuildContext {
     Map<String, dynamic>? modelDef,
   }) async {
     title = '$title - ${l10n.import}';
-    final _ImportFrom from = await showRoundDialog(
+    final from = await showRoundDialog<_ImportFrom>(
       title: title,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -303,7 +303,7 @@ extension DialogX on BuildContext {
                 SimpleMarkdown(data: '''
 ```json
 [
-${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
+  ${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
 ]
 ```'''),
               ],
@@ -311,6 +311,8 @@ ${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
         ],
       ),
     );
+    if (from == null) return null;
+
     switch (from) {
       case _ImportFrom.file:
         final file = await Pfs.pickFile();
