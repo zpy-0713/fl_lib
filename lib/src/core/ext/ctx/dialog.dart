@@ -249,8 +249,8 @@ extension DialogX on BuildContext {
   }
 
   void showErrDialog({
-    required Object e,
-    required StackTrace s,
+    Object? e,
+    StackTrace? s,
     String? operation,
   }) {
     showRoundDialog(
@@ -300,12 +300,15 @@ extension DialogX on BuildContext {
             ExpandTile(
               title: Text(l10n.example),
               children: [
-                SimpleMarkdown(data: '''
+                SimpleMarkdown(
+                  data: '''
 ```json
 [
   ${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
 ]
-```'''),
+```''',
+                  selectable: true,
+                ),
               ],
             ),
         ],
