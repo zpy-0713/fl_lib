@@ -6,9 +6,18 @@ final class KvEditorArgs {
   final Map<String, String> data;
   final Widget Function(String k, String v)? entryBuilder;
 
+  /// If not null, the actual stored key will be [prefix] + key. But it will
+  /// display as 'key'. Keys that don't start with [prefix] will be ignored.
+  /// eg.:
+  /// - prefix: 'a_', data: {'a_key': 'av', 'bkey': 'bv'}, only 'key' will be
+  /// displayed. When saved, it will be saved as 'a_key'. When user input 'key',
+  /// it will be saved as 'a_key'.
+  final String? prefix;
+
   const KvEditorArgs({
     required this.data,
     this.entryBuilder,
+    this.prefix,
   });
 }
 
@@ -31,7 +40,7 @@ final class KvEditor extends StatefulWidget {
 
 class _KvEditorState extends State<KvEditor> {
   late final _args = widget.args;
-  late final Map<String, String> _map = Map.of(_args.data);
+  late final Map<String, String> _map = _loadMap();
   final _listKey = GlobalKey<AnimatedListState>();
   late MediaQueryData _media;
 
@@ -64,7 +73,7 @@ class _KvEditorState extends State<KvEditor> {
         actions: [
           IconButton(onPressed: _onTapAdd, icon: const Icon(Icons.add)),
           IconButton(
-            onPressed: () => context.pop(_map),
+            onPressed: () => context.pop(_saveMap()),
             icon: const Icon(Icons.save),
           ),
         ],
@@ -163,6 +172,8 @@ class _KvEditorState extends State<KvEditor> {
           Input(
             controller: ctrlV,
             hint: l10n.value,
+            maxLines: 5,
+            minLines: 1,
           ),
         ],
       ),
@@ -240,5 +251,23 @@ class _KvEditorState extends State<KvEditor> {
       _listKey.currentState
           ?.insertItem(_map.length - 1, duration: Durations.medium1);
     }
+  }
+
+  Map<String, String> _loadMap() {
+    final prefix = _args.prefix;
+    if (prefix == null) return Map<String, String>.from(_args.data);
+    final map = <String, String>{};
+    for (final entry in _args.data.entries) {
+      if (entry.key.startsWith(prefix)) {
+        map[entry.key.substring(prefix.length)] = entry.value;
+      }
+    }
+    return map;
+  }
+
+  Map<String, String> _saveMap() {
+    final prefix = _args.prefix;
+    if (prefix == null) return _map;
+    return _map.map((k, v) => MapEntry('$prefix$k', v));
   }
 }

@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract final class PrefStore {
   static SharedPreferences? _instance;
+  static SharedPreferences get instance => _instance!;
 
   static Future<void> init() async {
     if (_instance != null) return;
@@ -18,7 +19,7 @@ abstract final class PrefStore {
   }
 
   static T? get<T>(String key, [T? defaultValue]) {
-    final val = _instance?.get(key);
+    final val = instance.get(key);
     if (val == null) return defaultValue;
     if (val is! T) {
       debugPrint('SharedPref.get("$key") is: ${val.runtimeType}');
@@ -29,16 +30,28 @@ abstract final class PrefStore {
 
   static Future<bool> set(String key, Object val) {
     return switch (val) {
-          final bool val => _instance?.setBool(key, val),
-          final double val => _instance?.setDouble(key, val),
-          final int val => _instance?.setInt(key, val),
-          final String val => _instance?.setString(key, val),
-          final List<String> val => _instance?.setStringList(key, val),
-          _ => () {
-              debugPrint('SharedPref.init: "$key" is ${val.runtimeType}');
-            }(),
-        } ??
-        Future.value(false);
+      final bool val => instance.setBool(key, val),
+      final double val => instance.setDouble(key, val),
+      final int val => instance.setInt(key, val),
+      final String val => instance.setString(key, val),
+      final List<String> val => instance.setStringList(key, val),
+      _ => () {
+          debugPrint('SharedPref.init: "$key" is ${val.runtimeType}');
+          return Future.value(false);
+        }(),
+    };
+  }
+
+  static Set<String> keys() {
+    return instance.getKeys();
+  }
+
+  static Future<bool> remove(String key) {
+    return instance.remove(key);
+  }
+
+  static Future<bool> clear() {
+    return instance.clear();
   }
 }
 
