@@ -12,6 +12,7 @@
   "delete": "Delete",
   "edit": "Edit",
   "empty": "Empty",
+  "error": "Error",
   "example": "Example",
   "exit": "Exit",
   "exitConfirmTip": "Press back again to exit",
