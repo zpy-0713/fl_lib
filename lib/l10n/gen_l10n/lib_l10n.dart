@@ -112,6 +112,12 @@ abstract class LibLocalizations {
     Locale('zh', 'TW')
   ];
 
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
   /// No description provided for @add.
   ///
   /// In en, this message translates to:
@@ -328,6 +334,12 @@ abstract class LibLocalizations {
   /// **'Key'**
   String get key;
 
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
   /// No description provided for @log.
   ///
   /// In en, this message translates to:
@@ -358,11 +370,35 @@ abstract class LibLocalizations {
   /// **'{file} not exist'**
   String notExistFmt(Object file);
 
+  /// No description provided for @note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get note;
+
   /// No description provided for @ok.
   ///
   /// In en, this message translates to:
   /// **'Okay'**
   String get ok;
+
+  /// No description provided for @open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
+
+  /// No description provided for @path.
+  ///
+  /// In en, this message translates to:
+  /// **'Path'**
+  String get path;
+
+  /// No description provided for @primaryColorSeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Primary color seed'**
+  String get primaryColorSeed;
 
   /// No description provided for @pwd.
   ///
@@ -394,6 +430,12 @@ abstract class LibLocalizations {
   /// **'Select'**
   String get select;
 
+  /// No description provided for @setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get setting;
+
   /// No description provided for @success.
   ///
   /// In en, this message translates to:
@@ -418,6 +460,12 @@ abstract class LibLocalizations {
   /// **'Click to verify'**
   String get tapToAuth;
 
+  /// No description provided for @themeMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme mode'**
+  String get themeMode;
+
   /// No description provided for @update.
   ///
   /// In en, this message translates to:
@@ -435,6 +483,24 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Value'**
   String get value;
+
+  /// No description provided for @versionHasUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Found: v1.0.{build}, click to update'**
+  String versionHasUpdate(Object build);
+
+  /// No description provided for @versionUnknownUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Current: v1.0.{build}, click to check updates'**
+  String versionUnknownUpdate(Object build);
+
+  /// No description provided for @versionUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Current: v1.0.{build}, is up to date'**
+  String versionUpdated(Object build);
 
   /// No description provided for @yesterday.
   ///

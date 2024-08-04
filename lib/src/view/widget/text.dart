@@ -1,4 +1,5 @@
 import 'package:fl_lib/src/core/ext/ctx/dialog.dart';
+import 'package:fl_lib/src/res/l10n.dart';
 import 'package:fl_lib/src/res/ui.dart';
 import 'package:fl_lib/src/view/widget/btn/btn.dart';
 import 'package:flutter/material.dart';
@@ -7,17 +8,19 @@ final class TipText extends StatelessWidget {
   final String text;
   final String tip;
   final bool isMarkdown;
+  final TextStyle? textStyle;
 
   const TipText(
     this.text,
     this.tip, {
     super.key,
     this.isMarkdown = false,
+    this.textStyle,
   });
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyMedium;
+    final textStyle = this.textStyle ?? Theme.of(context).textTheme.bodyMedium;
     return RichText(
       text: TextSpan(
         children: [
@@ -31,9 +34,9 @@ final class TipText extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               onTap: () {
                 context.showRoundDialog(
-                  title: '⭐️',
+                  title: l10n.note,
                   child: Text(tip),
-                  actions: [Btn.ok()],
+                  actions: Btnx.oks,
                 );
               },
               child: const Icon(

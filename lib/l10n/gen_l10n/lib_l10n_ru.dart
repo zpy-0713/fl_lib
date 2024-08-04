@@ -5,6 +5,9 @@ class LibLocalizationsRu extends LibLocalizations {
   LibLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get about => 'о';
+
+  @override
   String get add => 'Добавить';
 
   @override
@@ -115,6 +118,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get key => 'Ключ';
 
   @override
+  String get language => 'язык';
+
+  @override
   String get log => 'лог';
 
   @override
@@ -132,7 +138,19 @@ class LibLocalizationsRu extends LibLocalizations {
   }
 
   @override
+  String get note => 'заметка';
+
+  @override
   String get ok => 'Хорошо';
+
+  @override
+  String get open => 'Открыть';
+
+  @override
+  String get path => 'путь';
+
+  @override
+  String get primaryColorSeed => 'основной цветовой тон';
 
   @override
   String get pwd => 'Пароль';
@@ -150,6 +168,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get select => 'Выбрать';
 
   @override
+  String get setting => 'настройки';
+
+  @override
   String get success => 'Успех';
 
   @override
@@ -162,6 +183,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get tapToAuth => 'Нажмите для подтверждения';
 
   @override
+  String get themeMode => 'режим темы';
+
+  @override
   String get update => 'Обновить';
 
   @override
@@ -169,6 +193,21 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get value => 'значение';
+
+  @override
+  String versionHasUpdate(Object build) {
+    return 'Найдена новая версия: v1.0.$build, нажмите для обновления';
+  }
+
+  @override
+  String versionUnknownUpdate(Object build) {
+    return 'Текущая: v1.0.$build, нажмите для проверки обновлений';
+  }
+
+  @override
+  String versionUpdated(Object build) {
+    return 'Текущая: v1.0.$build, последняя версия';
+  }
 
   @override
   String get yesterday => 'Вчера';

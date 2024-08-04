@@ -5,6 +5,9 @@ class LibLocalizationsNl extends LibLocalizations {
   LibLocalizationsNl([String locale = 'nl']) : super(locale);
 
   @override
+  String get about => 'Over';
+
+  @override
   String get add => 'Toevoegen';
 
   @override
@@ -115,6 +118,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get key => 'Sleutel';
 
   @override
+  String get language => 'Taal';
+
+  @override
   String get log => 'Logboek';
 
   @override
@@ -132,7 +138,19 @@ class LibLocalizationsNl extends LibLocalizations {
   }
 
   @override
+  String get note => 'Opmerking';
+
+  @override
   String get ok => 'Goed';
+
+  @override
+  String get open => 'Openen';
+
+  @override
+  String get path => 'Pad';
+
+  @override
+  String get primaryColorSeed => 'Basis kleurzaad';
 
   @override
   String get pwd => 'Wachtwoord';
@@ -150,6 +168,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get select => 'Selecteren';
 
   @override
+  String get setting => 'Instellingen';
+
+  @override
   String get success => 'Succes';
 
   @override
@@ -162,6 +183,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get tapToAuth => 'Klik om te verifiëren';
 
   @override
+  String get themeMode => 'Themamodus';
+
+  @override
   String get update => 'Bijwerken';
 
   @override
@@ -169,6 +193,21 @@ class LibLocalizationsNl extends LibLocalizations {
 
   @override
   String get value => 'Waarde';
+
+  @override
+  String versionHasUpdate(Object build) {
+    return 'Gevonden: v1.0.$build, klik om bij te werken';
+  }
+
+  @override
+  String versionUnknownUpdate(Object build) {
+    return 'Huidig: v1.0.$build, klik om te kijken naar een nieuwere versie';
+  }
+
+  @override
+  String versionUpdated(Object build) {
+    return 'Huidig: v1.0.$build, is bijgewerkt naar de laatste versie';
+  }
 
   @override
   String get yesterday => 'Gisteren';

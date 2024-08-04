@@ -5,6 +5,9 @@ class LibLocalizationsJa extends LibLocalizations {
   LibLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get about => '約';
+
+  @override
   String get add => '追加';
 
   @override
@@ -115,6 +118,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get key => 'キー';
 
   @override
+  String get language => '言語';
+
+  @override
   String get log => 'ログ';
 
   @override
@@ -132,7 +138,19 @@ class LibLocalizationsJa extends LibLocalizations {
   }
 
   @override
+  String get note => 'メモ';
+
+  @override
   String get ok => 'いいです';
+
+  @override
+  String get open => '開く';
+
+  @override
+  String get path => 'パス';
+
+  @override
+  String get primaryColorSeed => 'プライマリーカラーシード';
 
   @override
   String get pwd => 'パスワード';
@@ -150,6 +168,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get select => '選択';
 
   @override
+  String get setting => '設定';
+
+  @override
   String get success => '成功';
 
   @override
@@ -162,6 +183,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get tapToAuth => '認証するにはクリックしてください';
 
   @override
+  String get themeMode => 'テーマモード';
+
+  @override
   String get update => '更新';
 
   @override
@@ -169,6 +193,21 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get value => '値';
+
+  @override
+  String versionHasUpdate(Object build) {
+    return '新しいバージョンが見つかりました：v1.0.$build、クリックして更新';
+  }
+
+  @override
+  String versionUnknownUpdate(Object build) {
+    return 'Huidig: v1.0.$build, klik om te kijken naar een nieuwere versie';
+  }
+
+  @override
+  String versionUpdated(Object build) {
+    return '現在：v1.0.$build、最新バージョンです';
+  }
 
   @override
   String get yesterday => '昨日';

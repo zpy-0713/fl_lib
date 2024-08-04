@@ -5,6 +5,9 @@ class LibLocalizationsTr extends LibLocalizations {
   LibLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
+  String get about => 'Hakkında';
+
+  @override
   String get add => 'ekle';
 
   @override
@@ -115,6 +118,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get key => 'anahtar';
 
   @override
+  String get language => 'Dil';
+
+  @override
   String get log => 'Kayıt';
 
   @override
@@ -132,7 +138,19 @@ class LibLocalizationsTr extends LibLocalizations {
   }
 
   @override
+  String get note => 'Not';
+
+  @override
   String get ok => 'tamam';
+
+  @override
+  String get open => 'Aç';
+
+  @override
+  String get path => 'Yol';
+
+  @override
+  String get primaryColorSeed => 'Birincil renk tohumu';
 
   @override
   String get pwd => 'şifre';
@@ -150,6 +168,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get select => 'seç';
 
   @override
+  String get setting => 'Ayarlar';
+
+  @override
   String get success => 'başarılı';
 
   @override
@@ -162,6 +183,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get tapToAuth => 'doğrulamak için dokunun';
 
   @override
+  String get themeMode => 'Tema modu';
+
+  @override
   String get update => 'güncelle';
 
   @override
@@ -169,6 +193,21 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get value => 'değer';
+
+  @override
+  String versionHasUpdate(Object build) {
+    return 'Bulundu: v1.0.$build, güncellemek için tıklayın';
+  }
+
+  @override
+  String versionUnknownUpdate(Object build) {
+    return 'Mevcut: v1.0.$build, güncellemeleri kontrol etmek için tıklayın';
+  }
+
+  @override
+  String versionUpdated(Object build) {
+    return 'Mevcut: v1.0.$build, güncel';
+  }
 
   @override
   String get yesterday => 'dün';

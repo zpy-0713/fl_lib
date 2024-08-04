@@ -5,6 +5,9 @@ class LibLocalizationsId extends LibLocalizations {
   LibLocalizationsId([String locale = 'id']) : super(locale);
 
   @override
+  String get about => 'Tentang';
+
+  @override
   String get add => 'Tambah';
 
   @override
@@ -115,6 +118,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get key => 'Kunci';
 
   @override
+  String get language => 'Bahasa';
+
+  @override
   String get log => 'Catatan';
 
   @override
@@ -132,7 +138,19 @@ class LibLocalizationsId extends LibLocalizations {
   }
 
   @override
+  String get note => 'Catatan';
+
+  @override
   String get ok => 'Baik';
+
+  @override
+  String get open => 'Buka';
+
+  @override
+  String get path => 'Jalur';
+
+  @override
+  String get primaryColorSeed => 'Warna utama';
 
   @override
   String get pwd => 'Kata sandi';
@@ -150,6 +168,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get select => 'Pilih';
 
   @override
+  String get setting => 'Pengaturan';
+
+  @override
   String get success => 'Sukses';
 
   @override
@@ -162,6 +183,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get tapToAuth => 'Klik untuk memverifikasi';
 
   @override
+  String get themeMode => 'Mode tema';
+
+  @override
   String get update => 'Perbarui';
 
   @override
@@ -169,6 +193,21 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get value => 'Nilai';
+
+  @override
+  String versionHasUpdate(Object build) {
+    return 'Ditemukan: v1.0.$build, klik untuk memperbarui';
+  }
+
+  @override
+  String versionUnknownUpdate(Object build) {
+    return '現在：v1.0.$build、更新をチェックするためにクリック';
+  }
+
+  @override
+  String versionUpdated(Object build) {
+    return 'Saat ini: v1.0.$build, mutakhir';
+  }
 
   @override
   String get yesterday => 'Kemarin';

@@ -5,6 +5,9 @@ class LibLocalizationsDe extends LibLocalizations {
   LibLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get about => 'Über';
+
+  @override
   String get add => 'Hinzufügen';
 
   @override
@@ -115,6 +118,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get key => 'Schlüssel';
 
   @override
+  String get language => 'Sprache';
+
+  @override
   String get log => 'Log';
 
   @override
@@ -132,7 +138,19 @@ class LibLocalizationsDe extends LibLocalizations {
   }
 
   @override
+  String get note => 'Hinweis';
+
+  @override
   String get ok => 'Gut';
+
+  @override
+  String get open => 'Öffnen';
+
+  @override
+  String get path => 'Pfad';
+
+  @override
+  String get primaryColorSeed => 'Farbschema';
 
   @override
   String get pwd => 'Passwort';
@@ -150,6 +168,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get select => 'Auswählen';
 
   @override
+  String get setting => 'Einstellungen';
+
+  @override
   String get success => 'Erfolg';
 
   @override
@@ -162,6 +183,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get tapToAuth => 'Zum Bestätigen klicken';
 
   @override
+  String get themeMode => 'Themen-Modus';
+
+  @override
   String get update => 'Aktualisieren';
 
   @override
@@ -169,6 +193,21 @@ class LibLocalizationsDe extends LibLocalizations {
 
   @override
   String get value => 'Wert';
+
+  @override
+  String versionHasUpdate(Object build) {
+    return 'Gefunden: v1.0.$build, klicke zum Aktualisieren';
+  }
+
+  @override
+  String versionUnknownUpdate(Object build) {
+    return 'Aktuell: v1.0.$build. Klicken Sie hier, um nach Updates zu suchen';
+  }
+
+  @override
+  String versionUpdated(Object build) {
+    return 'v1.0.$build ist bereits die neueste Version';
+  }
 
   @override
   String get yesterday => 'Gestern';

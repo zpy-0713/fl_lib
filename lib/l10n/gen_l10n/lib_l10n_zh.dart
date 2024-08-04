@@ -5,6 +5,9 @@ class LibLocalizationsZh extends LibLocalizations {
   LibLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get about => '关于';
+
+  @override
   String get add => '添加';
 
   @override
@@ -115,6 +118,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get key => '键';
 
   @override
+  String get language => '语言';
+
+  @override
   String get log => '日志';
 
   @override
@@ -132,7 +138,19 @@ class LibLocalizationsZh extends LibLocalizations {
   }
 
   @override
+  String get note => '备注';
+
+  @override
   String get ok => '好';
+
+  @override
+  String get open => '打开';
+
+  @override
+  String get path => '路径';
+
+  @override
+  String get primaryColorSeed => '主题色种子';
 
   @override
   String get pwd => '密码';
@@ -150,6 +168,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get select => '选择';
 
   @override
+  String get setting => '设置';
+
+  @override
   String get success => '成功';
 
   @override
@@ -162,6 +183,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get tapToAuth => '点击以认证';
 
   @override
+  String get themeMode => '主题模式';
+
+  @override
   String get update => '更新';
 
   @override
@@ -171,12 +195,30 @@ class LibLocalizationsZh extends LibLocalizations {
   String get value => '值';
 
   @override
+  String versionHasUpdate(Object build) {
+    return '找到新版本：v1.0.$build, 点击更新';
+  }
+
+  @override
+  String versionUnknownUpdate(Object build) {
+    return '当前：v1.0.$build，点击检查更新';
+  }
+
+  @override
+  String versionUpdated(Object build) {
+    return '当前：v1.0.$build, 已是最新版本';
+  }
+
+  @override
   String get yesterday => '昨天';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
 class LibLocalizationsZhTw extends LibLocalizationsZh {
   LibLocalizationsZhTw(): super('zh_TW');
+
+  @override
+  String get about => '關於';
 
   @override
   String get add => '添加';
@@ -289,6 +331,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get key => '鍵';
 
   @override
+  String get language => '語言';
+
+  @override
   String get log => '日誌';
 
   @override
@@ -306,7 +351,19 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   }
 
   @override
+  String get note => '備註';
+
+  @override
   String get ok => '好';
+
+  @override
+  String get open => '打開';
+
+  @override
+  String get path => '路徑';
+
+  @override
+  String get primaryColorSeed => '主要色調種子';
 
   @override
   String get pwd => '密碼';
@@ -324,6 +381,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get select => '選擇';
 
   @override
+  String get setting => '設置';
+
+  @override
   String get success => '成功';
 
   @override
@@ -336,6 +396,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get tapToAuth => '點擊以認證';
 
   @override
+  String get themeMode => '主題模式';
+
+  @override
   String get update => '更新';
 
   @override
@@ -343,6 +406,21 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get value => '值';
+
+  @override
+  String versionHasUpdate(Object build) {
+    return '找到新版本：v1.0.$build, 點擊更新';
+  }
+
+  @override
+  String versionUnknownUpdate(Object build) {
+    return '當前：v1.0.$build，點擊檢查更新';
+  }
+
+  @override
+  String versionUpdated(Object build) {
+    return '當前：v1.0.$build, 已是最新版本';
+  }
 
   @override
   String get yesterday => '昨天';
