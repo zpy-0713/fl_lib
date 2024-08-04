@@ -6,6 +6,8 @@
   "askContinue": "{msg}, ¿continuar?",
   "attention": "Atención",
   "authRequired": "Autenticación requerida",
+  "auto": "Auto",
+  "autoCheckUpdate": "Verificación automática de actualizaciones",
   "backup": "Copia de seguridad",
   "bioAuth": "Autenticación biométrica",
   "bright": "Brillante",

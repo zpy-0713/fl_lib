@@ -6,6 +6,8 @@
   "askContinue": "{msg}, lanjutkan?",
   "attention": "Perhatian",
   "authRequired": "Autentikasi diperlukan",
+  "auto": "Otomatis",
+  "autoCheckUpdate": "Periksa pembaruan otomatis",
   "backup": "Cadangkan",
   "bioAuth": "Autentikasi biometrik",
   "bright": "Terang",

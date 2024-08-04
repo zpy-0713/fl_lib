@@ -6,6 +6,8 @@
   "askContinue": "{msg}、続行しますか？",
   "attention": "注意",
   "authRequired": "認証が必要",
+  "auto": "自動",
+  "autoCheckUpdate": "自動的に更新をチェック",
   "backup": "バックアップ",
   "bioAuth": "生体認証",
   "bright": "明るい",

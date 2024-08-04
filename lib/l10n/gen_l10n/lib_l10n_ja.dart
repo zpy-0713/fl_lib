@@ -25,6 +25,12 @@ class LibLocalizationsJa extends LibLocalizations {
   String get authRequired => '認証が必要';
 
   @override
+  String get auto => '自動';
+
+  @override
+  String get autoCheckUpdate => '自動的に更新をチェック';
+
+  @override
   String get backup => 'バックアップ';
 
   @override

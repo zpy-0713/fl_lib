@@ -6,6 +6,8 @@
   "askContinue": "{msg}. Doorgaan?",
   "attention": "Aandacht",
   "authRequired": "Authenticatie vereist",
+  "auto": "Auto",
+  "autoCheckUpdate": "Automatisch controleren op update",
   "backup": "Back-up",
   "bioAuth": "Biometrische authenticatie",
   "bright": "nl: Donker, Licht\n",

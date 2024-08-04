@@ -25,6 +25,12 @@ class LibLocalizationsTr extends LibLocalizations {
   String get authRequired => 'kimlik doğrulaması gerekiyor';
 
   @override
+  String get auto => 'Otomatik';
+
+  @override
+  String get autoCheckUpdate => 'Otomatik güncelleme kontrolü';
+
+  @override
   String get backup => 'Yedekleme';
 
   @override

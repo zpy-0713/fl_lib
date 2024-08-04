@@ -25,6 +25,12 @@ class LibLocalizationsId extends LibLocalizations {
   String get authRequired => 'Autentikasi diperlukan';
 
   @override
+  String get auto => 'Otomatis';
+
+  @override
+  String get autoCheckUpdate => 'Periksa pembaruan otomatis';
+
+  @override
   String get backup => 'Cadangkan';
 
   @override

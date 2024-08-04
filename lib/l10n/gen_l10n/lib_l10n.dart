@@ -148,6 +148,18 @@ abstract class LibLocalizations {
   /// **'Authentication required'**
   String get authRequired;
 
+  /// No description provided for @auto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get auto;
+
+  /// No description provided for @autoCheckUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic update check'**
+  String get autoCheckUpdate;
+
   /// No description provided for @backup.
   ///
   /// In en, this message translates to:

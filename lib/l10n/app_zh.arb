@@ -6,6 +6,8 @@
   "askContinue": "{msg}，继续吗？",
   "attention": "注意",
   "authRequired": "需要认证",
+  "auto": "自动",
+  "autoCheckUpdate": "自动检查更新",
   "backup": "备份",
   "bioAuth": "生物认证",
   "bright": "亮",

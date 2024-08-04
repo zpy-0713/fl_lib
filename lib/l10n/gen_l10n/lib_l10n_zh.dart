@@ -25,6 +25,12 @@ class LibLocalizationsZh extends LibLocalizations {
   String get authRequired => '需要认证';
 
   @override
+  String get auto => '自动';
+
+  @override
+  String get autoCheckUpdate => '自动检查更新';
+
+  @override
   String get backup => '备份';
 
   @override
@@ -236,6 +242,12 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get authRequired => '需要認證';
+
+  @override
+  String get auto => '自動';
+
+  @override
+  String get autoCheckUpdate => '自動檢查更新';
 
   @override
   String get backup => '備份';

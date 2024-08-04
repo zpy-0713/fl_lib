@@ -25,6 +25,12 @@ class LibLocalizationsRu extends LibLocalizations {
   String get authRequired => 'Требуется аутентификация';
 
   @override
+  String get auto => 'авто';
+
+  @override
+  String get autoCheckUpdate => 'авто проверка обновлений';
+
+  @override
   String get backup => 'Резервное копирование';
 
   @override

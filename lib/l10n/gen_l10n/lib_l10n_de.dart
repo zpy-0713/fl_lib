@@ -25,6 +25,12 @@ class LibLocalizationsDe extends LibLocalizations {
   String get authRequired => 'Authentifizierung erforderlich';
 
   @override
+  String get auto => 'Auto';
+
+  @override
+  String get autoCheckUpdate => 'Aktualisierung automatisch prüfen';
+
+  @override
   String get backup => 'Sichern';
 
   @override
