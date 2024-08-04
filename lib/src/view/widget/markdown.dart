@@ -28,8 +28,8 @@ final class SimpleMarkdown extends StatelessWidget {
         onOpenFail?.call();
       },
       selectable: selectable,
-      styleSheet: styleSheet?.copyWith(a: TextStyle(color: UIs.primaryColor)) ??
-          MarkdownStyleSheet(a: TextStyle(color: UIs.primaryColor)),
+      styleSheet: styleSheet?.copyWith(a: TextStyle(color: UIs.colorSeed)) ??
+          MarkdownStyleSheet(a: TextStyle(color: UIs.colorSeed)),
     );
   }
 }
