@@ -3,9 +3,6 @@ import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-/// The callback when the button is tapped.
-typedef BtnOnTap = void Function(BuildContext c);
-
 /// {@template btntype}
 /// The type of the button.
 /// - [BtnType.text] => [TextButton]
@@ -33,12 +30,14 @@ enum BtnType {
   ;
 }
 
+/// Just a placeholder for the default onTap.
+/// 
 /// {@template btn_default_on_tap}
 /// By default, it will exec `context.pop()`.
 /// {@endtemplate}
 ///
 /// Put if here, or the template macro will work incorrectly.
-void _defaultOnTap(BuildContext context) => context.pop();
+Null _defaultOnTap() => null;
 
 const _kGap = 7.0;
 
@@ -55,7 +54,7 @@ final class Btn extends StatelessWidget {
   /// If it's set to `null` explicitly, the button will be disabled.
   ///
   /// {@macro btn_default_on_tap}
-  final BtnOnTap? onTap;
+  final void Function()? onTap;
 
   /// {@template btn_text_icon}
   /// At lease one of [text] and [icon] must be not null.
@@ -103,6 +102,15 @@ final class Btn extends StatelessWidget {
   /// Not effect on [BtnType.text].
   final BorderRadius? borderRadius;
 
+  /// If you want to pop a value and [onTap] is null, you can pass it to the [popVal].
+  /// If [onTap] is not null, [popVal] will be ignored.
+  ///
+  /// By default:
+  /// - [Btn.ok] pops `true`
+  /// - [Btn.cancel] pops `false`
+  /// - Others pops `null`
+  final Object? popVal;
+
   const Btn.text({
     super.key,
     required this.text,
@@ -114,6 +122,7 @@ final class Btn extends StatelessWidget {
         mainAxisAlignment = null,
         mainAxisSize = null,
         borderRadius = null,
+        popVal = null,
         icon = null;
 
   const Btn.icon({
@@ -127,6 +136,7 @@ final class Btn extends StatelessWidget {
         mainAxisAlignment = null,
         mainAxisSize = null,
         borderRadius = null,
+        popVal = null,
         textStyle = null;
 
   const Btn.column({
@@ -140,7 +150,8 @@ final class Btn extends StatelessWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.borderRadius = _kBorderRadius,
-  }) : type = BtnType.column;
+  })  : type = BtnType.column,
+        popVal = null;
 
   const Btn.row({
     super.key,
@@ -153,7 +164,8 @@ final class Btn extends StatelessWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.borderRadius = _kBorderRadius,
-  }) : type = BtnType.row;
+  })  : type = BtnType.row,
+        popVal = null;
 
   const Btn.tile({
     super.key,
@@ -166,8 +178,12 @@ final class Btn extends StatelessWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.borderRadius = const BorderRadius.all(Radius.circular(13)),
-  }): type = BtnType.row;
+  })  : type = BtnType.row,
+        popVal = null;
 
+  /// {@template btn_ok_pop}
+  /// It will pop `true` if [onTap] is null.
+  /// {@endtemplate}
   Btn.ok({
     super.key,
     this.onTap = _defaultOnTap,
@@ -181,8 +197,12 @@ final class Btn extends StatelessWidget {
         mainAxisAlignment = null,
         mainAxisSize = null,
         borderRadius = null,
+        popVal = true,
         textStyle = red ? UIs.textRed : null;
 
+  /// {@template btn_cancel_pop}
+  /// It will pop `false` if [onTap] is null.
+  /// {@endtemplate}
   Btn.cancel({
     super.key,
     this.onTap = _defaultOnTap,
@@ -195,6 +215,7 @@ final class Btn extends StatelessWidget {
         mainAxisAlignment = null,
         mainAxisSize = null,
         borderRadius = null,
+        popVal = false,
         textStyle = null;
 
   @override
@@ -205,6 +226,14 @@ final class Btn extends StatelessWidget {
         BtnType.row => _row(context),
       };
 
+  VoidCallback? _resolveOnTap(BuildContext c) {
+    if (onTap == _defaultOnTap) {
+      if (popVal != null) return () => c.pop(popVal);
+      return c.pop;
+    }
+    return onTap;
+  }
+
   Widget _text(BuildContext context) {
     if (icon != null) {
       debugPrint(
@@ -213,7 +242,7 @@ final class Btn extends StatelessWidget {
       );
     }
     return TextButton(
-      onPressed: onTap == null ? null : () => onTap?.call(context),
+      onPressed: _resolveOnTap(context),
       style: padding != null
           ? ButtonStyle(padding: WidgetStateProperty.all(padding))
           : null,
@@ -233,7 +262,7 @@ final class Btn extends StatelessWidget {
     if (padding != null) child = Padding(padding: padding!, child: child);
     return InkWell(
       borderRadius: borderRadius ?? _kBorderRadius,
-      onTap: onTap == null ? null : () => onTap?.call(context),
+      onTap: _resolveOnTap(context),
       child: child,
     );
   }
@@ -255,7 +284,7 @@ final class Btn extends StatelessWidget {
     }
     return InkWell(
       borderRadius: borderRadius ?? _kBorderRadius,
-      onTap: onTap == null ? null : () => onTap?.call(context),
+      onTap: _resolveOnTap(context),
       child: child,
     );
   }
@@ -281,7 +310,7 @@ final class Btn extends StatelessWidget {
     }
     return InkWell(
       borderRadius: borderRadius ?? _kBorderRadius,
-      onTap: onTap == null ? null : () => onTap?.call(context),
+      onTap: _resolveOnTap(context),
       child: child,
     );
   }
@@ -300,12 +329,12 @@ extension Btnx on Btn {
   /// {@template btnx_ok_non_final}
   /// Use a getter instead of a `final` var to avoid [l10n] unfollowing.
   /// {@endtemplate}
-  static Btn get ok => Btn.ok(onTap: (c) => c.pop(true));
+  static Btn get ok => Btn.ok();
 
   /// A [Btn.ok] which pops `true` and is red.
   ///
   /// {@macro btnx_ok_non_final}
-  static Btn get okRed => Btn.ok(onTap: (c) => c.pop(true), red: true);
+  static Btn get okRed => Btn.ok(red: true);
 
   /// A list `[Btnx.ok]`
   ///

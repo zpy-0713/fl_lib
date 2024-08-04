@@ -35,17 +35,17 @@ class DebugPage extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
         actions: [
-          Btn.icon(
-            icon: const Icon(Icons.copy, color: Colors.white, size: 20),
-            onTap: (_) => DebugProvider.copy(),
+          const Btn.icon(
+            icon: Icon(Icons.copy, color: Colors.white, size: 20),
+            onTap: DebugProvider.copy,
             padding: pad,
           ),
           Btn.icon(
-            onTap: (_) {
+            onTap: () {
               context.showRoundDialog(
                 title: 'Clear logs?',
                 actions: Btn.ok(
-                  onTap: (_) {
+                  onTap: () {
                     DebugProvider.clear();
                     context.pop();
                   },

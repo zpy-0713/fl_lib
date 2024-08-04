@@ -167,7 +167,7 @@ final class TagTile extends StatelessWidget {
                         autoFocus: true,
                         onSubmitted: (_) => onSave(),
                       ),
-                      actions: [Btn.ok(onTap: (_) => onSave())],
+                      actions: [Btn.ok(onTap: onSave)],
                     );
                   },
                   child: Text(l10n.add),

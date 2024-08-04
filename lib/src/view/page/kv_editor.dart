@@ -110,12 +110,12 @@ class _KvEditorState extends State<KvEditor> {
           Btn.icon(
             text: l10n.edit,
             icon: const Icon(Icons.edit),
-            onTap: (_) => _onTapEdit(k, index),
+            onTap: () => _onTapEdit(k, index),
           ),
           Btn.icon(
             text: l10n.delete,
             icon: const Icon(Icons.delete),
-            onTap: (_) => _onTapDelete(k, index),
+            onTap: () => _onTapDelete(k, index),
           ),
         ],
       ),

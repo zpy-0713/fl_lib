@@ -44,6 +44,8 @@ extension DialogX on BuildContext {
     );
   }
 
+  /// [timeout] is the timeout of the Future [fn] (default `null`).
+  ///
   /// If an error occurs:
   /// - the dialog will be closed and an error dialog will be displayed
   /// - the [onErr] function will be called (awaited)
@@ -52,6 +54,7 @@ extension DialogX on BuildContext {
     required Future<T> Function() fn,
     bool barrierDismiss = false,
     FutureOr<void> Function(Object e, StackTrace s)? onErr,
+    Duration? timeout = const Duration(seconds: 30),
   }) async {
     showRoundDialog(
       child: UIs.centerSizedLoading,
@@ -59,7 +62,10 @@ extension DialogX on BuildContext {
     );
 
     return Resx.tryCatch(() async {
-      final ret = await fn();
+      final ret = switch (timeout) {
+        null => await fn(),
+        _ => await fn().timeout(timeout),
+      };
       pop();
       return ret;
     }, onErr: (e, s) {
@@ -282,17 +288,17 @@ extension DialogX on BuildContext {
         mainAxisSize: MainAxisSize.min,
         children: [
           Btn.tile(
-            onTap: (c) => c.pop(_ImportFrom.file),
+            onTap: () => pop(_ImportFrom.file),
             text: l10n.file,
             icon: const Icon(MingCute.file_line),
           ),
           Btn.tile(
-            onTap: (c) => c.pop(_ImportFrom.network),
+            onTap: () => pop(_ImportFrom.network),
             text: l10n.network,
             icon: const Icon(ZondIcons.network),
           ),
           Btn.tile(
-            onTap: (c) => c.pop(_ImportFrom.clipboard),
+            onTap: () => pop(_ImportFrom.clipboard),
             text: l10n.clipboard,
             icon: const Icon(MingCute.clipboard_line),
           ),
@@ -304,7 +310,7 @@ extension DialogX on BuildContext {
                   data: '''
 ```json
 [
-  ${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
+${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
 ]
 ```''',
                   selectable: true,

@@ -28,7 +28,7 @@ abstract final class PrefStore {
     return val as T;
   }
 
-  static Future<bool> set(String key, Object val) {
+  static Future<bool> set<T>(String key, T val) {
     return switch (val) {
       final bool val => instance.setBool(key, val),
       final double val => instance.setDouble(key, val),
