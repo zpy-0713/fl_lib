@@ -44,6 +44,7 @@ export 'src/model/dyn_color.dart';
 export 'src/model/notify.dart';
 export 'src/view/widget/slide_trans.dart';
 export 'src/view/widget/color_picker.dart';
+export 'src/view/widget/hover.dart';
 export 'src/view/widget/val_builder.dart';
 export 'src/view/widget/card.dart';
 export 'src/view/widget/tag.dart';
