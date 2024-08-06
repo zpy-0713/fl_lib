@@ -20,17 +20,28 @@ final class TipText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = this.textStyle ?? Theme.of(context).textTheme.bodyMedium;
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: text,
-            style: textStyle,
-          ),
-          const WidgetSpan(child: UIs.width13),
-          WidgetSpan(
-            child: InkWell(
+    final textWidget = Text(
+      text,
+      style: textStyle,
+    );
+
+    return LayoutBuilder(
+      builder: (context, cons) {
+        final width = cons.maxWidth;
+        final textWrapped = switch (width) {
+          final double w when w > 43 => SizedBox(
+              width: width - 13 - 30,
+              child: textWidget,
+            ),
+          _ => textWidget,
+        };
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            textWrapped,
+            UIs.width13,
+            InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () {
                 context.showRoundDialog(
@@ -45,9 +56,9 @@ final class TipText extends StatelessWidget {
                 color: Colors.grey,
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }
