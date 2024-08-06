@@ -115,6 +115,9 @@ class LibLocalizationsEn extends LibLocalizations {
   String get folder => 'Folder';
 
   @override
+  String get hideTitleBar => 'Hide title bar';
+
+  @override
   String get hour => 'Hours';
 
   @override

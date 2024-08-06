@@ -115,6 +115,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get folder => 'Folder';
 
   @override
+  String get hideTitleBar => 'Sembunyikan bilah judul';
+
+  @override
   String get hour => 'Jam';
 
   @override

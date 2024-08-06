@@ -36,6 +36,7 @@
   "file": "File",
   "fold": "Fold",
   "folder": "Folder",
+  "hideTitleBar": "Hide title bar",
   "hour": "Hours",
   "import": "Import",
   "key": "Key",

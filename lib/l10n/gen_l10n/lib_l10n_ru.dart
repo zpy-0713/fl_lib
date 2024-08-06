@@ -115,6 +115,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get folder => 'Папка';
 
   @override
+  String get hideTitleBar => 'Скрыть строку заголовка';
+
+  @override
   String get hour => 'Часы';
 
   @override

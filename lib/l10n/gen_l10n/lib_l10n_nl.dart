@@ -115,6 +115,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get folder => 'Map';
 
   @override
+  String get hideTitleBar => 'Titelbalk verbergen';
+
+  @override
   String get hour => 'Uren';
 
   @override

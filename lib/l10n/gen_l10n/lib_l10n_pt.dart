@@ -115,6 +115,9 @@ class LibLocalizationsPt extends LibLocalizations {
   String get folder => 'Pasta';
 
   @override
+  String get hideTitleBar => 'Ocultar barra de título';
+
+  @override
   String get hour => 'Horas';
 
   @override

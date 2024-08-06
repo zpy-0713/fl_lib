@@ -115,6 +115,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get folder => 'フォルダ';
 
   @override
+  String get hideTitleBar => 'タイトルバーを非表示にする';
+
+  @override
   String get hour => '時間';
 
   @override

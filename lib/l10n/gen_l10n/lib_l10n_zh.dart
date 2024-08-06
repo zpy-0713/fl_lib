@@ -115,6 +115,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get folder => '文件夹';
 
   @override
+  String get hideTitleBar => '隐藏标题栏';
+
+  @override
   String get hour => '时';
 
   @override
@@ -332,6 +335,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get folder => '資料夾';
+
+  @override
+  String get hideTitleBar => '隱藏標題欄';
 
   @override
   String get hour => '時';

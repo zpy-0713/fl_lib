@@ -115,6 +115,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get folder => 'Klasör';
 
   @override
+  String get hideTitleBar => 'Başlık çubuğunu gizle';
+
+  @override
   String get hour => 'saat';
 
   @override

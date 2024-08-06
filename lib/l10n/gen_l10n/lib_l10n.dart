@@ -328,6 +328,12 @@ abstract class LibLocalizations {
   /// **'Folder'**
   String get folder;
 
+  /// No description provided for @hideTitleBar.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide title bar'**
+  String get hideTitleBar;
+
   /// No description provided for @hour.
   ///
   /// In en, this message translates to:
