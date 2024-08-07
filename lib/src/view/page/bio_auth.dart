@@ -35,7 +35,7 @@ final class _BioAuthPageState extends State<BioAuthPage> with AfterLayoutMixin {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (!didPop) SystemNavigator.pop();
       },
       child: Scaffold(

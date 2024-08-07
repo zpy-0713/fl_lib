@@ -111,7 +111,7 @@ class _BlurOverlayState extends State<BlurOverlay>
       builder: (isShowing) {
         return PopScope(
           canPop: !isShowing,
-          onPopInvoked: (didPop) {
+          onPopInvokedWithResult: (didPop, _) {
             if (_overlayEntry == null) return;
             _removeOverlay();
           },

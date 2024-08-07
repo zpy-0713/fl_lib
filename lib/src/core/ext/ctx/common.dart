@@ -20,4 +20,6 @@ extension ContextX on BuildContext {
     final size = media.size;
     return size.width > size.height;
   }
+
+  bool get isRTL => Directionality.of(this) == TextDirection.rtl;
 }

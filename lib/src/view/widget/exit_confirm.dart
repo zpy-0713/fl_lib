@@ -29,7 +29,7 @@ final class _ExitConfirmState extends State<ExitConfirm> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         final now = DateTime.now().millisecondsSinceEpoch;
         if (now - _lastExitTS < 2000) {
           widget.onPop(context);
