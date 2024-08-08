@@ -1,4 +1,5 @@
 import 'package:choice/selection.dart';
+import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
 class ChoiceChipX<T> extends StatelessWidget {
@@ -16,7 +17,7 @@ class ChoiceChipX<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: EdgeInsets.only(left: 5, right: 5, top: isDesktop ? 7 : 0),
       child: ChoiceChip(
         label: Text(label),
         side: BorderSide.none,
