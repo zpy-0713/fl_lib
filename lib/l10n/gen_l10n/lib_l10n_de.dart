@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for German (`de`).
 class LibLocalizationsDe extends LibLocalizations {
   LibLocalizationsDe([String locale = 'de']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get doc => 'Dokumentation';
 
   @override
+  String get dontShowAgain => 'Nicht mehr zeigen';
+
+  @override
   String get download => 'Download';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsDe extends LibLocalizations {
 
   @override
   String get example => 'Beispiel';
+
+  @override
+  String get execute => 'Ausführen';
 
   @override
   String get exit => 'Beenden';

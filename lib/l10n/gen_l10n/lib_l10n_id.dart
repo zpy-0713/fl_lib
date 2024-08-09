@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Indonesian (`id`).
 class LibLocalizationsId extends LibLocalizations {
   LibLocalizationsId([String locale = 'id']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get doc => 'Dokumentasi';
 
   @override
+  String get dontShowAgain => 'Jangan tampilkan lagi';
+
+  @override
   String get download => 'Unduh';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get example => 'Contoh';
+
+  @override
+  String get execute => 'Jalankan';
 
   @override
   String get exit => 'Keluar';

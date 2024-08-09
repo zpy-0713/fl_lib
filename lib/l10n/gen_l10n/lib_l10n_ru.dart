@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Russian (`ru`).
 class LibLocalizationsRu extends LibLocalizations {
   LibLocalizationsRu([String locale = 'ru']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get doc => 'Документация';
 
   @override
+  String get dontShowAgain => 'Больше не показывать';
+
+  @override
   String get download => 'скачать';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get example => 'Пример';
+
+  @override
+  String get execute => 'Выполнить';
 
   @override
   String get exit => 'Выйти';

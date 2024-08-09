@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Turkish (`tr`).
 class LibLocalizationsTr extends LibLocalizations {
   LibLocalizationsTr([String locale = 'tr']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get doc => 'Dokümantasyon';
 
   @override
+  String get dontShowAgain => 'Bir daha gösterme';
+
+  @override
   String get download => 'İndir';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get example => 'Örnek';
+
+  @override
+  String get execute => 'Yürüt';
 
   @override
   String get exit => 'çıkış';

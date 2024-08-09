@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Chinese (`zh`).
 class LibLocalizationsZh extends LibLocalizations {
   LibLocalizationsZh([String locale = 'zh']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get doc => '文档';
 
   @override
+  String get dontShowAgain => '不再提示';
+
+  @override
   String get download => '下载';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get example => '示例';
+
+  @override
+  String get execute => '执行';
 
   @override
   String get exit => '退出';
@@ -298,6 +306,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get doc => '文檔';
 
   @override
+  String get dontShowAgain => '不再顯示';
+
+  @override
   String get download => '下載';
 
   @override
@@ -311,6 +322,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get example => '範例';
+
+  @override
+  String get execute => '執行';
 
   @override
   String get exit => '退出';

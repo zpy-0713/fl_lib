@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Portuguese (`pt`).
 class LibLocalizationsPt extends LibLocalizations {
   LibLocalizationsPt([String locale = 'pt']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsPt extends LibLocalizations {
   String get doc => 'Documentação';
 
   @override
+  String get dontShowAgain => 'Não mostrar novamente';
+
+  @override
   String get download => 'Baixar';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsPt extends LibLocalizations {
 
   @override
   String get example => 'Exemplo';
+
+  @override
+  String get execute => 'Executar';
 
   @override
   String get exit => 'Sair';

@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Dutch Flemish (`nl`).
 class LibLocalizationsNl extends LibLocalizations {
   LibLocalizationsNl([String locale = 'nl']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get doc => 'Documentatie';
 
   @override
+  String get dontShowAgain => 'Niet meer tonen';
+
+  @override
   String get download => 'Downloaden';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsNl extends LibLocalizations {
 
   @override
   String get example => 'Voorbeeld';
+
+  @override
+  String get execute => 'Uitvoeren';
 
   @override
   String get exit => 'Afsluiten';

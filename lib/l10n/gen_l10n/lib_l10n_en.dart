@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for English (`en`).
 class LibLocalizationsEn extends LibLocalizations {
   LibLocalizationsEn([String locale = 'en']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsEn extends LibLocalizations {
   String get doc => 'Documentation';
 
   @override
+  String get dontShowAgain => 'Don\'t show again';
+
+  @override
   String get download => 'Download';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsEn extends LibLocalizations {
 
   @override
   String get example => 'Example';
+
+  @override
+  String get execute => 'Execute';
 
   @override
   String get exit => 'Exit';

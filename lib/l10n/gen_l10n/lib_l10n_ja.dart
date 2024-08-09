@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Japanese (`ja`).
 class LibLocalizationsJa extends LibLocalizations {
   LibLocalizationsJa([String locale = 'ja']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get doc => 'ドキュメント';
 
   @override
+  String get dontShowAgain => '今後表示しない';
+
+  @override
   String get download => 'ダウンロード';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get example => '例';
+
+  @override
+  String get execute => '実行';
 
   @override
   String get exit => '終了';

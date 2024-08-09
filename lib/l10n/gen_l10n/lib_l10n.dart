@@ -17,6 +17,8 @@ import 'lib_l10n_ru.dart';
 import 'lib_l10n_tr.dart';
 import 'lib_l10n_zh.dart';
 
+// ignore_for_file: type=lint
+
 /// Callers can lookup localized strings with an instance of LibLocalizations
 /// returned by `LibLocalizations.of(context)`.
 ///
@@ -250,6 +252,12 @@ abstract class LibLocalizations {
   /// **'Documentation'**
   String get doc;
 
+  /// No description provided for @dontShowAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t show again'**
+  String get dontShowAgain;
+
   /// No description provided for @download.
   ///
   /// In en, this message translates to:
@@ -279,6 +287,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Example'**
   String get example;
+
+  /// No description provided for @execute.
+  ///
+  /// In en, this message translates to:
+  /// **'Execute'**
+  String get execute;
 
   /// No description provided for @exit.
   ///

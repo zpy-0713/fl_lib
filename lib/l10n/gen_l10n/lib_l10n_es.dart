@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Spanish Castilian (`es`).
 class LibLocalizationsEs extends LibLocalizations {
   LibLocalizationsEs([String locale = 'es']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsEs extends LibLocalizations {
   String get doc => 'Documentación';
 
   @override
+  String get dontShowAgain => 'No mostrar más';
+
+  @override
   String get download => 'Descargar';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsEs extends LibLocalizations {
 
   @override
   String get example => 'Ejemplo';
+
+  @override
+  String get execute => 'Ejecutar';
 
   @override
   String get exit => 'Salir';

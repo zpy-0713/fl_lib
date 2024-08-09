@@ -1,5 +1,7 @@
 import 'lib_l10n.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for French (`fr`).
 class LibLocalizationsFr extends LibLocalizations {
   LibLocalizationsFr([String locale = 'fr']) : super(locale);
@@ -76,6 +78,9 @@ class LibLocalizationsFr extends LibLocalizations {
   String get doc => 'Documentation';
 
   @override
+  String get dontShowAgain => 'Ne plus afficher';
+
+  @override
   String get download => 'Télécharger';
 
   @override
@@ -89,6 +94,9 @@ class LibLocalizationsFr extends LibLocalizations {
 
   @override
   String get example => 'Exemple\n';
+
+  @override
+  String get execute => 'Exécuter';
 
   @override
   String get exit => 'Quitter';
