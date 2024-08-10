@@ -58,16 +58,20 @@ abstract final class PrefStore {
 abstract final class SecureStore {
   static HiveAesCipher? cipher;
 
-  static const hiveKey = 'hive_key';
+  static const _hiveKey = 'hive_key';
+  static Future<String?> get encryptionKey async {
+    final key = PrefStore.get<String>(_hiveKey) ??
+        PrefStore.get<String>('flutter.$_hiveKey');
+    return key;
+  }
 
   static Future<void> init() async {
-    final encryptionKeyString = PrefStore.get<String>(hiveKey) ??
-        PrefStore.get<String>('flutter.$hiveKey');
+    final encryptionKeyString = await encryptionKey;
     if (encryptionKeyString == null) {
       final key = Hive.generateSecureKey();
-      await PrefStore.set(hiveKey, base64UrlEncode(key));
+      await PrefStore.set(_hiveKey, base64UrlEncode(key));
     }
-    final key = PrefStore.get<String>(hiveKey);
+    final key = await encryptionKey;
     if (key == null) {
       throw Exception('Failed to init SecureStore');
     }
