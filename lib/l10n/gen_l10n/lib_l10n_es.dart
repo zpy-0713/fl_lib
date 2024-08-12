@@ -179,6 +179,9 @@ class LibLocalizationsEs extends LibLocalizations {
   String get restore => 'Restaurar';
 
   @override
+  String get save => 'Guardar';
+
+  @override
   String get second => 'Segundos';
 
   @override
@@ -186,6 +189,9 @@ class LibLocalizationsEs extends LibLocalizations {
 
   @override
   String get setting => 'Configuración';
+
+  @override
+  String get share => 'Compartir';
 
   @override
   String get success => 'Éxito';

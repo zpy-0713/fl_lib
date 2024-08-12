@@ -450,6 +450,12 @@ abstract class LibLocalizations {
   /// **'Restore'**
   String get restore;
 
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
   /// No description provided for @second.
   ///
   /// In en, this message translates to:
@@ -467,6 +473,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get setting;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
 
   /// No description provided for @success.
   ///

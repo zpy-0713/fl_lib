@@ -179,6 +179,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get restore => 'Восстановление';
 
   @override
+  String get save => 'Сохранить';
+
+  @override
   String get second => 'Секунды';
 
   @override
@@ -186,6 +189,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get setting => 'настройки';
+
+  @override
+  String get share => 'Поделиться';
 
   @override
   String get success => 'Успех';

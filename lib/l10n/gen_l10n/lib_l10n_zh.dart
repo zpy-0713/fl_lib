@@ -179,6 +179,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get restore => '恢复';
 
   @override
+  String get save => '保存';
+
+  @override
   String get second => '秒';
 
   @override
@@ -186,6 +189,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get setting => '设置';
+
+  @override
+  String get share => '分享';
 
   @override
   String get success => '成功';
@@ -407,6 +413,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get restore => '恢復';
 
   @override
+  String get save => '儲存';
+
+  @override
   String get second => '秒';
 
   @override
@@ -414,6 +423,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get setting => '設置';
+
+  @override
+  String get share => '分享';
 
   @override
   String get success => '成功';

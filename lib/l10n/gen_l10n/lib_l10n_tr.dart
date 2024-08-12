@@ -179,6 +179,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get restore => 'Geri Yükleme';
 
   @override
+  String get save => 'Kaydet';
+
+  @override
   String get second => 'saniye';
 
   @override
@@ -186,6 +189,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get setting => 'Ayarlar';
+
+  @override
+  String get share => 'Paylaş';
 
   @override
   String get success => 'başarılı';

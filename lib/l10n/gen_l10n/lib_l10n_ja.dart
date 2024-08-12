@@ -179,6 +179,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get restore => 'リストア';
 
   @override
+  String get save => '保存';
+
+  @override
   String get second => '秒';
 
   @override
@@ -186,6 +189,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get setting => '設定';
+
+  @override
+  String get share => '共有';
 
   @override
   String get success => '成功';

@@ -179,6 +179,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get restore => 'Pulihkan';
 
   @override
+  String get save => 'Simpan';
+
+  @override
   String get second => 'Detik';
 
   @override
@@ -186,6 +189,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get setting => 'Pengaturan';
+
+  @override
+  String get share => 'Bagikan';
 
   @override
   String get success => 'Sukses';
