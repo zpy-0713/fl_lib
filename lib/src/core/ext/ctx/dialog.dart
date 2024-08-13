@@ -70,7 +70,7 @@ extension DialogX on BuildContext {
       return ret;
     }, onErr: (e, s) {
       pop();
-      showErrDialog(e: e, s: s);
+      showErrDialog(e, s);
       onErr?.call(e, s);
     });
   }
@@ -254,11 +254,11 @@ extension DialogX on BuildContext {
     return null;
   }
 
-  void showErrDialog({
+  void showErrDialog([
     Object? e,
     StackTrace? s,
     String? operation,
-  }) {
+  ]) {
     showRoundDialog(
       title: operation ?? l10n.fail,
       child: SimpleMarkdown(data: '$e\n```\n$s\n```'),
