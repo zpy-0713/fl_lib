@@ -47,6 +47,7 @@ final class QrView extends StatelessWidget {
               fontSize: 17,
               fontWeight: FontWeight.w500,
             ),
+            maxLines: 1,
           ),
         if (tip2 != null) const SizedBox(height: 1),
         if (tip2 != null)
@@ -56,6 +57,7 @@ final class QrView extends StatelessWidget {
               color: Colors.grey,
               fontSize: 13,
             ),
+            maxLines: 3,
           ),
       ],
     );
