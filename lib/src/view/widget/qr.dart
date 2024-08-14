@@ -12,12 +12,15 @@ final class QrView extends StatelessWidget {
   /// Bottom tip (smaller)
   final String? tip2;
 
+  final ImageProvider? centerImg;
+
   const QrView({
     super.key,
     required this.data,
     this.size = 200,
     this.tip,
     this.tip2,
+    this.centerImg,
   });
 
   @override
@@ -32,6 +35,8 @@ final class QrView extends StatelessWidget {
         roundFactor: 1,
         color: UIs.primaryColor,
       ),
+      image:
+          centerImg != null ? PrettyQrDecorationImage(image: centerImg!) : null,
     );
     Widget qrWidget = PrettyQrView(qrImage: qrImg, decoration: qrDecoration);
     qrWidget = Column(

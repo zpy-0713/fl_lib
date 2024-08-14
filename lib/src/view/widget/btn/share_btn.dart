@@ -14,6 +14,8 @@ final class ShareBtn extends StatelessWidget {
 
   final Key? qrKey;
 
+  final ImageProvider? centerImg;
+
   const ShareBtn({
     super.key,
     required this.data,
@@ -21,12 +23,19 @@ final class ShareBtn extends StatelessWidget {
     this.tip,
     this.tip2,
     this.qrKey,
+    this.centerImg,
   });
 
   @override
   Widget build(BuildContext context) {
-    final qrWidget =
-        QrView(key: qrKey, data: data, size: size, tip: tip, tip2: tip2);
+    final qrWidget = QrView(
+      key: qrKey,
+      data: data,
+      size: size,
+      tip: tip,
+      tip2: tip2,
+      centerImg: centerImg,
+    );
 
     final shareTextBtn = Btn.text(
       text: libL10n.save,
