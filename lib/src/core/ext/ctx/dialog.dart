@@ -104,7 +104,7 @@ extension DialogX on BuildContext {
 
   Future<List<T>?> showPickDialog<T>({
     String? title,
-    required List<T?> items,
+    required List<T> items,
     String Function(T)? display,
     bool multi = true,
     List<T>? initial,
@@ -120,15 +120,16 @@ extension DialogX on BuildContext {
     final sure = await showRoundDialog<bool>(
       title: title ?? l10n.select,
       child: SingleChildScrollView(
-        child: Choice<T>(
+        child: ChoicesWrapper<T>(
           onChanged: (value) {
             vals = value;
             if (!multi) pop(true);
           },
-          multiple: multi,
-          clearable: clearable,
-          value: vals,
-          builder: (state, _) => ChoicesWrapper(choices: items, state: state),
+          multi: multi,
+          clear: clearable,
+          init: vals,
+          choices: items,
+          display: display,
         ),
       ),
       actions: btns.isEmpty ? null : btns,
@@ -139,7 +140,7 @@ extension DialogX on BuildContext {
 
   Future<T?> showPickSingleDialog<T>({
     String? title,
-    required List<T?> items,
+    required List<T> items,
     String Function(T)? display,
     T? initial,
     bool clearable = false,

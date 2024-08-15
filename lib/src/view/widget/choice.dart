@@ -1,34 +1,53 @@
-import 'package:choice/selection.dart';
+import 'package:choice/choice.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
 final class ChoicesWrapper<T> extends StatelessWidget {
   const ChoicesWrapper({
     super.key,
+    this.init,
     required this.choices,
-    required this.state,
     this.display,
+    this.clear = false,
+    this.multi = false,
+    this.onSelected,
+    this.onChanged,
   });
 
+  final List<T>? init;
   final List<T> choices;
-  final ChoiceController<T> state;
   final String Function(T)? display;
+  final bool clear;
+  final bool multi;
+  final void Function(T, bool)? onSelected;
+  final void Function(List<T>)? onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: List<Widget>.generate(
-        choices.length,
-        (index) {
-          final item = choices[index];
-          if (item == null) return UIs.placeholder;
-          return ChoiceChipX<T>(
-            label: display?.call(item) ?? item.toString(),
-            state: state,
-            value: item,
-          );
-        },
-      ),
+    final vals = init ?? <T>[];
+
+    return Choice<T>(
+      value: vals,
+      clearable: clear,
+      multiple: multi,
+      onChanged: onChanged,
+      builder: (state, _) {
+        return Wrap(
+          children: List<Widget>.generate(
+            choices.length,
+            (index) {
+              final item = choices[index];
+              if (item == null) return UIs.placeholder;
+              return ChoiceChipX<T>(
+                label: display?.call(item) ?? item.toString(),
+                state: state,
+                value: item,
+                onSelected: onSelected,
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
@@ -39,11 +58,13 @@ class ChoiceChipX<T> extends StatelessWidget {
     required this.label,
     required this.state,
     required this.value,
+    this.onSelected,
   });
 
   final String label;
   final ChoiceController<T> state;
   final T value;
+  final void Function(T, bool)? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +79,10 @@ class ChoiceChipX<T> extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 8),
         labelPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
         selected: state.selected(value),
-        onSelected: state.onSelected(value),
+        onSelected: (val) {
+          state.onSelected(value);
+          onSelected?.call(value, val);
+        },
       ),
     );
   }
