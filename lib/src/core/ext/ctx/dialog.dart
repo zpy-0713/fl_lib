@@ -105,7 +105,7 @@ extension DialogX on BuildContext {
   Future<List<T>?> showPickDialog<T>({
     String? title,
     required List<T?> items,
-    String Function(T)? name,
+    String Function(T)? display,
     bool multi = true,
     List<T>? initial,
     bool clearable = false,
@@ -128,36 +128,19 @@ extension DialogX on BuildContext {
           multiple: multi,
           clearable: clearable,
           value: vals,
-          builder: (state, _) {
-            return Wrap(
-              children: List<Widget>.generate(
-                items.length,
-                (index) {
-                  final item = items[index];
-                  if (item == null) return UIs.placeholder;
-                  return ChoiceChipX<T>(
-                    label: name?.call(item) ?? item.toString(),
-                    state: state,
-                    value: item,
-                  );
-                },
-              ),
-            );
-          },
+          builder: (state, _) => ChoicesWrapper(choices: items, state: state),
         ),
       ),
       actions: btns.isEmpty ? null : btns,
     );
-    if (sure == true) {
-      return vals;
-    }
+    if (sure == true) return vals;
     return null;
   }
 
   Future<T?> showPickSingleDialog<T>({
     String? title,
     required List<T?> items,
-    String Function(T)? name,
+    String Function(T)? display,
     T? initial,
     bool clearable = false,
     List<Widget>? actions,
@@ -165,7 +148,7 @@ extension DialogX on BuildContext {
     final vals = await showPickDialog<T>(
       title: title,
       items: items,
-      name: name,
+      display: display,
       multi: false,
       initial: initial == null ? null : [initial],
       actions: actions,
@@ -180,7 +163,7 @@ extension DialogX on BuildContext {
     String? title,
     required List<T?> Function(String? tag) itemsBuilder,
     required ValueNotifier<Set<String>> tags,
-    String Function(T)? name,
+    String Function(T)? display,
     List<T>? initial,
     bool clearable = false,
     bool multi = false,
@@ -225,7 +208,7 @@ extension DialogX on BuildContext {
                             final item = items[index];
                             if (item == null) return UIs.placeholder;
                             return ChoiceChipX<T>(
-                              label: name?.call(item) ?? item.toString(),
+                              label: display?.call(item) ?? item.toString(),
                               state: state,
                               value: item,
                             );
