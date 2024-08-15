@@ -1,116 +1,67 @@
+import 'package:choice/choice.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-const _kTagBtnHeight = 31.0;
-
-class TagBtn extends StatelessWidget {
-  final String content;
-  final void Function() onTap;
-  final bool isEnable;
-  final Color? color;
-
-  const TagBtn({
-    super.key,
-    required this.onTap,
-    required this.isEnable,
-    required this.content,
-    this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return _Wrap(
-      onTap: onTap,
-      color: color ?? UIs.halfAlpha,
-      child: Text(
-        content,
-        textAlign: TextAlign.center,
-        style: isEnable ? UIs.text13 : UIs.text13Grey,
-      ),
-    );
-  }
-}
+const _kTagBtnHeight = 45.0;
 
 class TagSwitcher extends StatelessWidget implements PreferredSizeWidget {
   final ValueNotifier<Set<String>> tags;
-  final double width;
-  final void Function(String?) onTagChanged;
-  final String? initTag;
+  final void Function(String) onTagChanged;
+  final String initTag;
 
   const TagSwitcher({
     super.key,
     required this.tags,
-    required this.width,
     required this.onTagChanged,
-    this.initTag,
+    this.initTag = '',
   });
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: tags,
-      builder: (_, vals, __) {
+    final choice = tags.listenVal(
+      (vals) {
         if (vals.isEmpty) return UIs.placeholder;
-        final items = <String?>[null, ...vals];
-        return Container(
-          height: _kTagBtnHeight,
-          width: width,
-          padding: const EdgeInsets.symmetric(horizontal: 7),
-          alignment: Alignment.center,
-          color: Colors.transparent,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return TagBtn(
-                content: item == null ? l10n.all : '#$item',
-                isEnable: initTag == item,
-                onTap: () => onTagChanged(item),
-              );
-            },
-            itemCount: items.length,
-          ),
+        final items = <String>['', ...vals];
+        return Choice<String>(
+          multiple: false,
+          clearable: false,
+          value: [initTag],
+          builder: (state, _) {
+            return Wrap(
+              children: List<Widget>.generate(
+                items.length,
+                (index) {
+                  final item = items[index];
+                  return ChoiceChipX<String>(
+                    outPadding:
+                        EdgeInsets.only(right: 5, top: isDesktop ? 7 : 0),
+                    padding: const EdgeInsets.only(
+                        left: 10, right: 13, bottom: 6, top: 6),
+                    labelPadding: EdgeInsets.zero,
+                    showCheckmark: true,
+                    label: item.isEmpty ? libL10n.all : '$item ',
+                    state: state,
+                    value: item,
+                    onSelected: (val, _) => onTagChanged(val),
+                  );
+                },
+              ),
+            );
+          },
         );
       },
     );
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 13),
+      scrollDirection: Axis.horizontal,
+      child: choice,
+    ).paddingOnly(bottom: 5);
   }
 
   @override
   Size get preferredSize => const Size.fromHeight(_kTagBtnHeight);
-}
-
-final class _Wrap extends StatelessWidget {
-  final Widget child;
-  final void Function()? onTap;
-  final Color? color;
-
-  const _Wrap({
-    required this.child,
-    this.onTap,
-    this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(3),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-        child: Material(
-          color: color,
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 11),
-              child: Center(child: child),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 final class TagTile extends StatelessWidget {

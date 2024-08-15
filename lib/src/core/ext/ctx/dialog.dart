@@ -120,16 +120,28 @@ extension DialogX on BuildContext {
     final sure = await showRoundDialog<bool>(
       title: title ?? l10n.select,
       child: SingleChildScrollView(
-        child: ChoicesWrapper<T>(
+        child: Choice<T>(
           onChanged: (value) {
             vals = value;
             if (!multi) pop(true);
           },
-          multi: multi,
-          clear: clearable,
-          init: vals,
-          choices: items,
-          display: display,
+          multiple: multi,
+          clearable: clearable,
+          value: vals,
+          builder: (state, _) => Wrap(
+            children: List<Widget>.generate(
+              items.length,
+              (index) {
+                final item = items[index];
+                if (item == null) return UIs.placeholder;
+                return ChoiceChipX<T>(
+                  label: display?.call(item) ?? item.toString(),
+                  state: state,
+                  value: item,
+                );
+              },
+            ),
+          ),
         ),
       ),
       actions: btns.isEmpty ? null : btns,
@@ -171,7 +183,7 @@ extension DialogX on BuildContext {
     List<Widget>? actions,
   }) async {
     var vals = initial ?? <T>[];
-    final tag = ValueNotifier<String?>(null);
+    final tag = ''.vn;
     final media = MediaQuery.of(this);
     final sure = await showRoundDialog<bool>(
       title: title,
@@ -183,7 +195,6 @@ extension DialogX on BuildContext {
             listenable: tag,
             builder: (_, __) => TagSwitcher(
               tags: tags,
-              width: 300,
               initTag: tag.value,
               onTagChanged: (e) => tag.value = e,
             ),
