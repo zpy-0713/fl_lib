@@ -195,7 +195,7 @@ extension DialogX on BuildContext {
             listenable: tag,
             builder: (_, __) => TagSwitcher(
               tags: tags,
-              initTag: tag.value,
+              tag: tag,
               onTagChanged: (e) => tag.value = e,
             ),
           ),
