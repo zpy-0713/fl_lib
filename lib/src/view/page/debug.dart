@@ -13,7 +13,7 @@ final class DebugPageArgs {
 class DebugPage extends StatelessWidget {
   final DebugPageArgs args;
 
-  const DebugPage({super.key, required this.args});
+  const DebugPage({super.key, this.args = const DebugPageArgs(title: 'Logs')});
 
   static const route = AppRoute<void, DebugPageArgs>(
     page: DebugPage.new,

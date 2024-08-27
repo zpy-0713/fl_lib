@@ -14,7 +14,7 @@ final class PlainEditPageArgs {
 class PlainEditPage extends StatefulWidget {
   final PlainEditPageArgs args;
 
-  const PlainEditPage({super.key, required this.args});
+  const PlainEditPage({super.key, this.args = const PlainEditPageArgs()});
 
   static const route = AppRoute<String, PlainEditPageArgs>(
     page: PlainEditPage.new,
