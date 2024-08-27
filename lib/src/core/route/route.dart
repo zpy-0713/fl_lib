@@ -22,7 +22,7 @@ final class AppRouteIface {
 
 /// A route with non-null arguments.
 final class AppRoute<Ret, Arg extends Object> extends AppRouteIface {
-  final Widget Function({Key? key, Arg args}) page;
+  final Widget Function({Key? key, Arg? args}) page;
 
   /// If [middlewares] returns false, the navigation will be canceled.
   final List<bool Function(Middleware<AppRoute<Ret, Arg>>)>? middlewares;
