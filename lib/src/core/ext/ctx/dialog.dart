@@ -57,7 +57,7 @@ extension DialogX on BuildContext {
     Duration? timeout = const Duration(seconds: 30),
   }) async {
     showRoundDialog(
-      child: SizedLoading.centerMedium,
+      child: SizedLoading.medium,
       barrierDismiss: barrierDismiss,
     );
 

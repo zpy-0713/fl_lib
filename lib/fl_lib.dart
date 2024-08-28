@@ -5,6 +5,7 @@ export 'src/core/mixin/after_layout.dart';
 export 'src/core/update.dart';
 export 'src/core/store.dart';
 export 'src/core/sync/base.dart';
+export 'src/core/supa.dart';
 export 'src/core/build_mode.dart';
 export 'src/core/ext/widget.dart';
 export 'src/core/ext/locale.dart';
