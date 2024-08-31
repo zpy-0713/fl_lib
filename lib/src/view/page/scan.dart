@@ -29,6 +29,7 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CustomAppBar(),
       body: QRCodeDartScanView(
         scanInvertedQRCode: true,
         typeScan: TypeScan.live,
