@@ -1,6 +1,6 @@
 part of 'base.dart';
 
-const webdav = _Webdav._();
+const webdav = Webdav._();
 
 final class WebdavInitArgs {
   final String url;
@@ -16,8 +16,8 @@ final class WebdavInitArgs {
   });
 }
 
-final class _Webdav implements RemoteStorage<WebdavInitArgs, String> {
-  const _Webdav._();
+final class Webdav implements RemoteStorage<WebdavInitArgs, String> {
+  const Webdav._();
 
   /// Some WebDAV provider only support non-root path
   static String _prefix = 'gptbox/';

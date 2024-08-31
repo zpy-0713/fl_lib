@@ -4,8 +4,8 @@ part of 'base.dart';
 /// Remote storage interface.
 ///
 /// All valid internal impls:
-///   - [_Webdav]
-///   - [_ICloud]
+///   - [Webdav]
+///   - [ICloud]
 /// {@endtemplate}
 abstract base class RemoteStorage<InitArgs, ListItemType> {
   /// Initialize remote storage

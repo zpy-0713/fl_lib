@@ -1,9 +1,9 @@
 part of 'base.dart';
 
-const icloud = _ICloud._();
+const icloud = ICloud._();
 
-final class _ICloud implements RemoteStorage<String, ICloudFile> {
-  const _ICloud._();
+final class ICloud implements RemoteStorage<String, ICloudFile> {
+  const ICloud._();
 
   static String containerId = '';
 
