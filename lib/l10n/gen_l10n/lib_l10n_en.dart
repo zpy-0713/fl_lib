@@ -66,6 +66,11 @@ class LibLocalizationsEn extends LibLocalizations {
   String get day => 'Days';
 
   @override
+  String delFmt(Object id, Object type) {
+    return 'Delete $type($id)?';
+  }
+
+  @override
   String get delete => 'Delete';
 
   @override
@@ -129,6 +134,9 @@ class LibLocalizationsEn extends LibLocalizations {
   String get hour => 'Hours';
 
   @override
+  String get image => 'Image';
+
+  @override
   String get import => 'Import';
 
   @override
@@ -139,6 +147,12 @@ class LibLocalizationsEn extends LibLocalizations {
 
   @override
   String get log => 'Log';
+
+  @override
+  String get loginTip => 'Use third-party login, no registration required, to access cloud features for free.';
+
+  @override
+  String get logout => 'Logout';
 
   @override
   String get minute => 'Minutes';

@@ -66,6 +66,11 @@ class LibLocalizationsTr extends LibLocalizations {
   String get day => 'gün';
 
   @override
+  String delFmt(Object id, Object type) {
+    return '$type ($id) silinsin mi?';
+  }
+
+  @override
   String get delete => 'Sil';
 
   @override
@@ -129,6 +134,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get hour => 'saat';
 
   @override
+  String get image => 'Resim';
+
+  @override
   String get import => 'İçe Aktar';
 
   @override
@@ -139,6 +147,12 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get log => 'Kayıt';
+
+  @override
+  String get loginTip => 'Üçüncü taraf girişi kullanarak, kayıt olmadan, bulut özelliklerini ücretsiz kullanabilirsiniz.';
+
+  @override
+  String get logout => 'Çıkış yap';
 
   @override
   String get minute => 'dakika';

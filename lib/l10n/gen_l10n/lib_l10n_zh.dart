@@ -66,6 +66,11 @@ class LibLocalizationsZh extends LibLocalizations {
   String get day => '天';
 
   @override
+  String delFmt(Object id, Object type) {
+    return '删除 $type（$id）？';
+  }
+
+  @override
   String get delete => '删除';
 
   @override
@@ -129,6 +134,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get hour => '时';
 
   @override
+  String get image => '图片';
+
+  @override
   String get import => '导入';
 
   @override
@@ -139,6 +147,12 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get log => '日志';
+
+  @override
+  String get loginTip => '使用第三方登录，无需注册，即可免费使用云上功能';
+
+  @override
+  String get logout => '登出';
 
   @override
   String get minute => '分';
@@ -300,6 +314,11 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get day => '天';
 
   @override
+  String delFmt(Object id, Object type) {
+    return '刪除 $type（$id）？';
+  }
+
+  @override
   String get delete => '刪除';
 
   @override
@@ -363,6 +382,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get hour => '時';
 
   @override
+  String get image => '圖片';
+
+  @override
   String get import => '導入';
 
   @override
@@ -373,6 +395,12 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get log => '日誌';
+
+  @override
+  String get loginTip => '使用第三方登入，無需註冊，即可免費使用雲端功能。';
+
+  @override
+  String get logout => '登出';
 
   @override
   String get minute => '分';

@@ -66,6 +66,11 @@ class LibLocalizationsId extends LibLocalizations {
   String get day => 'Hari';
 
   @override
+  String delFmt(Object id, Object type) {
+    return 'Hapus $type ($id)?';
+  }
+
+  @override
   String get delete => 'Hapus';
 
   @override
@@ -129,6 +134,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get hour => 'Jam';
 
   @override
+  String get image => 'Gambar';
+
+  @override
   String get import => 'Impor';
 
   @override
@@ -139,6 +147,12 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get log => 'Catatan';
+
+  @override
+  String get loginTip => 'Gunakan login pihak ketiga, tanpa perlu registrasi, untuk menggunakan fitur cloud secara gratis.';
+
+  @override
+  String get logout => 'Keluar';
 
   @override
   String get minute => 'Menit';
