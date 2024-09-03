@@ -68,7 +68,7 @@ final class _UserPageState extends State<UserPage> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(width: double.infinity),
-        const PbUserAvatar(),
+        PbUserAvatar(onRet: _onImageRet),
         UIs.height13,
         Text(
           user.getStringValue('username'),
@@ -111,6 +111,7 @@ final class _UserPageState extends State<UserPage> {
   void _onRename() async {
     final ctrl = TextEditingController();
     void onOk() async {
+      context.pop();
       final name = ctrl.text;
       if (name.isEmpty) return;
       await Pbs.userRename(name);
@@ -142,7 +143,7 @@ final class _UserPageState extends State<UserPage> {
     );
     if (sure != true) return;
 
-    await _onLogout();
+    Pbs.logout();
   }
 
   void _onImageRet(ImagePageRet ret) async {

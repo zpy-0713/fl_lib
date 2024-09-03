@@ -136,7 +136,9 @@ class _ImageCardState extends State<ImageCard> {
 }
 
 final class PbUserAvatar extends StatelessWidget {
-  const PbUserAvatar({super.key});
+  final void Function(ImagePageRet ret) onRet;
+
+  const PbUserAvatar({super.key, required this.onRet});
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +147,7 @@ final class PbUserAvatar extends StatelessWidget {
       imageUrl: avatar ?? 'assets/images/avatar.png',
       showLarge: avatar != null,
       heroTag: 'avatar',
+      onRet: onRet,
     );
   }
 }

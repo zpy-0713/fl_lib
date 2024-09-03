@@ -33,11 +33,7 @@ final class Pbs {
   static Map<String, String>? get authHeaders {
     final token = pb.authStore.token;
     if (token.isEmpty) return {};
-
-    /// TODO: correct it
-    return {
-      'Authorization': 'Bearer $token',
-    };
+    return {'Authorization': token};
   }
 
   /// Upload a file to the server. Returns the path of the uploaded file.
@@ -49,7 +45,7 @@ final class Pbs {
       query: {'pub': pub},
       files: [await MultipartFile.fromPath('file', path)],
     );
-    return resp.data['path'];
+    return resp.data['data'];
   }
 
   /// Download a file from the server. Returns the file content as bytes.
@@ -101,11 +97,12 @@ final class Pbs {
 
     if (model.getStringValue('username') == name) return;
 
-    await userCol.update(model.id, body: {
-      'username': name,
-    });
-    await Pbs.userCol.authRefresh();
+    await userCol.update(model.id, body: {'username': name});
+    await Pbs.userRefresh();
+  }
 
+  static Future<void> userRefresh() async {
+    await Pbs.userCol.authRefresh();
     user.value = pb.authStore.model;
   }
 
