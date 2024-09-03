@@ -1,14 +1,10 @@
 # This is a generated file; do not edit or check into version control.
-app_links=/home/lolli/.pub-cache/hosted/pub.dev/app_links-6.3.0/
-app_links_linux=/home/lolli/.pub-cache/hosted/pub.dev/app_links_linux-1.0.3/
-app_links_web=/home/lolli/.pub-cache/hosted/pub.dev/app_links_web-1.0.4/
 camera=/home/lolli/.pub-cache/hosted/pub.dev/camera-0.11.0+2/
 camera_android_camerax=/home/lolli/.pub-cache/hosted/pub.dev/camera_android_camerax-0.6.8+3/
 camera_avfoundation=/home/lolli/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.17+3/
 camera_web=/home/lolli/.pub-cache/hosted/pub.dev/camera_web-0.3.5/
 file_picker=/home/lolli/.pub-cache/hosted/pub.dev/file_picker-8.0.7/
 flutter_plugin_android_lifecycle=/home/lolli/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.21/
-gtk=/home/lolli/.pub-cache/hosted/pub.dev/gtk-2.1.0/
 icloud_storage=/home/lolli/.pub-cache/hosted/pub.dev/icloud_storage-2.2.0/
 local_auth=/home/lolli/.pub-cache/hosted/pub.dev/local_auth-2.3.0/
 local_auth_android=/home/lolli/.pub-cache/hosted/pub.dev/local_auth_android-1.0.43/
