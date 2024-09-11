@@ -16,6 +16,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get all => '全て';
 
   @override
+  String get anonLoseDataTip => '現在匿名でログインしています。操作を続行するとデータが失われます。';
+
+  @override
   String askContinue(Object msg) {
     return '$msg、続行しますか？';
   }

@@ -18,14 +18,13 @@ abstract final class PrefStore {
     _instance = await SharedPreferences.getInstance();
   }
 
-  static T? get<T>(String key, [T? defaultValue]) {
+  static T? get<T>(String key) {
     final val = instance.get(key);
-    if (val == null) return defaultValue;
     if (val is! T) {
       debugPrint('SharedPref.get("$key") is: ${val.runtimeType}');
-      return defaultValue;
+      return null;
     }
-    return val as T;
+    return val;
   }
 
   static Future<bool> set<T>(String key, T val) {
@@ -53,6 +52,31 @@ abstract final class PrefStore {
   static Future<bool> clear() {
     return instance.clear();
   }
+}
+
+final class PrefProp<T extends Object> {
+  final String key;
+
+  const PrefProp(this.key);
+
+  T? get() => PrefStore.get<T>(key);
+
+  Future<bool> set(T value) => PrefStore.set(key, value);
+
+  Future<bool> remove() => PrefStore.remove(key);
+}
+
+final class PrefPropDefault<T extends Object> {
+  final String key;
+  final T defaultValue;
+
+  const PrefPropDefault(this.key, this.defaultValue);
+
+  T get() => PrefStore.get<T>(key) ?? defaultValue;
+
+  Future<bool> set(T value) => PrefStore.set(key, value);
+
+  Future<bool> remove() => PrefStore.remove(key);
 }
 
 abstract final class SecureStore {

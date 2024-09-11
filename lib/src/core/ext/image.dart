@@ -1,20 +1,20 @@
-import 'package:image/image.dart' as img;
+import 'package:flutter/foundation.dart';
+import 'package:image/image.dart';
 
-extension ImgX on img.Image {
-  img.Image addPadding(
+extension ImgX on Image {
+  Image addPadding(
     int padding, {
-    img.Color? paddingColor,
+    Color? paddingColor,
   }) {
-    paddingColor ??= img.ColorRgb8(255, 255, 255);
+    paddingColor ??= ColorRgb8(255, 255, 255);
 
     final int newWidth = width + (padding * 2);
     final int newHeight = height + (padding * 2);
 
-    // Create a new image with padding
-    final img.Image paddedImage = img.Image(width: newWidth, height: newHeight);
+    final paddedImage = Image(width: newWidth, height: newHeight);
 
     // Fill the new image with the padding color
-    img.fill(paddedImage, color: paddingColor);
+    fill(paddedImage, color: paddingColor);
 
     // Copy the original image onto the new image with offset
     for (int y = 0; y < height; y++) {
@@ -24,5 +24,38 @@ extension ImgX on img.Image {
     }
 
     return paddedImage;
+  }
+}
+
+abstract final class ImageUtil {
+  static bool isImage(String mime) => mime.startsWith('image');
+
+  static Future<Uint8List> compress(
+    Uint8List data, {
+    int quality = 80,
+    Image? Function(Uint8List data)? decoder,
+    String? mime,
+  }) async {
+    decoder ??= switch (mime) {
+      // Common image formats
+      'image/jpeg' || 'image/jpg' => decodeJpg,
+      'image/png' => decodePng,
+      'image/gif' => decodeGif,
+      'image/tiff' => decodeTiff,
+      'image/webp' => decodeWebP,
+      // For max image compatibility
+      // [decodeImage] is slower than the specific decoders
+      final String v when isImage(v) => decodeImage,
+      // Non-image formats
+      _ => null,
+    };
+    if (decoder == null) throw 'No decoder for: $mime';
+
+    final img = await compute(decoder, data);
+    if (img == null) throw 'Invalid image';
+    return compute(
+      (decoded) => encodeJpg(decoded, quality: quality),
+      img,
+    );
   }
 }

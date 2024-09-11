@@ -16,6 +16,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get all => 'Alle';
 
   @override
+  String get anonLoseDataTip => 'Der aktuelle Zugriff erfolgt anonym. Weiteres Vorgehen führt zu Datenverlust.';
+
+  @override
   String askContinue(Object msg) {
     return '$msg. Weiter?';
   }

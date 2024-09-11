@@ -16,6 +16,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get all => 'Semua';
 
   @override
+  String get anonLoseDataTip => 'Saat ini masuk secara anonim, melanjutkan operasi akan mengakibatkan hilangnya data.';
+
+  @override
   String askContinue(Object msg) {
     return '$msg, lanjutkan?';
   }

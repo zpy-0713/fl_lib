@@ -3,6 +3,7 @@
   "about": "Tentang",
   "add": "Tambah",
   "all": "Semua",
+  "anonLoseDataTip": "Saat ini masuk secara anonim, melanjutkan operasi akan mengakibatkan hilangnya data.",
   "askContinue": "{msg}, lanjutkan?",
   "attention": "Perhatian",
   "authRequired": "Autentikasi diperlukan",

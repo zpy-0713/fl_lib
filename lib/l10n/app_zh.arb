@@ -3,6 +3,7 @@
   "about": "关于",
   "add": "添加",
   "all": "所有",
+  "anonLoseDataTip": "当前以匿名登录，继续操作会导致数据丢失",
   "askContinue": "{msg}，继续吗？",
   "attention": "注意",
   "authRequired": "需要认证",

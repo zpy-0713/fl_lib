@@ -3,6 +3,7 @@
   "about": "Hakkında",
   "add": "ekle",
   "all": "tümü",
+  "anonLoseDataTip": "Şu anda anonim olarak giriş yapılmış, işlemlere devam edilmesi veri kaybına neden olacaktır.",
   "askContinue": "{msg}. Devam edilsin mi?",
   "attention": "Dikkat",
   "authRequired": "kimlik doğrulaması gerekiyor",

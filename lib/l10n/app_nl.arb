@@ -3,6 +3,7 @@
   "about": "Over",
   "add": "Toevoegen",
   "all": "Alle",
+  "anonLoseDataTip": "Momenteel anoniem ingelogd, verdere handelingen zullen leiden tot gegevensverlies.",
   "askContinue": "{msg}. Doorgaan?",
   "attention": "Aandacht",
   "authRequired": "Authenticatie vereist",

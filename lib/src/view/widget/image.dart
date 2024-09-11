@@ -36,8 +36,8 @@ class _ImageCardState extends State<ImageCard> {
 
     final imageUrl = widget.imageUrl;
     if (imageUrl.startsWith('http')) {
-      final isPb = imageUrl.startsWith(Pbs.baseUrl);
-      final headers = isPb ? Pbs.authHeaders : null;
+      final isApi = imageUrl.startsWith(ApiUrls.base);
+      final headers = isApi ? Apis.authHeaders : null;
       completer.complete(ExtendedNetworkImageProvider(
         imageUrl,
         headers: headers,
@@ -142,9 +142,9 @@ final class PbUserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatar = Pbs.getAvatarUrl();
+    final avatar = Apis.user.value?.avatar;
     return ImageCard(
-      imageUrl: avatar ?? 'assets/images/avatar.png',
+      imageUrl: avatar ?? 'https://cdn.lpkt.cn/img/anon_avatar.jpg',
       showLarge: avatar != null,
       heroTag: 'avatar',
       onRet: onRet,

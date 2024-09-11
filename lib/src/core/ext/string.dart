@@ -52,6 +52,16 @@ extension StringX on String {
     return await launchUrlString(this,
         mode: mode ?? LaunchMode.platformDefault);
   }
+
+  /// Returns true if the string is a file url.
+  /// If [strict] is true, the string must start with `file://`.
+  /// Otherwise, it will return true if the string starts with `file://` or `/`.
+  bool isFileUrl([bool strict = false]) {
+    if (isEmpty) return false;
+    final withFile = startsWith('file://');
+    if (strict) return withFile;
+    return withFile || startsWith('/');
+  }
 }
 
 extension StringXNullable on String? {

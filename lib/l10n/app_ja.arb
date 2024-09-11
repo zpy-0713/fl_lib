@@ -3,6 +3,7 @@
   "about": "約",
   "add": "追加",
   "all": "全て",
+  "anonLoseDataTip": "現在匿名でログインしています。操作を続行するとデータが失われます。",
   "askContinue": "{msg}、続行しますか？",
   "attention": "注意",
   "authRequired": "認証が必要",

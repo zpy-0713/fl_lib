@@ -4,7 +4,7 @@ export 'src/core/logger.dart';
 export 'src/core/mixin/after_layout.dart';
 export 'src/core/update.dart';
 export 'src/core/store.dart';
-export 'src/core/pb.dart';
+export 'src/core/api.dart';
 export 'src/core/sync/base.dart';
 export 'src/core/build_mode.dart';
 export 'src/core/ext/widget.dart';

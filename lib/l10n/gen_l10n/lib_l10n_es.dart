@@ -16,6 +16,9 @@ class LibLocalizationsEs extends LibLocalizations {
   String get all => 'Todos';
 
   @override
+  String get anonLoseDataTip => 'Actualmente se ha iniciado sesión de forma anónima, continuar con las operaciones provocará la pérdida de datos.';
+
+  @override
   String askContinue(Object msg) {
     return '$msg, ¿continuar?';
   }

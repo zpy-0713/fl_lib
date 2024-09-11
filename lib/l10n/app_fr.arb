@@ -3,6 +3,7 @@
   "about": "À propos",
   "add": "Ajouter",
   "all": "Tous",
+  "anonLoseDataTip": "Actuellement connecté de manière anonyme, la poursuite des opérations entraînera une perte de données.",
   "askContinue": "{msg}. Continuer?",
   "attention": "Attention",
   "authRequired": "Authentification requise",
