@@ -1,8 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/model/user.dart';
+import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 /// If current user is anonymous, it will be called to prompt user to confirm.
@@ -17,10 +16,6 @@ abstract final class ApiUrls {
 }
 
 abstract final class Apis {
-  /// Just for [_init] to run.
-  // ignore: unused_field
-  static final _instance = _init();
-
   static const tokenStoreKey = 'lpkt_api_token';
 
   static const tokenProp = PrefProp<String>(tokenStoreKey);
@@ -79,6 +74,7 @@ abstract final class Apis {
     );
     final data = _getRespData<Map>(resp.data);
     user.value = User.fromJson(data.cast());
+    debugPrint(user.value.toString());
   }
 
   static Future<void> userDelete(OnAnonymousUser onAnonUser) async {
@@ -92,18 +88,7 @@ abstract final class Apis {
     logout(() async => true);
   }
 
-  static void onAppLink(Uri uri) async {
-    switch (uri.host) {
-      case 'oauth-callback':
-        final token = uri.queryParameters['token'];
-        if (token == null) return;
-        tokenProp.set(token);
-        await userRefresh();
-        break;
-    }
-  }
-
-  static Future<void> _init() async {
+  static Future<void> init() async {
     if (loggedIn) await userRefresh();
   }
 }
