@@ -35,9 +35,9 @@ abstract final class Apis {
     user.value = null;
   }
 
-  static Future<void> login({String provider = 'github'}) async {
+  static Future<void> login() async {
     await launchUrlString(
-      ApiUrls.oauth,
+      '${ApiUrls.oauth}?app_id=${DeepLinks.appId}',
       mode: LaunchMode.inAppBrowserView,
     );
   }
