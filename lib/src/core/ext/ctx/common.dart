@@ -14,6 +14,9 @@ extension ContextX on BuildContext {
 
   RouteSettings? get route => ModalRoute.of(this)?.settings;
 
+  /// Whether the current page(the page of context) is still on the screen.
+  bool? get stillOnPage => ModalRoute.of(this)?.isCurrent;
+
   MediaQueryData get media => MediaQuery.of(this);
 
   // Use [MediaQuery.sizeOf] for better performance.

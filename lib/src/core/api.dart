@@ -72,6 +72,7 @@ abstract final class Apis {
       ),
     );
     final data = _getRespData<Map>(resp.data);
+    if (data == null) throw 'Invalid resp: ${resp.data}';
     user.value = User.fromJson(data.cast());
     debugPrint(user.value.toString());
   }
@@ -93,9 +94,13 @@ abstract final class Apis {
 }
 
 abstract final class FileApi {
-  /// Convert local file path to filename
-  static String pathToName(String path) {
+  /// Convert local file path / server url to filename
+  static String urlToName(String path) {
     if (path.startsWith('/')) return path.fileName ?? path;
+    if (path.startsWith(ApiUrls.file)) {
+      final uri = Uri.parse(path);
+      return uri.queryParameters['name'] ?? path;
+    }
     return path;
   }
 
@@ -114,7 +119,7 @@ abstract final class FileApi {
       if (dir != null) 'dir': dir,
     };
     for (final path in paths) {
-      final name = pathToName(path);
+      final name = urlToName(path);
       map[name] = await MultipartFile.fromFile(path);
     }
 
@@ -126,24 +131,27 @@ abstract final class FileApi {
         responseType: ResponseType.json,
       ),
     );
-    final rPaths = _getRespData<List>(resp.data).cast<String>();
+    final rPaths = _getRespData<List>(resp.data)?.cast<String>();
+    if (rPaths == null) throw 'Invalid resp: ${resp.data}';
     final urls = rPaths.map((rPath) => nameToUrl(rPath)).toList();
     return urls;
   }
 
   /// Download a file from the server. Returns the file content as bytes.
   static Future<Uint8List> download(String name, {String? dir}) async {
+    name = urlToName(name);
     final queries = {'name': name};
     if (dir != null) queries['dir'] = dir;
 
-    final resp = await myDio.delete(
+    final resp = await myDio.get(
       ApiUrls.file,
       queryParameters: queries,
-      options: Options(
-        responseType: ResponseType.bytes,
-        headers: Apis.authHeaders,
-      ),
+      options: Options(headers: Apis.authHeaders),
     );
+    final contentTypes = resp.headers['content-type'];
+    if (contentTypes != null && contentTypes.contains('application/json')) {
+      throw 'Failed to download $name: ${resp.data}';
+    }
     return resp.data;
   }
 
@@ -154,6 +162,7 @@ abstract final class FileApi {
     List<String> names, {
     String? dir,
   }) async {
+    names = names.map(urlToName).toList();
     final body = <String, dynamic>{'names': names};
     if (dir != null) body['dir'] = dir;
 
@@ -162,7 +171,8 @@ abstract final class FileApi {
       data: body,
       options: Options(headers: Apis.authHeaders),
     );
-    final data = _getRespData<List>(resp.data).cast<String>();
+    final data = _getRespData<List>(resp.data)?.cast<String>();
+    if (data == null) throw 'Invalid resp: ${resp.data}';
     final diffs = names.toSet().difference(data.toSet());
     if (diffs.isNotEmpty) {
       throw 'Failed to delete: $diffs';
@@ -170,16 +180,15 @@ abstract final class FileApi {
   }
 }
 
-T _getRespData<T>(resp) {
-  T extractData(Map m) {
+T? _getRespData<T extends Object>(resp) {
+  T? extractData(Map m) {
     final code = m['code'];
     if (code != null && code != 0) {
       final msg = m['msg'] ?? 'Unknown error';
       throw 'Error: $code, $msg';
     }
     final data = m['data'];
-    if (data == null) throw 'No data';
-    if (data is! T) throw 'Invalid data type: $data';
+    if (data is! T?) throw 'Invalid data type: $data';
     return data;
   }
 
