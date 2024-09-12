@@ -1,9 +1,10 @@
 import 'package:fl_lib/fl_lib.dart';
+import 'package:flutter/widgets.dart';
 
-typedef AppLinkHandler = void Function(Uri uri);
+typedef AppLinkHandler = void Function(BuildContext ctx, Uri uri);
 
 abstract final class AppLinksHandler {
-  static final _handlers = <AppLinkHandler>[_dispatchScheme];
+  static final _handlers = <AppLinkHandler>{_dispatchScheme};
 
   static void register(AppLinkHandler handler) {
     _handlers.add(handler);
@@ -13,31 +14,31 @@ abstract final class AppLinksHandler {
     _handlers.remove(handler);
   }
 
-  static void process(Uri uri) async {
+  static void process(BuildContext ctx, Uri uri) async {
     for (final handler in _handlers) {
-      handler(uri);
+      handler(ctx, uri);
     }
   }
 
-  static void _dispatchScheme(Uri uri) {
+  static void _dispatchScheme(BuildContext ctx, Uri uri) {
     switch (uri.scheme) {
       case 'lpkt.cn':
-        _lpktcnHandler(uri);
+        _lpktcnHandler(ctx, uri);
         break;
     }
   }
 
-  static void _lpktcnHandler(Uri uri) {
+  static void _lpktcnHandler(BuildContext ctx, Uri uri) {
     switch (uri.host) {
       case 'general':
-        _generalHandler(uri);
+        _generalHandler(ctx, uri);
         break;
       default:
         Loggers.app.warning('[AppLinksHandler] Unknown host: ${uri.host}');
     }
   }
 
-  static void _generalHandler(Uri uri) async {
+  static void _generalHandler(BuildContext ctx, Uri uri) async {
     final params = uri.queryParameters;
 
     switch (uri.path) {

@@ -1,5 +1,4 @@
 import 'package:fl_lib/fl_lib.dart';
-import 'package:fl_lib/src/model/user.dart';
 import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';

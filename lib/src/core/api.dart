@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:fl_lib/fl_lib.dart';
-import 'package:fl_lib/src/model/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 

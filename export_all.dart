@@ -11,6 +11,7 @@ void main() async {
     if (entity is File && entity.path.endsWith('.dart')) {
       // Skip the l10n directory and l10n.dart file.
       if (entity.path.startsWith('l10n')) continue;
+      if (entity.path.endsWith('.g.dart')) continue;
       if (entity.path == 'lib/src/res/l10n.dart') continue;
 
       // If first line starts with `part of`, skip it.
