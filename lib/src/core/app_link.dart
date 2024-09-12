@@ -6,6 +6,8 @@ typedef DeepLinkHandler = void Function(Uri uri, [BuildContext? context]);
 abstract final class DeepLinks {
   static final _handlers = <DeepLinkHandler>{_dispatchScheme};
 
+  static String? appId;
+
   static void register(DeepLinkHandler handler) {
     _handlers.add(handler);
   }
@@ -21,6 +23,10 @@ abstract final class DeepLinks {
   }
 
   static void _dispatchScheme(Uri uri, [BuildContext? context]) {
+    if (appId == null) {
+      throw StateError('[this.appId] is not set');
+    }
+
     switch (uri.scheme) {
       case 'lpkt.cn':
         _lpktcnHandler(uri, context);
@@ -29,12 +35,10 @@ abstract final class DeepLinks {
   }
 
   static void _lpktcnHandler(Uri uri, [BuildContext? context]) {
-    switch (uri.host) {
-      case 'general':
-        _generalHandler(uri, context);
-        break;
-      default:
-        Loggers.app.warning('[AppLinksHandler] Unknown host: ${uri.host}');
+    if (uri.host == appId!) {
+      _generalHandler(uri, context);
+    } else {
+      Loggers.app.warning('[AppLinksHandler] Unknown host: ${uri.host}');
     }
   }
 
