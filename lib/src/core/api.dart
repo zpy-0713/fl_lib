@@ -38,7 +38,7 @@ abstract final class Apis {
   static Future<void> login() async {
     await launchUrlString(
       '${ApiUrls.oauth}?app_id=${DeepLinks.appId}',
-      mode: LaunchMode.inAppBrowserView,
+      mode: LaunchMode.externalApplication,
     );
   }
 

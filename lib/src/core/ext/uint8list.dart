@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:crypto/crypto.dart';
 import 'package:fl_lib/fl_lib.dart';
@@ -22,24 +23,25 @@ extension Uint8ListX on Uint8List {
   /// Save the data to a file with `auto`:
   /// - md5 as name
   /// - mimeType as ext
-  /// 
+  ///
   /// - [compress] only valid for image.
-  /// 
+  ///
   /// Returns the path of the file.
-  Future<String> save({bool compress = true, String? mime}) async {
+  Future<String> save({bool compress = true}) async {
     final fileName = await md5Sum;
     final path = '${Paths.file}/$fileName';
     final file = File(path);
     await file.writeAsBytes(this);
-    mime ??= lookupMimeType(path);
+    final headerBytes = sublist(0, math.min(100, length));
+    final mime = lookupMimeType(path, headerBytes: headerBytes);
     if (mime != null) {
-      final newPath = '$path.$mime';
+      final ext = extensionFromMime(mime);
+      final newPath = '$path.$ext';
       if (compress && ImageUtil.isImage(mime)) {
         final img = await ImageUtil.compress(this, mime: mime);
         await file.writeAsBytes(img);
-      } else {
-        await file.rename(newPath);
       }
+      await file.rename(newPath);
       return newPath;
     }
     return path;
