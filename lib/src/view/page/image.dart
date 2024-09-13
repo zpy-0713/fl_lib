@@ -8,13 +8,13 @@ import 'package:flutter/services.dart';
 
 final class ImagePageArgs {
   final String? title;
-  final String tag;
+  final String? heroTag;
   final ImageProvider image;
   final String url;
 
   const ImagePageArgs({
     this.title,
-    required this.tag,
+    required this.heroTag,
     required this.image,
     required this.url,
   });
@@ -29,66 +29,72 @@ final class ImagePageRet {
 }
 
 final class ImagePage extends StatelessWidget {
-  final ImagePageArgs? args;
+  final ImagePageArgs args;
 
-  const ImagePage({super.key, this.args});
+  const ImagePage({super.key, required this.args});
 
-  static const route = AppRoute<ImagePageRet, ImagePageArgs>(
+  static const route = AppRouteArg<ImagePageRet, ImagePageArgs>(
     page: ImagePage.new,
     path: '/image',
   );
 
   @override
   Widget build(BuildContext context) {
-    if (args == null) {
-      return UIs.placeholder;
-    }
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: CustomAppBar(
-        actions: [
-          // Share
-          IconButton(
-            onPressed: () async {
-              final (path, err) = await context.showLoadingDialog(
-                fn: () => _getImgData(args!.url),
-              );
-              if (err != null || path == null) return;
-              await Pfs.share(
-                path: path,
-                name: 'gptbox_img.jpg',
-                mime: 'image/jpeg',
-              );
-            },
-            icon: const Icon(Icons.share),
-          ),
-          // Delete
-          IconButton(
-            onPressed: () async {
-              final sure = await context.showRoundDialog(
-                title: l10n.delete,
-                child: Text(l10n.delFmt(args?.title ?? '???', l10n.image)),
-                actions: Btnx.oks,
-              );
-              if (sure != true) return;
-              context.pop(const ImagePageRet(isDeleted: true));
-            },
-            icon: const Icon(Icons.delete),
-          ),
-        ],
+      appBar: _buildAppBar(context),
+      body: _buildBody(context),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    Widget child = Image(image: args.image);
+    if (args.heroTag != null) {
+      child = Hero(tag: args.heroTag!, child: child);
+    }
+
+    return GestureDetector(
+      onTap: context.pop,
+      child: Container(
+        color: Colors.black,
+        alignment: Alignment.center,
+        child: child,
       ),
-      body: GestureDetector(
-        onTap: () => context.pop(),
-        child: Container(
-          color: Colors.black,
-          alignment: Alignment.center,
-          child: Hero(
-            tag: args!.tag,
-            transitionOnUserGestures: true,
-            child: Image(image: args!.image),
-          ),
+    );
+  }
+
+  CustomAppBar _buildAppBar(BuildContext context) {
+    return CustomAppBar(
+      actions: [
+        // Share
+        IconButton(
+          onPressed: () async {
+            final (path, err) = await context.showLoadingDialog(
+              fn: () => _getImgData(args.url),
+            );
+            if (err != null || path == null) return;
+            await Pfs.share(
+              path: path,
+              name: 'gptbox_img.jpg',
+              mime: 'image/jpeg',
+            );
+          },
+          icon: const Icon(Icons.share),
         ),
-      ),
+        // Delete
+        IconButton(
+          onPressed: () async {
+            final sure = await context.showRoundDialog(
+              title: l10n.delete,
+              child: Text(l10n.delFmt(args.title ?? '???', l10n.image)),
+              actions: Btnx.oks,
+            );
+            if (sure != true) return;
+            context.pop(const ImagePageRet(isDeleted: true));
+          },
+          icon: const Icon(Icons.delete),
+        ),
+      ],
     );
   }
 }

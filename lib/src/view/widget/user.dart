@@ -11,9 +11,6 @@ final class UserCard extends StatefulWidget {
 }
 
 final class _UserCardState extends State<UserCard> {
-  static const noUserHeight = 67.0;
-  static const userHeight = 87.0;
-
   final showTokenPaste = false.vn;
 
   @override
@@ -23,41 +20,45 @@ final class _UserCardState extends State<UserCard> {
 
   Widget _buildInner(User? user) {
     final child = user == null ? _buildLogin() : _buildUserInfo(user);
-    final inkwell = InkWell(
-      onTap: () {
-        if (user != null) {
-          UserPage.route.go(context);
-        }
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      switchInCurve: Curves.fastEaseInToSlowEaseOut,
+      switchOutCurve: Curves.fastEaseInToSlowEaseOut,
+      transitionBuilder: (child, animation) {
+        return FadeTransition(opacity: animation, child: child);
       },
-      child: child,
-    );
-    return AnimatedContainer(
-      duration: Durations.medium1,
-      curve: Curves.fastEaseInToSlowEaseOut,
-      height: user == null ? noUserHeight : userHeight,
-      child: inkwell,
+      child: InkWell(
+        onTap: () {
+          if (user != null) {
+            UserPage.route.go(context);
+          }
+        },
+        child: child,
+      ),
     );
   }
 
+  static const _github = Icon(MingCute.github_line);
+
   Widget _buildLogin() {
-    return ListTile(
-      leading: const Icon(MingCute.user_1_fill),
-      title: Text(l10n.login),
-      subtitle: Text(l10n.loginTip, style: UIs.textGrey),
-      trailing: showTokenPaste.listenVal((isLoading) {
-        if (isLoading) return _buildPasteToken();
-        return ElevatedButton(
-          onPressed: () async {
-            await Apis.login();
-            showTokenPaste.value = true;
-            Future.delayed(const Duration(seconds: 30), () {
+    return showTokenPaste.listenVal((loading) {
+      return ListTile(
+        leading: const Icon(MingCute.user_1_fill),
+        title: Text(l10n.login),
+        subtitle: Text(l10n.loginTip, style: UIs.textGrey),
+        onTap: () async {
+          if (loading) return;
+          await Apis.login();
+          showTokenPaste.value = true;
+          Future.delayed(const Duration(seconds: 30), () {
+            if (showTokenPaste.value) {
               showTokenPaste.value = false;
-            });
-          },
-          child: const Icon(MingCute.github_line),
-        );
-      }),
-    );
+            }
+          });
+        },
+        trailing: loading ? _buildPasteToken() : _github,
+      );
+    });
   }
 
   Widget _buildPasteToken() {
@@ -74,21 +75,10 @@ final class _UserCardState extends State<UserCard> {
   }
 
   Widget _buildUserInfo(User user) {
-    return Row(
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(13),
-          child: Hero(tag: 'userAvatar', child: UserAvatar()),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(user.name, style: UIs.text15Bold),
-            Text(user.id, style: UIs.textGrey),
-          ],
-        ),
-      ],
+    return ListTile(
+      leading: const UserAvatar(),
+      title: Text(user.name, style: UIs.text15Bold),
+      subtitle: Text('${user.oauth?.upperFirst}', style: UIs.textGrey),
     );
   }
 }
@@ -106,7 +96,7 @@ final class UserAvatar extends StatelessWidget {
     return ImageCard(
       imageUrl: avatar ?? 'https://cdn.lpkt.cn/img/anon_avatar.jpg',
       showLarge: showLarge,
-      heroTag: 'avatar',
+      heroTag: 'userAvatar',
       onRet: onRet,
     );
   }

@@ -19,30 +19,29 @@ final class _UserPageState extends State<UserPage> {
       appBar: AppBar(
         title: Text(l10n.user),
       ),
-      body: _buildBody(),
+      body: SingleChildScrollView(child: _buildBody()),
     );
   }
 
   Widget _buildBody() {
     return Apis.user.listenVal(
       (user) {
-        if (user == null) return _buildLogin();
+        if (user == null) return const UserCard();
         return _buildUserInfo(user);
       },
     );
   }
 
-  Widget _buildLogin() {
-    return const Text('TODO!');
-  }
-
   Widget _buildUserInfo(User user) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      // mainAxisAlignment: MainAxisAlignment.center,
+      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(width: double.infinity),
-        const Hero(tag: 'userAvatar', child: UserAvatar()),
+        const Padding(
+          padding: EdgeInsets.all(27),
+          child: UserAvatar(),
+        ),
         UIs.height13,
         Text(
           user.name,
@@ -80,6 +79,7 @@ final class _UserPageState extends State<UserPage> {
     );
     if (sure != true) return;
     Apis.logout(_onAnonyUserLogout);
+    context.pop();
   }
 
   Future<bool> _onAnonyUserLogout() async {

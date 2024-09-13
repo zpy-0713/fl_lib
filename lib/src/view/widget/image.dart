@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:extended_image/extended_image.dart';
@@ -7,7 +6,7 @@ import 'package:flutter/material.dart';
 
 final class ImageCard extends StatefulWidget {
   final String imageUrl;
-  final String heroTag;
+  final String? heroTag;
   final void Function(ImagePageRet)? onRet;
 
   /// Whether to show the large image when clicked.
@@ -15,72 +14,60 @@ final class ImageCard extends StatefulWidget {
 
   final double? size;
 
-  const ImageCard({
+  final ImageProvider imageProvider;
+
+  ImageCard({
     super.key,
     required this.imageUrl,
-    this.heroTag = '',
+    this.heroTag,
     this.showLarge = true,
     this.onRet,
     this.size,
-  });
+  }) : imageProvider = fromUrl(imageUrl);
+
+  static ImageProvider fromUrl(String url) {
+    if (url.startsWith('http')) {
+      return ExtendedNetworkImageProvider(
+        url,
+        headers: Apis.authHeaders,
+        cache: true,
+      );
+    } else if (url.startsWith('assets')) {
+      return AssetImage(url);
+    } else {
+      return FileImage(File(url));
+    }
+  }
 
   @override
   State<ImageCard> createState() => _ImageCardState();
 }
 
 class _ImageCardState extends State<ImageCard> {
-  final completer = Completer<ImageProvider>();
-
-  @override
-  void initState() {
-    super.initState();
-
-    final imageUrl = widget.imageUrl;
-    if (imageUrl.startsWith('http')) {
-      final isApi = imageUrl.startsWith(ApiUrls.base);
-      final headers = isApi ? Apis.authHeaders : null;
-      completer.complete(ExtendedNetworkImageProvider(
-        imageUrl,
-        headers: headers,
-        cache: true,
-      ));
-    } else if (imageUrl.startsWith('assets')) {
-      completer.complete(AssetImage(imageUrl));
-    } else {
-      completer.complete(FileImage(File(imageUrl)));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    Widget child = CardX(child: _buildImage());
+    if (widget.heroTag != null) {
+      child = Hero(tag: widget.heroTag!, child: child);
+    }
     return SizedBox(
       width: widget.size,
       height: widget.size,
-      child: CardX(
-        child: FutureWidget(
-          future: completer.future,
-          error: _buildErr,
-          success: _buildImage,
-        ),
-      ),
+      child: child,
     );
   }
 
-  Widget _buildImage(ImageProvider? provider) {
-    if (provider == null) {
-      return _buildErr('provider is null', null);
-    }
-
+  Widget _buildImage() {
     final imageWidget = Image(
-      image: provider,
+      image: widget.imageProvider,
       fit: BoxFit.cover,
       loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        }
+        if (loadingProgress == null) return child;
+
         final loadedBytes = loadingProgress.cumulativeBytesLoaded.bytes2Str;
         final totalBytes = loadingProgress.expectedTotalBytes?.bytes2Str;
         final progress = '$loadedBytes / $totalBytes';
+
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -99,23 +86,19 @@ class _ImageCardState extends State<ImageCard> {
 
     return InkWell(
       onTap: () async {
-        if (!completer.isCompleted) return;
+        if (!widget.showLarge) return;
 
         final ret = await ImagePage.route.go(
           context,
-          args: ImagePageArgs(
-            tag: widget.heroTag,
-            image: await completer.future,
+          ImagePageArgs(
+            heroTag: widget.heroTag,
+            image: widget.imageProvider,
             url: widget.imageUrl,
           ),
         );
         if (ret != null) widget.onRet?.call(ret);
       },
-      child: Hero(
-        tag: widget.heroTag,
-        transitionOnUserGestures: true,
-        child: imageWidget,
-      ),
+      child: imageWidget,
     );
   }
 
