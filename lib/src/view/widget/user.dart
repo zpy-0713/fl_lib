@@ -98,6 +98,7 @@ final class UserAvatar extends StatelessWidget {
       showLarge: showLarge,
       heroTag: 'userAvatar',
       onRet: onRet,
+      radius: BorderRadius.circular(7),
     );
   }
 }

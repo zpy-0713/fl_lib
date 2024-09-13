@@ -19,6 +19,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get anonLoseDataTip => '当前以匿名登录，继续操作会导致数据丢失';
 
   @override
+  String get app => '应用';
+
+  @override
   String askContinue(Object msg) {
     return '$msg，继续吗？';
   }
@@ -277,6 +280,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get anonLoseDataTip => '目前以匿名方式登入，繼續操作將導致資料遺失。';
+
+  @override
+  String get app => '應用';
 
   @override
   String askContinue(Object msg) {

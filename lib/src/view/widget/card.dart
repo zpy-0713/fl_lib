@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CardX extends StatelessWidget {
-  const CardX({super.key, required this.child, this.color});
-
   final Widget child;
   final Color? color;
+  final BorderRadius? radius;
+
+  const CardX({super.key, required this.child, this.color, this.radius});
+
+  static const borderRadius = BorderRadius.all(Radius.circular(13));
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +15,8 @@ class CardX extends StatelessWidget {
       key: key,
       clipBehavior: Clip.antiAlias,
       color: color,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(17)),
+      shape: RoundedRectangleBorder(
+        borderRadius: radius ?? borderRadius,
       ),
       elevation: 0,
       child: child,

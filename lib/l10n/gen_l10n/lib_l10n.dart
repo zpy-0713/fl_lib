@@ -138,6 +138,12 @@ abstract class LibLocalizations {
   /// **'Currently logged in anonymously, continuing operations will result in data loss.'**
   String get anonLoseDataTip;
 
+  /// No description provided for @app.
+  ///
+  /// In en, this message translates to:
+  /// **'Application'**
+  String get app;
+
   /// No description provided for @askContinue.
   ///
   /// In en, this message translates to:

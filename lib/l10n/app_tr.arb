@@ -4,6 +4,7 @@
   "add": "ekle",
   "all": "tümü",
   "anonLoseDataTip": "Şu anda anonim olarak giriş yapılmış, işlemlere devam edilmesi veri kaybına neden olacaktır.",
+  "app": "Uygulama",
   "askContinue": "{msg}. Devam edilsin mi?",
   "attention": "Dikkat",
   "authRequired": "kimlik doğrulaması gerekiyor",

@@ -19,6 +19,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get anonLoseDataTip => 'Momenteel anoniem ingelogd, verdere handelingen zullen leiden tot gegevensverlies.';
 
   @override
+  String get app => 'Applicatie';
+
+  @override
   String askContinue(Object msg) {
     return '$msg. Doorgaan?';
   }

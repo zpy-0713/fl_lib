@@ -19,6 +19,9 @@ class LibLocalizationsFr extends LibLocalizations {
   String get anonLoseDataTip => 'Actuellement connecté de manière anonyme, la poursuite des opérations entraînera une perte de données.';
 
   @override
+  String get app => 'Application';
+
+  @override
   String askContinue(Object msg) {
     return '$msg. Continuer?';
   }

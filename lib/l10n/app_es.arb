@@ -4,6 +4,7 @@
   "add": "Añadir",
   "all": "Todos",
   "anonLoseDataTip": "Actualmente se ha iniciado sesión de forma anónima, continuar con las operaciones provocará la pérdida de datos.",
+  "app": "Aplicación",
   "askContinue": "{msg}, ¿continuar?",
   "attention": "Atención",
   "authRequired": "Autenticación requerida",

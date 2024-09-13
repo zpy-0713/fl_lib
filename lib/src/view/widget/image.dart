@@ -16,6 +16,8 @@ final class ImageCard extends StatefulWidget {
 
   final ImageProvider imageProvider;
 
+  final BorderRadius? radius;
+
   ImageCard({
     super.key,
     required this.imageUrl,
@@ -23,6 +25,7 @@ final class ImageCard extends StatefulWidget {
     this.showLarge = true,
     this.onRet,
     this.size,
+    this.radius,
   }) : imageProvider = fromUrl(imageUrl);
 
   static ImageProvider fromUrl(String url) {
@@ -46,7 +49,7 @@ final class ImageCard extends StatefulWidget {
 class _ImageCardState extends State<ImageCard> {
   @override
   Widget build(BuildContext context) {
-    Widget child = CardX(child: _buildImage());
+    Widget child = CardX(radius: widget.radius, child: _buildImage());
     if (widget.heroTag != null) {
       child = Hero(tag: widget.heroTag!, child: child);
     }

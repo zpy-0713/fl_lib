@@ -4,6 +4,7 @@
   "add": "Adicionar",
   "all": "Todos",
   "anonLoseDataTip": "Atualmente conectado anonimamente, continuar as operações resultará em perda de dados.",
+  "app": "Aplicação",
   "askContinue": "{msg}, continuar?",
   "attention": "Atenção",
   "authRequired": "Autenticação necessária",

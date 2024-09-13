@@ -4,6 +4,7 @@
   "add": "添加",
   "all": "所有",
   "anonLoseDataTip": "目前以匿名方式登入，繼續操作將導致資料遺失。",
+  "app": "應用",
   "askContinue": "{msg}，繼續嗎？",
   "attention": "注意",
   "authRequired": "需要認證",

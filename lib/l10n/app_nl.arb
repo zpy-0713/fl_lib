@@ -4,6 +4,7 @@
   "add": "Toevoegen",
   "all": "Alle",
   "anonLoseDataTip": "Momenteel anoniem ingelogd, verdere handelingen zullen leiden tot gegevensverlies.",
+  "app": "Applicatie",
   "askContinue": "{msg}. Doorgaan?",
   "attention": "Aandacht",
   "authRequired": "Authenticatie vereist",
