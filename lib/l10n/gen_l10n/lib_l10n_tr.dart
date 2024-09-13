@@ -152,7 +152,10 @@ class LibLocalizationsTr extends LibLocalizations {
   String get log => 'Kayıt';
 
   @override
-  String get loginTip => 'Üçüncü taraf girişi kullanarak, kayıt olmadan, bulut özelliklerini ücretsiz kullanabilirsiniz.';
+  String get login => 'Giriş yap';
+
+  @override
+  String get loginTip => 'Kayıt gerekmez, ücretsiz kullanım.';
 
   @override
   String get logout => 'Çıkış yap';
@@ -181,6 +184,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get open => 'Aç';
 
   @override
+  String get paste => 'Yapıştır';
+
+  @override
   String get path => 'Yol';
 
   @override
@@ -188,6 +194,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get pwd => 'şifre';
+
+  @override
+  String get register => 'Kaydol';
 
   @override
   String get rename => 'yeniden adlandır';

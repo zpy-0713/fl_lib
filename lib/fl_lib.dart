@@ -68,6 +68,7 @@ export 'src/view/widget/virtual_window_frame.dart';
 export 'src/view/widget/row.dart';
 export 'src/view/widget/choice.dart';
 export 'src/view/widget/store_switch.dart';
+export 'src/view/widget/user.dart';
 export 'src/view/widget/auto_hide.dart';
 export 'src/view/widget/popup_menu.dart';
 export 'src/view/widget/input.dart';

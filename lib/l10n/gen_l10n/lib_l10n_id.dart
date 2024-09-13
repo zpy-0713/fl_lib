@@ -152,7 +152,10 @@ class LibLocalizationsId extends LibLocalizations {
   String get log => 'Catatan';
 
   @override
-  String get loginTip => 'Gunakan login pihak ketiga, tanpa perlu registrasi, untuk menggunakan fitur cloud secara gratis.';
+  String get login => 'Masuk';
+
+  @override
+  String get loginTip => 'Tanpa perlu pendaftaran, gratis digunakan.';
 
   @override
   String get logout => 'Keluar';
@@ -181,6 +184,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get open => 'Buka';
 
   @override
+  String get paste => 'Tempel';
+
+  @override
   String get path => 'Jalur';
 
   @override
@@ -188,6 +194,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get pwd => 'Kata sandi';
+
+  @override
+  String get register => 'Daftar';
 
   @override
   String get rename => 'Ubah nama';

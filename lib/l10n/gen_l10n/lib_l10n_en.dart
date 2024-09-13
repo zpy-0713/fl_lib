@@ -152,7 +152,10 @@ class LibLocalizationsEn extends LibLocalizations {
   String get log => 'Log';
 
   @override
-  String get loginTip => 'Use third-party login, no registration required, to access cloud features for free.';
+  String get login => 'Log in';
+
+  @override
+  String get loginTip => 'No registration required, free to use.';
 
   @override
   String get logout => 'Logout';
@@ -181,6 +184,9 @@ class LibLocalizationsEn extends LibLocalizations {
   String get open => 'Open';
 
   @override
+  String get paste => 'Paste';
+
+  @override
   String get path => 'Path';
 
   @override
@@ -188,6 +194,9 @@ class LibLocalizationsEn extends LibLocalizations {
 
   @override
   String get pwd => 'Password';
+
+  @override
+  String get register => 'Sign up';
 
   @override
   String get rename => 'Rename';

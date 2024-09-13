@@ -5,7 +5,7 @@ import 'package:window_manager/window_manager.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// System status bar height
-  static double? barHeight;
+  static double? sysStatusBarHeight;
 
   /// Draw title bar inside Flutter
   static bool drawTitlebar = false;
@@ -17,6 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.centerTitle = true,
     this.leading,
     this.backgroundColor,
+    this.bottom,
   });
 
   final Widget? title;
@@ -24,6 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? centerTitle;
   final Widget? leading;
   final Color? backgroundColor;
+  final PreferredSizeWidget? bottom;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: centerTitle,
       leading: leading,
       backgroundColor: backgroundColor,
-      toolbarHeight: (barHeight ?? 0) + kToolbarHeight,
+      toolbarHeight: (sysStatusBarHeight ?? 0) + kToolbarHeight,
+      bottom: bottom,
     );
     if (!drawTitlebar) return bar;
     return GestureDetector(
@@ -87,11 +90,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   static Future<void> updateTitlebarHeight() async {
     switch (Platform.operatingSystem) {
       case 'macos':
-        barHeight = 27;
+        sysStatusBarHeight = 27;
         // macos title bar is drawn by system, [drawTitlebar] is not needed.
         break;
       case 'linux' || 'windows':
-        barHeight = 37;
+        sysStatusBarHeight = 37;
         drawTitlebar = true;
         break;
       default:
@@ -101,8 +104,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize {
-    const height = kToolbarHeight - 13;
-    if (barHeight == null) return const Size.fromHeight(height);
-    return Size.fromHeight(barHeight! + height);
+    const height = kToolbarHeight - 10;
+    final bottomWidgetH = bottom?.preferredSize.height ?? 0;
+    final sysH = sysStatusBarHeight ?? 0;
+    // if (sysStatusBarHeight == null) return const Size.fromHeight(height);
+    // return Size.fromHeight(sysStatusBarHeight! + height);
+    if (sysH == 0) {
+      return Size.fromHeight(height + bottomWidgetH);
+    } else {
+      return Size.fromHeight(sysH + height + bottomWidgetH);
+    }
   }
 }

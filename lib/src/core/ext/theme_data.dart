@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension ThemeDataX on ThemeData {
-  static const bgInDark = Color.fromARGB(17, 15, 15, 15);
+  static const bgInDark = Color.fromARGB(64, 15, 15, 15);
 
   ThemeData get toAmoled => copyWith(
         scaffoldBackgroundColor: Colors.black,

@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 /// If current user is anonymous, it will be called to prompt user to confirm.
 /// Return true to confirm following actions.
-typedef OnAnonymousUser = Future<bool> Function();
+typedef AnonUserConfirmFn = Future<bool> Function();
 
 abstract final class ApiUrls {
   static const base = 'https://api.lpkt.cn';
@@ -15,9 +15,8 @@ abstract final class ApiUrls {
 }
 
 abstract final class Apis {
-  static const tokenStoreKey = 'lpkt_api_token';
-
-  static const tokenProp = PrefProp<String>(tokenStoreKey);
+  static const tokenPropKey = 'lpkt_api_token';
+  static const tokenProp = PrefProp<String>(tokenPropKey);
   static bool get loggedIn => tokenProp.get() != null;
   static final user = nvn<User>();
 
@@ -27,9 +26,9 @@ abstract final class Apis {
     return {'Authorization': t};
   }
 
-  static void logout(OnAnonymousUser onAnonymousUser) async {
+  static void logout(AnonUserConfirmFn anonConfirm) async {
     if (user.value?.isAnon == true) {
-      if (!await onAnonymousUser()) return;
+      if (!await anonConfirm()) return;
     }
     tokenProp.remove();
     user.value = null;
@@ -77,7 +76,7 @@ abstract final class Apis {
     debugPrint(user.value.toString());
   }
 
-  static Future<void> userDelete(OnAnonymousUser onAnonUser) async {
+  static Future<void> userDelete(AnonUserConfirmFn onAnonUser) async {
     if (user.value?.isAnon == true) {
       if (!await onAnonUser()) return;
     }

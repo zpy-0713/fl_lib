@@ -13,15 +13,16 @@ final class ImageCard extends StatefulWidget {
   /// Whether to show the large image when clicked.
   final bool showLarge;
 
+  final double? size;
+
   const ImageCard({
     super.key,
     required this.imageUrl,
     this.heroTag = '',
     this.showLarge = true,
     this.onRet,
+    this.size,
   });
-
-  static double height = 177;
 
   @override
   State<ImageCard> createState() => _ImageCardState();
@@ -53,8 +54,8 @@ class _ImageCardState extends State<ImageCard> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: ImageCard.height,
-      height: ImageCard.height,
+      width: widget.size,
+      height: widget.size,
       child: CardX(
         child: FutureWidget(
           future: completer.future,
@@ -131,23 +132,6 @@ class _ImageCardState extends State<ImageCard> {
           Text('${libL10n.error} Log'),
         ],
       ),
-    );
-  }
-}
-
-final class PbUserAvatar extends StatelessWidget {
-  final void Function(ImagePageRet ret) onRet;
-
-  const PbUserAvatar({super.key, required this.onRet});
-
-  @override
-  Widget build(BuildContext context) {
-    final avatar = Apis.user.value?.avatar;
-    return ImageCard(
-      imageUrl: avatar ?? 'https://cdn.lpkt.cn/img/anon_avatar.jpg',
-      showLarge: avatar != null,
-      heroTag: 'avatar',
-      onRet: onRet,
     );
   }
 }

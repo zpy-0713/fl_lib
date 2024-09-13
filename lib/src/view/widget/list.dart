@@ -15,7 +15,7 @@ final class MultiList extends StatefulWidget {
     required this.children,
     this.bottomPadding = 17,
     this.horizonPadding = 17,
-    this.widthDivider = 2.3,
+    this.widthDivider = 2,
     this.thumbVisibility,
     this.trackVisibility,
     this.betweenPadding = 10,

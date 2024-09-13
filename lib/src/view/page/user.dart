@@ -33,32 +33,7 @@ final class _UserPageState extends State<UserPage> {
   }
 
   Widget _buildLogin() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(width: double.infinity),
-        Text(
-          l10n.loginTip,
-          textAlign: TextAlign.center,
-        ).paddingSymmetric(horizontal: 13),
-        UIs.height77,
-        Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                await context.showLoadingDialog(
-                  timeout: const Duration(minutes: 2),
-                  fn: Apis.login,
-                );
-              },
-              child: const Icon(MingCute.github_line),
-            ),
-          ],
-        ),
-      ],
-    );
+    return const Text('TODO!');
   }
 
   Widget _buildUserInfo(User user) {
@@ -67,7 +42,7 @@ final class _UserPageState extends State<UserPage> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(width: double.infinity),
-        PbUserAvatar(onRet: _onImageRet),
+        const Hero(tag: 'userAvatar', child: UserAvatar()),
         UIs.height13,
         Text(
           user.name,
@@ -154,11 +129,11 @@ final class _UserPageState extends State<UserPage> {
     Apis.logout(_onAnonyUserLogout);
   }
 
-  void _onImageRet(ImagePageRet ret) async {
-    if (ret.isDeleted) {
-      await context.showLoadingDialog(fn: () async {
-        await Apis.userEdit(avatar: '');
-      });
-    }
-  }
+  // void _onImageRet(ImagePageRet ret) async {
+  //   if (ret.isDeleted) {
+  //     await context.showLoadingDialog(fn: () async {
+  //       await Apis.userEdit(avatar: '');
+  //     });
+  //   }
+  // }
 }

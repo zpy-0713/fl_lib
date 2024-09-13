@@ -396,10 +396,16 @@ abstract class LibLocalizations {
   /// **'Log'**
   String get log;
 
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get login;
+
   /// No description provided for @loginTip.
   ///
   /// In en, this message translates to:
-  /// **'Use third-party login, no registration required, to access cloud features for free.'**
+  /// **'No registration required, free to use.'**
   String get loginTip;
 
   /// No description provided for @logout.
@@ -450,6 +456,12 @@ abstract class LibLocalizations {
   /// **'Open'**
   String get open;
 
+  /// No description provided for @paste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get paste;
+
   /// No description provided for @path.
   ///
   /// In en, this message translates to:
@@ -467,6 +479,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Password'**
   String get pwd;
+
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get register;
 
   /// No description provided for @rename.
   ///

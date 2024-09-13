@@ -152,7 +152,10 @@ class LibLocalizationsNl extends LibLocalizations {
   String get log => 'Logboek';
 
   @override
-  String get loginTip => 'Gebruik inloggen via derden, zonder registratie, om gratis gebruik te maken van cloudfuncties.';
+  String get login => 'Inloggen';
+
+  @override
+  String get loginTip => 'Geen registratie vereist, gratis te gebruiken.';
 
   @override
   String get logout => 'Uitloggen';
@@ -181,6 +184,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get open => 'Openen';
 
   @override
+  String get paste => 'Plakken';
+
+  @override
   String get path => 'Pad';
 
   @override
@@ -188,6 +194,9 @@ class LibLocalizationsNl extends LibLocalizations {
 
   @override
   String get pwd => 'Wachtwoord';
+
+  @override
+  String get register => 'Registreren';
 
   @override
   String get rename => 'Hernoemen';

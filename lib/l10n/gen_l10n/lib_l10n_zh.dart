@@ -152,7 +152,10 @@ class LibLocalizationsZh extends LibLocalizations {
   String get log => '日志';
 
   @override
-  String get loginTip => '使用第三方登录，无需注册，即可免费使用云上功能';
+  String get login => '登录';
+
+  @override
+  String get loginTip => '无需注册，免费使用';
 
   @override
   String get logout => '登出';
@@ -181,6 +184,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get open => '打开';
 
   @override
+  String get paste => '粘贴';
+
+  @override
   String get path => '路径';
 
   @override
@@ -188,6 +194,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get pwd => '密码';
+
+  @override
+  String get register => '注册';
 
   @override
   String get rename => '重命名';
@@ -403,7 +412,10 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get log => '日誌';
 
   @override
-  String get loginTip => '使用第三方登入，無需註冊，即可免費使用雲端功能。';
+  String get login => '登入';
+
+  @override
+  String get loginTip => '無需註冊，免費使用。';
 
   @override
   String get logout => '登出';
@@ -432,6 +444,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get open => '打開';
 
   @override
+  String get paste => '貼上';
+
+  @override
   String get path => '路徑';
 
   @override
@@ -439,6 +454,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get pwd => '密碼';
+
+  @override
+  String get register => '註冊';
 
   @override
   String get rename => '重命名';

@@ -152,7 +152,10 @@ class LibLocalizationsRu extends LibLocalizations {
   String get log => 'лог';
 
   @override
-  String get loginTip => 'Используйте вход через сторонние сервисы без регистрации, чтобы бесплатно пользоваться облачными функциями.';
+  String get login => 'Войти';
+
+  @override
+  String get loginTip => 'Регистрация не требуется, бесплатное использование.';
 
   @override
   String get logout => 'Выйти';
@@ -181,6 +184,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get open => 'Открыть';
 
   @override
+  String get paste => 'Вставить';
+
+  @override
   String get path => 'путь';
 
   @override
@@ -188,6 +194,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get pwd => 'Пароль';
+
+  @override
+  String get register => 'Зарегистрироваться';
 
   @override
   String get rename => 'Переименовать';
