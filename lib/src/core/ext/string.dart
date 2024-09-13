@@ -62,6 +62,16 @@ extension StringX on String {
     if (strict) return withFile;
     return withFile || startsWith('/');
   }
+
+  DateTime? parseTimestamp() {
+    if (isEmpty) return null;
+    final ts = int.tryParse(this);
+    if (ts == null) return null;
+    if (length == 10) {
+      return DateTime.fromMillisecondsSinceEpoch(ts * 1000);
+    }
+    return DateTime.fromMillisecondsSinceEpoch(ts);
+  }
 }
 
 extension StringXNullable on String? {
