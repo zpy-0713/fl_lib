@@ -40,7 +40,7 @@ export 'src/core/utils/window_size.dart';
 export 'src/core/utils/font.dart';
 export 'src/core/utils/func.dart';
 export 'src/model/update.dart';
-export 'src/model/user.dart';
+export 'src/model/backend/user.dart';
 export 'src/model/rnode.dart';
 export 'src/model/result.dart';
 export 'src/model/provider.dart';

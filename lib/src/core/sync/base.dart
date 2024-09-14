@@ -11,11 +11,11 @@ part 'icloud.dart';
 part 'iface.dart';
 
 /// Impl this interface to provide a backup service.
-abstract class SyncCfg<T extends Mergeable> {
-  const SyncCfg();
+abstract class SyncIface<T extends Mergeable> {
+  const SyncIface();
 
   /// Load backup from file
-  Future<Mergeable> fromFile(String path);
+  Future<T> fromFile(String path);
 
   /// Save backup to file
   Future<void> saveToFile();
@@ -33,14 +33,19 @@ abstract class SyncCfg<T extends Mergeable> {
   }
 
   /// Sync data with remote storage.
-  Future<void> sync({bool throttle = true, RemoteStorage? rs}) async {
-    if (!throttle) return await _sync(rs);
+  Future<void> sync({
+    int throttleMilli = 5000,
+    RemoteStorage? rs,
+    int milliDelay = 0,
+  }) async {
+    if (milliDelay > 0) {
+      await Future.delayed(Duration(milliseconds: milliDelay));
+    }
+    if (throttleMilli == 0) return await _sync(rs);
     Funcs.throttle(
       () => _sync(rs),
-      id: 'SyncCfg.sync',
-
-      /// In common case, a chat will be ended in 10 seconds.
-      duration: 10000,
+      id: 'SyncIface.sync',
+      duration: throttleMilli,
     );
   }
 
