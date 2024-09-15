@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fl_lib/src/core/build_mode.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class Provider<T> {
@@ -9,7 +10,7 @@ abstract class Provider<T> {
   @mustCallSuper
   FutureOr<void> load() {
     all.add(this);
-    debugPrint('$runtimeType loaded');
+    dprint('$runtimeType loaded');
   }
 
   static final all = <Provider>{};

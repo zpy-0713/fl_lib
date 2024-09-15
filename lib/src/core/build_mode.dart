@@ -23,3 +23,13 @@ class BuildMode {
   static final isProfile = _buildMode == _BuildMode.profile;
   static final isRelease = _buildMode == _BuildMode.release;
 }
+
+/// TODO: switch to macro in the future.
+/// Print [msg] only in debug mode.
+/// [msg] will convert to string by default.
+void dprint(Object? msg) {
+  if (BuildMode.isDebug) {
+    // ignore: avoid_print
+    print(msg);
+  }
+}

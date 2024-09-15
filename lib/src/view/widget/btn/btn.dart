@@ -234,7 +234,7 @@ final class Btn extends StatelessWidget {
 
   Widget _text(BuildContext context) {
     if (icon != null) {
-      debugPrint(
+      dprint(
         '[icon] should be null if [type] == [BtnType.text].'
         ' The icon will be ignored.',
       );
@@ -250,7 +250,7 @@ final class Btn extends StatelessWidget {
 
   Widget _icon(BuildContext context) {
     if (icon == null) {
-      debugPrint('[icon] can\'t be null if [type] == [BtnType.icon].');
+      dprint('[icon] can\'t be null if [type] == [BtnType.icon].');
     }
 
     Widget child = Tooltip(
@@ -267,7 +267,7 @@ final class Btn extends StatelessWidget {
 
   Widget _column(BuildContext context) {
     if (icon == null) {
-      debugPrint('[icon] can\'t be null if [type] == [BtnType.column].');
+      dprint('[icon] can\'t be null if [type] == [BtnType.column].');
     }
 
     Widget child = Column(
@@ -289,7 +289,7 @@ final class Btn extends StatelessWidget {
 
   Widget _row(BuildContext context) {
     if (icon == null) {
-      debugPrint('[icon] can\'t be null if [type] == [BtnType.tile].');
+      dprint('[icon] can\'t be null if [type] == [BtnType.tile].');
     }
 
     final isRTL = Directionality.of(context) == TextDirection.rtl;

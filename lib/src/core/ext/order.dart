@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:fl_lib/src/core/ext/iter.dart';
-import 'package:fl_lib/src/core/store.dart';
+import 'package:fl_lib/src/core/store/hive.dart';
 
 typedef _OnMove<T> = void Function(List<T>);
 

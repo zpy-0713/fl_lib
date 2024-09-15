@@ -1,6 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:fl_lib/fl_lib.dart';
-import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 /// If current user is anonymous, it will be called to prompt user to confirm.
@@ -73,7 +74,7 @@ abstract final class Apis {
     final data = _getRespData<Map>(resp.data);
     if (data == null) throw 'Invalid resp: ${resp.data}';
     user.value = User.fromJson(data.cast());
-    debugPrint(user.value.toString());
+    dprint(user.value);
   }
 
   static Future<void> userDelete(AnonUserConfirmFn onAnonUser) async {
