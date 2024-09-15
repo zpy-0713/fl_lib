@@ -105,8 +105,8 @@ abstract final class FileApi {
 
   /// Convert remote file path to url
   static String nameToUrl(String name, {String? dir}) {
-    final url = '${ApiUrls.file}?name=$name';
-    if (dir != null) return '$url&dir=$dir';
+    dir ??= Apis.user.value?.id;
+    final url = '${ApiUrls.file}?name=$name&dir=$dir';
     return url;
   }
 
