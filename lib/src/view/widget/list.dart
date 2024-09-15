@@ -39,7 +39,8 @@ final class _MultiListState extends State<MultiList> {
   Widget build(BuildContext context) {
     final childrenLen = widget.children.length;
     if (_isWide) {
-      final width = (context.media.size.width - 2 * widget.horizonPadding) / widget.widthDivider;
+      final width = (context.windowSize.width - 2 * widget.horizonPadding) /
+          widget.widthDivider;
       return Scrollbar(
         controller: _wideScroll,
         thumbVisibility: widget.thumbVisibility,

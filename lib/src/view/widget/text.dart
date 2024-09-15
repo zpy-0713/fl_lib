@@ -9,7 +9,6 @@ final class TipText extends StatelessWidget {
   final String tip;
   final bool isMarkdown;
   final TextStyle? textStyle;
-  final double reversedWidth;
 
   const TipText(
     this.text,
@@ -17,7 +16,6 @@ final class TipText extends StatelessWidget {
     super.key,
     this.isMarkdown = false,
     this.textStyle,
-    this.reversedWidth = 0,
   });
 
   @override
@@ -34,7 +32,9 @@ final class TipText extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            textWidget,
+            ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: width - 13 - 23),
+                child: textWidget),
             UIs.width13,
             InkWell(
               borderRadius: BorderRadius.circular(20),
@@ -53,14 +53,7 @@ final class TipText extends StatelessWidget {
             ),
           ],
         );
-        final wrapped = switch (width) {
-          final double w when w > reversedWidth => SizedBox(
-              width: width - reversedWidth,
-              child: row,
-            ),
-          _ => row,
-        };
-        return wrapped;
+        return SizedBox(width: width, child: row);
       },
     );
   }
