@@ -7,13 +7,13 @@ abstract final class AppUpdateIface {
 
   static Future<void> doUpdate({
     required BuildContext context,
-    required int build,
     required String url,
     bool force = false,
     bool beta = false,
   }) async {
     if (isWeb) return;
 
+    const build = Build.ver;
     await AppUpdate.fromUrl(url: url, locale: l10n.localeName, build: build);
 
     final result = AppUpdate.version;

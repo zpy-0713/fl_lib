@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fl_lib/src/core/build_mode.dart';
+import 'package:fl_lib/src/core/build.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class Provider<T> {

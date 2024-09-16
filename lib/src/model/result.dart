@@ -26,7 +26,7 @@ extension Resx<T> on Res<T> {
   /// - [onErr] is the callback when an error occurs.
   /// {@endtemplate}
   static Future<Res<T>> tryCatch<T>(
-    FutureOr<T> Function() fn, {
+    Future<T> Function() fn, {
     String? msg,
     FutureOr<void> Function(Object e, StackTrace s)? onErr,
   }) async {
