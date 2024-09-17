@@ -164,6 +164,12 @@ class LibLocalizationsId extends LibLocalizations {
   String get logout => 'Keluar';
 
   @override
+  String get migrateCfg => 'Migrasi konfigurasi';
+
+  @override
+  String get migrateCfgTip => 'Untuk menyesuaikan dengan konfigurasi baru yang diperlukan';
+
+  @override
   String get minute => 'Menit';
 
   @override

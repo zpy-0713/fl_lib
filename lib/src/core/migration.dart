@@ -18,13 +18,14 @@ abstract final class Migrations {
 
   /// - [catchErr] If true, catch error and print it.
   /// Otherwise, throw it, and stop migration.
-  Future<void> call(
+  static Future<void> call(
     Set<MigrationFn> fns, {
     bool catchErr = true,
     BuildContext? context,
   }) async {
     final lastVer = PrefProps.lastVerProp.get();
-    const now = Build.ver;
+    final now = Build.ver;
+    dprint('[Migration]: $lastVer -> $now');
     if (lastVer >= now) return;
 
     for (final fn in fns) {

@@ -51,6 +51,8 @@
   "login": "登入",
   "loginTip": "無需註冊，免費使用。",
   "logout": "登出",
+  "migrateCfg": "配置遷移",
+  "migrateCfgTip": "为了適應所需的新配置",
   "minute": "分",
   "name": "名稱",
   "network": "網絡",

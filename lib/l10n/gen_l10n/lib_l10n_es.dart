@@ -164,6 +164,12 @@ class LibLocalizationsEs extends LibLocalizations {
   String get logout => 'Cerrar sesión';
 
   @override
+  String get migrateCfg => 'Migración de configuración';
+
+  @override
+  String get migrateCfgTip => 'Para adaptarse a la nueva configuración requerida';
+
+  @override
   String get minute => 'Minutos';
 
   @override

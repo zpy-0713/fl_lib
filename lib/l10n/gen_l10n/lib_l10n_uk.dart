@@ -2,7 +2,7 @@ import 'lib_l10n.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for Ukraine (`uk`).
+/// The translations for Ukrainian (`uk`).
 class LibLocalizationsUk extends LibLocalizations {
   LibLocalizationsUk([String locale = 'uk']) : super(locale);
 
@@ -158,10 +158,16 @@ class LibLocalizationsUk extends LibLocalizations {
   String get login => 'Вхід';
 
   @override
-  String get loginTip => 'Реєстрація не потрібна, користування безкоштовне.';
+  String get loginTip => 'Реєстрація не потрібна, користування безкоштовне';
 
   @override
   String get logout => 'Вихід';
+
+  @override
+  String get migrateCfg => 'Міграція конфігурації';
+
+  @override
+  String get migrateCfgTip => 'для адаптації до нової необхідної конфігурації';
 
   @override
   String get minute => 'Хвилини';

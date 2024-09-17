@@ -164,6 +164,12 @@ class LibLocalizationsFr extends LibLocalizations {
   String get logout => 'Déconnexion';
 
   @override
+  String get migrateCfg => 'Migration de configuration';
+
+  @override
+  String get migrateCfgTip => 'Pour s\'adapter à la nouvelle configuration requise';
+
+  @override
   String get minute => 'Minutes';
 
   @override

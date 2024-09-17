@@ -164,6 +164,12 @@ class LibLocalizationsNl extends LibLocalizations {
   String get logout => 'Uitloggen';
 
   @override
+  String get migrateCfg => 'Configuratiemigratie';
+
+  @override
+  String get migrateCfgTip => 'Om aan te passen aan de vereiste nieuwe configuratie';
+
+  @override
   String get minute => 'Minuten';
 
   @override

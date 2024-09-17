@@ -164,6 +164,12 @@ class LibLocalizationsPt extends LibLocalizations {
   String get logout => 'Sair';
 
   @override
+  String get migrateCfg => 'Migração de configuração';
+
+  @override
+  String get migrateCfgTip => 'Para se adaptar à nova configuração necessária';
+
+  @override
   String get minute => 'Minutos';
 
   @override

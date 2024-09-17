@@ -13,7 +13,7 @@ abstract final class AppUpdateIface {
   }) async {
     if (isWeb) return;
 
-    const build = Build.ver;
+    final build = Build.ver;
     await AppUpdate.fromUrl(url: url, locale: l10n.localeName, build: build);
 
     final result = AppUpdate.version;

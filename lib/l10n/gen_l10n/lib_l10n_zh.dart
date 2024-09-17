@@ -164,6 +164,12 @@ class LibLocalizationsZh extends LibLocalizations {
   String get logout => '登出';
 
   @override
+  String get migrateCfg => '配置迁移';
+
+  @override
+  String get migrateCfgTip => '为了适应所需的新配置';
+
+  @override
   String get minute => '分';
 
   @override
@@ -425,6 +431,12 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get logout => '登出';
+
+  @override
+  String get migrateCfg => '配置遷移';
+
+  @override
+  String get migrateCfgTip => '为了適應所需的新配置';
 
   @override
   String get minute => '分';

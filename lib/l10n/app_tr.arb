@@ -51,6 +51,8 @@
   "login": "Giriş yap",
   "loginTip": "Kayıt gerekmez, ücretsiz kullanım.",
   "logout": "Çıkış yap",
+  "migrateCfg": "Yapılandırma geçişi",
+  "migrateCfgTip": "Gerekli yeni yapılandırmaya uyum sağlamak için",
   "minute": "dakika",
   "name": "ad",
   "network": "Ağ",

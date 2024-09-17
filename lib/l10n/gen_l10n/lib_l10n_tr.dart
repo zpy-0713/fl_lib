@@ -164,6 +164,12 @@ class LibLocalizationsTr extends LibLocalizations {
   String get logout => 'Çıkış yap';
 
   @override
+  String get migrateCfg => 'Yapılandırma geçişi';
+
+  @override
+  String get migrateCfgTip => 'Gerekli yeni yapılandırmaya uyum sağlamak için';
+
+  @override
   String get minute => 'dakika';
 
   @override

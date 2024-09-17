@@ -164,6 +164,12 @@ class LibLocalizationsRu extends LibLocalizations {
   String get logout => 'Выйти';
 
   @override
+  String get migrateCfg => 'Миграция конфигурации';
+
+  @override
+  String get migrateCfgTip => 'Для адаптации к требуемой новой конфигурации';
+
+  @override
   String get minute => 'Минуты';
 
   @override

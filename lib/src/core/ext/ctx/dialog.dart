@@ -381,6 +381,18 @@ ${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
         throw Exception('Unknown import source: $from');
     }
   }
+
+  Future<bool?> showMigrationDialog(String tip) {
+    return showRoundDialog<bool>(
+      title: l10n.migrateCfg,
+      child: SingleChildScrollView(
+        child: SimpleMarkdown(data: '''
+${libL10n.migrateCfgTip}:\n
+$tip'''),
+      ),
+      actions: Btnx.oks,
+    );
+  }
 }
 
 enum _ImportFrom {

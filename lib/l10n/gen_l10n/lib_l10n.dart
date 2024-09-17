@@ -15,6 +15,7 @@ import 'lib_l10n_nl.dart';
 import 'lib_l10n_pt.dart';
 import 'lib_l10n_ru.dart';
 import 'lib_l10n_tr.dart';
+import 'lib_l10n_uk.dart';
 import 'lib_l10n_zh.dart';
 
 // ignore_for_file: type=lint
@@ -110,6 +111,7 @@ abstract class LibLocalizations {
     Locale('pt'),
     Locale('ru'),
     Locale('tr'),
+    Locale('uk'),
     Locale('zh'),
     Locale('zh', 'TW')
   ];
@@ -420,6 +422,18 @@ abstract class LibLocalizations {
   /// **'Logout'**
   String get logout;
 
+  /// No description provided for @migrateCfg.
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration migration'**
+  String get migrateCfg;
+
+  /// No description provided for @migrateCfgTip.
+  ///
+  /// In en, this message translates to:
+  /// **'To adapt to the required new configuration'**
+  String get migrateCfgTip;
+
   /// No description provided for @minute.
   ///
   /// In en, this message translates to:
@@ -616,7 +630,7 @@ class _LibLocalizationsDelegate extends LocalizationsDelegate<LibLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'id', 'ja', 'nl', 'pt', 'ru', 'tr', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'id', 'ja', 'nl', 'pt', 'ru', 'tr', 'uk', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_LibLocalizationsDelegate old) => false;
@@ -646,6 +660,7 @@ LibLocalizations lookupLibLocalizations(Locale locale) {
     case 'pt': return LibLocalizationsPt();
     case 'ru': return LibLocalizationsRu();
     case 'tr': return LibLocalizationsTr();
+    case 'uk': return LibLocalizationsUk();
     case 'zh': return LibLocalizationsZh();
   }
 

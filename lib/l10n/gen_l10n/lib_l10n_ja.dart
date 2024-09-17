@@ -164,6 +164,12 @@ class LibLocalizationsJa extends LibLocalizations {
   String get logout => 'ログアウト';
 
   @override
+  String get migrateCfg => '設定の移行';
+
+  @override
+  String get migrateCfgTip => '必要な新しい設定に適応するため';
+
+  @override
   String get minute => '分';
 
   @override

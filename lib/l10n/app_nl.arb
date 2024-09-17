@@ -51,6 +51,8 @@
   "login": "Inloggen",
   "loginTip": "Geen registratie vereist, gratis te gebruiken.",
   "logout": "Uitloggen",
+  "migrateCfg": "Configuratiemigratie",
+  "migrateCfgTip": "Om aan te passen aan de vereiste nieuwe configuratie",
   "minute": "Minuten",
   "name": "Naam",
   "network": "Netwerk",

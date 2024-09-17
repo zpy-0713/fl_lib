@@ -51,6 +51,8 @@
   "login": "ログイン",
   "loginTip": "登録不要、無料で利用可能。",
   "logout": "ログアウト",
+  "migrateCfg": "設定の移行",
+  "migrateCfgTip": "必要な新しい設定に適応するため",
   "minute": "分",
   "name": "名前",
   "network": "ネットワーク",

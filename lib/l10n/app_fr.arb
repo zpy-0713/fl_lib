@@ -51,6 +51,8 @@
   "login": "Se connecter",
   "loginTip": "Pas d'inscription nécessaire, utilisation gratuite.",
   "logout": "Déconnexion",
+  "migrateCfg": "Migration de configuration",
+  "migrateCfgTip": "Pour s'adapter à la nouvelle configuration requise",
   "minute": "Minutes",
   "name": "Nom",
   "network": "Réseau",
