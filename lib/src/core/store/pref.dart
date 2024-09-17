@@ -73,3 +73,8 @@ final class PrefPropDefault<T extends Object> {
 
   Future<bool> remove() => PrefStore.remove(key);
 }
+
+abstract final class PrefProps {
+  /// Prop to store last version.
+  static const lastVerProp = PrefPropDefault<int>('last_ver', 0);
+}

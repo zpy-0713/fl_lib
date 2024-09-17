@@ -1,30 +1,48 @@
 import 'dart:async';
 
 import 'package:fl_lib/fl_lib.dart';
+import 'package:flutter/widgets.dart';
 
-abstract final class MigrationFn {
-  final Future<void> Function(int lastVer, int now) fn;
+typedef MigrationFn = Future<void> Function(
+  int lastVer,
+  int now, {
+  BuildContext? context,
+});
 
-  const MigrationFn(this.fn);
+abstract final class Migrations {
+  /// Will be called after db init.
+  static final initDbFns = <MigrationFn>{};
 
-  /// Prop to store last version.
-  static const lastVerProp = PrefProp<int>('last_ver');
+  /// Will be called after enter home.
+  static final enterHomeFns = <MigrationFn>{};
 
   /// - [catchErr] If true, catch error and print it.
   /// Otherwise, throw it, and stop migration.
-  Future<void> call({bool catchErr = true}) async {
-    final lastVer = MigrationFn.lastVerProp.get() ?? 0;
+  Future<void> call(
+    Set<MigrationFn> fns, {
+    bool catchErr = true,
+    BuildContext? context,
+  }) async {
+    final lastVer = PrefProps.lastVerProp.get();
     const now = Build.ver;
     if (lastVer >= now) return;
 
-    if (catchErr) {
-      try {
-        await fn(lastVer, now);
-      } catch (e, st) {
-        dprint('[Migration]: $e\n$st');
+    for (final fn in fns) {
+      if (catchErr) {
+        try {
+          await fn(lastVer, now, context: context);
+        } catch (e, st) {
+          dprint('[Migration]: $e\n$st');
+        }
+      } else {
+        await fn(lastVer, now, context: context);
       }
-    } else {
-      await fn(lastVer, now);
+    }
+
+    fns.clear();
+
+    if (initDbFns.isEmpty && enterHomeFns.isEmpty) {
+      PrefProps.lastVerProp.set(now);
     }
   }
 }
