@@ -31,7 +31,7 @@ enum BtnType {
 }
 
 /// Just a placeholder for the default onTap.
-/// 
+///
 /// {@template btn_default_on_tap}
 /// By default, it will exec `context.pop()`.
 /// {@endtemplate}
@@ -55,6 +55,9 @@ final class Btn extends StatelessWidget {
   ///
   /// {@macro btn_default_on_tap}
   final void Function()? onTap;
+
+  /// The callback when the button is long tapped.
+  final void Function()? onLongTap;
 
   /// {@template btn_text_icon}
   /// At lease one of [text] and [icon] must be not null.
@@ -117,6 +120,7 @@ final class Btn extends StatelessWidget {
     this.onTap = _defaultOnTap,
     this.textStyle,
     this.padding,
+    this.onLongTap,
   })  : type = BtnType.text,
         gap = null,
         mainAxisAlignment = null,
@@ -131,6 +135,7 @@ final class Btn extends StatelessWidget {
     this.text = '',
     this.onTap = _defaultOnTap,
     this.padding = _kPadding,
+    this.onLongTap,
   })  : type = BtnType.icon,
         gap = null,
         mainAxisAlignment = null,
@@ -150,6 +155,7 @@ final class Btn extends StatelessWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.borderRadius = _kBorderRadius,
+    this.onLongTap,
   })  : type = BtnType.column,
         popVal = null;
 
@@ -164,6 +170,7 @@ final class Btn extends StatelessWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.borderRadius = _kBorderRadius,
+    this.onLongTap,
   })  : type = BtnType.row,
         popVal = null;
 
@@ -178,6 +185,7 @@ final class Btn extends StatelessWidget {
     this.mainAxisAlignment,
     this.mainAxisSize,
     this.borderRadius = const BorderRadius.all(Radius.circular(13)),
+    this.onLongTap,
   })  : type = BtnType.row,
         popVal = null;
 
@@ -188,6 +196,7 @@ final class Btn extends StatelessWidget {
     super.key,
     this.onTap = _defaultOnTap,
     bool red = false,
+    this.onLongTap,
   })  : text = l10n.ok,
         icon = null,
         type = BtnType.text,
@@ -205,6 +214,7 @@ final class Btn extends StatelessWidget {
   Btn.cancel({
     super.key,
     this.onTap = _defaultOnTap,
+    this.onLongTap,
   })  : text = l10n.cancel,
         icon = null,
         type = BtnType.text,
@@ -241,6 +251,7 @@ final class Btn extends StatelessWidget {
     }
     return TextButton(
       onPressed: _resolveOnTap(context),
+      onLongPress: onLongTap,
       style: padding != null
           ? ButtonStyle(padding: WidgetStateProperty.all(padding))
           : null,
@@ -261,6 +272,7 @@ final class Btn extends StatelessWidget {
     return InkWell(
       borderRadius: borderRadius ?? _kBorderRadius,
       onTap: _resolveOnTap(context),
+      onLongPress: onLongTap,
       child: child,
     );
   }
@@ -283,6 +295,7 @@ final class Btn extends StatelessWidget {
     return InkWell(
       borderRadius: borderRadius ?? _kBorderRadius,
       onTap: _resolveOnTap(context),
+      onLongPress: onLongTap,
       child: child,
     );
   }
@@ -309,6 +322,7 @@ final class Btn extends StatelessWidget {
     return InkWell(
       borderRadius: borderRadius ?? _kBorderRadius,
       onTap: _resolveOnTap(context),
+      onLongPress: onLongTap,
       child: child,
     );
   }
