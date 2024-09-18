@@ -27,6 +27,9 @@ enum BtnType {
 
   /// Column( Icon, Text )
   column,
+
+  /// ElevatedButton
+  elevated,
   ;
 }
 
@@ -114,6 +117,7 @@ final class Btn extends StatelessWidget {
   /// - Others pops `null`
   final Object? popVal;
 
+  /// TextButton
   const Btn.text({
     super.key,
     required this.text,
@@ -129,6 +133,7 @@ final class Btn extends StatelessWidget {
         popVal = null,
         icon = null;
 
+  /// IconButton
   const Btn.icon({
     super.key,
     required this.icon,
@@ -144,6 +149,7 @@ final class Btn extends StatelessWidget {
         popVal = null,
         textStyle = null;
 
+  /// Column( Icon, Text )
   const Btn.column({
     super.key,
     required this.text,
@@ -159,6 +165,7 @@ final class Btn extends StatelessWidget {
   })  : type = BtnType.column,
         popVal = null;
 
+  /// Row( Icon, Text ) or Row( Text, Icon ) based on LTR or RTL
   const Btn.row({
     super.key,
     required this.text,
@@ -174,6 +181,7 @@ final class Btn extends StatelessWidget {
   })  : type = BtnType.row,
         popVal = null;
 
+  /// Row( Icon, Text ) or Row( Text, Icon ) based on LTR or RTL
   const Btn.tile({
     super.key,
     required this.text,
@@ -187,6 +195,21 @@ final class Btn extends StatelessWidget {
     this.borderRadius = const BorderRadius.all(Radius.circular(13)),
     this.onLongTap,
   })  : type = BtnType.row,
+        popVal = null;
+
+  const Btn.elevated({
+    super.key,
+    required this.text,
+    this.icon,
+    this.onTap = _defaultOnTap,
+    this.gap = 20,
+    this.textStyle,
+    this.padding = const EdgeInsets.symmetric(vertical: 13, horizontal: 20),
+    this.mainAxisAlignment,
+    this.mainAxisSize,
+    this.borderRadius = const BorderRadius.all(Radius.circular(13)),
+    this.onLongTap,
+  })  : type = BtnType.elevated,
         popVal = null;
 
   /// {@template btn_ok_pop}
@@ -232,6 +255,7 @@ final class Btn extends StatelessWidget {
         BtnType.icon => _icon(context),
         BtnType.column => _column(context),
         BtnType.row => _row(context),
+        BtnType.elevated => _elevated(context),
       };
 
   VoidCallback? _resolveOnTap(BuildContext c) {
@@ -324,6 +348,41 @@ final class Btn extends StatelessWidget {
       onTap: _resolveOnTap(context),
       onLongPress: onLongTap,
       child: child,
+    );
+  }
+
+  Widget _elevated(BuildContext context) {
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
+    final btnStyle = ButtonStyle(
+      padding: WidgetStateProperty.all(padding),
+      shape: WidgetStateProperty.all(
+        RoundedRectangleBorder(borderRadius: borderRadius ?? _kBorderRadius),
+      ),
+    );
+    final text_ = Text(text, style: textStyle);
+
+    if (icon != null) {
+      final gap_ = SizedBox(width: gap ?? _kGap);
+      final children = isRTL ? [text_, gap_, icon!] : [icon!, gap_, text_];
+
+      final child = ElevatedButton(
+        onPressed: _resolveOnTap(context),
+        onLongPress: onLongTap,
+        style: btnStyle,
+        child: Row(
+          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+          mainAxisSize: mainAxisSize ?? MainAxisSize.max,
+          children: children,
+        ),
+      );
+      return child;
+    }
+
+    return ElevatedButton(
+      onPressed: _resolveOnTap(context),
+      onLongPress: onLongTap,
+      style: btnStyle,
+      child: text_,
     );
   }
 }

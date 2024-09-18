@@ -40,7 +40,6 @@ export 'src/core/utils/window_size.dart';
 export 'src/core/utils/font.dart';
 export 'src/core/utils/path.dart';
 export 'src/core/utils/func.dart';
-export 'src/core/migration.dart';
 export 'src/core/build.dart';
 export 'src/model/update.dart';
 export 'src/model/rnode.dart';
