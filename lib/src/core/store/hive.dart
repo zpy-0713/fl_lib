@@ -129,10 +129,11 @@ extension BoxX on Box {
           !includeInternal) {
         continue;
       }
+      final val = get(key);
       try {
-        json[key] = get(key) as T;
+        json[key] = val as T;
       } catch (_) {
-        dprint('BoxX.toJson("$key") is: ${get(key).runtimeType}');
+        dprint('BoxX.toJson("$key") is: ${val.runtimeType}');
       }
     }
     return json;

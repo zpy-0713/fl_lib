@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -13,11 +15,11 @@ abstract final class ApiUrls {
   static const oauth = '$base/auth/oauth';
   static const user = '$base/auth/user';
   static const file = '$base/file';
+  static const sse = '$base/sse';
 }
 
 abstract final class Apis {
-  static const tokenPropKey = 'lpkt_api_token';
-  static const tokenProp = PrefProp<String>(tokenPropKey);
+  static const tokenProp = PrefProp<String>('lpkt_api_token');
   static bool get loggedIn => tokenProp.get() != null;
   static final user = nvn<User>();
 
@@ -196,4 +198,80 @@ T? _getRespData<T extends Object>(resp) {
     final Map m => extractData(m),
     _ => throw 'Invalid response: ${resp.runtimeType}, $resp',
   };
+}
+
+/// SSE Listener
+typedef SseListener = void Function(String data);
+
+/// SSE Subscription
+typedef SseSub = StreamSubscription<String>;
+
+/// SSE Listener
+/// 
+/// Usage:
+/// ```dart
+/// final sub = await SseApis.listen((data) {
+///  dprint(data);
+/// });
+/// ```
+abstract final class SseApis {
+  /// {'chan': [SseListener]}
+  static final _listeners = <String, List<SseSub>>{};
+
+  static void addListener(String chan, SseSub sub) {
+    _listeners.putIfAbsent(chan, () => []).add(sub);
+  }
+
+  static void removeListener(String chan, SseSub sub) {
+    _listeners[chan]?.remove(sub);
+  }
+
+  static void removeChan(String chan) {
+    _listeners.remove(chan);
+  }
+
+  static void removeAll() {
+    _listeners.clear();
+  }
+
+  static Future<SseSub> listen({
+    required SseListener handler,
+    /// Channel name, eg.: 'file', 'user'
+    required String chan,
+    /// Optional id for channel, eg.: file name, user id
+    String? id,
+  }) async {
+    const url = '${ApiUrls.sse}/listen';
+    final resp = await myDio.get(
+      url,
+      queryParameters: {'id': id, 'type': chan},
+      options: Options(
+        headers: Apis.authHeaders,
+        responseType: ResponseType.stream,
+      ),
+    );
+
+    final stream = (resp.data as Stream<List<int>>)
+        .transform(utf8.decoder)
+        .transform(const LineSplitter());
+
+    late final SseSub sub;
+    sub = stream.listen(
+      (line) {
+        dprint(line);
+        if (line.isEmpty) return;
+        if (!line.startsWith('data: ')) return;
+        final data = line.substring(6).trimRight();
+        handler(data);
+      },
+      onDone: () {
+        removeListener(chan, sub);
+      },
+      onError: (e) {
+        dprint('SSE error: $e');
+        removeListener(chan, sub);
+      },
+    );
+    return sub;
+  }
 }

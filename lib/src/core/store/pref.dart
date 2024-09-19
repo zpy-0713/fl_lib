@@ -75,6 +75,6 @@ final class PrefPropDefault<T extends Object> {
 }
 
 abstract final class PrefProps {
-  /// Prop to store last version.
-  static const lastVerProp = PrefPropDefault<int>('last_ver', 0);
+  /// Used for migration
+  static const lastVer = PrefPropDefault<int>('last_ver', 0);
 }
