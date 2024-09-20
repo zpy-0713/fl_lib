@@ -36,7 +36,7 @@ abstract final class AppUpdate {
   static Future<void> fromUrl({
     required String url,
     required String locale,
-    int? build,
+    required int build,
   }) async {
     final resp = await myDio.get(url,
         options: Options(responseType: ResponseType.plain));
@@ -44,20 +44,20 @@ abstract final class AppUpdate {
     final data = json.decode(text) as Map<String, dynamic>;
     _data = data;
     _locale = locale;
-    _build = build ?? Build.ver;
+    _build = build;
     _getAll();
   }
 
   static void fromStr({
     required String raw,
     required String locale,
-    int? build,
+    required int build,
   }) {
     final text = _rmComment(raw);
     final data = json.decode(text) as Map<String, dynamic>;
     _data = data;
     _locale = locale;
-    _build = build ?? Build.ver;
+    _build = build;
     _getAll();
   }
 

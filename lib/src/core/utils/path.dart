@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:fl_lib/src/core/build.dart';
 import 'package:fl_lib/src/core/ext/string.dart';
 import 'package:fl_lib/src/core/utils/platform/base.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,8 +17,8 @@ abstract final class Paths {
   static late final String font;
 
   /// Await [Paths.init] before using any of the paths
-  static Future<void> init({String? bakName}) async {
-    doc = await _getDoc(Build.name);
+  static Future<void> init(String appName, String bakName) async {
+    doc = await _getDoc(appName);
     dl = await _initDir('dl');
     file = await _initDir('file');
     audio = await _initDir('audio');
@@ -27,9 +26,8 @@ abstract final class Paths {
     img = await _initDir('img');
     cache = await _initDir('cache');
     font = doc.joinPath('font.ttf');
-    final bakName_ = bakName ?? '${Build.id}_bak.json';
-    Paths.bakName = bakName_;
-    bak = doc.joinPath(bakName_);
+    Paths.bakName = bakName;
+    bak = doc.joinPath(bakName);
   }
 
   static Future<String> _getDoc(String appName) async {
