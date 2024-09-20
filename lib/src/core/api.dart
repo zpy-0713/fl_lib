@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 /// Return true to confirm following actions.
 typedef AnonUserConfirmFn = Future<bool> Function();
 
+/// API URLs
 abstract final class ApiUrls {
   static const base = 'https://api.lpkt.cn';
   static const oauth = '$base/auth/oauth';
@@ -19,16 +20,23 @@ abstract final class ApiUrls {
 }
 
 abstract final class Apis {
+  /// API token. Stored in shared preferences.
   static const tokenProp = PrefProp<String>('lpkt_api_token');
+
+  /// Whether the user is logged in. By checking the token.
   static bool get loggedIn => tokenProp.get() != null;
+
+  /// Current user.
   static final user = nvn<User>();
 
+  /// Get auth headers.
   static Map<String, String>? get authHeaders {
     final t = tokenProp.get();
-    if (t == null || t.isEmpty) return {};
+    if (t == null || t.isEmpty) return null;
     return {'Authorization': t};
   }
 
+  /// Logout, clear token and user.
   static void logout(AnonUserConfirmFn anonConfirm) async {
     if (user.value?.isAnon == true) {
       if (!await anonConfirm()) return;
@@ -37,6 +45,9 @@ abstract final class Apis {
     user.value = null;
   }
 
+  /// Login with OAuth.
+  ///
+  /// Before using this method, you should set [DeepLinks.appId] at first.
   static Future<void> login() async {
     await launchUrlString(
       '${ApiUrls.oauth}?app_id=${DeepLinks.appId}',
@@ -44,6 +55,9 @@ abstract final class Apis {
     );
   }
 
+  /// Edit current user.
+  ///
+  /// [name] and [avatar] are optional.
   static Future<void> userEdit({String? name, String? avatar}) async {
     final body = <String, dynamic>{};
     if (name != null) body['name'] = name;
@@ -65,6 +79,9 @@ abstract final class Apis {
     await userRefresh();
   }
 
+  /// Refresh current user.
+  ///
+  /// It will update [Apis.user] value.
   static Future<void> userRefresh() async {
     final resp = await myDio.get(
       ApiUrls.user,
@@ -79,6 +96,9 @@ abstract final class Apis {
     dprint(user.value);
   }
 
+  /// Delete current user.
+  ///
+  /// If current user is anonymous, it will be called to prompt user to confirm.
   static Future<void> userDelete(AnonUserConfirmFn onAnonUser) async {
     if (user.value?.isAnon == true) {
       if (!await onAnonUser()) return;
@@ -95,6 +115,7 @@ abstract final class Apis {
   }
 }
 
+/// File API
 abstract final class FileApi {
   /// Convert local file path / server url to filename
   static String urlToName(String path) {
@@ -182,6 +203,11 @@ abstract final class FileApi {
   }
 }
 
+/// Get response data.
+///
+/// eg.: {'code': 0, 'msg': 'ok', 'data': {...}}
+///
+/// The code and data are optional.
 T? _getRespData<T extends Object>(resp) {
   T? extractData(Map m) {
     final code = m['code'];
@@ -200,51 +226,95 @@ T? _getRespData<T extends Object>(resp) {
   };
 }
 
+/// {@template sse_listener}
 /// SSE Listener
+///
+/// ```dart
+/// void listener(String data) {
+///  dprint(data);
+/// }
+/// ```
+/// {@endtemplate}
 typedef SseListener = void Function(String data);
 
 /// SSE Subscription
 typedef SseSub = StreamSubscription<String>;
 
-/// SSE Listener
-/// 
+/// SSE Apis
+///
+/// {@template sse_apis_listen}
 /// Usage:
 /// ```dart
 /// final sub = await SseApis.listen((data) {
 ///  dprint(data);
 /// });
 /// ```
+/// {@endtemplate}
 abstract final class SseApis {
   /// {'chan': [SseListener]}
-  static final _listeners = <String, List<SseSub>>{};
+  static final _listeners = <String, Set<SseListener>>{};
 
-  static void addListener(String chan, SseSub sub) {
-    _listeners.putIfAbsent(chan, () => []).add(sub);
+  /// {'chan': [SseSub]}
+  static final _subs = <String, SseSub>{};
+
+  /// Add a listener to a channel.
+  ///
+  /// In common usage, you should use [listen] instead.
+  /// Or if you want to manage the subscription by yourself, you can use this method.
+  static void addListener(String chan, SseListener listener) {
+    _listeners.putIfAbsent(chan, () => <SseListener>{}).add(listener);
   }
 
-  static void removeListener(String chan, SseSub sub) {
-    _listeners[chan]?.remove(sub);
+  /// Remove a listener from a channel.
+  ///
+  /// If there is no listener left in the channel, the subscription will be canceled.
+  /// Or you can call [removeChan] to remove the channel and its subscription.
+  static void removeListener(String chan, SseListener listener) {
+    _listeners[chan]?.remove(listener);
   }
 
-  static void removeChan(String chan) {
+  /// Remove a channel and its subscription(default).
+  ///
+  /// - [includeSubs]: whether to cancel the subscription.
+  static void removeChan(String chan, {bool includeSubs = true}) {
     _listeners.remove(chan);
+    if (includeSubs) {
+      _subs.remove(chan)?.cancel();
+    }
   }
 
-  static void removeAll() {
+  /// Remove all listeners and subscriptions.
+  static void removeAll({bool includeSubs = true}) {
     _listeners.clear();
+    if (includeSubs) {
+      for (final sub in _subs.values) {
+        sub.cancel();
+      }
+      _subs.clear();
+    }
   }
 
+  /// Listen to a channel.
+  ///
+  /// {@macro sse_apis_listen}
   static Future<SseSub> listen({
-    required SseListener handler,
+    /// {@macro sse_listener}
+    required SseListener listener,
+
     /// Channel name, eg.: 'file', 'user'
     required String chan,
-    /// Optional id for channel, eg.: file name, user id
-    String? id,
   }) async {
+    addListener(chan, listener);
+
+    final sub_ = _subs[chan];
+    if (sub_ != null) {
+      return sub_;
+    }
+
     const url = '${ApiUrls.sse}/listen';
     final resp = await myDio.get(
       url,
-      queryParameters: {'id': id, 'type': chan},
+      queryParameters: {'type': chan},
       options: Options(
         headers: Apis.authHeaders,
         responseType: ResponseType.stream,
@@ -262,16 +332,26 @@ abstract final class SseApis {
         if (line.isEmpty) return;
         if (!line.startsWith('data: ')) return;
         final data = line.substring(6).trimRight();
-        handler(data);
+        final listeners = _listeners[chan];
+        if (listeners == null) {
+          sub.cancel();
+          _subs.remove(chan);
+          return;
+        }
+        for (final listener in listeners) {
+          listener(data);
+        }
       },
       onDone: () {
-        removeListener(chan, sub);
+        _subs.remove(chan);
       },
       onError: (e) {
         dprint('SSE error: $e');
-        removeListener(chan, sub);
+        _subs.remove(chan);
       },
     );
+
+    _subs[chan] = sub;
     return sub;
   }
 }

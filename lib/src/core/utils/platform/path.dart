@@ -17,7 +17,7 @@ abstract final class Paths {
   static late final String font;
 
   /// Await [Paths.init] before using any of the paths
-  static Future<void> init(String appName, String bakName) async {
+  static Future<void> init(String appName, {String? bakName}) async {
     doc = await _getDoc(appName);
     dl = await _initDir('dl');
     file = await _initDir('file');
@@ -26,8 +26,9 @@ abstract final class Paths {
     img = await _initDir('img');
     cache = await _initDir('cache');
     font = doc.joinPath('font.ttf');
-    Paths.bakName = bakName;
-    bak = doc.joinPath(bakName);
+    final bakName_ = bakName ?? '${appName}_bak.json';
+    Paths.bakName = bakName_;
+    bak = doc.joinPath(bakName_);
   }
 
   static Future<String> _getDoc(String appName) async {
