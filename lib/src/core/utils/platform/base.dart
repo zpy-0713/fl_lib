@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:fl_lib/src/core/ext/string.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
 
 /// Platforms
@@ -159,23 +160,24 @@ enum Pfs {
   /// Reveal file / dir in file app.
   ///
   /// **Only available on desktop**
-  ///
-  /// - macos: Finder
-  /// - windows: Explorer
-  /// - linux: xdg-open
   static Future<void> revealPath(String path) async {
-    switch (type) {
-      case Pfs.macos:
-        await Process.run('open', ['--reveal', path]);
-        break;
-      case Pfs.windows:
-        await Process.run('explorer', ['/select,', path]);
-        break;
-      case Pfs.linux:
-        await Process.run('xdg-open', [path]);
-        break;
-      default:
-        throw UnimplementedError('Not supported platform: $type');
+    try {
+      switch (type) {
+        case Pfs.macos:
+          await Process.run('open', ['--reveal', path]);
+          break;
+        case Pfs.windows:
+          await Process.run(
+              'explorer', ['/select,"${path.replaceAll('"', '""')}"']);
+          break;
+        case Pfs.linux:
+          await Process.run('xdg-open', [path]);
+          break;
+        default:
+          throw UnimplementedError('Unsupported platform: $type');
+      }
+    } catch (e) {
+      Logger.root.warning('reveal path: $path', e);
     }
   }
 }

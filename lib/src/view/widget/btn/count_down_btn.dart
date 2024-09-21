@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 
 final class CountDownBtn extends StatefulWidget {
   final int seconds;
-  final String text;
-  final String secondText;
+  final String? text;
   final Color? afterColor;
   final VoidCallback onTap;
 
@@ -13,8 +13,7 @@ final class CountDownBtn extends StatefulWidget {
     super.key,
     required this.onTap,
     this.seconds = 3,
-    this.text = 'Go',
-    this.secondText = 's',
+    this.text,
     this.afterColor,
   });
 
@@ -59,7 +58,9 @@ final class _CountDownBtnState extends State<CountDownBtn> {
         widget.onTap();
       },
       child: Text(
-        isCounting ? '$_seconds${widget.secondText}' : widget.text,
+        isCounting
+            ? '$_seconds s'
+            : widget.text ?? l10n.ok,
         style: TextStyle(
           color: _seconds > 0 ? Colors.grey : widget.afterColor,
         ),

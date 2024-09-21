@@ -1,8 +1,8 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
-import 'package:screenshot/screenshot.dart'; // Avoid name conflict with var `img`
+import 'package:screenshot/screenshot.dart';
 
-final class ShareBtn extends StatelessWidget {
+final class QrShareBtn extends StatelessWidget {
   final String data;
   final int size;
 
@@ -16,7 +16,7 @@ final class ShareBtn extends StatelessWidget {
 
   final ImageProvider? centerImg;
 
-  const ShareBtn({
+  const QrShareBtn({
     super.key,
     required this.data,
     this.size = 200,
