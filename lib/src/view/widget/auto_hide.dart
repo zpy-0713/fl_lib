@@ -78,7 +78,7 @@ final class AutoHideState extends State<AutoHide> {
 
   void _scrollListener() {
     if (!autoHideEnabled) return;
-    
+
     if (_isScrolling) return;
     _isScrolling = true;
 

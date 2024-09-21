@@ -252,9 +252,7 @@ extension DialogX on BuildContext {
   ]) {
     showRoundDialog(
       title: operation ?? l10n.fail,
-      child: SingleChildScrollView(
-        child: SimpleMarkdown(data: '$e\n```\n$s\n```'),
-      ),
+      child: ErrorView.es(e, s),
       actions: [
         TextButton(
           onPressed: () => Pfs.copy('$e\n$s'),

@@ -12,7 +12,7 @@ extension ObjectX<T> on T {
   }
 
   /// Return null if this is null, otherwise return the result of [f]
-  /// 
+  ///
   /// Bad:
   ///  - `null.nullOr(() => 1)` => `null ?? 1`
   A? nullOr<A>(A Function() f) => this == null ? null : f();

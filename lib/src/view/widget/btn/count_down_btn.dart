@@ -58,9 +58,7 @@ final class _CountDownBtnState extends State<CountDownBtn> {
         widget.onTap();
       },
       child: Text(
-        isCounting
-            ? '$_seconds s'
-            : widget.text ?? l10n.ok,
+        isCounting ? '$_seconds s' : widget.text ?? l10n.ok,
         style: TextStyle(
           color: _seconds > 0 ? Colors.grey : widget.afterColor,
         ),

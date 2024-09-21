@@ -8,8 +8,7 @@ extension ThemeDataX on ThemeData {
         drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
         appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
         dialogTheme: const DialogTheme(backgroundColor: Colors.black),
-        bottomSheetTheme:
-            const BottomSheetThemeData(backgroundColor: bgInDark),
+        bottomSheetTheme: const BottomSheetThemeData(backgroundColor: bgInDark),
         listTileTheme: const ListTileThemeData(tileColor: bgInDark),
         cardTheme: const CardTheme(color: bgInDark),
         navigationBarTheme:

@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// [RNode] is RebuildNode.
-/// 
+///
 /// [ChangeNotifier.notifyListeners] works not properly in some cases.
 class RNode implements ChangeNotifier {
   final List<VoidCallback> _listeners = [];

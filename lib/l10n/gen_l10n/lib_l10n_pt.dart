@@ -16,7 +16,8 @@ class LibLocalizationsPt extends LibLocalizations {
   String get all => 'Todos';
 
   @override
-  String get anonLoseDataTip => 'Atualmente conectado anonimamente, continuar as operações resultará em perda de dados.';
+  String get anonLoseDataTip =>
+      'Atualmente conectado anonimamente, continuar as operações resultará em perda de dados.';
 
   @override
   String get app => 'Aplicação';

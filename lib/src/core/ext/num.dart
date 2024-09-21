@@ -4,7 +4,9 @@ extension NumX on num {
   String get bytes2Str {
     double value = toDouble();
     int squareTimes = 0;
-    for (; value / 1024 > 1 && squareTimes < sizeSuffix.length - 1; squareTimes++) {
+    for (;
+        value / 1024 > 1 && squareTimes < sizeSuffix.length - 1;
+        squareTimes++) {
       value /= 1024;
     }
     var finalValue = value.toStringAsFixed(1);
@@ -21,7 +23,9 @@ extension BigIntX on BigInt {
   String get bytes2Str {
     double value = toDouble();
     int squareTimes = 0;
-    for (; value / 1024 > 1 && squareTimes < sizeSuffix.length - 1; squareTimes++) {
+    for (;
+        value / 1024 > 1 && squareTimes < sizeSuffix.length - 1;
+        squareTimes++) {
       value /= 1024;
     }
     var finalValue = value.toStringAsFixed(1);

@@ -16,13 +16,13 @@ class FadeIn extends StatefulWidget {
 
 class _MyFadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
   late final _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    vsync: this,
+    duration: widget.duration,
+  );
   late final _animation = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(_controller);
+    begin: 0.0,
+    end: 1.0,
+  ).animate(_controller);
 
   @override
   void dispose() {

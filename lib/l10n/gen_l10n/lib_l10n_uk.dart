@@ -16,7 +16,8 @@ class LibLocalizationsUk extends LibLocalizations {
   String get all => 'Все';
 
   @override
-  String get anonLoseDataTip => 'Наразі ви увійшли в систему анонімно, продовження роботи призведе до втрати даних.';
+  String get anonLoseDataTip =>
+      'Наразі ви увійшли в систему анонімно, продовження роботи призведе до втрати даних.';
 
   @override
   String get app => 'Застосунок';

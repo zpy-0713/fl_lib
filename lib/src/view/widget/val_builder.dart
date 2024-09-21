@@ -43,7 +43,6 @@ final class ListenBuilder extends ListenableBuilder {
         );
 }
 
-
 final class PreferredSizeListenBuilder extends ListenBuilder
     implements PreferredSizeWidget {
   final Size preferSize;

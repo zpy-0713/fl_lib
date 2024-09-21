@@ -16,7 +16,8 @@ class LibLocalizationsEn extends LibLocalizations {
   String get all => 'All';
 
   @override
-  String get anonLoseDataTip => 'Currently logged in anonymously, continuing operations will result in data loss.';
+  String get anonLoseDataTip =>
+      'Currently logged in anonymously, continuing operations will result in data loss.';
 
   @override
   String get app => 'Application';

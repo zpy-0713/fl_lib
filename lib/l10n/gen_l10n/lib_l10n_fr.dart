@@ -16,7 +16,8 @@ class LibLocalizationsFr extends LibLocalizations {
   String get all => 'Tous';
 
   @override
-  String get anonLoseDataTip => 'Actuellement connecté de manière anonyme, la poursuite des opérations entraînera une perte de données.';
+  String get anonLoseDataTip =>
+      'Actuellement connecté de manière anonyme, la poursuite des opérations entraînera une perte de données.';
 
   @override
   String get app => 'Application';
@@ -167,7 +168,8 @@ class LibLocalizationsFr extends LibLocalizations {
   String get migrateCfg => 'Migration de configuration';
 
   @override
-  String get migrateCfgTip => 'Pour s\'adapter à la nouvelle configuration requise';
+  String get migrateCfgTip =>
+      'Pour s\'adapter à la nouvelle configuration requise';
 
   @override
   String get minute => 'Minutes';

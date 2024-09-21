@@ -40,7 +40,7 @@ extension Resx<T> on Res<T> {
   }
 
   /// Sync version of [tryCatch].
-  /// 
+  ///
   /// {@macro resx_try_catch}
   static Res<T> tryCatchSync<T>(
     T Function() fn, {

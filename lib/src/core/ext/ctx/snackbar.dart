@@ -6,7 +6,7 @@ extension SnackBarX on BuildContext {
         content: Text(text),
         behavior: SnackBarBehavior.floating,
       ));
-  
+
   void showSnackBarWidget(Widget widget) =>
       ScaffoldMessenger.of(this).showSnackBar(SnackBar(
         content: widget,

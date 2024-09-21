@@ -74,6 +74,7 @@ export 'src/view/widget/choice.dart';
 export 'src/view/widget/store_switch.dart';
 export 'src/view/widget/user.dart';
 export 'src/view/widget/auto_hide.dart';
+export 'src/view/widget/error.dart';
 export 'src/view/widget/popup_menu.dart';
 export 'src/view/widget/input.dart';
 export 'src/view/widget/exit_confirm.dart';
