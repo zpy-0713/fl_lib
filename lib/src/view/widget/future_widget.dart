@@ -1,53 +1,46 @@
-import 'package:fl_lib/src/res/ui.dart';
+import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
-final class FutureWidget<T> extends StatefulWidget {
+final class FutureWidget<T> extends StatelessWidget {
   final Future<T> future;
   final Widget loading;
-  final Widget Function(Object? error, StackTrace? trace) error;
+  final Widget Function(AsyncSnapshot? snapshot)? loadingBuilder;
+  final Widget Function(Object? error, StackTrace? trace)? error;
   final Widget Function(T? data) success;
-  final Widget Function(AsyncSnapshot<Object?> snapshot)? active;
   final bool cacheWidget;
+  final T? initialData;
 
   const FutureWidget({
     super.key,
     required this.future,
-    this.loading = UIs.placeholder,
-    required this.error,
+    this.loading = SizedLoading.small,
+    this.error,
     required this.success,
-    this.active,
     this.cacheWidget = true,
+    this.initialData,
+    this.loadingBuilder,
   });
 
   @override
-  State<FutureWidget<T>> createState() => _FutureWidgetState<T>();
-}
-
-class _FutureWidgetState<T> extends State<FutureWidget<T>> {
-  Widget? _cache;
-
-  @override
   Widget build(BuildContext context) {
+    Widget? cachedWidget;
     return FutureBuilder<T>(
-      future: widget.future,
+      future: future,
+      initialData: initialData,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return widget.error(snapshot.error, snapshot.stackTrace);
+          return error?.call(snapshot.error, snapshot.stackTrace) ??
+              ErrorView.es(snapshot.error, snapshot.stackTrace);
         }
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            if (widget.cacheWidget && _cache != null) return _cache!;
-            return widget.loading;
           case ConnectionState.active:
-            if (widget.active != null) {
-              return widget.active!(snapshot);
-            }
-            if (widget.cacheWidget && _cache != null) return _cache!;
-            return widget.loading;
+            if (cacheWidget && cachedWidget != null) return cachedWidget!;
+            return loadingBuilder?.call(snapshot) ?? loading;
           case ConnectionState.done:
-            final suc = widget.success(snapshot.data);
-            if (widget.cacheWidget) _cache = suc;
+            final suc = success(snapshot.data);
+            if (cacheWidget) cachedWidget = suc;
             return suc;
         }
       },
