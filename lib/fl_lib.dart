@@ -30,6 +30,7 @@ export 'src/core/route/route.dart';
 export 'src/core/store/file.dart';
 export 'src/core/store/hive.dart';
 export 'src/core/store/pref.dart';
+export 'src/core/utils/encrypt.dart';
 export 'src/core/utils/locale.dart';
 export 'src/core/utils/ui.dart';
 export 'src/core/utils/platform/arch.dart';

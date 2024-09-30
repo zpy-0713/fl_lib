@@ -64,6 +64,7 @@
   "path": "Jalur",
   "primaryColorSeed": "Warna utama",
   "pwd": "Kata sandi",
+  "pwdTip": "Panjang 6-32, dapat berupa huruf bahasa Inggris, angka, dan tanda baca",
   "register": "Daftar",
   "rename": "Ubah nama",
   "restore": "Pulihkan",

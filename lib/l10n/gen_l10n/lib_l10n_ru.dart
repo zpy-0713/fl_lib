@@ -16,8 +16,7 @@ class LibLocalizationsRu extends LibLocalizations {
   String get all => 'Все';
 
   @override
-  String get anonLoseDataTip =>
-      'В настоящее время выполнен анонимный вход, продолжение операций приведет к потере данных.';
+  String get anonLoseDataTip => 'В настоящее время выполнен анонимный вход, продолжение операций приведет к потере данных.';
 
   @override
   String get app => 'Приложение';
@@ -204,6 +203,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get pwd => 'Пароль';
+
+  @override
+  String get pwdTip => 'Длина от 6 до 32 символов, может содержать английские буквы, цифры и знаки препинания';
 
   @override
   String get register => 'Зарегистрироваться';

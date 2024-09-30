@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:fl_lib/src/core/utils/platform/base.dart';
@@ -76,4 +77,18 @@ extension StringX on String {
 
 extension StringXNullable on String? {
   String? get selfIfNotNullEmpty => this?.isEmpty == true ? null : this;
+}
+
+/// a-z A-Z 0-9
+const alphaNum =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+String genRandomStr({int length = 7, String chars = alphaNum}) {
+  final random = Random();
+  // Use iter for better performance.
+  final iter = Iterable.generate(
+    length,
+    (_) => chars.codeUnitAt(random.nextInt(chars.length)),
+  );
+  return String.fromCharCodes(iter);
 }

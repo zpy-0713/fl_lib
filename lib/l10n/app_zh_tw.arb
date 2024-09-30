@@ -64,6 +64,7 @@
   "path": "路徑",
   "primaryColorSeed": "主要色調種子",
   "pwd": "密碼",
+  "pwdTip": "長度6-32，可以是英文字母、數字、標點符號",
   "register": "註冊",
   "rename": "重命名",
   "restore": "恢復",

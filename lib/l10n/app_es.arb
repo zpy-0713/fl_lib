@@ -64,6 +64,7 @@
   "path": "Ruta",
   "primaryColorSeed": "Semilla de color primario",
   "pwd": "Contraseña",
+  "pwdTip": "Longitud de 6 a 32, puede contener letras en inglés, números y signos de puntuación",
   "register": "Registrarse",
   "rename": "Renombrar",
   "restore": "Restaurar",

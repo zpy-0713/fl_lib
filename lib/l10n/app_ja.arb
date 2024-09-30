@@ -64,6 +64,7 @@
   "path": "パス",
   "primaryColorSeed": "プライマリーカラーシード",
   "pwd": "パスワード",
+  "pwdTip": "長さ6〜32文字、英語の文字、数字、句読点が使用可能",
   "register": "登録",
   "rename": "名前変更",
   "restore": "リストア",

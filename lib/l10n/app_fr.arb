@@ -64,6 +64,7 @@
   "path": "Chemin",
   "primaryColorSeed": "Graine de couleur primaire",
   "pwd": "Mot de passe",
+  "pwdTip": "Longueur de 6 à 32, peut contenir des lettres anglaises, des chiffres et des signes de ponctuation",
   "register": "S'inscrire",
   "rename": "Renommer",
   "restore": "Restaurer",

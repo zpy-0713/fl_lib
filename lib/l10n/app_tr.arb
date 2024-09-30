@@ -64,6 +64,7 @@
   "path": "Yol",
   "primaryColorSeed": "Birincil renk tohumu",
   "pwd": "şifre",
+  "pwdTip": "Uzunluk 6-32, İngilizce harfler, rakamlar ve noktalama işaretleri olabilir",
   "register": "Kaydol",
   "rename": "yeniden adlandır",
   "restore": "Geri Yükleme",

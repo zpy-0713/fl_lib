@@ -64,6 +64,7 @@
   "path": "Pad",
   "primaryColorSeed": "Basis kleurzaad",
   "pwd": "Wachtwoord",
+  "pwdTip": "Lengte 6-32, kan Engelse letters, cijfers en leestekens bevatten",
   "register": "Registreren",
   "rename": "Hernoemen",
   "restore": "Herstellen",

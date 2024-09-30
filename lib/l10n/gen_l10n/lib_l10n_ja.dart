@@ -205,6 +205,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get pwd => 'パスワード';
 
   @override
+  String get pwdTip => '長さ6〜32文字、英語の文字、数字、句読点が使用可能';
+
+  @override
   String get register => '登録';
 
   @override

@@ -205,6 +205,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get pwd => '密码';
 
   @override
+  String get pwdTip => '长度6-32，可以是英文的字母、数字、标点';
+
+  @override
   String get register => '注册';
 
   @override
@@ -273,7 +276,7 @@ class LibLocalizationsZh extends LibLocalizations {
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
 class LibLocalizationsZhTw extends LibLocalizationsZh {
-  LibLocalizationsZhTw() : super('zh_TW');
+  LibLocalizationsZhTw(): super('zh_TW');
 
   @override
   String get about => '關於';
@@ -472,6 +475,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get pwd => '密碼';
+
+  @override
+  String get pwdTip => '長度6-32，可以是英文字母、數字、標點符號';
 
   @override
   String get register => '註冊';

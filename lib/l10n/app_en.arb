@@ -64,6 +64,7 @@
   "path": "Path",
   "primaryColorSeed": "Primary color seed",
   "pwd": "Password",
+  "pwdTip": "Length 6-32, can be English letters, numbers, and punctuation",
   "register": "Sign up",
   "rename": "Rename",
   "restore": "Restore",

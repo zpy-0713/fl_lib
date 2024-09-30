@@ -64,6 +64,7 @@
   "path": "Caminho",
   "primaryColorSeed": "Semente da cor primária",
   "pwd": "Senha",
+  "pwdTip": "Comprimento de 6 a 32, pode conter letras em inglês, números e pontuação",
   "register": "Cadastrar",
   "rename": "Renomear",
   "restore": "Restaurar",
