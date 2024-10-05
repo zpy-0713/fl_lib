@@ -97,8 +97,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         sysStatusBarHeight = 37;
         drawTitlebar = true;
         break;
-      default:
-        break;
     }
   }
 

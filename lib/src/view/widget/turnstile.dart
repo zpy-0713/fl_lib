@@ -1,41 +1,29 @@
 import 'package:cloudflare_turnstile/cloudflare_turnstile.dart';
-import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
 final class Turnstile extends StatelessWidget {
   static const siteKey = String.fromEnvironment('TURNSTILE_SITE_KEY');
-  static const _verifyEndpoint = 'https://api.lpkt.cn/turnstile';
+  static const verifyEndpoint = 'https://api.lpkt.cn/auth/turnstile';
 
-  final void Function(String)? onError;
-  final void Function() onSuccess;
+  final void Function([String? err])? onError;
+  final void Function(String) onToken;
+  final String? baseUrl;
 
   const Turnstile({
     super.key,
     this.onError,
-    required this.onSuccess,
+    required this.onToken,
+    this.baseUrl,
   });
 
   @override
   Widget build(BuildContext context) {
     return CloudFlareTurnstile(
       siteKey: siteKey,
-      baseUrl: 'https://lpkt.cn',
+      baseUrl: baseUrl ?? 'https://lpkt.cn',
       onError: onError,
-      onTokenExpired: () {
-        onError?.call('Token expired');
-      },
-      onTokenRecived: onTokenRecived,
+      onTokenExpired: onError,
+      onTokenRecived: onToken,
     );
-  }
-
-  Future<void> onTokenRecived(String token) async {
-    final resp = await myDio.post(
-      _verifyEndpoint,
-      data: {'token': token},
-    );
-    if (resp.statusCode != 200) {
-      return onError?.call('Failed to verify token: $token');
-    }
-    onSuccess();
   }
 }
