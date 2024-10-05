@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 enum SwitchDirection {
   previous,
@@ -7,7 +11,7 @@ enum SwitchDirection {
 
 class SwitchIndicator extends StatefulWidget {
   final Widget child;
-  final Future<void> Function(SwitchDirection) onSwitchPage;
+  final FutureOr<void> Function(SwitchDirection) onSwitchPage;
 
   const SwitchIndicator({
     super.key,
@@ -31,11 +35,12 @@ class _SwitchState extends State<SwitchIndicator>
   );
 
   SwitchDirection? _scrollDirection;
-  bool _isDoingSwitch = false;
+  Timer? _doSwitchTimer;
 
   @override
   void dispose() {
     _showIndicatorCtrl.dispose();
+    _showIndicatorAnim.dispose();
     super.dispose();
   }
 
@@ -45,19 +50,15 @@ class _SwitchState extends State<SwitchIndicator>
       onNotification: _handleNotification,
       child: AnimatedBuilder(
         animation: _showIndicatorAnim,
-        builder: (_, __) {
+        child: widget.child,
+        builder: (_, child) {
           return Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              widget.child,
-              Positioned(
-                child: FadeTransition(
-                  opacity: _showIndicatorAnim,
-                  child: ScaleTransition(
-                    scale: _showIndicatorAnim,
-                    child: _buildIndicator(),
-                  ),
-                ),
+              child ?? UIs.placeholder,
+              ScaleTransition(
+                scale: _showIndicatorAnim,
+                child: _buildIndicator(),
               ),
             ],
           );
@@ -67,40 +68,22 @@ class _SwitchState extends State<SwitchIndicator>
   }
 
   Widget _buildIndicator() {
-    final icon = _isDoingSwitch
-        ? const SizedBox(
-            width: 17,
-            height: 17,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-            ),
-          )
-        : switch (_scrollDirection) {
-            SwitchDirection.previous => const Icon(
-                Icons.arrow_upward,
-                size: 17,
-              ),
-            SwitchDirection.next => const Icon(
-                Icons.arrow_downward,
-                size: 17,
-              ),
-            null => const Icon(
-                Icons.swipe_vertical,
-                size: 17,
-              ),
-          };
+    final icon = switch (_scrollDirection) {
+      SwitchDirection.previous => const Icon(MingCute.up_line, size: 23),
+      SwitchDirection.next => const Icon(MingCute.down_line, size: 23),
+      null => null,
+    };
+    if (icon == null) return UIs.placeholder;
     return ClipOval(
       child: ColoredBox(
-        color: const Color.fromARGB(237, 215, 215, 215),
-        child: Padding(
-          padding: const EdgeInsets.all(7),
-          child: icon,
-        ),
+        color: UIs.colorSeed,
+        child: Padding(padding: const EdgeInsets.all(11), child: icon),
       ),
     );
   }
 
   bool _handleNotification(ScrollNotification noti) {
+    dprint(noti);
     return switch (noti) {
       final ScrollUpdateNotification update => _handleUpdateNoti(update),
       final ScrollEndNotification end => _handleEndNoti(end),
@@ -142,6 +125,8 @@ class _SwitchState extends State<SwitchIndicator>
   bool _handleEndNoti(ScrollEndNotification notification) {
     _showIndicatorCtrl.reverse();
     _scrollDirection = null;
+    _doSwitchTimer?.cancel();
+    _doSwitchTimer = null;
     return false;
   }
 
@@ -166,14 +151,12 @@ class _SwitchState extends State<SwitchIndicator>
   void _doSwitchPage() async {
     await _showIndicatorCtrl.forward();
     if (_scrollDirection == null) return;
-    setState(() {
-      _isDoingSwitch = true;
+
+    _doSwitchTimer?.cancel();
+    _doSwitchTimer = Timer(Durations.medium3, () async {
+      await widget.onSwitchPage(_scrollDirection!);
+      await _showIndicatorCtrl.reverse();
+      _scrollDirection = null;
     });
-    await widget.onSwitchPage(_scrollDirection!);
-    setState(() {
-      _isDoingSwitch = false;
-    });
-    await _showIndicatorCtrl.reverse();
-    _scrollDirection = null;
   }
 }
