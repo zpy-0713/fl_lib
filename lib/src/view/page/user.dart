@@ -24,7 +24,7 @@ final class _UserPageState extends State<UserPage> {
   }
 
   Widget _buildBody() {
-    return Apis.user.listenVal(
+    return UserApi.user.listenVal(
       (user) {
         if (user == null) return const UserCard();
         return _buildUserInfo(user);
@@ -78,7 +78,7 @@ final class _UserPageState extends State<UserPage> {
       actions: Btnx.oks,
     );
     if (sure != true) return;
-    Apis.logout(_onAnonyUserLogout);
+    UserApi.logout(_onAnonyUserLogout);
     context.pop();
   }
 
@@ -92,12 +92,12 @@ final class _UserPageState extends State<UserPage> {
   }
 
   void _onRename() async {
-    final ctrl = TextEditingController(text: Apis.user.value?.name);
+    final ctrl = TextEditingController(text: UserApi.user.value?.name);
     void onOk() async {
       context.pop();
       final name = ctrl.text;
       if (name.isEmpty) return;
-      await context.showLoadingDialog(fn: () => Apis.userEdit(name: name));
+      await context.showLoadingDialog(fn: () => UserApi.edit(name: name));
     }
 
     await context.showRoundDialog(
@@ -115,7 +115,7 @@ final class _UserPageState extends State<UserPage> {
   void _onDelete() async {
     final sure = await context.showRoundDialog(
       title: l10n.delete,
-      child: Text(l10n.delFmt(l10n.user, Apis.user.value?.name ?? '???')),
+      child: Text(l10n.delFmt(l10n.user, UserApi.user.value?.name ?? '???')),
       actions: [
         CountDownBtn(
           onTap: () => context.pop(true),
@@ -126,7 +126,7 @@ final class _UserPageState extends State<UserPage> {
     );
     if (sure != true) return;
 
-    Apis.logout(_onAnonyUserLogout);
+    UserApi.logout(_onAnonyUserLogout);
   }
 
   // void _onImageRet(ImagePageRet ret) async {

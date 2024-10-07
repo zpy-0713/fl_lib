@@ -16,7 +16,7 @@ abstract final class PrefStore {
   static SharedPreferences get instance => _instance!;
 
   /// Initialize the store.
-  /// 
+  ///
   /// `MUST` call this before using any pref stores.
   static Future<void> init() async {
     if (_instance != null) return;
@@ -70,7 +70,7 @@ abstract final class PrefPropIface<T extends Object> {
   T? get();
 
   /// Set the value of the key.
-  /// 
+  ///
   /// If you want to set `null`, use `remove()` instead.
   Future<bool> set(T value);
 
@@ -79,7 +79,7 @@ abstract final class PrefPropIface<T extends Object> {
 }
 
 /// A single Property in SharedPreferences.
-/// 
+///
 /// {@macro pref_store_types}
 final class PrefProp<T extends Object> implements PrefPropIface<T> {
   final String key;

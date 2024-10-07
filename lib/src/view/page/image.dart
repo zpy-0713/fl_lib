@@ -101,7 +101,7 @@ final class ImagePage extends StatelessWidget {
 
 Future<String> _getImgData(String url) async {
   if (url.startsWith('http')) {
-    final headers = url.startsWith(ApiUrls.base) ? Apis.authHeaders : null;
+    final headers = url.startsWith(ApiUrls.base) ? UserApi.authHeaders : null;
     final resp = await myDio.get(
       url,
       options: Options(

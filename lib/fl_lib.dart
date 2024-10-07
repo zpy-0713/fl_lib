@@ -25,7 +25,7 @@ export 'src/core/ext/datetime.dart';
 export 'src/core/ext/image.dart';
 export 'src/core/ext/string.dart';
 export 'src/core/dio.dart';
-export 'src/core/api.dart';
+export 'src/core/backend/api.dart';
 export 'src/core/route/route.dart';
 export 'src/core/store/file.dart';
 export 'src/core/store/hive.dart';

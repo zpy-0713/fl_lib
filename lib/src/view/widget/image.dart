@@ -32,7 +32,7 @@ final class ImageCard extends StatefulWidget {
     if (url.startsWith('http')) {
       return ExtendedNetworkImageProvider(
         url,
-        headers: Apis.authHeaders,
+        headers: UserApi.authHeaders,
         cache: true,
       );
     } else if (url.startsWith('assets')) {

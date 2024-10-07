@@ -83,7 +83,6 @@ class _SwitchState extends State<SwitchIndicator>
   }
 
   bool _handleNotification(ScrollNotification noti) {
-    dprint(noti);
     return switch (noti) {
       final ScrollUpdateNotification update => _handleUpdateNoti(update),
       final ScrollEndNotification end => _handleEndNoti(end),

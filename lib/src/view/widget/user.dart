@@ -15,7 +15,7 @@ final class _UserCardState extends State<UserCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Apis.user.listenVal(_buildInner).cardx;
+    return UserApi.user.listenVal(_buildInner).cardx;
   }
 
   Widget _buildInner(User? user) {
@@ -48,7 +48,7 @@ final class _UserCardState extends State<UserCard> {
         subtitle: Text(l10n.loginTip, style: UIs.textGrey),
         onTap: () async {
           if (loading) return;
-          await Apis.login();
+          await UserApi.login();
           showTokenPaste.value = true;
           Future.delayed(const Duration(seconds: 30), () {
             if (showTokenPaste.value) {
@@ -67,8 +67,8 @@ final class _UserCardState extends State<UserCard> {
         final token = await Pfs.paste();
         if (token == null || token.isEmpty) return;
         showTokenPaste.value = false;
-        Apis.tokenProp.set(token);
-        context.showLoadingDialog(fn: Apis.userRefresh);
+        UserApi.tokenProp.set(token);
+        context.showLoadingDialog(fn: UserApi.refresh);
       },
       child: Text('${l10n.paste} Token'),
     );
@@ -91,7 +91,7 @@ final class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatar = Apis.user.value?.avatar;
+    final avatar = UserApi.user.value?.avatar;
     final showLarge = this.showLarge ?? avatar != null && onRet != null;
     return ImageCard(
       imageUrl: avatar ?? 'https://cdn.lpkt.cn/img/anon_avatar.jpg',
