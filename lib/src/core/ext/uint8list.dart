@@ -35,7 +35,9 @@ extension Uint8ListX on Uint8List {
     final headerBytes = sublist(0, math.min(100, length));
     final mime = lookupMimeType(path, headerBytes: headerBytes);
     if (mime != null) {
-      final ext = extensionFromMime(mime);
+      var ext = extensionFromMime(mime);
+      // The result of `extensionFromMime` if mime is jpeg is `jpe`
+      if (ext == 'jpe') ext = 'jpg';
       final newPath = '$path.$ext';
       if (compress && ImageUtil.isImage(mime)) {
         final img = await ImageUtil.compress(this, mime: mime);
