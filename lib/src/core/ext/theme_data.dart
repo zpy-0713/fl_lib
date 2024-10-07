@@ -1,3 +1,4 @@
+import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/material.dart';
 
 extension ThemeDataX on ThemeData {
@@ -15,4 +16,12 @@ extension ThemeDataX on ThemeData {
             const NavigationBarThemeData(backgroundColor: Colors.black),
         popupMenuTheme: const PopupMenuThemeData(color: Colors.black),
       );
+}
+
+extension ThemeModeX on ThemeMode {
+  String get i18n => switch (this) {
+        ThemeMode.dark => l10n.dark,
+        ThemeMode.light => l10n.bright,
+        ThemeMode.system => l10n.auto,
+      };
 }
