@@ -47,6 +47,10 @@ dependencies:
     git:
       ref: v1.0.66
       url: https://github.com/lollipopkit/webdav_client
+  computer:
+    git:
+      url: https://github.com/lollipopkit/dart_computer
+      ref: v1.0.88
 
 dev_dependencies:
   flutter_test:

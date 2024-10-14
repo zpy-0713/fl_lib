@@ -1,3 +1,4 @@
+import 'package:computer/computer.dart';
 import 'package:encrypt/encrypt.dart';
 
 /// AES encryption utils.
@@ -12,18 +13,21 @@ abstract final class AesUtils {
 
   /// - [key] is the key to encrypt the data. Not base64 encoded.
   /// - [data] is the data to encrypt. Not base64 encoded.
-  static Encrypted encryptStr(String key, String data) {
-    final encrypter = getEncrypter(key);
-    final iv = newIv;
-    final encrypted = encrypter.encrypt(data, iv: iv);
-    return encrypted;
+  static Future<Encrypted> encryptStr(String key, String data) {
+    return Computer.shared.startNoParam(() {
+      final encrypter = getEncrypter(key);
+      final iv = newIv;
+      return encrypter.encrypt(data, iv: iv);
+    });
   }
 
   /// - [key] is the key to decrypt the data. Not base64 encoded.
   /// - [b64] is the data to decrypt.
-  static String decryptB64(String key, String b64) {
-    final encrypter = getEncrypter(key);
-    final data = Encrypted.fromBase64(b64);
-    return encrypter.decrypt(data);
+  static Future<String> decryptB64(String key, String b64) {
+    return Computer.shared.startNoParam(() {
+      final encrypter = getEncrypter(key);
+      final data = Encrypted.fromBase64(b64);
+      return encrypter.decrypt(data);
+    });
   }
 }
