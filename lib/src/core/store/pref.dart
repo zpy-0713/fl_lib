@@ -8,6 +8,9 @@ abstract final class PrefProps {
 
   /// `null` means not set, `''` means empty password
   static const bakPwd = PrefProp<String>('bak_pwd');
+
+  /// Soft IME suggestions
+  static const imeSuggestions = PrefProp<bool>('ime_suggestions');
 }
 
 /// SharedPreferences store.

@@ -3,27 +3,51 @@ import 'package:flutter/material.dart';
 
 class Input extends StatefulWidget {
   final TextEditingController? controller;
+
+  /// Default is `1`.
   final int maxLines;
   final int? minLines;
   final String? hint;
   final String? label;
   final void Function(String)? onSubmitted;
   final void Function(String)? onChanged;
+
+  /// {@template concurrent_obscure_suffix}
+  /// Can't use both [obscureText] and [suffix] at the same time.
+  /// {@endtemplate}
   final bool obscureText;
+
+  /// {@macro concurrent_obscure_suffix}
+  final Widget? suffix;
+
+  /// The leading icon of the input.
   final IconData? icon;
   final TextInputType? type;
   final TextInputAction? action;
   final FocusNode? node;
+
+  /// Default is `false`.
   final bool autoCorrect;
-  final bool suggestion;
+
+  /// By default, it uses the value of [PrefProps.imeSuggestions] or `true`.
+  final bool? suggestion;
+
+  /// Works on [TextField.decoration]
   final String? errorText;
-  final Widget? suffix;
+
+  /// Default is `false`.
   final bool autoFocus;
   final void Function(bool)? onViewPwdTap;
+
+  /// If true, the input will not be wrapped in a [Card] and [Padding].
+  ///
+  /// Default is `false`.
   final bool noWrap;
   final InputCounterWidgetBuilder? counterBuilder;
   final void Function()? onTap;
   final void Function(PointerDownEvent)? onTapOutside;
+
+  /// If null, it uses the [AdaptiveTextSelectionToolbar.editableText].
   final EditableTextContextMenuBuilder? contextMenuBuilder;
   final int? maxLength;
 
@@ -42,7 +66,7 @@ class Input extends StatefulWidget {
     this.action,
     this.node,
     this.autoCorrect = false,
-    this.suggestion = true,
+    this.suggestion,
     this.errorText,
     this.autoFocus = false,
     this.onViewPwdTap,
@@ -63,62 +87,15 @@ class Input extends StatefulWidget {
 }
 
 class _InputState extends State<Input> {
-  bool _obscureText = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _obscureText = widget.obscureText;
-  }
+  late final _obscureText = widget.obscureText.vn;
 
   @override
   Widget build(BuildContext context) {
-    final suffix = switch (widget.suffix) {
-      null => widget.obscureText
-          ? IconButton(
-              icon: Icon(
-                _obscureText ? Icons.visibility : Icons.visibility_off,
-              ),
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-                widget.onViewPwdTap?.call(_obscureText);
-              },
-            )
-          : null,
-      final val => val,
-    };
-    final child = TextField(
-      controller: widget.controller,
-      maxLines: widget.maxLines,
-      minLines: widget.minLines,
-      obscureText: _obscureText,
-      decoration: InputDecoration(
-        hintText: widget.hint,
-        labelText: widget.label,
-        errorText: widget.errorText,
-        border: InputBorder.none,
-        icon:
-            widget.icon == null ? null : Icon(widget.icon).paddingOnly(left: 5),
-        suffixIcon: suffix,
-      ),
-      keyboardType: widget.type,
-      textInputAction: widget.action,
-      focusNode: widget.node,
-      autocorrect: widget.autoCorrect,
-      enableSuggestions: widget.suggestion,
-      autofocus: widget.autoFocus,
-      onSubmitted: widget.onSubmitted,
-      onChanged: widget.onChanged,
-      buildCounter: widget.counterBuilder,
-      onTap: widget.onTap,
-      onTapOutside: widget.onTapOutside,
-      maxLength: widget.maxLength,
-      contextMenuBuilder:
-          widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
-    );
+    final icon = widget.icon.nullOr((i) => Icon(i).paddingOnly(left: 5));
+    final child = _buildField(icon);
+
     if (widget.noWrap) return child;
+
     return CardX(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 5),
@@ -127,9 +104,52 @@ class _InputState extends State<Input> {
     );
   }
 
-  Widget _defaultContextMenuBuilder(
-          BuildContext context, EditableTextState editableTextState) =>
-      AdaptiveTextSelectionToolbar.editableText(
-        editableTextState: editableTextState,
+  Widget _buildField(Widget? icon) {
+    return _obscureText.listenVal((obscureText) {
+      return TextField(
+        controller: widget.controller,
+        maxLines: widget.maxLines,
+        minLines: widget.minLines,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          hintText: widget.hint,
+          labelText: widget.label,
+          errorText: widget.errorText,
+          border: InputBorder.none,
+          icon: icon,
+          suffixIcon: _buildSuffix(obscureText),
+        ),
+        keyboardType: widget.type,
+        textInputAction: widget.action,
+        focusNode: widget.node,
+        autocorrect: widget.autoCorrect,
+        enableSuggestions:
+            widget.suggestion ?? PrefProps.imeSuggestions.get() ?? true,
+        autofocus: widget.autoFocus,
+        onSubmitted: widget.onSubmitted,
+        onChanged: widget.onChanged,
+        buildCounter: widget.counterBuilder,
+        onTap: widget.onTap,
+        onTapOutside: widget.onTapOutside,
+        maxLength: widget.maxLength,
+        contextMenuBuilder: widget.contextMenuBuilder ?? _ctxMenuBuilder,
       );
+    });
+  }
+
+  Widget? _buildSuffix(bool obscureText) {
+    if (widget.suffix != null) return widget.suffix!;
+    if (!widget.obscureText) return null;
+
+    return IconButton(
+      icon: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
+      onPressed: () {
+        _obscureText.value = !obscureText;
+        widget.onViewPwdTap?.call(obscureText);
+      },
+    );
+  }
+
+  Widget _ctxMenuBuilder(BuildContext context, EditableTextState state) =>
+      AdaptiveTextSelectionToolbar.editableText(editableTextState: state);
 }
