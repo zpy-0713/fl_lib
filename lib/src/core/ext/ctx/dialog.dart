@@ -77,10 +77,14 @@ extension DialogX on BuildContext {
 
   static final _recoredPwd = <String, String>{};
 
+  /// Show a dialog to input password.
+  ///
+  /// - [id] is the key to record the password.
+  /// - [remember] if true, the password will be recorded. Only works when [id] is not null.
   Future<String?> showPwdDialog({
     String? title,
     String? label,
-    required String id,
+    String? id,
     bool remember = true,
   }) async {
     if (!mounted) return null;
@@ -93,7 +97,7 @@ extension DialogX on BuildContext {
         obscureText: true,
         onSubmitted: (val) {
           pop(val);
-          if (remember) {
+          if (remember && id != null) {
             _recoredPwd[id] = val;
           }
         },
@@ -184,7 +188,35 @@ extension DialogX on BuildContext {
   }) async {
     var vals = initial ?? <T>[];
     final tag = ''.vn;
-    final media = MediaQuery.of(this);
+    final size = MediaQuery.sizeOf(this);
+    final choices = tag.listenVal(
+      (tVal) {
+        return Choice<T>(
+          onChanged: (value) => vals = value,
+          multiple: multi,
+          clearable: clearable,
+          value: vals,
+          builder: (state, _) {
+            final items = itemsBuilder(tVal);
+            return Wrap(
+              children: List<Widget>.generate(
+                items.length,
+                (index) {
+                  final item = items[index];
+                  if (item == null) return UIs.placeholder;
+                  return ChoiceChipX<T>(
+                    label: display?.call(item) ?? item.toString(),
+                    state: state,
+                    value: item,
+                  );
+                },
+              ),
+            );
+          },
+        );
+      },
+    );
+
     final sure = await showRoundDialog<bool>(
       title: title,
       child: Column(
@@ -198,36 +230,8 @@ extension DialogX on BuildContext {
           ),
           const Divider(color: Color.fromARGB(30, 158, 158, 158)),
           ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: media.size.height * 0.5),
-            child: SingleChildScrollView(
-              child: tag.listenVal(
-                (tVal) {
-                  return Choice<T>(
-                    onChanged: (value) => vals = value,
-                    multiple: multi,
-                    clearable: clearable,
-                    value: vals,
-                    builder: (state, _) {
-                      final items = itemsBuilder(tVal);
-                      return Wrap(
-                        children: List<Widget>.generate(
-                          items.length,
-                          (index) {
-                            final item = items[index];
-                            if (item == null) return UIs.placeholder;
-                            return ChoiceChipX<T>(
-                              label: display?.call(item) ?? item.toString(),
-                              state: state,
-                              value: item,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+            constraints: BoxConstraints(maxHeight: size.height * 0.5),
+            child: SingleChildScrollView(child: choices),
           ),
         ],
       ),
