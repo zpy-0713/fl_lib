@@ -50,7 +50,11 @@ final class ImagePage extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     Widget child = Image(image: args.image);
     if (args.heroTag != null) {
-      child = Hero(tag: args.heroTag!, child: child);
+      child = Hero(
+        tag: args.heroTag!,
+        transitionOnUserGestures: true,
+        child: child,
+      );
     }
 
     return GestureDetector(

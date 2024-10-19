@@ -15,60 +15,80 @@ final class UserPage extends StatefulWidget {
 final class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.user),
-      ),
-      body: SingleChildScrollView(child: _buildBody()),
-    );
-  }
-
-  Widget _buildBody() {
     return UserApi.user.listenVal(
       (user) {
-        if (user == null) return const UserCard();
+        if (user == null) {
+          return Scaffold(
+            appBar: AppBar(title: Text(l10n.user)),
+            body: const UserCard(),
+          );
+        }
         return _buildUserInfo(user);
       },
     );
   }
 
+  // Widget _buildUserInfo(User user) {
+  //   return CustomScrollView(
+  //     slivers: [
+  //       SliverAppBar(
+  //         title: Text(user.name),
+  //         pinned: true,
+  //       ),
+  //       SliverPadding(
+  //         padding: const EdgeInsets.all(17),
+  //         sliver: SliverList(
+  //           delegate: SliverChildListDelegate.fixed(<Widget>[
+  //             const UserAvatar(),
+  //             Btn.elevated(
+  //               onTap: _onLogout,
+  //               icon: const Icon(Icons.logout),
+  //               text: l10n.logout,
+  //             ),
+  //             Btn.elevated(
+  //               onTap: _onRename,
+  //               icon: const Icon(BoxIcons.bx_rename),
+  //               text: l10n.rename,
+  //             ),
+  //             Btn.elevated(
+  //               onTap: _onDelete,
+  //               icon: const Icon(Icons.delete),
+  //               text: l10n.delete,
+  //             ),
+  //           ].joinWith(UIs.height13)),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
   Widget _buildUserInfo(User user) {
-    return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      // crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(width: double.infinity),
-        const Padding(
-          padding: EdgeInsets.all(27),
-          child: UserAvatar(),
-        ),
-        UIs.height13,
-        Text(
-          user.name,
-          style: const TextStyle(
-            fontSize: 21,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        UIs.height77,
-        Wrap(
-          alignment: WrapAlignment.center,
+    return Scaffold(
+      appBar: AppBar(title: Text(user.name)),
+      body: Padding(
+        padding: const EdgeInsets.all(17),
+        child: ListView(
           children: <Widget>[
-            ElevatedButton(
-              onPressed: _onLogout,
-              child: const Icon(Icons.logout),
+            const UserAvatar(),
+            UIs.height13,
+            Btn.elevated(
+              onTap: _onLogout,
+              icon: const Icon(Icons.logout),
+              text: l10n.logout,
             ),
-            ElevatedButton(
-              onPressed: _onRename,
-              child: const Icon(BoxIcons.bx_rename),
+            Btn.elevated(
+              onTap: _onRename,
+              icon: const Icon(BoxIcons.bx_rename),
+              text: l10n.rename,
             ),
-            ElevatedButton(
-              onPressed: _onDelete,
-              child: const Icon(Icons.delete),
+            Btn.elevated(
+              onTap: _onDelete,
+              icon: const Icon(Icons.delete),
+              text: l10n.delete,
             ),
-          ].joinWith(UIs.width13),
+          ].joinWith(UIs.height13),
         ),
-      ],
+      ),
     );
   }
 

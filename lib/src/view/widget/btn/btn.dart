@@ -28,7 +28,7 @@ enum BtnType {
   /// Column( Icon, Text )
   column,
 
-  /// ElevatedButton
+  /// [ElevatedButton]
   elevated,
   ;
 }
@@ -47,7 +47,7 @@ const _kGap = 7.0;
 const _kPadding = EdgeInsets.all(7);
 
 /// A placeholder icon that can't be displayed.
-const _placeholderIcon = Icon(MingCute.question_line);
+const _kPlaceholderIcon = Icon(MingCute.question_line);
 
 const _kBorderRadius = BorderRadius.all(Radius.circular(30));
 
@@ -290,7 +290,7 @@ final class Btn extends StatelessWidget {
 
     Widget child = Tooltip(
       message: text,
-      child: icon ?? _placeholderIcon,
+      child: icon ?? _kPlaceholderIcon,
     );
     if (padding != null) child = Padding(padding: padding!, child: child);
     return InkWell(
@@ -308,7 +308,7 @@ final class Btn extends StatelessWidget {
 
     Widget child = Column(
       children: [
-        icon ?? _placeholderIcon,
+        icon ?? _kPlaceholderIcon,
         SizedBox(height: gap ?? _kGap),
         Text(text, style: textStyle),
       ],
@@ -330,7 +330,7 @@ final class Btn extends StatelessWidget {
     }
 
     final isRTL = Directionality.of(context) == TextDirection.rtl;
-    final icon_ = icon ?? _placeholderIcon;
+    final icon_ = icon ?? _kPlaceholderIcon;
     final gap_ = SizedBox(width: gap ?? _kGap);
     final text_ = Text(text, style: textStyle);
     final children = isRTL ? [text_, gap_, icon_] : [icon_, gap_, text_];
