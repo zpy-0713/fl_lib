@@ -38,7 +38,7 @@ class ChoiceChipX<T> extends StatelessWidget {
         showCheckmark: showCheckmark,
         padding: padding,
         labelPadding: labelPadding,
-        color: color,
+        color: color ?? ChoiceChipColor(context),
         selected: state.selected(value),
         elevation: 0,
         pressElevation: 0,
