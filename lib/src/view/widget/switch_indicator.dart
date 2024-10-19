@@ -153,7 +153,10 @@ class _SwitchState extends State<SwitchIndicator>
 
     _doSwitchTimer?.cancel();
     _doSwitchTimer = Timer(Durations.medium3, () async {
-      await widget.onSwitchPage(_scrollDirection!);
+      // Catch the direction or it might be null
+      final direction = _scrollDirection;
+      if (direction == null) return;
+      await widget.onSwitchPage(direction);
       await _showIndicatorCtrl.reverse();
       _scrollDirection = null;
     });

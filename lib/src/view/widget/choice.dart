@@ -59,10 +59,9 @@ final class ChoiceChipColor extends WidgetStateProperty<Color> {
   @override
   Color resolve(Set<WidgetState> states) {
     final isSelected = states.contains(WidgetState.selected);
-    final color = context.theme.cardTheme.color;
     if (isSelected) {
-      return color?.withAlpha(30) ?? const Color.fromARGB(8, 22, 22, 22);
+      return const Color.fromARGB(8, 22, 22, 22);
     }
-    return color ?? const Color.fromARGB(16, 10, 10, 10);
+    return const Color.fromARGB(16, 10, 10, 10);
   }
 }
