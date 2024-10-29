@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 /// See: https://github.com/flutter/flutter/issues/11392
 enum BuildMode {
   release,
@@ -22,12 +24,23 @@ final _buildMode = () {
   return result;
 }();
 
-/// TODO: switch to macro in the future.
 /// Print [msg] only in debug mode.
 /// [msg] will convert to string by default.
-void dprint(Object? msg) {
-  if (BuildMode.isDebug) {
-    // ignore: avoid_print
-    print(msg);
+/// Print [msg]s only in debug mode.
+/// [msg] will convert to string by default.
+void dprint(Object? msg, [Object? msg2, Object? msg3, Object? msg4]) {
+  if (!BuildMode.isDebug) return;
+  print(msg);
+  if (msg2 != null) {
+    print('\t');
+    print(msg2);
+  }
+  if (msg3 != null) {
+    print('\t');
+    print(msg3);
+  }
+  if (msg4 != null) {
+    print('\t');
+    print(msg4);
   }
 }

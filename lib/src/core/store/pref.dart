@@ -16,14 +16,16 @@ abstract final class PrefProps {
 /// SharedPreferences store.
 abstract final class PrefStore {
   static SharedPreferences? _instance;
+  /// The instance of SharedPreferences.
+  /// Single instance for the whole app.
   static SharedPreferences get instance => _instance!;
 
   /// Initialize the store.
   ///
   /// `MUST` call this before using any pref stores.
-  static Future<void> init() async {
+  static Future<void> init({String prefix = ''}) async {
     if (_instance != null) return;
-    SharedPreferences.setPrefix('');
+    SharedPreferences.setPrefix(prefix);
     _instance = await SharedPreferences.getInstance();
   }
 
@@ -68,7 +70,13 @@ abstract final class PrefStore {
   static Future<bool> clear() => instance.clear();
 }
 
+/// The interface of a single Property in SharedPreferences.
 abstract final class PrefPropIface<T extends Object> {
+  /// The key of the property.
+  final String key;
+
+  const PrefPropIface(this.key);
+
   /// Get the value of the key.
   T? get();
 
@@ -84,10 +92,8 @@ abstract final class PrefPropIface<T extends Object> {
 /// A single Property in SharedPreferences.
 ///
 /// {@macro pref_store_types}
-final class PrefProp<T extends Object> implements PrefPropIface<T> {
-  final String key;
-
-  const PrefProp(this.key);
+final class PrefProp<T extends Object> extends PrefPropIface<T> {
+  const PrefProp(super.key);
 
   @override
   T? get() => PrefStore.get<T>(key);
@@ -102,11 +108,10 @@ final class PrefProp<T extends Object> implements PrefPropIface<T> {
 /// A single Property in SharedPreferences with default value.
 ///
 /// {@macro pref_store_types}
-final class PrefPropDefault<T extends Object> implements PrefPropIface<T> {
-  final String key;
+final class PrefPropDefault<T extends Object> extends PrefPropIface<T> {
   final T defaultValue;
 
-  const PrefPropDefault(this.key, this.defaultValue);
+  const PrefPropDefault(super.key, this.defaultValue);
 
   @override
   T get() => PrefStore.get<T>(key) ?? defaultValue;
