@@ -4,23 +4,27 @@ import 'package:fl_lib/src/core/ext/obj.dart';
 import 'package:fl_lib/src/view/widget/val_builder.dart';
 import 'package:flutter/material.dart';
 
-class BlurOverlay extends StatefulWidget {
+class OverlayWidget extends StatefulWidget {
   final Widget child;
   final Widget popup;
+  final bool blurBg;
 
-  const BlurOverlay({
+  const OverlayWidget({
     super.key,
     required this.child,
     required this.popup,
+    this.blurBg = true,
   });
 
-  static void Function()? close;
+  static _OverlayWidgetState? maybeOf(BuildContext context) {
+    return context.findAncestorStateOfType<_OverlayWidgetState>();
+  }
 
   @override
-  State<BlurOverlay> createState() => _BlurOverlayState();
+  State<OverlayWidget> createState() => _OverlayWidgetState();
 }
 
-class _BlurOverlayState extends State<BlurOverlay>
+class _OverlayWidgetState extends State<OverlayWidget>
     with SingleTickerProviderStateMixin {
   OverlayEntry? _overlayEntry;
 
@@ -37,14 +41,10 @@ class _BlurOverlayState extends State<BlurOverlay>
   void dispose() {
     _animeCtrl?.dispose();
     super.dispose();
-    BlurOverlay.close = null;
+    _removeOverlay();
   }
 
   void _showOverlay(BuildContext context) async {
-    /// Set it here, so [BlurOverlay.close] must point to this function owned by
-    /// this instance.
-    BlurOverlay.close = _removeOverlay;
-
     final overlayState = Overlay.of(context);
 
     /// Only create once (`??=`)
@@ -79,28 +79,32 @@ class _BlurOverlayState extends State<BlurOverlay>
       builder: (context) => GestureDetector(
         onTap: _removeOverlay,
         behavior: HitTestBehavior.opaque,
-        child: AnimatedBuilder(
-          animation: _animeCtrl!,
-          builder: (_, __) {
-            return BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: _blurAnime!.value,
-                sigmaY: _blurAnime!.value,
-              ),
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 11),
-                child: FadeTransition(
-                  opacity: _fadeAnime!,
-                  child: Center(
-                    child: widget.popup,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
+        child: _buildOverlayWidget(),
       ),
+    );
+  }
+
+  Widget _buildOverlayWidget() {
+    return AnimatedBuilder(
+      animation: _animeCtrl!,
+      builder: (_, __) {
+        final fadeTransition = Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 11),
+          child: FadeTransition(
+            opacity: _fadeAnime!,
+            child: Center(child: widget.popup),
+          ),
+        );
+        if (!widget.blurBg) return fadeTransition;
+        return BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: _blurAnime!.value,
+            sigmaY: _blurAnime!.value,
+          ),
+          child: fadeTransition,
+        );
+      },
     );
   }
 

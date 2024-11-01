@@ -7,88 +7,229 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 extension StringX on String {
-  /// Format: `#8b2252` or `8b2252`
-  Color? get hexToColor {
-    final hexCode = replaceAll('#', '');
-    final val = int.tryParse('FF$hexCode', radix: 16);
-    if (val == null) {
-      return null;
-    }
-    return Color(val);
+  /// [isEmpty] => [null]
+  /// [isNotEmpty] => [this]
+  String? get selfOrNull => isEmpty ? null : this;
+
+  /// Uppercase the first character.
+  String get capitalize {
+    if (isEmpty) return this;
+    final firstRune = codeUnitAt(0);
+    if (firstRune < 0x61 || firstRune > 0x7A) return this;
+    final runes = List.of(this.runes);
+    runes[0] = firstRune - 0x20;
+    return String.fromCharCodes(runes);
   }
 
   Uint8List get uint8List => Uint8List.fromList(utf8.encode(this));
+}
 
-  /// Upper the first letter.
-  String get upperFirst {
-    if (isEmpty) {
-      return this;
-    }
-    final runes = codeUnits;
-    if (runes[0] >= 97 && runes[0] <= 122) {
-      final origin = String.fromCharCode(runes[0]);
-      final upper = origin.toUpperCase();
-      return replaceFirst(origin, upper);
-    }
-    return this;
+extension StringColorX on String? {
+  /// Convert a hex string to a color.
+  ///
+  /// - The leading '#' is optional.
+  /// - The alpha channel is optional.
+  /// - Except the '#', the length of the string should be 3(RGB), 4(ARGB), 6(RRGGBB), or 8(AARRGGBB).
+  ///
+  /// eg.:
+  /// - '#FF0000' => Color(0xFFFF0000)
+  /// - '#123' => Color(0xFF112233)
+  /// - '11223344' => Color(0xFF11223344)
+  Color? get fromColorHex {
+    if (this == null) return null;
+    final hex = this!.replaceFirst('#', '');
+    final hexLen = hex.length;
+    if (hexLen != 3 && hexLen != 4 && hexLen != 6 && hexLen != 8) return null;
+    final value = int.tryParse(hex, radix: 16);
+    if (value == null) return null;
+    return switch (hexLen) {
+      3 || 6 => fromColorHexRGB,
+      4 || 8 => fromColorHexARGB,
+      _ => null,
+    };
   }
 
-  String? getFileName([String? seperator]) {
+  /// Accepts (#)RGB / (#)RRGGBB hex strings.
+  ///
+  /// {@template string_color_hex_internal_tip}
+  /// This method is used internally by [fromColorHex].
+  /// {@endtemplate}
+  Color? get fromColorHexRGB {
+    if (this == null) return null;
+    final hex = this!.replaceFirst('#', '');
+    final hexLen = hex.length;
+    if (hexLen != 3 && hexLen != 6) return null;
+    final value = int.tryParse(hex, radix: 16);
+    if (value == null) return null;
+    return switch (hexLen) {
+      3 => () {
+          final r = (value & 0xF00) >> 8;
+          final g = (value & 0x0F0) >> 4;
+          final b = value & 0x00F;
+          final rgb = r << 20 | r << 16 | g << 12 | g << 8 | b << 4 | b;
+          return Color(rgb | 0xFF000000);
+        }(),
+      6 => Color(value | 0xFF000000),
+      _ => null,
+    };
+  }
+
+  /// Accepts (#)ARGB / (#)AARRGGBB hex strings.
+  ///
+  /// {@macro string_color_hex_internal_tip}
+  Color? get fromColorHexARGB {
+    if (this == null) return null;
+    final hex = this!.replaceFirst('#', '');
+    final hexLen = hex.length;
+    if (hexLen != 4 && hexLen != 8) return null;
+    final value = int.tryParse(hex, radix: 16);
+    if (value == null) return null;
+    return switch (hexLen) {
+      4 => () {
+          final a = (value & 0xF000) >> 12;
+          final r = (value & 0x0F00) >> 8;
+          final g = (value & 0x00F0) >> 4;
+          final b = value & 0x000F;
+          final argb = a << 28 |
+              a << 24 |
+              r << 20 |
+              r << 16 |
+              g << 12 |
+              g << 8 |
+              b << 4 |
+              b;
+          return Color(argb);
+        }(),
+      8 => Color(value),
+      _ => null,
+    };
+  }
+}
+
+extension StringUrlX on String {
+  /// Check if the string is a valid URL.
+  bool get isUrl => Uri.tryParse(this) != null;
+
+  /// Launch the URL.
+  Future<void> launchUrl({LaunchMode? mode}) async {
+    if (!isUrl) return;
+    await launchUrlString(this, mode: mode ?? LaunchMode.platformDefault);
+  }
+}
+
+/// {@template string_path_separator}
+/// During the design period, the target platform only can be `android` or `ios`.
+/// So, the default [separator] is `/`.
+/// {@endtemplate}
+extension StringPathX on String {
+  /// Join the path.
+  ///
+  /// - [separator] is the separator of the path.
+  ///
+  /// {@macro string_path_separator}
+  String joinPath(String path, {String? separator}) {
+    if (isEmpty) return path;
+    if (path.isEmpty) return this;
+    final sep = separator ?? Pfs.seperator;
+    return this + sep + path;
+  }
+
+  /// Get the file name from the path.
+  ///
+  /// - [separator] is the separator of the path.
+  /// - [withoutExtension] is whether to remove the extension
+  ///
+  /// {@macro string_path_separator}
+  String? getFileName({String separator = '/', bool withoutExtension = false}) {
+    final index = lastIndexOf(separator);
+    if (index == -1) return null;
+    final wholeName = substring(index + 1);
+    if (!withoutExtension) return wholeName;
+    final dotIdx = wholeName.lastIndexOf('.');
+    // It means the file name doesn't have an extension.
+    // So, return the whole name.
+    if (dotIdx == -1) return wholeName;
+    return wholeName.substring(0, dotIdx);
+  }
+
+  /// Getter of [getFileName] with [withoutExtension] is false.
+  ///
+  /// Name it as [fileNameGetter] to avoid the conflict with the common [fileName] attribute.
+  String? get fileNameGetter => getFileName();
+}
+
+extension StringDateTimeX on String {
+  /// Parse the string to [DateTime].
+  ///
+  /// Examples of accepted strings:
+  /// - "2012-02-27"
+  /// - "2012-02-27 13:27:00"
+  /// - "2012-02-27 13:27:00.123456789z"
+  /// - "2012-02-27 13:27:00,123456789z"
+  /// - "20120227 13:27:00"
+  /// - "20120227T132700"
+  /// - "20120227"
+  /// - "+20120227"
+  /// - "2012-02-27T14Z"
+  /// - "2012-02-27T14+00:00"
+  /// - "-123450101 00:00:00 Z": in the year -12345.
+  /// - "2002-02-27T14:00:00-0500": Same as "2002-02-27T19:00:00Z"
+  DateTime? parseDateTime() {
     if (isEmpty) return null;
-    return split(seperator ?? Pfs.seperator).lastOrNull;
+    try {
+      return DateTime.parse(this);
+    } catch (e) {
+      return null;
+    }
   }
 
-  String? get fileName => getFileName();
-
-  String joinPath(
-    String path2, {
-    String? seperator,
-  }) {
-    final seperator_ = seperator ?? Pfs.seperator;
-    return this + (endsWith(seperator_) ? '' : seperator_) + path2;
-  }
-
-  Future<bool> launch({LaunchMode? mode}) async {
-    if (isEmpty) return false;
-    return await launchUrlString(this,
-        mode: mode ?? LaunchMode.platformDefault);
-  }
-
-  /// Returns true if the string is a file url.
-  /// If [strict] is true, the string must start with `file://`.
-  /// Otherwise, it will return true if the string starts with `file://` or `/`.
-  bool isFileUrl([bool strict = false]) {
-    if (isEmpty) return false;
-    final withFile = startsWith('file://');
-    if (strict) return withFile;
-    return withFile || startsWith('/');
-  }
-
+  /// Parse the timestamp string to [DateTime].
   DateTime? parseTimestamp() {
     if (isEmpty) return null;
-    final ts = int.tryParse(this);
-    if (ts == null) return null;
-    if (length == 10) {
-      return DateTime.fromMillisecondsSinceEpoch(ts * 1000);
+    try {
+      final number = parseNum<int>();
+      if (number == null) return null;
+      return DateTime.fromMillisecondsSinceEpoch(number);
+    } catch (e) {
+      return null;
     }
-    return DateTime.fromMillisecondsSinceEpoch(ts);
   }
 }
 
-extension StringXNullable on String? {
-  String? get selfIfNotNullEmpty => this?.isEmpty == true ? null : this;
+extension StringNumX on String {
+  /// Try to parse the string to [num].
+  ///
+  /// If the string is empty, return null.
+  /// If the string can't be parsed, return null.
+  T? parseNum<T extends num>() {
+    if (isEmpty) return null;
+    try {
+      return num.parse(this) as T;
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
-/// a-z A-Z 0-9
-const alphaNum =
-    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+/// Generate a random string.
+abstract final class RandomStr {
+  /// The default character set.
+  static const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
-String genRandomStr({int length = 7, String chars = alphaNum}) {
-  final random = Random();
-  // Use iter for better performance.
-  final iter = Iterable.generate(
-    length,
-    (_) => chars.codeUnitAt(random.nextInt(chars.length)),
-  );
-  return String.fromCharCodes(iter);
+  /// Generate a random string.
+  ///
+  /// - [length] is the length of the string.
+  /// - [secure] is whether to use a secure random number generator.
+  /// - [lowerCase] is whether to use lowercase characters.
+  /// - [charsSet] is the character set.
+  static String generate(
+    int length, {
+    bool secure = false,
+    bool lowerCase = true,
+    String charsSet = chars,
+  }) {
+    final random = secure ? Random.secure() : Random();
+    return List.generate(length, (index) => chars[random.nextInt(chars.length)])
+        .join();
+  }
 }

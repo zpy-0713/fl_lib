@@ -48,7 +48,7 @@ enum Pfs {
   String toString() => switch (this) {
         macos => 'macOS',
         ios => 'iOS',
-        final val => val.name.upperFirst,
+        final val => val.name.capitalize,
       };
 
   static final String seperator = isWindows ? '\\' : '/';

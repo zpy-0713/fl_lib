@@ -8,17 +8,19 @@ const _interactiveStates = <WidgetState>{
 };
 
 extension ColorX on Color {
+  /// Returns the color hex like `#FF112233`.
   String get toHex {
+    final alphaStr = alpha.toRadixString(16).padLeft(2, '0');
     final redStr = red.toRadixString(16).padLeft(2, '0');
     final greenStr = green.toRadixString(16).padLeft(2, '0');
     final blueStr = blue.toRadixString(16).padLeft(2, '0');
-    return '#$redStr$greenStr$blueStr';
+    return '#$alphaStr$redStr$greenStr$blueStr';
   }
 
-  bool get isBrightColor {
-    return getBrightnessFromColor == Brightness.light;
-  }
+  /// Whether this color is bright.
+  bool get isBrightColor => estimateBrightness == Brightness.light;
 
+  /// Plus the [val] to each channel.
   Color operator +(int val) {
     final r = (red + val).clamp(0, 255);
     final g = (green + val).clamp(0, 255);
@@ -26,6 +28,7 @@ extension ColorX on Color {
     return Color.fromARGB(alpha, r, g, b);
   }
 
+  /// Subtract [val] from each channel.
   Color operator -(int val) {
     final r = (red - val).clamp(0, 255);
     final g = (green - val).clamp(0, 255);
@@ -33,10 +36,11 @@ extension ColorX on Color {
     return Color.fromARGB(alpha, r, g, b);
   }
 
-  Brightness get getBrightnessFromColor {
-    return ThemeData.estimateBrightnessForColor(this);
-  }
+  /// Get the brightness of the color.
+  Brightness get estimateBrightness =>
+      ThemeData.estimateBrightnessForColor(this);
 
+  /// Get the [WidgetStateProperty] of the color.
   WidgetStateProperty<Color?> get materialStateColor {
     return WidgetStateProperty.resolveWith((states) {
       if (states.any(_interactiveStates.contains)) {
@@ -46,6 +50,7 @@ extension ColorX on Color {
     });
   }
 
+  /// Get the [MaterialColor] of the color.
   MaterialColor get materialColor => MaterialColor(
         value,
         {

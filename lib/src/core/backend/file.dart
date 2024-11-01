@@ -4,7 +4,7 @@ part of 'api.dart';
 abstract final class FileApi {
   /// Convert local file path / server url to filename
   static String urlToName(String path) {
-    if (path.startsWith('/')) return path.fileName ?? path;
+    if (path.startsWith('/')) return path.fileNameGetter ?? path;
     if (path.startsWith(ApiUrls.file)) {
       final uri = Uri.parse(path);
       return uri.queryParameters['name'] ?? path;
