@@ -4,61 +4,130 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:fl_lib/src/core/ext/string.dart';
+import 'package:fl_lib/src/core/store/iface.dart';
 
-class FileStore {
+class FileStore extends Store {
   final String dir;
 
   const FileStore(this.dir);
 
-  String _path(String key) => dir.joinPath(key);
+  File _file(String key) => File(dir.joinPath(key));
 
-  Future<Uint8List> get(String key) => File(_path(key)).readAsBytes();
+  @override
+  Future<Uint8List> get<T>(String key, {T Function(String)? fromString}) =>
+      _file(key).readAsBytes();
 
-  Future<File> set(String key, value) => File(_path(key)).writeAsBytes(value);
+  @override
+  Future<bool> set<T>(String key, T val, {String Function(T)? toString}) async {
+    try {
+      final file = _file(key);
+      if (!await file.exists()) {
+        await file.create(recursive: true);
+      }
+      await file.writeAsString(toString?.call(val) ?? val.toString());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
-  Future<void> rm(String key) => File(_path(key)).delete();
+  @override
+  Future<bool> clear() async {
+    final dir = Directory(this.dir);
+    if (!await dir.exists()) return true;
+    try {
+      await dir.delete(recursive: true);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<Set<String>> keys() async {
+    final dir = Directory(this.dir);
+    if (!await dir.exists()) return <String>{};
+    return await dir.list().map((e) => e.path).toSet();
+  }
+
+  @override
+  Future<bool> remove(String key) async {
+    try {
+      await _file(key).delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
 
-class FileProp {
-  final String key;
+class FileProp extends StoreProp<Uint8List> {
   final String baseDir;
   final FileStore store;
 
-  FileProp({
-    required this.key,
+  FileProp(
+    super.key, {
     required this.baseDir,
   }) : store = FileStore(baseDir);
 
-  Future<Uint8List> get() => store.get(key);
+  File get file => store._file(key);
 
-  Future<File> set(Uint8List value) => store.set(key, value);
+  @override
+  Future<Uint8List?> get() async {
+    if (!await file.exists()) return null;
+    return await file.readAsBytes();
+  }
 
-  Future<void> rm() => store.rm(key);
+  @override
+  Future<bool> remove() async {
+    if (!await file.exists()) return true;
+    try {
+      await file.delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> set(Uint8List value) async {
+    if (!await file.exists()) {
+      await file.create(recursive: true);
+    }
+    try {
+      await file.writeAsBytes(value);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
 
-class JsonFileProp<T extends Object> {
-  final String key;
+class JsonFileProp<T extends Object> extends StoreProp<T> {
   final String baseDir;
   final FileStore store;
   final T Function(Map<String, dynamic>) fromJson;
   final Map<String, dynamic> Function(T) toJson;
 
-  JsonFileProp({
-    required this.key,
+  JsonFileProp(
+    super.key, {
     required this.baseDir,
     required this.fromJson,
     required this.toJson,
   }) : store = FileStore(baseDir);
 
+  @override
   Future<T> get() async {
     final bytes = await store.get(key);
     return fromJson(json.decode(utf8.decode(bytes)));
   }
 
-  Future<File> set(T value) {
+  @override
+  Future<bool> set(T value) {
     final bytes = utf8.encode(json.encode(toJson(value)));
     return store.set(key, Uint8List.fromList(bytes));
   }
 
-  Future<void> rm() => store.rm(key);
+  @override
+  Future<bool> remove() => store.remove(key);
 }

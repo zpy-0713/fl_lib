@@ -30,7 +30,7 @@ abstract final class Inits {
 
     final futures = <Future>[];
     futures.add(Paths.init(appName, bakName: bakName));
-    futures.add(PrefStore.init());
+    futures.add(PrefStore.shared.init());
     futures.add(Hive.initFlutter());
     futures.add(Computer.shared.turnOn(workersCount: computerCounts));
     await Future.wait(futures);
@@ -41,7 +41,7 @@ abstract final class Inits {
   }
 
   /// Wrap the [body] in a zone to catch all errors.
-  /// 
+  ///
   /// - [body] is the function to run in the zone. Commonly the main function.
   void runInZone(void Function() body) {
     final zoneSpec = ZoneSpecification(

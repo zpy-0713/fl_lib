@@ -12,8 +12,8 @@ abstract final class SecureStore {
 
   static const _hiveKey = 'hive_key';
   static Future<String?> get encryptionKey async {
-    final key = PrefStore.get<String>(_hiveKey) ??
-        PrefStore.get<String>('flutter.$_hiveKey');
+    final key = PrefStore.shared.get<String>(_hiveKey) ??
+        PrefStore.shared.get<String>('flutter.$_hiveKey');
     return key;
   }
 
@@ -21,7 +21,7 @@ abstract final class SecureStore {
     final encryptionKeyString = await encryptionKey;
     if (encryptionKeyString == null) {
       final key = Hive.generateSecureKey();
-      await PrefStore.set(_hiveKey, base64UrlEncode(key));
+      await PrefStore.shared.set(_hiveKey, base64UrlEncode(key));
     }
     final key = await encryptionKey;
     if (key == null) {

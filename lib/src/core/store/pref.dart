@@ -1,4 +1,5 @@
 import 'package:fl_lib/fl_lib.dart';
+import 'package:fl_lib/src/core/store/iface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Properties saved in SharedPreferences.
@@ -14,16 +15,32 @@ abstract final class PrefProps {
 }
 
 /// SharedPreferences store.
-abstract final class PrefStore {
-  static SharedPreferences? _instance;
-  /// The instance of SharedPreferences.
+///
+/// {@template PrefStore.init}
+/// `MUST` call [init] before using any pref stores.
+/// {@endtemplate}
+final class PrefStore implements Store {
+  /// The prefix of SharedPreferences.
+  ///
+  /// Defaults to `''`.
+  final String? prefix;
+
+  /// {@macro PrefStore.init}
+  PrefStore({this.prefix});
+
   /// Single instance for the whole app.
-  static SharedPreferences get instance => _instance!;
+  ///
+  /// The [prefix] is `''`.
+  ///
+  /// The [init] method already has been called.
+  static final shared = PrefStore()..init();
+
+  SharedPreferences? _instance;
 
   /// Initialize the store.
   ///
   /// `MUST` call this before using any pref stores.
-  static Future<void> init({String prefix = ''}) async {
+  Future<void> init({String prefix = ''}) async {
     if (_instance != null) return;
     SharedPreferences.setPrefix(prefix);
     _instance = await SharedPreferences.getInstance();
@@ -34,9 +51,13 @@ abstract final class PrefStore {
   /// {@template pref_store_types}
   /// Only support types: [bool], [double], [int], [String], `List<String>`.
   /// {@endtemplate}
-  static T? get<T>(String key) {
-    final val = instance.get(key);
+  @override
+  T? get<T>(String key, {StoreFromStr<T>? fromString}) {
+    final val = _instance!.get(key);
     if (val is! T) {
+      if (val is String && fromString != null) {
+        return fromString(val);
+      }
       dprint('PrefStore.get("$key") is: ${val.runtimeType}');
       return null;
     }
@@ -46,14 +67,18 @@ abstract final class PrefStore {
   /// Set the value of the key.
   ///
   /// {@macro pref_store_types}
-  static Future<bool> set<T>(String key, T val) {
+  @override
+  Future<bool> set<T>(String key, T val, {StoreToStr<T>? toString}) {
     return switch (val) {
-      final bool val => instance.setBool(key, val),
-      final double val => instance.setDouble(key, val),
-      final int val => instance.setInt(key, val),
-      final String val => instance.setString(key, val),
-      final List<String> val => instance.setStringList(key, val),
+      final bool val => _instance!.setBool(key, val),
+      final double val => _instance!.setDouble(key, val),
+      final int val => _instance!.setInt(key, val),
+      final String val => _instance!.setString(key, val),
+      final List<String> val => _instance!.setStringList(key, val),
       _ => () {
+          if (toString != null) {
+            return _instance!.setString(key, toString(val));
+          }
           dprint('PrefStore.set("$key") invalid type: ${val.runtimeType}');
           return Future.value(false);
         }(),
@@ -61,64 +86,71 @@ abstract final class PrefStore {
   }
 
   /// Get all keys.
-  static Set<String> keys() => instance.getKeys();
+  @override
+  Future<Set<String>> keys() => Future.value(_instance!.getKeys());
 
   /// Remove the key.
-  static Future<bool> remove(String key) => instance.remove(key);
+  @override
+  Future<bool> remove(String key) => _instance!.remove(key);
 
   /// Clear the store.
-  static Future<bool> clear() => instance.clear();
-}
-
-/// The interface of a single Property in SharedPreferences.
-abstract final class PrefPropIface<T extends Object> {
-  /// The key of the property.
-  final String key;
-
-  const PrefPropIface(this.key);
-
-  /// Get the value of the key.
-  T? get();
-
-  /// Set the value of the key.
-  ///
-  /// If you want to set `null`, use `remove()` instead.
-  Future<bool> set(T value);
-
-  /// Remove the key.
-  Future<bool> remove();
+  @override
+  Future<bool> clear() => _instance!.clear();
 }
 
 /// A single Property in SharedPreferences.
 ///
 /// {@macro pref_store_types}
-final class PrefProp<T extends Object> extends PrefPropIface<T> {
-  const PrefProp(super.key);
+///
+/// You can define a property like this:
+/// ```dart
+/// const userToken = PrefProp<String>('user_token');
+/// ```
+final class PrefProp<T extends Object> extends StoreProp<T> {
+  final PrefStore? store;
+
+  const PrefProp(super.key, {this.store, super.fromStr, super.toStr});
+
+  PrefStore get _store => store ?? PrefStore.shared;
 
   @override
-  T? get() => PrefStore.get<T>(key);
+  T? get() => _store.get<T>(key, fromString: fromStr);
 
   @override
-  Future<bool> set(T value) => PrefStore.set(key, value);
+  Future<bool> set(T value) => _store.set(key, value, toString: toStr);
 
   @override
-  Future<bool> remove() => PrefStore.remove(key);
+  Future<bool> remove() => _store.remove(key);
 }
 
 /// A single Property in SharedPreferences with default value.
 ///
 /// {@macro pref_store_types}
-final class PrefPropDefault<T extends Object> extends PrefPropIface<T> {
+///
+/// You can define a property like this:
+/// ```dart
+/// const userToken = PrefPropDefault<String>('user_token', 'default_token');
+/// ```
+final class PrefPropDefault<T extends Object> extends StoreProp<T> {
   final T defaultValue;
+  final PrefStore? store;
 
-  const PrefPropDefault(super.key, this.defaultValue);
+  const PrefPropDefault(
+    super.key,
+    this.defaultValue, {
+    this.store,
+    super.fromStr,
+    super.toStr,
+  });
+
+  PrefStore get _store => store ?? PrefStore.shared;
 
   @override
-  T get() => PrefStore.get<T>(key) ?? defaultValue;
+  T get() => _store.get<T>(key, fromString: fromStr) ?? defaultValue;
 
   @override
-  Future<bool> set(T value) => PrefStore.set(key, value);
+  Future<bool> set(T value) => _store.set(key, value, toString: toStr);
 
   @override
-  Future<bool> remove() => PrefStore.remove(key);
+  Future<bool> remove() => _store.remove(key);
 }
