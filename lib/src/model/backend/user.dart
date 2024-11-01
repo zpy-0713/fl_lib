@@ -30,7 +30,7 @@ final class User {
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   @override
-  String toString() => '${group.upperFirst}<$id>';
+  String toString() => '${group.capitalize}<$id>';
 }
 
 extension UserX on User {

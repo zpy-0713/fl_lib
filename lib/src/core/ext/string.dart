@@ -111,9 +111,10 @@ extension StringUrlX on String {
   bool get isUrl => Uri.tryParse(this) != null;
 
   /// Launch the URL.
-  Future<void> launchUrl({LaunchMode? mode}) async {
-    if (!isUrl) return;
-    await launchUrlString(this, mode: mode ?? LaunchMode.platformDefault);
+  Future<bool> launchUrl({LaunchMode? mode}) async {
+    if (!isUrl) return false;
+    return await launchUrlString(this,
+        mode: mode ?? LaunchMode.platformDefault);
   }
 }
 

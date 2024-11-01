@@ -22,7 +22,7 @@ final class SimpleMarkdown extends StatelessWidget {
       data: data,
       onTapLink: (text, href, title) async {
         if (href != null && href.isNotEmpty) {
-          final suc = await href.launch();
+          final suc = await href.launchUrl();
           if (suc) return;
         }
         onOpenFail?.call();

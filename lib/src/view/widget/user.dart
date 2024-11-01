@@ -78,7 +78,7 @@ final class _UserCardState extends State<UserCard> {
     return ListTile(
       leading: const UserAvatar(),
       title: Text(user.name, style: UIs.text15Bold),
-      subtitle: Text('${user.oauth?.upperFirst}', style: UIs.textGrey),
+      subtitle: Text('${user.oauth?.capitalize}', style: UIs.textGrey),
     );
   }
 }

@@ -79,7 +79,7 @@ abstract final class AppUpdateIface {
   static Future<void> _doUpdate(BuildContext context, String url) async {
     switch (Pfs.type) {
       case Pfs.windows || Pfs.linux || Pfs.ios || Pfs.macos || Pfs.android:
-        await url.launch();
+        await url.launchUrl();
         break;
       default:
         context.showRoundDialog(
