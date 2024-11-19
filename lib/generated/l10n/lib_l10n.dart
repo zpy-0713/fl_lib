@@ -28,7 +28,7 @@ import 'lib_l10n_zh.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'gen_l10n/lib_l10n.dart';
+/// import 'l10n/lib_l10n.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: LibLocalizations.localizationsDelegates,
