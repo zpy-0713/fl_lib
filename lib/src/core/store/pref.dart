@@ -12,6 +12,22 @@ abstract final class PrefProps {
 
   /// Soft IME suggestions
   static const imeSuggestions = PrefProp<bool>('ime_suggestions');
+
+  /// {@template webdav_settings}
+  /// WebDAV settings
+  /// {@endtemplate}
+  static const webdavUrl = PrefProp<String>('webdav_url');
+
+  /// {@macro webdav_settings}
+  static const webdavUser = PrefProp<String>('webdav_user');
+
+  /// {@macro webdav_settings}
+  static const webdavPwd = PrefProp<String>('webdav_pwd');
+
+  /// {@macro webdav_settings}
+  static const webdavSync = PrefProp<bool>('webdav_sync');
+
+  static const icloudSync = PrefProp<bool>('icloud_sync');
 }
 
 /// SharedPreferences store.
@@ -25,15 +41,15 @@ final class PrefStore implements Store {
   /// Defaults to `''`.
   final String? prefix;
 
+  /// Due to the limit of the SharedPreferences singleton, only [shared] is recommended.
+  /// 
   /// {@macro PrefStore.init}
   PrefStore({this.prefix});
 
   /// Single instance for the whole app.
   ///
-  /// The [prefix] is `''`.
-  ///
-  /// The [init] method already has been called.
-  static final shared = PrefStore()..init();
+  /// - The [prefix] is `''`.
+  static final shared = PrefStore();
 
   SharedPreferences? _instance;
 

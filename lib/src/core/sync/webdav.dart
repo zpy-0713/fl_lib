@@ -1,90 +1,73 @@
 part of 'base.dart';
 
-const webdav = Webdav._();
+final class Webdav implements RemoteStorage<String> {
+  Webdav({this.prefix = defaultPrefix, this.client});
 
-final class WebdavInitArgs {
-  final String url;
-  final String user;
-  final String pwd;
-  final String prefix;
-
-  const WebdavInitArgs({
-    required this.url,
-    required this.user,
-    required this.pwd,
-    required this.prefix,
-  });
-}
-
-final class Webdav implements RemoteStorage<WebdavInitArgs, String> {
-  const Webdav._();
-
+  /// {@template webdav_prefix}
   /// Some WebDAV provider only support non-root path
-  static String _prefix = 'gptbox/';
+  /// {@endtemplate}
+  static const defaultPrefix = 'lpkt-apps/';
 
-  static String _url = '';
+  /// The prefix of the path.
+  /// 
+  /// - Defaults to [defaultPrefix].
+  /// 
+  /// {@macro webdav_prefix}
+  String prefix;
 
-  static WebdavClient _client = WebdavClient(url: _url, user: '', pwd: '');
+  /// The WebDAV client.
+  ///
+  /// {@template webdav_client}
+  /// You should call [init] before using this.
+  /// {@endtemplate}
+  WebdavClient? client;
 
-  @override
-  Future<void> init(args) async {
-    final url = args.url;
-    if (_url == url) return;
-
-    _checkUrl(url);
-    await test(url, args.user, args.pwd);
-    _url = url;
-    _client = WebdavClient(url: url, user: args.user, pwd: args.pwd);
-    _prefix = args.prefix;
-  }
+  static final shared = Webdav(
+    client: WebdavClient(
+      url: PrefProps.webdavUrl.get() ?? '',
+      user: PrefProps.webdavUser.get() ?? '',
+      pwd: PrefProps.webdavPwd.get() ?? '',
+    ),
+  );
 
   static Future<void> test(String url, String user, String pwd) async {
     await WebdavClient(url: url, user: user, pwd: pwd).ping();
   }
 
-  /// Throws exception if URL is invalid
-  void _checkUrl([String? url]) {
-    url ??= _url;
-    final pattern = RegExp(r'^https?://');
-    if (url.isEmpty || !pattern.hasMatch(url)) {
-      throw 'Invalid URL';
-    }
-  }
-
+  /// {@macro webdav_client}
   @override
   Future<void> upload({
     required String relativePath,
     String? localPath,
   }) {
-    _checkUrl();
-    return _client.writeFile(
+    return client!.writeFile(
       localPath ?? Paths.doc.joinPath(relativePath),
-      _prefix + relativePath,
+      prefix + relativePath,
     );
   }
 
+  /// {@macro webdav_client}
   @override
   Future<void> delete(String relativePath) async {
-    _checkUrl();
-    return _client.remove(_prefix + relativePath);
+    return client!.remove(prefix + relativePath);
   }
 
+  /// {@macro webdav_client}
   @override
   Future<void> download({
     required String relativePath,
     String? localPath,
   }) {
-    _checkUrl();
-    return _client.readFile(
-      _prefix + relativePath,
+    return client!.readFile(
+      prefix + relativePath,
       localPath ?? Paths.doc.joinPath(relativePath),
     );
   }
 
+  /// {@macro webdav_client}
   @override
   Future<List<String>> list() async {
-    _checkUrl();
-    final list = await _client.readDir(_prefix);
+    final list = await client!.readDir(prefix);
     final names = <String>[];
     for (final item in list) {
       final name = item.name;

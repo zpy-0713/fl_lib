@@ -17,6 +17,9 @@ extension ContextX on BuildContext {
   /// Whether the current page(the page of context) is still on the screen.
   bool? get stillOnPage => ModalRoute.of(this)?.isCurrent;
 
+  /// You should consider use [windowSize] if only the size is needed.
+  MediaQueryData get mediaQuery => MediaQuery.of(this);
+
   // Use [MediaQuery.sizeOf] for better performance.
   Size get windowSize => MediaQuery.sizeOf(this);
 

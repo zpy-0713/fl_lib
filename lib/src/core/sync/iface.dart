@@ -7,10 +7,7 @@ part of 'base.dart';
 ///   - [Webdav]
 ///   - [ICloud]
 /// {@endtemplate}
-abstract base class RemoteStorage<InitArgs, ListItemType> {
-  /// Initialize remote storage
-  Future<void> init(InitArgs args);
-
+abstract base class RemoteStorage<ListItemType> {
   /// Upload file to remote storage
   ///
   /// {@template remote_storage_upload}

@@ -1,18 +1,9 @@
 part of 'base.dart';
 
-const icloud = ICloud._();
+final class ICloud implements RemoteStorage<ICloudFile> {
+  final String containerId;
 
-final class ICloud implements RemoteStorage<String, ICloudFile> {
-  const ICloud._();
-
-  static String containerId = '';
-
-  /// [args] is the container ID.
-  @override
-  Future<void> init(String args) async {
-    if (containerId == args) return;
-    containerId = args;
-  }
+  ICloud({required this.containerId});
 
   @override
   Future<void> upload({
