@@ -9,18 +9,26 @@ import 'package:url_launcher/url_launcher_string.dart';
 extension StringX on String {
   /// [isEmpty] => [null]
   /// [isNotEmpty] => [this]
-  String? get selfOrNull => isEmpty ? null : this;
+  String? get selfNotEmptyOrNull => isEmpty ? null : this;
 
   /// Uppercase the first character.
   String get capitalize {
     if (isEmpty) return this;
-    final firstRune = codeUnitAt(0);
-    if (firstRune < 0x61 || firstRune > 0x7A) return this;
-    final runes = List.of(this.runes);
-    runes[0] = firstRune - 0x20;
-    return String.fromCharCodes(runes);
+    // final firstRune = codeUnitAt(0);
+    // if (firstRune < 0x61 || firstRune > 0x7A) return this;
+    // final runes = List.of(this.runes);
+    // runes[0] = firstRune - 0x20;
+    // return String.fromCharCodes(runes);
+
+    // A more efficient way.
+    // Refer: [test/bench_test.dart]
+
+    final first = codeUnitAt(0);
+    if (first < 0x61 || first > 0x7A) return this;
+    return String.fromCharCode(first - 0x20) + substring(1);
   }
 
+  /// Decode the `u8` list to a string using `utf8`.
   Uint8List get uint8List => Uint8List.fromList(utf8.encode(this));
 }
 
@@ -90,14 +98,7 @@ extension StringColorX on String? {
           final r = (value & 0x0F00) >> 8;
           final g = (value & 0x00F0) >> 4;
           final b = value & 0x000F;
-          final argb = a << 28 |
-              a << 24 |
-              r << 20 |
-              r << 16 |
-              g << 12 |
-              g << 8 |
-              b << 4 |
-              b;
+          final argb = a << 28 | a << 24 | r << 20 | r << 16 | g << 12 | g << 8 | b << 4 | b;
           return Color(argb);
         }(),
       8 => Color(value),
@@ -113,8 +114,7 @@ extension StringUrlX on String {
   /// Launch the URL.
   Future<bool> launchUrl({LaunchMode? mode}) async {
     if (!isUrl) return false;
-    return await launchUrlString(this,
-        mode: mode ?? LaunchMode.platformDefault);
+    return await launchUrlString(this, mode: mode ?? LaunchMode.platformDefault);
   }
 }
 
@@ -230,7 +230,6 @@ abstract final class RandomStr {
     String charsSet = chars,
   }) {
     final random = secure ? Random.secure() : Random();
-    return List.generate(length, (index) => chars[random.nextInt(chars.length)])
-        .join();
+    return List.generate(length, (index) => chars[random.nextInt(chars.length)]).join();
   }
 }

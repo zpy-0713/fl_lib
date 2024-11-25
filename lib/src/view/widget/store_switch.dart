@@ -4,7 +4,7 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
 class StoreSwitch extends StatelessWidget {
-  final StorePropertyBase<bool> prop;
+  final StorePropDefault<bool> prop;
 
   /// Exec before make change, after validator.
   final FutureOr<void> Function(bool)? callback;
@@ -43,7 +43,7 @@ class StoreSwitch extends StatelessWidget {
                 isBusy.value = true;
                 await callback?.call(value);
                 isBusy.value = false;
-                prop.put(value);
+                prop.set(value);
               },
             );
 

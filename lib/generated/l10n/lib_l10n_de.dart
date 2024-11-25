@@ -16,7 +16,8 @@ class LibLocalizationsDe extends LibLocalizations {
   String get all => 'Alle';
 
   @override
-  String get anonLoseDataTip => 'Der aktuelle Zugriff erfolgt anonym. Weiteres Vorgehen führt zu Datenverlust.';
+  String get anonLoseDataTip =>
+      'Der aktuelle Zugriff erfolgt anonym. Weiteres Vorgehen führt zu Datenverlust.';
 
   @override
   String get app => 'Anwendung';
@@ -158,7 +159,8 @@ class LibLocalizationsDe extends LibLocalizations {
   String get login => 'Anmelden';
 
   @override
-  String get loginTip => 'Keine Registrierung erforderlich, kostenlose Nutzung.';
+  String get loginTip =>
+      'Keine Registrierung erforderlich, kostenlose Nutzung.';
 
   @override
   String get logout => 'Abmelden';
@@ -167,7 +169,8 @@ class LibLocalizationsDe extends LibLocalizations {
   String get migrateCfg => 'Konfigurationsmigration';
 
   @override
-  String get migrateCfgTip => 'Um die erforderliche neue Konfiguration anzupassen';
+  String get migrateCfgTip =>
+      'Um die erforderliche neue Konfiguration anzupassen';
 
   @override
   String get minute => 'Minuten';
@@ -205,7 +208,8 @@ class LibLocalizationsDe extends LibLocalizations {
   String get pwd => 'Passwort';
 
   @override
-  String get pwdTip => 'Länge 6-32, kann aus englischen Buchstaben, Zahlen und Satzzeichen bestehen';
+  String get pwdTip =>
+      'Länge 6-32, kann aus englischen Buchstaben, Zahlen und Satzzeichen bestehen';
 
   @override
   String get register => 'Registrieren';

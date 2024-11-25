@@ -371,8 +371,9 @@ ${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
         final resp = await myDio.get(
           url,
           options: Options(
-              headers: headers.isEmpty ? null : headers,
-              responseType: ResponseType.bytes),
+            headers: headers.isEmpty ? null : headers,
+            responseType: ResponseType.bytes,
+          ),
         );
         return resp.data;
       case _ImportFrom.clipboard:

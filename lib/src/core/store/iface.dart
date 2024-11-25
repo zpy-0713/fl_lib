@@ -1,4 +1,14 @@
 import 'dart:async';
+import 'dart:io';
+
+import 'package:fl_lib/fl_lib.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+part 'hive.dart';
+part 'pref.dart';
 
 /// {@template store_from_to_str}
 /// If there is a type which is not supported by the store, the store will call
@@ -12,11 +22,26 @@ typedef StoreToStr<T> = String Function(T value);
 /// The interface of any [Store].
 ///
 /// The provider of the store can be `shared_preferences`, `hive`, `sqflite`, etc.
-abstract class Store {
-  const Store();
+///
+/// {@template store_last_update_ts}
+/// The last update timestamp is used to check whether the data's has been updated.
+///
+/// It's designed that only one timestamp for all the data in one store.
+/// {@endtemplate}
+sealed class Store {
+  /// Get the key for the last update timestamp.
+  final String lastUpdateTsKey;
+
+  /// Whether to update the last update timestamp when setting a value.
+  final bool updateLastUpdateTsOnSet;
+
+  const Store({
+    this.updateLastUpdateTsOnSet = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+    this.lastUpdateTsKey = StoreDefaults.defaultLastUpdateTsKey,
+  });
 
   /// Get the value of the key.
-  Object? get<T>(String key, {StoreFromStr<T>? fromString});
+  T? get<T>(String key, {StoreFromStr<T>? fromString});
 
   /// Set the value of the key.
   FutureOr<bool> set<T>(String key, T val, {StoreToStr<T>? toString});
@@ -29,6 +54,25 @@ abstract class Store {
 
   /// Clear the store.
   FutureOr<bool> clear();
+
+  /// Update the last update timestamp.
+  ///
+  /// You can override the timestamp by passing [ts].
+  ///
+  /// {@macro store_last_update_ts}
+  FutureOr<void> updateLastUpdateTs([int? ts]) {
+    if (!updateLastUpdateTsOnSet) return null;
+    return set(lastUpdateTsKey, ts ?? DateTimeX.timestamp);
+  }
+
+  /// Get the last update timestamp.
+  ///
+  /// {@macro store_last_update_ts}
+  DateTime? get lastUpdateTs {
+    final ts = get<int>(lastUpdateTsKey);
+    if (ts == null) return null;
+    return ts.tsToDateTime;
+  }
 }
 
 /// The interface of a single Property in any [Store].
@@ -44,20 +88,109 @@ abstract class StoreProp<T extends Object> {
   /// Convert the value to string.
   final StoreToStr<T>? toStr;
 
-  /// Constructor.
-  /// - [key] is the key of the property.
+  /// Whether to update the last update timestamp when setting a value for this property.
   ///
-  /// About [fromStr] & [toStr], you can refer to [StoreFromStr] & [StoreToStr].
-  const StoreProp(this.key, {this.fromStr, this.toStr});
+  /// {@macro store_last_update_ts}
+  final bool updateLastUpdateTsOnSetProp;
+
+  /// {@template store_prop_constructor}
+  /// Constructor.
+  ///
+  /// - [key] is the key of the property.
+  /// - [fromStr] & [toStr], you can refer to [StoreFromStr] & [StoreToStr].
+  /// - [store] is the store of the property.
+  /// - [updateLastUpdateTsOnSetProp] is whether to update the last update timestamp
+  /// of this [Store] when setting a value for this property.
+  /// {@endtemplate}
+  const StoreProp(
+    this.key, {
+    this.fromStr,
+    this.toStr,
+    this.updateLastUpdateTsOnSetProp =
+        StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+  });
+
+  /// It's [Store].
+  Store get store;
 
   /// Get the value of the key.
-  FutureOr<T?> get();
+  FutureOr<T?> get() {
+    return store.get(key, fromString: fromStr);
+  }
 
   /// Set the value of the key.
   ///
   /// If you want to set `null`, use `remove()` instead.
-  FutureOr<bool> set(T value);
+  FutureOr<void> set(T value) {
+    return store.set(key, value, toString: toStr);
+  }
 
   /// Remove the key.
-  FutureOr<bool> remove();
+  FutureOr<void> remove() => store.remove(key);
+
+  /// {@template store_prop_listenable}
+  /// Get the [ValueListenable] of the key.
+  ///
+  /// It's used to listen to the value changes.
+  /// {@endtemplate}
+  ValueListenable<T?> listenable();
+
+  /// Whether to update the last update timestamp when setting a value depends on
+  /// both [updateLastUpdateTsOnSetProp] && [updateLastUpdateTsOnSet].
+  ///
+  /// {@macro store_last_update_ts}
+  bool get updateLastUpdateTsOnSet =>
+      store.updateLastUpdateTsOnSet && updateLastUpdateTsOnSetProp;
+}
+
+/// The interface of a single Property in any [Store] which has a default value.
+///
+/// Such as the `user_token` in `shared_preferences`, `user` in `hive`, etc.
+abstract class StorePropDefault<T extends Object> extends StoreProp<T> {
+  /// The default value of the property.
+  final T defaultValue;
+
+  /// Constructor.
+  ///
+  /// - [key] is the key of the property.
+  /// - [defaultValue] is the default value of the property.
+  /// - [fromStr] & [toStr], you can refer to [StoreFromStr] & [StoreToStr].
+  const StorePropDefault(
+    super.key,
+    this.defaultValue, {
+    super.fromStr,
+    super.toStr,
+    super.updateLastUpdateTsOnSetProp =
+        StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+  });
+
+  /// Get the value of the key.
+  @override
+  FutureOr<T> get() {
+    return store.get(key, fromString: fromStr) ?? defaultValue;
+  }
+
+  /// Set the value of the key.
+  @override
+  FutureOr<void> set(T value) {
+    return store.set(key, value, toString: toStr);
+  }
+
+  /// {@macro store_prop_listenable}
+  @override
+  ValueListenable<T> listenable();
+}
+
+/// The keys used internally in the store.
+extension StoreDefaults on Store {
+  /// The prefix of the internal keys.
+  ///
+  /// If you want to export data from the store, you can ignore the keys with this prefix.
+  static const prefixKey = '__lkpt_';
+
+  /// The key for the last update timestamp.
+  static const defaultLastUpdateTsKey = '${prefixKey}lastUpdateTs';
+
+  /// Update the last update timestamp by default.
+  static const defaultUpdateLastUpdateTsOnSet = true;
 }

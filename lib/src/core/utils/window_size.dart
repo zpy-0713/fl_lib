@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:fl_lib/fl_lib.dart';
 import 'package:window_manager/window_manager.dart';
 
 final class WindowSizeListener implements WindowListener {
-  final StoreProperty<String> windowSize;
+  final StoreProp<String> windowSize;
 
-  WindowSizeListener(this.windowSize);
+  const WindowSizeListener(this.windowSize);
 
   @override
   void onWindowBlur() {}
@@ -41,12 +43,14 @@ final class WindowSizeListener implements WindowListener {
 
   @override
   void onWindowResize() {
-    final current = windowSize.fetch();
-    if (current.isEmpty) return;
+    // No lock required, just an unimportant update.
+    unawaited(() async {
+      final current = await windowSize.get();
+      if (current == null || current.isEmpty) return;
 
-    windowManager.getSize().then((size) {
-      windowSize.put(size.toIntStr());
-    });
+      final size = await windowManager.getSize();
+      windowSize.set(size.toIntStr());
+    }());
   }
 
   @override

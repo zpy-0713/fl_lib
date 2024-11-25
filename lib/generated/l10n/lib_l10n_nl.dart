@@ -16,7 +16,8 @@ class LibLocalizationsNl extends LibLocalizations {
   String get all => 'Alle';
 
   @override
-  String get anonLoseDataTip => 'Momenteel anoniem ingelogd, verdere handelingen zullen leiden tot gegevensverlies.';
+  String get anonLoseDataTip =>
+      'Momenteel anoniem ingelogd, verdere handelingen zullen leiden tot gegevensverlies.';
 
   @override
   String get app => 'Applicatie';
@@ -167,7 +168,8 @@ class LibLocalizationsNl extends LibLocalizations {
   String get migrateCfg => 'Configuratiemigratie';
 
   @override
-  String get migrateCfgTip => 'Om aan te passen aan de vereiste nieuwe configuratie';
+  String get migrateCfgTip =>
+      'Om aan te passen aan de vereiste nieuwe configuratie';
 
   @override
   String get minute => 'Minuten';
@@ -205,7 +207,8 @@ class LibLocalizationsNl extends LibLocalizations {
   String get pwd => 'Wachtwoord';
 
   @override
-  String get pwdTip => 'Lengte 6-32, kan Engelse letters, cijfers en leestekens bevatten';
+  String get pwdTip =>
+      'Lengte 6-32, kan Engelse letters, cijfers en leestekens bevatten';
 
   @override
   String get register => 'Registreren';

@@ -9,9 +9,9 @@ final class Webdav implements RemoteStorage<String> {
   static const defaultPrefix = 'lpkt-apps/';
 
   /// The prefix of the path.
-  /// 
+  ///
   /// - Defaults to [defaultPrefix].
-  /// 
+  ///
   /// {@macro webdav_prefix}
   String prefix;
 

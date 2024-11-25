@@ -1,44 +1,19 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
+part of 'iface.dart';
 
-import 'package:fl_lib/fl_lib.dart';
-import 'package:flutter/foundation.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
-
-abstract final class SecureStore {
-  static HiveAesCipher? cipher;
-
-  static const _hiveKey = 'hive_key';
-  static Future<String?> get encryptionKey async {
-    final key = PrefStore.shared.get<String>(_hiveKey) ??
-        PrefStore.shared.get<String>('flutter.$_hiveKey');
-    return key;
-  }
-
-  static Future<void> init() async {
-    final encryptionKeyString = await encryptionKey;
-    if (encryptionKeyString == null) {
-      final key = Hive.generateSecureKey();
-      await PrefStore.shared.set(_hiveKey, base64UrlEncode(key));
-    }
-    final key = await encryptionKey;
-    if (key == null) {
-      throw Exception('Failed to init SecureStore');
-    }
-    final encryptionKeyUint8List = base64Url.decode(key);
-    cipher = HiveAesCipher(encryptionKeyUint8List);
-  }
-}
-
-class PersistentStore {
+/// The store of Hive.
+///
+/// It implements [Store].
+class HiveStore extends Store {
+  /// The internal hive box for this [Store].
   late final Box box;
 
+  /// The name of the box. Used for the hive box.
   final String boxName;
 
-  PersistentStore(this.boxName);
+  /// Constructor.
+  HiveStore(this.boxName);
 
+  /// Initialize the [HiveStore].
   Future<void> init() async {
     if (SecureStore.cipher == null) await SecureStore.init();
 
@@ -73,167 +48,166 @@ class PersistentStore {
     box = enc;
   }
 
-  StoreProperty<T> property<T>(
+  /// A property of the [HiveStore].
+  HiveProp<T> property<T extends Object>(
+    String key, {
+    T? defaultValue,
+    bool updateLastModified = true,
+  }) {
+    return HiveProp<T>(
+      this,
+      key,
+      updateLastUpdateTsOnSetProp: updateLastModified,
+    );
+  }
+
+  HivePropDefault<T> propertyDefault<T extends Object>(
     String key,
     T defaultValue, {
-    bool updateLastModified = true,
+    bool updateLastModified = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
   }) {
-    return StoreProperty<T>(
-      box,
+    return HivePropDefault<T>(
+      this,
       key,
       defaultValue,
-      updateLastModified: updateLastModified,
+      updateLastUpdateTsOnSetProp: updateLastModified,
     );
   }
 
-  StoreListProperty<T> listProperty<T>(
-    String key,
-    List<T> defaultValue, {
-    bool updateLastModified = true,
-  }) {
-    return StoreListProperty<T>(
-      box,
-      key,
-      defaultValue,
-      updateLastModified: updateLastModified,
-    );
+  @override
+  FutureOr<bool> clear() {
+    box.clear();
+    return Future.value(true);
   }
-}
 
-extension BoxX on Box {
-  static const _internalPreffix = '_sbi_';
-
-  /// Last modified timestamp
-  static const String lastModifiedKey = '${_internalPreffix}lastModified';
-  int? get lastModified {
-    final val = get(lastModifiedKey);
-    if (val == null || val is! int) {
-      final time = DateTimeX.timestamp;
-      put(lastModifiedKey, time);
-      return time;
+  @override
+  T? get<T>(String key, {StoreFromStr<T>? fromString}) {
+    final val = box.get(key);
+    if (val is! T) {
+      if (val is String && fromString != null) {
+        return fromString(val);
+      }
+      dprint('HiveStore.get("$key") is: ${val.runtimeType}');
+      return null;
     }
     return val;
   }
 
-  Future<void> updateLastModified([int? time]) => put(
-        lastModifiedKey,
-        time ?? DateTimeX.timestamp,
-      );
-
-  /// Convert db to json
-  Map<String, T> toJson<T>({bool includeInternal = true}) {
-    final json = <String, T>{};
-    for (final key in keys) {
-      if (key is String &&
-          key.startsWith(_internalPreffix) &&
-          !includeInternal) {
-        continue;
-      }
-      final val = get(key);
-      try {
-        json[key] = val as T;
-      } catch (_) {
-        dprint('BoxX.toJson("$key") is: ${val.runtimeType}');
+  @override
+  FutureOr<Set<String>> keys() {
+    final set_ = <String>{};
+    for (final key in box.keys) {
+      if (key is String) {
+        set_.add(key);
       }
     }
-    return json;
+    return Future.value(set_);
+  }
+
+  @override
+  FutureOr<bool> remove(String key) {
+    box.delete(key);
+    return Future.value(true);
+  }
+
+  @override
+  FutureOr<bool> set<T>(String key, T val, {StoreToStr<T>? toString}) {
+    final value = toString != null ? toString(val) : val;
+    box.put(key, value);
+    return Future.value(true);
   }
 }
 
-abstract class StorePropertyBase<T> {
-  ValueListenable<T> listenable();
-  T fetch();
-  Future<void> put(T value);
-  Future<void> delete();
-}
-
-class StoreProperty<T> implements StorePropertyBase<T> {
-  StoreProperty(
-    this._box,
-    this._key,
-    this.defaultValue, {
-    this.updateLastModified = true,
+/// A property of the [HiveStore].
+class HiveProp<T extends Object> extends StoreProp<T> {
+  @override
+  final HiveStore store;
+  
+  HiveProp(
+    this.store,
+    super.key, {
+    super.updateLastUpdateTsOnSetProp,
+    super.fromStr,
+    super.toStr,
   });
-
-  final Box _box;
-  final String _key;
-  T defaultValue;
-  bool updateLastModified;
 
   @override
   ValueListenable<T> listenable() {
-    return PropertyListenable<T>(_box, _key, defaultValue);
+    return HivePropListenable<T>(store.box, key, null);
   }
 
   @override
-  T fetch() {
-    final stored = _box.get(_key, defaultValue: defaultValue);
+  T? get() {
+    final stored = store.box.get(key);
     if (stored is! T) {
-      dprint('StoreProperty("$_key") is: ${stored.runtimeType}');
+      dprint('StoreProperty("$key") is: ${stored.runtimeType}');
+      return null;
+    }
+    return stored;
+  }
+
+  /// {@template hive_store_fn_backward_compatibility}
+  /// In the previous version, it was named `fetch()`.
+  /// {@endtemplate}
+  @Deprecated('Use `get()` instead.')
+  T? fetch() => get();
+
+  /// {@macro hive_store_fn_backward_compatibility}
+  @Deprecated('Use `set()` instead.')
+  void put(T value) => set(value);
+
+  
+  void delete() => super.remove();
+}
+
+final class HivePropDefault<T extends Object> extends StorePropDefault<T> implements HiveProp<T> {
+  @override
+  final HiveStore store;
+
+  HivePropDefault(
+    this.store,
+    super.key,
+    super.defaultValue, {
+    super.updateLastUpdateTsOnSetProp,
+    super.fromStr,
+    super.toStr,
+  });
+
+  @override
+  ValueListenable<T> listenable() {
+    return HivePropListenable<T>(store.box, key, defaultValue);
+  }
+
+  @override
+  T get() {
+    final stored = store.box.get(key, defaultValue: defaultValue);
+    if (stored is! T) {
+      dprint('StoreProperty("$key") is: ${stored.runtimeType}');
       return defaultValue;
     }
     return stored;
   }
 
+  @Deprecated('Use `get()` instead.')
   @override
-  Future<void> put(T value) {
-    if (updateLastModified) _box.updateLastModified();
-    return _box.put(_key, value);
-  }
+  T fetch() => get();
 
   @override
-  Future<void> delete() {
-    return _box.delete(_key);
+  void set(T value) {
+    store.box.put(key, value);
   }
+
+  @Deprecated('Use `set()` instead.')
+  @override
+  void put(T value) => set(value);
+
+  @Deprecated('Use `remove()` instead.')
+  @override
+  void delete() => super.remove();
 }
 
-class StoreListProperty<T> implements StorePropertyBase<List<T>> {
-  StoreListProperty(
-    this._box,
-    this._key,
-    this.defaultValue, {
-    this.updateLastModified = true,
-  });
-
-  final Box _box;
-  final String _key;
-  List<T> defaultValue;
-  bool updateLastModified;
-
-  @override
-  ValueListenable<List<T>> listenable() {
-    return PropertyListenable<List<T>>(_box, _key, defaultValue);
-  }
-
-  @override
-  List<T> fetch() {
-    final val = _box.get(_key, defaultValue: defaultValue)!;
-    try {
-      if (val is! List) {
-        final exception = 'StoreListProperty("$_key") is: ${val.runtimeType}';
-        dprint(exception);
-        throw Exception(exception);
-      }
-      return List<T>.from(val);
-    } catch (_) {
-      return defaultValue;
-    }
-  }
-
-  @override
-  Future<void> put(List<T> value) {
-    if (updateLastModified) _box.updateLastModified();
-    return _box.put(_key, value);
-  }
-
-  @override
-  Future<void> delete() {
-    return _box.delete(_key);
-  }
-}
-
-class PropertyListenable<T> extends ValueListenable<T> {
-  PropertyListenable(this.box, this.key, this.defaultValue);
+class HivePropListenable<T> extends ValueListenable<T> {
+  HivePropListenable(this.box, this.key, this.defaultValue);
 
   final Box box;
   final String key;

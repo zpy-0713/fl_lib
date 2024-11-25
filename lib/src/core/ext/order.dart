@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:fl_lib/src/core/ext/iter.dart';
-import 'package:fl_lib/src/core/store/hive.dart';
+import 'package:fl_lib/src/core/store/iface.dart';
 
 typedef _OnMove<T> = void Function(List<T>);
 
@@ -9,7 +9,7 @@ extension OrderX<T> on List<T> {
   void move(
     int oldIndex,
     int newIndex, {
-    StorePropertyBase<List<T>>? property,
+    StoreProp<List<T>>? property,
     _OnMove<T>? onMove,
   }) {
     if (oldIndex == newIndex) return;
@@ -19,7 +19,7 @@ extension OrderX<T> on List<T> {
     final item = this[oldIndex];
     removeAt(oldIndex);
     insert(newIndex, item);
-    property?.put(this);
+    property?.set(this);
     onMove?.call(this);
   }
 
@@ -40,7 +40,7 @@ extension OrderX<T> on List<T> {
     ///
     /// It's used to find the index of the item.
     List<T>? filtered,
-    StorePropertyBase<List<T>>? property,
+    StoreProp<List<T>>? property,
     _OnMove<T>? onMove,
   }) {
     if (o == n) return;

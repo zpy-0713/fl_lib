@@ -1,6 +1,4 @@
-import 'package:fl_lib/fl_lib.dart';
-import 'package:fl_lib/src/core/store/iface.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+part of 'iface.dart';
 
 /// Properties saved in SharedPreferences.
 abstract final class PrefProps {
@@ -27,24 +25,38 @@ abstract final class PrefProps {
   /// {@macro webdav_settings}
   static const webdavSync = PrefProp<bool>('webdav_sync');
 
+  /// iCloud sync
   static const icloudSync = PrefProp<bool>('icloud_sync');
 }
+
+/// The listener of the SharedPreferences.
+///
+/// - [key] is the changed key.
+typedef PrefStoreKeyListener = void Function(String key);
 
 /// SharedPreferences store.
 ///
 /// {@template PrefStore.init}
 /// `MUST` call [init] before using any pref stores.
 /// {@endtemplate}
-final class PrefStore implements Store {
+final class PrefStore extends Store {
   /// The prefix of SharedPreferences.
   ///
   /// Defaults to `''`.
   final String? prefix;
 
+  /// Value changes listeners.
+  final List<PrefStoreKeyListener> listeners;
+
   /// Due to the limit of the SharedPreferences singleton, only [shared] is recommended.
-  /// 
+  ///
   /// {@macro PrefStore.init}
-  PrefStore({this.prefix});
+  PrefStore({
+    this.prefix,
+    List<PrefStoreKeyListener>? listeners,
+    super.updateLastUpdateTsOnSet,
+    super.lastUpdateTsKey,
+  }) : listeners = listeners ?? [];
 
   /// Single instance for the whole app.
   ///
@@ -123,20 +135,25 @@ final class PrefStore implements Store {
 /// const userToken = PrefProp<String>('user_token');
 /// ```
 final class PrefProp<T extends Object> extends StoreProp<T> {
-  final PrefStore? store;
+  final PrefStore? _store;
 
-  const PrefProp(super.key, {this.store, super.fromStr, super.toStr});
-
-  PrefStore get _store => store ?? PrefStore.shared;
-
-  @override
-  T? get() => _store.get<T>(key, fromString: fromStr);
-
-  @override
-  Future<bool> set(T value) => _store.set(key, value, toString: toStr);
+  const PrefProp(
+    super.key, {
+    PrefStore? store,
+    super.fromStr,
+    super.toStr,
+    super.updateLastUpdateTsOnSetProp,
+  }) : _store = store;
 
   @override
-  Future<bool> remove() => _store.remove(key);
+  PrefStore get store => _store ?? PrefStore.shared;
+
+  @override
+  ValueListenable<T?> listenable() => PrefPropListenable<T>(store, key);
+
+  /// Override it, so the return type is `T?` instead of `FutureOr<T?>`.
+  @override
+  T? get() => store.get<T>(key);
 }
 
 /// A single Property in SharedPreferences with default value.
@@ -147,26 +164,74 @@ final class PrefProp<T extends Object> extends StoreProp<T> {
 /// ```dart
 /// const userToken = PrefPropDefault<String>('user_token', 'default_token');
 /// ```
-final class PrefPropDefault<T extends Object> extends StoreProp<T> {
-  final T defaultValue;
-  final PrefStore? store;
+final class PrefPropDefault<T extends Object> extends StorePropDefault<T> {
+  final PrefStore? _store;
 
   const PrefPropDefault(
     super.key,
-    this.defaultValue, {
-    this.store,
+    super.defaultValue, {
+    PrefStore? store,
     super.fromStr,
     super.toStr,
-  });
-
-  PrefStore get _store => store ?? PrefStore.shared;
-
-  @override
-  T get() => _store.get<T>(key, fromString: fromStr) ?? defaultValue;
+    super.updateLastUpdateTsOnSetProp,
+  }) : _store = store;
 
   @override
-  Future<bool> set(T value) => _store.set(key, value, toString: toStr);
+  PrefStore get store => _store ?? PrefStore.shared;
 
   @override
-  Future<bool> remove() => _store.remove(key);
+  ValueListenable<T> listenable() =>
+      PrefPropDefaultListenable<T>(store, key, defaultValue);
+}
+
+/// The [ValueListenable] of the key.
+final class PrefPropListenable<T extends Object> extends ValueListenable<T?> {
+  final PrefStore store;
+  final String key;
+
+  const PrefPropListenable(this.store, this.key);
+
+  @override
+  void addListener(VoidCallback listener) {
+    store.listeners.add((k) {
+      if (k == key) listener();
+    });
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    store.listeners.removeWhere((element) {
+      return element == listener;
+    });
+  }
+
+  @override
+  T? get value => store.get<T>(key);
+}
+
+/// The [ValueListenable] of the key with default value.
+final class PrefPropDefaultListenable<T extends Object>
+    extends ValueListenable<T> {
+  final PrefStore store;
+  final String key;
+  final T defaultValue;
+
+  const PrefPropDefaultListenable(this.store, this.key, this.defaultValue);
+
+  @override
+  void addListener(VoidCallback listener) {
+    store.listeners.add((k) {
+      if (k == key) listener();
+    });
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    store.listeners.removeWhere((element) {
+      return element == listener;
+    });
+  }
+
+  @override
+  T get value => store.get<T>(key) ?? defaultValue;
 }
