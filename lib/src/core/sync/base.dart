@@ -15,16 +15,16 @@ abstract class SyncIface<T extends Mergeable> {
   const SyncIface();
 
   /// Load backup from file
-  Future<T> fromFile(String path);
+  FutureOr<T> fromFile(String path);
 
   /// Save backup to file
-  Future<void> saveToFile();
+  FutureOr<void> saveToFile();
 
   /// {@macro remote_storage}
-  Future<RemoteStorage?> get remoteStorage;
+  FutureOr<RemoteStorage?> get remoteStorage;
 
   /// Backup data to remote storage.
-  Future<void> backup([RemoteStorage? rs]) async {
+  FutureOr<void> backup([RemoteStorage? rs]) async {
     rs ??= await remoteStorage;
     if (rs == null) return;
 
@@ -33,7 +33,7 @@ abstract class SyncIface<T extends Mergeable> {
   }
 
   /// Sync data with remote storage.
-  Future<void> sync({
+  FutureOr<void> sync({
     int throttleMilli = 5000,
     RemoteStorage? rs,
     int milliDelay = 0,
@@ -49,7 +49,7 @@ abstract class SyncIface<T extends Mergeable> {
     );
   }
 
-  Future<void> _sync([RemoteStorage? rs]) async {
+  FutureOr<void> _sync([RemoteStorage? rs]) async {
     rs ??= await remoteStorage;
     if (rs == null) return;
 

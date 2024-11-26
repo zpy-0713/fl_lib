@@ -8,6 +8,8 @@ final class WindowSizeListener implements WindowListener {
 
   const WindowSizeListener(this.windowSize);
 
+  static bool _isChanging = false;
+
   @override
   void onWindowBlur() {}
 
@@ -45,11 +47,11 @@ final class WindowSizeListener implements WindowListener {
   void onWindowResize() {
     // No lock required, just an unimportant update.
     unawaited(() async {
-      final current = await windowSize.get();
-      if (current == null || current.isEmpty) return;
-
+      if (_isChanging) return;
+      _isChanging = true;
       final size = await windowManager.getSize();
       windowSize.set(size.toIntStr());
+      _isChanging = false;
     }());
   }
 
