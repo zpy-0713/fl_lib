@@ -75,10 +75,19 @@ sealed class Store {
   }
 
   /// Get all the key-value pairs.
-  /// 
+  ///
   /// If you want a map result, use [getAllMap] instead.
-  Stream<(String, Object?)> getAll() async* {
+  ///
+  /// {@template store_get_all_params}
+  /// - [includeInternalKeys] is whether to include the internal keys.
+  /// {@endtemplate}
+  Stream<(String, Object?)> getAll({
+    bool includeInternalKeys = false,
+  }) async* {
     for (final key in await keys()) {
+      if (!includeInternalKeys && (key.startsWith(StoreDefaults.prefixKey) || key.startsWith(StoreDefaults.prefixKeyOld))) {
+        continue;
+      }
       yield (key, get(key));
     }
   }
@@ -86,9 +95,16 @@ sealed class Store {
   /// Get all the key-value pairs as a map.
   ///
   /// If you want a stream result, use [getAll] instead.
-  FutureOr<Map<String, Object?>> getAllMap() async {
+  ///
+  /// {@macro store_get_all_params}
+  FutureOr<Map<String, Object?>> getAllMap({
+    bool includeInternalKeys = false,
+  }) async {
     final map = <String, Object?>{};
     for (final key in await keys()) {
+      if (!includeInternalKeys && (key.startsWith(StoreDefaults.prefixKey) || key.startsWith(StoreDefaults.prefixKeyOld))) {
+        continue;
+      }
       map[key] = get(key);
     }
     return map;
@@ -126,8 +142,7 @@ abstract class StoreProp<T extends Object> {
     this.key, {
     this.fromStr,
     this.toStr,
-    this.updateLastUpdateTsOnSetProp =
-        StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+    this.updateLastUpdateTsOnSetProp = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
   });
 
   /// It's [Store].
@@ -159,8 +174,7 @@ abstract class StoreProp<T extends Object> {
   /// both [updateLastUpdateTsOnSetProp] && [updateLastUpdateTsOnSet].
   ///
   /// {@macro store_last_update_ts}
-  bool get updateLastUpdateTsOnSet =>
-      store.updateLastUpdateTsOnSet && updateLastUpdateTsOnSetProp;
+  bool get updateLastUpdateTsOnSet => store.updateLastUpdateTsOnSet && updateLastUpdateTsOnSetProp;
 }
 
 /// The interface of a single Property in any [Store] which has a default value.
@@ -180,8 +194,7 @@ abstract class StorePropDefault<T extends Object> extends StoreProp<T> {
     this.defaultValue, {
     super.fromStr,
     super.toStr,
-    super.updateLastUpdateTsOnSetProp =
-        StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+    super.updateLastUpdateTsOnSetProp = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
   });
 
   /// Get the value of the key.
@@ -203,10 +216,15 @@ abstract class StorePropDefault<T extends Object> extends StoreProp<T> {
 
 /// The keys used internally in the store.
 extension StoreDefaults on Store {
+  /// {@template store_defaults_prefix_key}
   /// The prefix of the internal keys.
   ///
   /// If you want to export data from the store, you can ignore the keys with this prefix.
+  /// {@endtemplate}
   static const prefixKey = '__lkpt_';
+
+  /// {@macro store_defaults_prefix_key}
+  static const prefixKeyOld = '_sbi_';
 
   /// The key for the last update timestamp.
   static const defaultLastUpdateTsKey = '${prefixKey}lastUpdateTs';

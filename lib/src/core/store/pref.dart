@@ -124,6 +124,22 @@ final class PrefStore extends Store {
   /// Clear the store.
   @override
   Future<bool> clear() => _instance!.clear();
+
+  @override
+  Future<Map<String, Object?>> getAllMap({
+    bool includeInternalKeys = false,
+  }) async {
+    final map = <String, Object?>{};
+    // Get all the values parallelly
+    final keys = await this.keys();
+    keys.removeWhere((v) {
+      return !includeInternalKeys && (v.startsWith(StoreDefaults.prefixKey) || v.startsWith(StoreDefaults.prefixKeyOld));
+    });
+    await Future.wait(keys.map((key) async {
+      map[key] = get(key);
+    }));
+    return map;
+  }
 }
 
 /// A single Property in SharedPreferences.
@@ -180,8 +196,7 @@ final class PrefPropDefault<T extends Object> extends StorePropDefault<T> {
   PrefStore get store => _store ?? PrefStore.shared;
 
   @override
-  ValueListenable<T> listenable() =>
-      PrefPropDefaultListenable<T>(store, key, defaultValue);
+  ValueListenable<T> listenable() => PrefPropDefaultListenable<T>(store, key, defaultValue);
 }
 
 /// The [ValueListenable] of the key.
@@ -210,8 +225,7 @@ final class PrefPropListenable<T extends Object> extends ValueListenable<T?> {
 }
 
 /// The [ValueListenable] of the key with default value.
-final class PrefPropDefaultListenable<T extends Object>
-    extends ValueListenable<T> {
+final class PrefPropDefaultListenable<T extends Object> extends ValueListenable<T> {
   final PrefStore store;
   final String key;
   final T defaultValue;

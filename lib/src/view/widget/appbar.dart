@@ -90,7 +90,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   static Future<void> updateTitlebarHeight() async {
     switch (Platform.operatingSystem) {
       case 'macos':
-        sysStatusBarHeight = 27;
+        sysStatusBarHeight = 37;
         // macos title bar is drawn by system, [drawTitlebar] is not needed.
         break;
       case 'linux' || 'windows':

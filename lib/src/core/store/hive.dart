@@ -116,6 +116,39 @@ class HiveStore extends Store {
     box.put(key, value);
     return Future.value(true);
   }
+
+  @override
+  Map<String, Object?> getAllMap({
+    bool includeInternalKeys = false,
+  }) {
+    final map = <String, Object?>{};
+    for (final key in box.keys) {
+      if (key is String) {
+        final val = box.get(key);
+        map[key] = val;
+      }
+    }
+    return map;
+  }
+
+  /// Generic version of [getAllMap].
+  Map<String, T?> getAllMapT<T extends Object>({
+    bool includeInternalKeys = false,
+  }) {
+    final map = <String, T?>{};
+    for (final key in box.keys) {
+      if (key is String) {
+        if (!includeInternalKeys && (key.startsWith(StoreDefaults.prefixKey) || key.startsWith(StoreDefaults.prefixKeyOld))) {
+          continue;
+        }
+        final val = box.get(key);
+        if (val is T?) {
+          map[key] = val;
+        }
+      }
+    }
+    return map;
+  }
 }
 
 /// A property of the [HiveStore].
