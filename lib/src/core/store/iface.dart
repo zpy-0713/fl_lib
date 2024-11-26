@@ -73,6 +73,26 @@ sealed class Store {
     if (ts == null) return null;
     return ts.tsToDateTime;
   }
+
+  /// Get all the key-value pairs.
+  /// 
+  /// If you want a map result, use [getAllMap] instead.
+  Stream<(String, Object?)> getAll() async* {
+    for (final key in await keys()) {
+      yield (key, get(key));
+    }
+  }
+
+  /// Get all the key-value pairs as a map.
+  ///
+  /// If you want a stream result, use [getAll] instead.
+  FutureOr<Map<String, Object?>> getAllMap() async {
+    final map = <String, Object?>{};
+    for (final key in await keys()) {
+      map[key] = get(key);
+    }
+    return map;
+  }
 }
 
 /// The interface of a single Property in any [Store].
