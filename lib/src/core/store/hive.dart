@@ -75,9 +75,9 @@ class HiveStore extends Store {
   }
 
   @override
-  FutureOr<bool> clear() {
+  bool clear() {
     box.clear();
-    return Future.value(true);
+    return true;
   }
 
   @override
@@ -94,27 +94,27 @@ class HiveStore extends Store {
   }
 
   @override
-  FutureOr<Set<String>> keys() {
+  Set<String> keys() {
     final set_ = <String>{};
     for (final key in box.keys) {
       if (key is String) {
         set_.add(key);
       }
     }
-    return Future.value(set_);
+    return set_;
   }
 
   @override
-  FutureOr<bool> remove(String key) {
+  bool remove(String key) {
     box.delete(key);
-    return Future.value(true);
+    return true;
   }
 
   @override
-  FutureOr<bool> set<T>(String key, T val, {StoreToStr<T>? toString}) {
+  bool set<T>(String key, T val, {StoreToStr<T>? toString}) {
     final value = toString != null ? toString(val) : val;
     box.put(key, value);
-    return Future.value(true);
+    return true;
   }
 
   @override
