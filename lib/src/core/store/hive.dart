@@ -180,13 +180,11 @@ class HiveProp<T extends Object> extends StoreProp<T> {
   }
 
   /// {@template hive_store_fn_backward_compatibility}
-  /// In the previous version, it was named `fetch()`.
+  /// It's preserved for backward compatibility.
   /// {@endtemplate}
-  @Deprecated('Use `get()` instead.')
   T? fetch() => get();
 
   /// {@macro hive_store_fn_backward_compatibility}
-  @Deprecated('Use `set()` instead.')
   void put(T value) => set(value);
 
   
