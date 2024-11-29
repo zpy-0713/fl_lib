@@ -14,6 +14,9 @@ part 'iface.dart';
 abstract class SyncIface<T extends Mergeable> {
   const SyncIface();
 
+  /// Init
+  FutureOr<void> init();
+
   /// Load backup from file
   FutureOr<T> fromFile(String path);
 
