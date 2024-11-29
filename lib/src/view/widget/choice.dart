@@ -29,7 +29,11 @@ class ChoiceChipX<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final outPadding = this.outPadding ??
-        EdgeInsets.only(left: 5, right: 5, top: isDesktop ? 7 : 0);
+        EdgeInsets.only(
+          left: 5,
+          right: 5,
+          top: isDesktop ? 7 : 0,
+        );
     return Padding(
       padding: outPadding,
       child: ChoiceChip(
@@ -58,10 +62,17 @@ final class ChoiceChipColor extends WidgetStateProperty<Color> {
 
   @override
   Color resolve(Set<WidgetState> states) {
+    final isDark = context.isDark;
     final isSelected = states.contains(WidgetState.selected);
-    if (isSelected) {
-      return const Color.fromARGB(8, 22, 22, 22);
-    }
-    return const Color.fromARGB(16, 10, 10, 10);
+    // if (isSelected) {
+    //   return const Color.fromARGB(8, 22, 22, 22);
+    // }
+    // return const Color.fromARGB(16, 10, 10, 10);
+    return switch ((isSelected, isDark)) {
+      (true, false) => const Color.fromARGB(8, 22, 22, 22),
+      (true, true) => const Color.fromARGB(8, 255, 255, 255),
+      (false, false) => const Color.fromARGB(16, 10, 10, 10),
+      (false, true) => const Color.fromARGB(16, 255, 255, 255),
+    };
   }
 }

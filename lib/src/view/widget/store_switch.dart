@@ -10,7 +10,7 @@ class StoreSwitch extends StatelessWidget {
   final FutureOr<void> Function(bool)? callback;
 
   /// If return false, the switch will not change.
-  final bool Function(bool)? validator;
+  final FutureOr<bool> Function(bool)? validator;
 
   const StoreSwitch({
     super.key,
@@ -39,7 +39,8 @@ class StoreSwitch extends StatelessWidget {
             final switcher = Switch(
               value: value,
               onChanged: (value) async {
-                if (validator?.call(value) == false) return;
+                final valid = await validator?.call(value) ?? true;
+                if (!valid) return;
                 isBusy.value = true;
                 await callback?.call(value);
                 isBusy.value = false;
