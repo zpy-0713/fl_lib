@@ -94,7 +94,7 @@ class HiveStore extends Store {
   }
 
   @override
-  Set<String> keys() {
+  Set<String> keys({bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys}) {
     final set_ = <String>{};
     for (final key in box.keys) {
       if (key is String) {
@@ -155,7 +155,7 @@ class HiveStore extends Store {
 class HiveProp<T extends Object> extends StoreProp<T> {
   @override
   final HiveStore store;
-  
+
   HiveProp(
     this.store,
     super.key, {
@@ -187,7 +187,6 @@ class HiveProp<T extends Object> extends StoreProp<T> {
   /// {@macro hive_store_fn_backward_compatibility}
   void put(T value) => set(value);
 
-  
   void delete() => super.remove();
 }
 
@@ -219,20 +218,12 @@ final class HivePropDefault<T extends Object> extends StorePropDefault<T> implem
     return stored;
   }
 
-  @Deprecated('Use `get()` instead.')
   @override
   T fetch() => get();
 
   @override
-  void set(T value) {
-    store.box.put(key, value);
-  }
-
-  @Deprecated('Use `set()` instead.')
-  @override
   void put(T value) => set(value);
 
-  @Deprecated('Use `remove()` instead.')
   @override
   void delete() => super.remove();
 }

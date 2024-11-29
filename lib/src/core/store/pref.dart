@@ -23,10 +23,10 @@ abstract final class PrefProps {
   static const webdavPwd = PrefProp<String>('webdav_pwd');
 
   /// {@macro webdav_settings}
-  static const webdavSync = PrefProp<bool>('webdav_sync');
+  static const webdavSync = PrefPropDefault('webdav_sync', false);
 
   /// iCloud sync
-  static const icloudSync = PrefProp<bool>('icloud_sync');
+  static const icloudSync = PrefPropDefault('icloud_sync', false);
 }
 
 /// The listener of the SharedPreferences.
@@ -115,7 +115,8 @@ final class PrefStore extends Store {
 
   /// Get all keys.
   @override
-  Future<Set<String>> keys() => Future.value(_instance!.getKeys());
+  Future<Set<String>> keys({bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys}) =>
+      Future.value(_instance!.getKeys());
 
   /// Remove the key.
   @override

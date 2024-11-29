@@ -47,7 +47,11 @@ sealed class Store {
   FutureOr<bool> set<T>(String key, T val, {StoreToStr<T>? toString});
 
   /// Get all keys.
-  FutureOr<Set<String>> keys();
+  /// 
+  /// {@template store_include_internal_keys}
+  /// - [includeInternalKeys] is whether to include the internal keys.
+  /// {@endtemplate}
+  FutureOr<Set<String>> keys({bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys});
 
   /// Remove the key.
   FutureOr<bool> remove(String key);
@@ -78,11 +82,9 @@ sealed class Store {
   ///
   /// If you want a map result, use [getAllMap] instead.
   ///
-  /// {@template store_get_all_params}
-  /// - [includeInternalKeys] is whether to include the internal keys.
-  /// {@endtemplate}
+  /// {@macro store_include_internal_keys}
   Stream<(String, Object?)> getAll({
-    bool includeInternalKeys = false,
+    bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys
   }) async* {
     for (final key in await keys()) {
       if (!includeInternalKeys && (key.startsWith(StoreDefaults.prefixKey) || key.startsWith(StoreDefaults.prefixKeyOld))) {
@@ -96,9 +98,9 @@ sealed class Store {
   ///
   /// If you want a stream result, use [getAll] instead.
   ///
-  /// {@macro store_get_all_params}
+  /// {@macro store_include_internal_keys}
   FutureOr<Map<String, Object?>> getAllMap({
-    bool includeInternalKeys = false,
+    bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys
   }) async {
     final map = <String, Object?>{};
     for (final key in await keys()) {
@@ -231,4 +233,7 @@ extension StoreDefaults on Store {
 
   /// Update the last update timestamp by default.
   static const defaultUpdateLastUpdateTsOnSet = true;
+
+  /// NOT Include the internal keys by default.
+  static const defaultIncludeInternalKeys = false;
 }
