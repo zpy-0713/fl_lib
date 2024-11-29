@@ -82,7 +82,7 @@ final class PrefStore extends Store {
   @override
   T? get<T>(String key, {StoreFromStr<T>? fromString}) {
     final val = _instance!.get(key);
-    if (val is! T) {
+    if (val is! T?) {
       if (val is String && fromString != null) {
         return fromString(val);
       }

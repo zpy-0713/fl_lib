@@ -11,7 +11,7 @@ class HiveStore extends Store {
   final String boxName;
 
   /// Constructor.
-  HiveStore(this.boxName);
+  HiveStore(this.boxName, {super.lastUpdateTsKey = '_sbi_lastModified'});
 
   /// Initialize the [HiveStore].
   Future<void> init() async {
@@ -83,7 +83,7 @@ class HiveStore extends Store {
   @override
   T? get<T>(String key, {StoreFromStr<T>? fromString}) {
     final val = box.get(key);
-    if (val is! T) {
+    if (val is! T?) {
       if (val is String && fromString != null) {
         return fromString(val);
       }
