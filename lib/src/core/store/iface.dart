@@ -34,11 +34,22 @@ sealed class Store {
   /// Get the key for the last update timestamp.
   final String lastUpdateTsKey;
 
-  /// Whether to update the last update timestamp when setting a value.
+  /// {@template store_updateLastUpdateTsOn}
+  /// Whether to update the last update timestamp when modifying the store. 
+  /// Default is [StoreDefaults.defaultUpdateLastUpdateTs].
+  /// {@endtemplate}
   final bool updateLastUpdateTsOnSet;
 
+  /// {@macro store_updateLastUpdateTsOn}
+  final bool updateLastUpdateTsOnRemove;
+
+  /// {@macro store_updateLastUpdateTsOn}
+  final bool updateLastUpdateTsOnClear;
+
   const Store({
-    this.updateLastUpdateTsOnSet = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+    this.updateLastUpdateTsOnSet = StoreDefaults.defaultUpdateLastUpdateTs,
+    this.updateLastUpdateTsOnRemove = StoreDefaults.defaultUpdateLastUpdateTs,
+    this.updateLastUpdateTsOnClear = StoreDefaults.defaultUpdateLastUpdateTs,
     this.lastUpdateTsKey = StoreDefaults.defaultLastUpdateTsKey,
   });
 
@@ -53,12 +64,11 @@ sealed class Store {
   /// - If [T] is specified, the store will try to convert the value to string by
   /// calling [toStr].
   /// - If you want to set to `null`, use [remove] instead.
-  /// - If you want to update the last update timestamp, keep [updateLastUpdateTs] as `true`.
   FutureOr<bool> set<T extends Object>(
     String key,
     T val, {
     StoreToStr<T>? toStr,
-    bool updateLastUpdateTsOnSet = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+    bool? updateLastUpdateTsOnSet,
   });
 
   /// Get all keys.
@@ -69,10 +79,10 @@ sealed class Store {
   FutureOr<Set<String>> keys({bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys});
 
   /// Remove the key.
-  FutureOr<bool> remove(String key);
+  FutureOr<bool> remove(String key, {bool? updateLastUpdateTsOnRemove});
 
   /// Clear the store.
-  FutureOr<bool> clear();
+  FutureOr<bool> clear({bool? updateLastUpdateTsOnClear});
 
   /// Update the last update timestamp.
   ///
@@ -207,7 +217,7 @@ abstract class StoreProp<T extends Object> {
     this.key, {
     this.fromStr,
     this.toStr,
-    this.updateLastUpdateTsOnSetProp = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+    this.updateLastUpdateTsOnSetProp = StoreDefaults.defaultUpdateLastUpdateTs,
   });
 
   /// It's [Store].
@@ -255,7 +265,7 @@ abstract class StorePropDefault<T extends Object> extends StoreProp<T> {
     this.defaultValue, {
     super.fromStr,
     super.toStr,
-    super.updateLastUpdateTsOnSetProp = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+    super.updateLastUpdateTsOnSetProp = StoreDefaults.defaultUpdateLastUpdateTs,
   });
 
   /// Get the value of the key.
@@ -287,7 +297,7 @@ extension StoreDefaults on Store {
   static const defaultLastUpdateTsKey = '${prefixKey}lastUpdateTs';
 
   /// Update the last update timestamp by default.
-  static const defaultUpdateLastUpdateTsOnSet = true;
+  static const defaultUpdateLastUpdateTs = true;
 
   /// NOT Include the internal keys by default.
   static const defaultIncludeInternalKeys = false;

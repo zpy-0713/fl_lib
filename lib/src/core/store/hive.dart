@@ -64,7 +64,7 @@ class HiveStore extends Store {
   HivePropDefault<T> propertyDefault<T extends Object>(
     String key,
     T defaultValue, {
-    bool updateLastModified = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+    bool updateLastModified = StoreDefaults.defaultUpdateLastUpdateTs,
   }) {
     return HivePropDefault<T>(
       this,
@@ -72,12 +72,6 @@ class HiveStore extends Store {
       defaultValue,
       updateLastUpdateTsOnSetProp: updateLastModified,
     );
-  }
-
-  @override
-  bool clear() {
-    box.clear();
-    return true;
   }
 
   @override
@@ -94,6 +88,27 @@ class HiveStore extends Store {
   }
 
   @override
+  bool set<T extends Object>(
+    String key,
+    T val, {
+    StoreToStr<T>? toStr,
+    bool? updateLastUpdateTsOnSet,
+  }) {
+    updateLastUpdateTsOnSet ??= this.updateLastUpdateTsOnSet;
+    if (toStr != null) {
+      final str = toStr(val);
+      if (str is String) {
+        box.put(key, str);
+        if (updateLastUpdateTsOnSet) updateLastUpdateTs();
+        return true;
+      }
+    }
+    box.put(key, val);
+    if (updateLastUpdateTsOnSet) updateLastUpdateTs();
+    return true;
+  }
+
+  @override
   Set<String> keys({bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys}) {
     final set_ = <String>{};
     for (final key in box.keys) {
@@ -105,28 +120,18 @@ class HiveStore extends Store {
   }
 
   @override
-  bool remove(String key) {
+  bool remove(String key, {bool? updateLastUpdateTsOnRemove}) {
     box.delete(key);
+    updateLastUpdateTsOnRemove ??= this.updateLastUpdateTsOnRemove;
+    if (updateLastUpdateTsOnRemove) updateLastUpdateTs();
     return true;
   }
 
   @override
-  bool set<T extends Object>(
-    String key,
-    T val, {
-    StoreToStr<T>? toStr,
-    bool updateLastUpdateTsOnSet = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
-  }) {
-    if (toStr != null) {
-      final str = toStr(val);
-      if (str is String) {
-        box.put(key, str);
-        if (updateLastUpdateTsOnSet) updateLastUpdateTs();
-        return true;
-      }
-    }
-    box.put(key, val);
-    if (updateLastUpdateTsOnSet) updateLastUpdateTs();
+  bool clear({bool? updateLastUpdateTsOnClear}) {
+    box.clear();
+    updateLastUpdateTsOnClear ??= this.updateLastUpdateTsOnClear;
+    if (updateLastUpdateTsOnClear) updateLastUpdateTs();
     return true;
   }
 }

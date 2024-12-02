@@ -22,23 +22,17 @@ class DebugPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const pad = EdgeInsets.all(13);
     return Scaffold(
       appBar: CustomAppBar(
         leading: IconButton(
           onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back),
         ),
-        title: Text(
-          args?.title ?? l10n.log,
-          style: const TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.black,
+        title: Text(args?.title ?? l10n.log, style: const TextStyle(fontSize: 17)),
         actions: [
           const Btn.icon(
-            icon: Icon(Icons.copy, color: Colors.white, size: 20),
+            icon: Icon(Icons.copy, size: 23),
             onTap: DebugProvider.copy,
-            padding: pad,
           ),
           Btn.icon(
             onTap: () {
@@ -52,34 +46,27 @@ class DebugPage extends StatelessWidget {
                 ).toList,
               );
             },
-            icon: const Icon(Icons.delete, color: Colors.white),
-            padding: pad,
+            icon: const Icon(Icons.delete, size: 26),
           ),
         ],
       ),
       body: _buildTerminal(context),
-      backgroundColor: Colors.black,
     );
   }
 
   Widget _buildTerminal(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
       color: Colors.black,
-      child: DefaultTextStyle(
-        style: const TextStyle(
-          color: Colors.white,
-        ),
-        child: ValBuilder(
-          listenable: DebugProvider.widgets,
-          builder: (widgets) {
-            if (widgets.isEmpty) return UIs.placeholder;
-            return ListView.builder(
-              itemCount: widgets.length,
-              itemBuilder: (_, index) => widgets[index],
-            );
-          },
-        ),
+      child: ValBuilder(
+        listenable: DebugProvider.widgets,
+        builder: (widgets) {
+          if (widgets.isEmpty) return UIs.placeholder;
+          return ListView.builder(
+            padding: const EdgeInsets.all(10),
+            itemCount: widgets.length,
+            itemBuilder: (_, index) => widgets[index],
+          );
+        },
       ),
     );
   }

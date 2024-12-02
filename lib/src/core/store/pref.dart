@@ -100,7 +100,7 @@ final class PrefStore extends Store {
     String key,
     T val, {
     StoreToStr<T>? toStr,
-    bool updateLastUpdateTsOnSet = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+    bool? updateLastUpdateTsOnSet,
   }) {
     final res = switch (val) {
       final bool val => _instance!.setBool(key, val),
@@ -117,7 +117,7 @@ final class PrefStore extends Store {
           return Future.value(false);
         }(),
     };
-    if (updateLastUpdateTsOnSet) updateLastUpdateTs();
+    if (updateLastUpdateTsOnSet ?? this.updateLastUpdateTsOnSet) updateLastUpdateTs();
     return res;
   }
 
@@ -128,11 +128,21 @@ final class PrefStore extends Store {
 
   /// Remove the key.
   @override
-  Future<bool> remove(String key) => _instance!.remove(key);
+  Future<bool> remove(String key, {bool? updateLastUpdateTsOnRemove}) {
+    updateLastUpdateTsOnRemove ??= this.updateLastUpdateTsOnRemove;
+    final ret = _instance!.remove(key);
+    if (updateLastUpdateTsOnRemove) updateLastUpdateTs();
+    return ret;
+  }
 
   /// Clear the store.
   @override
-  Future<bool> clear() => _instance!.clear();
+  Future<bool> clear({bool? updateLastUpdateTsOnClear}) {
+    final ret = _instance!.clear();
+    updateLastUpdateTsOnClear ??= this.updateLastUpdateTsOnClear;
+    if (updateLastUpdateTsOnClear) updateLastUpdateTs();
+    return ret;
+  }
 }
 
 /// A single Property in SharedPreferences.
@@ -231,7 +241,7 @@ final class PrefPropDefaultListenable<T extends Object> extends ValueListenable<
   @override
   void addListener(VoidCallback listener) {
     final lis = _map.putIfAbsent(listener.hashCode, () {
-    // The actual listener
+      // The actual listener
       void lis(String k) {
         if (k == key) listener();
       }
@@ -250,7 +260,8 @@ final class PrefPropDefaultListenable<T extends Object> extends ValueListenable<
   }
 
   @override
-  /// Since the value is retrieved from the store, so the value is not guaranteed 
+
+  /// Since the value is retrieved from the store, so the value is not guaranteed
   /// to be the same as expected(the actual modified value).
   T get value => store.get<T>(key) ?? defaultValue;
 }
