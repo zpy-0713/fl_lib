@@ -41,7 +41,7 @@ final class QrShareBtn extends StatelessWidget {
       text: libL10n.save,
       onTap: () async {
         final res = await ScreenshotController().captureFromWidget(qrWidget);
-        Pfs.share(bytes: res);
+        Pfs.share(bytes: res, name: 'qr_code.png', mime: 'image/png');
       },
     );
 
@@ -51,7 +51,7 @@ final class QrShareBtn extends StatelessWidget {
         context.showRoundDialog(
           title: libL10n.share,
           child: qrWidget,
-          actions: [shareTextBtn, Btn.ok()],
+          actions: shareTextBtn.toList,
         );
       },
     );
