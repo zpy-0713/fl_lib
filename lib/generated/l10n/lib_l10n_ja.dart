@@ -36,9 +36,6 @@ class LibLocalizationsJa extends LibLocalizations {
   String get auto => '自動';
 
   @override
-  String get autoCheckUpdate => '自動的に更新をチェック';
-
-  @override
   String get backup => 'バックアップ';
 
   @override
@@ -49,6 +46,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get cancel => 'キャンセル';
+
+  @override
+  String get checkUpdate => 'アップデートを確認する';
 
   @override
   String get clear => 'クリア';

@@ -16,8 +16,7 @@ class LibLocalizationsUk extends LibLocalizations {
   String get all => 'Все';
 
   @override
-  String get anonLoseDataTip =>
-      'Наразі ви увійшли в систему анонімно, продовження роботи призведе до втрати даних.';
+  String get anonLoseDataTip => 'Наразі ви увійшли в систему анонімно, продовження роботи призведе до втрати даних.';
 
   @override
   String get app => 'Застосунок';
@@ -37,9 +36,6 @@ class LibLocalizationsUk extends LibLocalizations {
   String get auto => 'Авто';
 
   @override
-  String get autoCheckUpdate => 'Автоматична перевірка оновлень';
-
-  @override
   String get backup => 'Резервне копіювання';
 
   @override
@@ -50,6 +46,9 @@ class LibLocalizationsUk extends LibLocalizations {
 
   @override
   String get cancel => 'Скасувати';
+
+  @override
+  String get checkUpdate => 'Перевірити оновлення';
 
   @override
   String get clear => 'Очистити';
@@ -206,8 +205,7 @@ class LibLocalizationsUk extends LibLocalizations {
   String get pwd => 'Пароль';
 
   @override
-  String get pwdTip =>
-      'Довжина 6-32, може містити англійські літери, цифри та розділові знаки';
+  String get pwdTip => 'Довжина 6-32, може містити англійські літери, цифри та розділові знаки';
 
   @override
   String get register => 'Зареєструватися';

@@ -16,8 +16,7 @@ class LibLocalizationsPt extends LibLocalizations {
   String get all => 'Todos';
 
   @override
-  String get anonLoseDataTip =>
-      'Atualmente conectado anonimamente, continuar as operações resultará em perda de dados.';
+  String get anonLoseDataTip => 'Atualmente conectado anonimamente, continuar as operações resultará em perda de dados.';
 
   @override
   String get app => 'Aplicação';
@@ -37,9 +36,6 @@ class LibLocalizationsPt extends LibLocalizations {
   String get auto => 'Auto';
 
   @override
-  String get autoCheckUpdate => 'Verificação automática de atualização';
-
-  @override
   String get backup => 'Backup';
 
   @override
@@ -50,6 +46,9 @@ class LibLocalizationsPt extends LibLocalizations {
 
   @override
   String get cancel => 'Cancelar';
+
+  @override
+  String get checkUpdate => 'Verificar atualizações';
 
   @override
   String get clear => 'Limpar';
@@ -206,8 +205,7 @@ class LibLocalizationsPt extends LibLocalizations {
   String get pwd => 'Senha';
 
   @override
-  String get pwdTip =>
-      'Comprimento de 6 a 32, pode conter letras em inglês, números e pontuação';
+  String get pwdTip => 'Comprimento de 6 a 32, pode conter letras em inglês, números e pontuação';
 
   @override
   String get register => 'Cadastrar';

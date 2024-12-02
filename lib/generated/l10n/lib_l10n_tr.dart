@@ -16,8 +16,7 @@ class LibLocalizationsTr extends LibLocalizations {
   String get all => 'tümü';
 
   @override
-  String get anonLoseDataTip =>
-      'Şu anda anonim olarak giriş yapılmış, işlemlere devam edilmesi veri kaybına neden olacaktır.';
+  String get anonLoseDataTip => 'Şu anda anonim olarak giriş yapılmış, işlemlere devam edilmesi veri kaybına neden olacaktır.';
 
   @override
   String get app => 'Uygulama';
@@ -37,9 +36,6 @@ class LibLocalizationsTr extends LibLocalizations {
   String get auto => 'Otomatik';
 
   @override
-  String get autoCheckUpdate => 'Otomatik güncelleme kontrolü';
-
-  @override
   String get backup => 'Yedekleme';
 
   @override
@@ -50,6 +46,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get cancel => 'iptal';
+
+  @override
+  String get checkUpdate => 'Güncellemeleri kontrol et';
 
   @override
   String get clear => 'temizle';
@@ -206,8 +205,7 @@ class LibLocalizationsTr extends LibLocalizations {
   String get pwd => 'şifre';
 
   @override
-  String get pwdTip =>
-      'Uzunluk 6-32, İngilizce harfler, rakamlar ve noktalama işaretleri olabilir';
+  String get pwdTip => 'Uzunluk 6-32, İngilizce harfler, rakamlar ve noktalama işaretleri olabilir';
 
   @override
   String get register => 'Kaydol';

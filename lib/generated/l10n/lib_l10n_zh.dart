@@ -36,9 +36,6 @@ class LibLocalizationsZh extends LibLocalizations {
   String get auto => '自动';
 
   @override
-  String get autoCheckUpdate => '自动检查更新';
-
-  @override
   String get backup => '备份';
 
   @override
@@ -49,6 +46,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get cancel => '取消';
+
+  @override
+  String get checkUpdate => '检查更新';
 
   @override
   String get clear => '清除';
@@ -276,7 +276,7 @@ class LibLocalizationsZh extends LibLocalizations {
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
 class LibLocalizationsZhTw extends LibLocalizationsZh {
-  LibLocalizationsZhTw() : super('zh_TW');
+  LibLocalizationsZhTw(): super('zh_TW');
 
   @override
   String get about => '關於';
@@ -308,9 +308,6 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get auto => '自動';
 
   @override
-  String get autoCheckUpdate => '自動檢查更新';
-
-  @override
   String get backup => '備份';
 
   @override
@@ -321,6 +318,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get cancel => '取消';
+
+  @override
+  String get checkUpdate => '檢查更新';
 
   @override
   String get clear => '清除';

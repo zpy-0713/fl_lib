@@ -72,8 +72,7 @@ import 'lib_l10n_zh.dart';
 /// be consistent with the languages listed in the LibLocalizations.supportedLocales
 /// property.
 abstract class LibLocalizations {
-  LibLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  LibLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -81,8 +80,7 @@ abstract class LibLocalizations {
     return Localizations.of<LibLocalizations>(context, LibLocalizations);
   }
 
-  static const LocalizationsDelegate<LibLocalizations> delegate =
-      _LibLocalizationsDelegate();
+  static const LocalizationsDelegate<LibLocalizations> delegate = _LibLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -94,8 +92,7 @@ abstract class LibLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -173,12 +170,6 @@ abstract class LibLocalizations {
   /// **'Auto'**
   String get auto;
 
-  /// No description provided for @autoCheckUpdate.
-  ///
-  /// In en, this message translates to:
-  /// **'Automatic update check'**
-  String get autoCheckUpdate;
-
   /// No description provided for @backup.
   ///
   /// In en, this message translates to:
@@ -202,6 +193,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @checkUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for updates'**
+  String get checkUpdate;
 
   /// No description provided for @clear.
   ///
@@ -630,8 +627,7 @@ abstract class LibLocalizations {
   String get yesterday;
 }
 
-class _LibLocalizationsDelegate
-    extends LocalizationsDelegate<LibLocalizations> {
+class _LibLocalizationsDelegate extends LocalizationsDelegate<LibLocalizations> {
   const _LibLocalizationsDelegate();
 
   @override
@@ -640,69 +636,44 @@ class _LibLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) => <String>[
-        'de',
-        'en',
-        'es',
-        'fr',
-        'id',
-        'ja',
-        'nl',
-        'pt',
-        'ru',
-        'tr',
-        'uk',
-        'zh'
-      ].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'id', 'ja', 'nl', 'pt', 'ru', 'tr', 'uk', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_LibLocalizationsDelegate old) => false;
 }
 
 LibLocalizations lookupLibLocalizations(Locale locale) {
+
   // Lookup logic when language+country codes are specified.
   switch (locale.languageCode) {
-    case 'zh':
-      {
-        switch (locale.countryCode) {
-          case 'TW':
-            return LibLocalizationsZhTw();
-        }
-        break;
-      }
+    case 'zh': {
+  switch (locale.countryCode) {
+    case 'TW': return LibLocalizationsZhTw();
+   }
+  break;
+   }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'de':
-      return LibLocalizationsDe();
-    case 'en':
-      return LibLocalizationsEn();
-    case 'es':
-      return LibLocalizationsEs();
-    case 'fr':
-      return LibLocalizationsFr();
-    case 'id':
-      return LibLocalizationsId();
-    case 'ja':
-      return LibLocalizationsJa();
-    case 'nl':
-      return LibLocalizationsNl();
-    case 'pt':
-      return LibLocalizationsPt();
-    case 'ru':
-      return LibLocalizationsRu();
-    case 'tr':
-      return LibLocalizationsTr();
-    case 'uk':
-      return LibLocalizationsUk();
-    case 'zh':
-      return LibLocalizationsZh();
+    case 'de': return LibLocalizationsDe();
+    case 'en': return LibLocalizationsEn();
+    case 'es': return LibLocalizationsEs();
+    case 'fr': return LibLocalizationsFr();
+    case 'id': return LibLocalizationsId();
+    case 'ja': return LibLocalizationsJa();
+    case 'nl': return LibLocalizationsNl();
+    case 'pt': return LibLocalizationsPt();
+    case 'ru': return LibLocalizationsRu();
+    case 'tr': return LibLocalizationsTr();
+    case 'uk': return LibLocalizationsUk();
+    case 'zh': return LibLocalizationsZh();
   }
 
   throw FlutterError(
-      'LibLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'LibLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }
