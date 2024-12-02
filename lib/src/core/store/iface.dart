@@ -13,11 +13,13 @@ part 'pref.dart';
 /// {@template store_from_to_str}
 /// If there is a type which is not supported by the store, the store will call
 /// this function to convert the value(string) between the type.
+///
+/// Call it as `XxxStr` to avoid the conflict with the `toString` method.
 /// {@endtemplate}
-typedef StoreFromStr<T> = T Function(String rawString);
+typedef StoreFromStr<T extends Object> = T? Function(String rawString);
 
 /// {@macro store_from_to_str}
-typedef StoreToStr<T> = String Function(T value);
+typedef StoreToStr<T extends Object> = String? Function(T? value);
 
 /// The interface of any [Store].
 ///
@@ -41,13 +43,26 @@ sealed class Store {
   });
 
   /// Get the value of the key.
-  T? get<T>(String key, {StoreFromStr<T>? fromString});
+  ///
+  /// If [T] is specified, the store will try to convert the value to [T] by
+  /// calling [fromStr].
+  T? get<T extends Object>(String key, {StoreFromStr<T>? fromStr});
 
   /// Set the value of the key.
-  FutureOr<bool> set<T>(String key, T val, {StoreToStr<T>? toString});
+  ///
+  /// - If [T] is specified, the store will try to convert the value to string by
+  /// calling [toStr].
+  /// - If you want to set to `null`, use [remove] instead.
+  /// - If you want to update the last update timestamp, keep [updateLastUpdateTs] as `true`.
+  FutureOr<bool> set<T extends Object>(
+    String key,
+    T val, {
+    StoreToStr<T>? toStr,
+    bool updateLastUpdateTsOnSet = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+  });
 
   /// Get all keys.
-  /// 
+  ///
   /// {@template store_include_internal_keys}
   /// - [includeInternalKeys] is whether to include the internal keys.
   /// {@endtemplate}
@@ -78,16 +93,21 @@ sealed class Store {
     return ts.tsToDateTime;
   }
 
+  /// Whether the key is an internal key.
+  bool isInternalKey(String key) {
+    return key.startsWith(StoreDefaults.prefixKey) || key.startsWith(StoreDefaults.prefixKeyOld);
+  }
+
   /// Get all the key-value pairs.
   ///
   /// If you want a map result, use [getAllMap] instead.
   ///
   /// {@macro store_include_internal_keys}
   Stream<(String, Object?)> getAll({
-    bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys
+    bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
   }) async* {
     for (final key in await keys()) {
-      if (!includeInternalKeys && (key.startsWith(StoreDefaults.prefixKey) || key.startsWith(StoreDefaults.prefixKeyOld))) {
+      if (!includeInternalKeys && isInternalKey(key)) {
         continue;
       }
       yield (key, get(key));
@@ -100,16 +120,59 @@ sealed class Store {
   ///
   /// {@macro store_include_internal_keys}
   FutureOr<Map<String, Object?>> getAllMap({
-    bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys
+    bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
   }) async {
-    final map = <String, Object?>{};
-    for (final key in await keys()) {
-      if (!includeInternalKeys && (key.startsWith(StoreDefaults.prefixKey) || key.startsWith(StoreDefaults.prefixKeyOld))) {
+    final keys = await this.keys();
+    if (!includeInternalKeys) {
+      keys.removeWhere(isInternalKey);
+    }
+    final map = Map.fromIterables(keys, keys.map((key) => get(key)));
+    return map;
+  }
+
+  /// Get all the key-value pairs as a [Map<T>].
+  ///
+  /// Generic version of [getAllMap].
+  ///
+  /// {@macro store_include_internal_keys}
+  FutureOr<Map<String, T>> getAllMapTyped<T extends Object>({
+    bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
+    StoreFromStr<T>? fromStr,
+  }) async {
+    final keys = await this.keys();
+    if (!includeInternalKeys) {
+      keys.removeWhere(isInternalKey);
+    }
+    final map = <String, T>{};
+    for (final key in keys) {
+      final val = get(key);
+      if (val is T) {
+        map[key] = val;
         continue;
       }
-      map[key] = get(key);
+      if (val is String) {
+        try {
+          final converted = fromStr?.call(val);
+          if (converted is T) {
+            map[key] = converted;
+            continue;
+          }
+        } catch (e) {
+          dprintWarn('getAllMapTyped()', 'convert `$key`: $e');
+        }
+      }
     }
     return map;
+  }
+
+  /// Format the warning msg.
+  String fmtWarnMsg(String fn, String msg) {
+    return '$runtimeType.$fn $msg';
+  }
+
+  /// Print the formatted warning msg.
+  void dprintWarn(String fn, String msg) {
+    dprint(fmtWarnMsg(fn, msg));
   }
 }
 
@@ -151,16 +214,12 @@ abstract class StoreProp<T extends Object> {
   Store get store;
 
   /// Get the value of the key.
-  FutureOr<T?> get() {
-    return store.get(key, fromString: fromStr);
-  }
+  T? get() => store.get(key, fromStr: fromStr);
 
   /// Set the value of the key.
   ///
   /// If you want to set `null`, use `remove()` instead.
-  FutureOr<void> set(T value) {
-    return store.set(key, value, toString: toStr);
-  }
+  FutureOr<void> set(T value) => store.set(key, value, toStr: toStr, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
 
   /// Remove the key.
   FutureOr<void> remove() => store.remove(key);
@@ -201,15 +260,11 @@ abstract class StorePropDefault<T extends Object> extends StoreProp<T> {
 
   /// Get the value of the key.
   @override
-  FutureOr<T> get() {
-    return store.get(key, fromString: fromStr) ?? defaultValue;
-  }
+  T get() => store.get(key, fromStr: fromStr) ?? defaultValue;
 
   /// Set the value of the key.
   @override
-  FutureOr<void> set(T value) {
-    return store.set(key, value, toString: toStr);
-  }
+  FutureOr<void> set(T value) => store.set(key, value, toStr: toStr, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
 
   /// {@macro store_prop_listenable}
   @override

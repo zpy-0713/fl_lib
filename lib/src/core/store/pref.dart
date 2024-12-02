@@ -46,17 +46,17 @@ final class PrefStore extends Store {
   final String? prefix;
 
   /// Value changes listeners.
-  final List<PrefStoreKeyListener> listeners;
+  final Set<PrefStoreKeyListener> listeners;
 
   /// Due to the limit of the SharedPreferences singleton, only [shared] is recommended.
   ///
   /// {@macro PrefStore.init}
   PrefStore({
     this.prefix,
-    List<PrefStoreKeyListener>? listeners,
+    Set<PrefStoreKeyListener>? listeners,
     super.updateLastUpdateTsOnSet,
     super.lastUpdateTsKey,
-  }) : listeners = listeners ?? [];
+  }) : listeners = listeners ?? {};
 
   /// Single instance for the whole app.
   ///
@@ -80,13 +80,13 @@ final class PrefStore extends Store {
   /// Only support types: [bool], [double], [int], [String], `List<String>`.
   /// {@endtemplate}
   @override
-  T? get<T>(String key, {StoreFromStr<T>? fromString}) {
+  T? get<T extends Object>(String key, {StoreFromStr<T>? fromStr}) {
     final val = _instance!.get(key);
     if (val is! T?) {
-      if (val is String && fromString != null) {
-        return fromString(val);
+      if (val is String && fromStr != null) {
+        return fromStr(val);
       }
-      dprint('PrefStore.get("$key") is: ${val.runtimeType}');
+      dprintWarn('get("$key")', 'is: ${val.runtimeType}');
       return null;
     }
     return val;
@@ -96,21 +96,29 @@ final class PrefStore extends Store {
   ///
   /// {@macro pref_store_types}
   @override
-  Future<bool> set<T>(String key, T val, {StoreToStr<T>? toString}) {
-    return switch (val) {
+  Future<bool> set<T extends Object>(
+    String key,
+    T val, {
+    StoreToStr<T>? toStr,
+    bool updateLastUpdateTsOnSet = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+  }) {
+    final res = switch (val) {
       final bool val => _instance!.setBool(key, val),
       final double val => _instance!.setDouble(key, val),
       final int val => _instance!.setInt(key, val),
       final String val => _instance!.setString(key, val),
       final List<String> val => _instance!.setStringList(key, val),
       _ => () {
-          if (toString != null) {
-            return _instance!.setString(key, toString(val));
+          if (toStr != null) {
+            final str = toStr(val);
+            if (str is String) return _instance!.setString(key, str);
           }
-          dprint('PrefStore.set("$key") invalid type: ${val.runtimeType}');
+          dprintWarn('set("$key")', 'invalid type: ${val.runtimeType}');
           return Future.value(false);
         }(),
     };
+    if (updateLastUpdateTsOnSet) updateLastUpdateTs();
+    return res;
   }
 
   /// Get all keys.
@@ -125,22 +133,6 @@ final class PrefStore extends Store {
   /// Clear the store.
   @override
   Future<bool> clear() => _instance!.clear();
-
-  @override
-  Future<Map<String, Object?>> getAllMap({
-    bool includeInternalKeys = false,
-  }) async {
-    final map = <String, Object?>{};
-    // Get all the values parallelly
-    final keys = await this.keys();
-    keys.removeWhere((v) {
-      return !includeInternalKeys && (v.startsWith(StoreDefaults.prefixKey) || v.startsWith(StoreDefaults.prefixKeyOld));
-    });
-    await Future.wait(keys.map((key) async {
-      map[key] = get(key);
-    }));
-    return map;
-  }
 }
 
 /// A single Property in SharedPreferences.
@@ -231,22 +223,34 @@ final class PrefPropDefaultListenable<T extends Object> extends ValueListenable<
   final String key;
   final T defaultValue;
 
-  const PrefPropDefaultListenable(this.store, this.key, this.defaultValue);
+  /// The internal map of prop key listeners.
+  final _map = <int, PrefStoreKeyListener>{};
+
+  PrefPropDefaultListenable(this.store, this.key, this.defaultValue);
 
   @override
   void addListener(VoidCallback listener) {
-    store.listeners.add((k) {
-      if (k == key) listener();
+    final lis = _map.putIfAbsent(listener.hashCode, () {
+    // The actual listener
+      void lis(String k) {
+        if (k == key) listener();
+      }
+
+      return lis;
     });
+    store.listeners.add(lis);
   }
 
   @override
   void removeListener(VoidCallback listener) {
     store.listeners.removeWhere((element) {
-      return element == listener;
+      // Find the actual listener by [hashCode]
+      return element == _map.remove(listener.hashCode);
     });
   }
 
   @override
+  /// Since the value is retrieved from the store, so the value is not guaranteed 
+  /// to be the same as expected(the actual modified value).
   T get value => store.get<T>(key) ?? defaultValue;
 }

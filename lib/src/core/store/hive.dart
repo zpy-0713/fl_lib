@@ -81,13 +81,13 @@ class HiveStore extends Store {
   }
 
   @override
-  T? get<T>(String key, {StoreFromStr<T>? fromString}) {
+  T? get<T extends Object>(String key, {StoreFromStr<T>? fromStr}) {
     final val = box.get(key);
     if (val is! T?) {
-      if (val is String && fromString != null) {
-        return fromString(val);
+      if (val is String && fromStr != null) {
+        return fromStr(val);
       }
-      dprint('HiveStore.get("$key") is: ${val.runtimeType}');
+      dprintWarn('get("$key")', 'is: ${val.runtimeType}');
       return null;
     }
     return val;
@@ -111,43 +111,23 @@ class HiveStore extends Store {
   }
 
   @override
-  bool set<T>(String key, T val, {StoreToStr<T>? toString}) {
-    final value = toString != null ? toString(val) : val;
-    box.put(key, value);
+  bool set<T extends Object>(
+    String key,
+    T val, {
+    StoreToStr<T>? toStr,
+    bool updateLastUpdateTsOnSet = StoreDefaults.defaultUpdateLastUpdateTsOnSet,
+  }) {
+    if (toStr != null) {
+      final str = toStr(val);
+      if (str is String) {
+        box.put(key, str);
+        if (updateLastUpdateTsOnSet) updateLastUpdateTs();
+        return true;
+      }
+    }
+    box.put(key, val);
+    if (updateLastUpdateTsOnSet) updateLastUpdateTs();
     return true;
-  }
-
-  @override
-  Map<String, Object?> getAllMap({
-    bool includeInternalKeys = false,
-  }) {
-    final map = <String, Object?>{};
-    for (final key in box.keys) {
-      if (key is String) {
-        final val = box.get(key);
-        map[key] = val;
-      }
-    }
-    return map;
-  }
-
-  /// Generic version of [getAllMap].
-  Map<String, T?> getAllMapT<T extends Object>({
-    bool includeInternalKeys = false,
-  }) {
-    final map = <String, T?>{};
-    for (final key in box.keys) {
-      if (key is String) {
-        if (!includeInternalKeys && (key.startsWith(StoreDefaults.prefixKey) || key.startsWith(StoreDefaults.prefixKeyOld))) {
-          continue;
-        }
-        final val = box.get(key);
-        if (val is T?) {
-          map[key] = val;
-        }
-      }
-    }
-    return map;
   }
 }
 
@@ -164,21 +144,6 @@ class HiveProp<T extends Object> extends StoreProp<T> {
     super.toStr,
   });
 
-  @override
-  ValueListenable<T> listenable() {
-    return HivePropListenable<T>(store.box, key, null);
-  }
-
-  @override
-  T? get() {
-    final stored = store.box.get(key);
-    if (stored is! T) {
-      dprint('StoreProperty("$key") is: ${stored.runtimeType}');
-      return null;
-    }
-    return stored;
-  }
-
   /// {@template hive_store_fn_backward_compatibility}
   /// It's preserved for backward compatibility.
   /// {@endtemplate}
@@ -188,6 +153,11 @@ class HiveProp<T extends Object> extends StoreProp<T> {
   void put(T value) => set(value);
 
   void delete() => super.remove();
+
+  @override
+  ValueListenable<T> listenable() {
+    return HivePropListenable<T>(store.box, key, null);
+  }
 }
 
 final class HivePropDefault<T extends Object> extends StorePropDefault<T> implements HiveProp<T> {
@@ -206,16 +176,6 @@ final class HivePropDefault<T extends Object> extends StorePropDefault<T> implem
   @override
   ValueListenable<T> listenable() {
     return HivePropListenable<T>(store.box, key, defaultValue);
-  }
-
-  @override
-  T get() {
-    final stored = store.box.get(key, defaultValue: defaultValue);
-    if (stored is! T) {
-      dprint('StoreProperty("$key") is: ${stored.runtimeType}');
-      return defaultValue;
-    }
-    return stored;
   }
 
   @override
