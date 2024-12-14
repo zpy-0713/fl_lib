@@ -16,7 +16,7 @@ extension DialogX on BuildContext {
     String? title,
     bool barrierDismiss = true,
     int? titleMaxLines,
-    EdgeInsetsGeometry? actionsPadding,
+    EdgeInsetsGeometry actionsPadding = const EdgeInsets.only(left: 13, right: 13, bottom: 7),
     EdgeInsetsGeometry? contentPadding,
     Widget? Function(BuildContext ctx)? titleBuilder,
     Widget? Function(BuildContext ctx)? childBuilder,
@@ -37,7 +37,7 @@ extension DialogX on BuildContext {
           title: title_,
           content: child_,
           actions: actions_,
-          actionsPadding: actionsPadding ?? const EdgeInsets.all(17),
+          actionsPadding: actionsPadding,
           contentPadding: contentPadding,
         );
       },
