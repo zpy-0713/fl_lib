@@ -91,7 +91,7 @@ sealed class Store {
   /// {@macro store_last_update_ts}
   FutureOr<void> updateLastUpdateTs([int? ts]) {
     if (!updateLastUpdateTsOnSet) return null;
-    return set(lastUpdateTsKey, ts ?? DateTimeX.timestamp);
+    return set(lastUpdateTsKey, ts ?? DateTimeX.timestamp, updateLastUpdateTsOnSet: false);
   }
 
   /// Get the last update timestamp.
