@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 
 final class QrShareBtn extends StatelessWidget {
+  /// The data to be encoded.
   final String data;
+
+  /// The size of the QR code.
   final int size;
 
   /// Bottom tip
@@ -12,9 +15,14 @@ final class QrShareBtn extends StatelessWidget {
   /// Bottom tip (smaller)
   final String? tip2;
 
+  /// The widget key of the QR code.
   final Key? qrKey;
 
+  /// The center image of the QR code.
   final ImageProvider? centerImg;
+
+  /// Shared picture's name.
+  final String? sharePicName;
 
   const QrShareBtn({
     super.key,
@@ -24,6 +32,7 @@ final class QrShareBtn extends StatelessWidget {
     this.tip2,
     this.qrKey,
     this.centerImg,
+    this.sharePicName,
   });
 
   @override
@@ -41,7 +50,7 @@ final class QrShareBtn extends StatelessWidget {
       text: libL10n.save,
       onTap: () async {
         final res = await ScreenshotController().captureFromWidget(qrWidget);
-        Pfs.share(bytes: res, name: 'qr_code.png', mime: 'image/png');
+        Pfs.share(bytes: res, name: _sharePicName, mime: 'image/png');
       },
     );
 
@@ -55,5 +64,10 @@ final class QrShareBtn extends StatelessWidget {
         );
       },
     );
+  }
+
+  String get _sharePicName {
+    if (sharePicName != null) return sharePicName!;
+    return 'qr_code_${DateTimeX.timestamp}.png';
   }
 }
