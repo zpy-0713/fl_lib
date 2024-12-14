@@ -380,8 +380,6 @@ ${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
         final text = await Pfs.paste();
         if (text == null) return null;
         return Uint8List.fromList(text.codeUnits);
-      default:
-        throw Exception('Unknown import source: $from');
     }
   }
 

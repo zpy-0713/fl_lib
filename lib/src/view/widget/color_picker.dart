@@ -1,3 +1,4 @@
+import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
 enum _ColorPropType {
@@ -21,9 +22,9 @@ class ColorPicker extends StatefulWidget {
 }
 
 class _ColorPickerState extends State<ColorPicker> {
-  late int _r = widget.color.red;
-  late int _g = widget.color.green;
-  late int _b = widget.color.blue;
+  late var _r = widget.color.red255;
+  late var _g = widget.color.green255;
+  late var _b = widget.color.blue255;
 
   @override
   Widget build(BuildContext context) {
