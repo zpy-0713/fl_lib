@@ -1,4 +1,4 @@
-library fl_lib;
+library;
 
 export 'src/res/ui.dart';
 export 'src/res/misc.dart';
@@ -66,7 +66,8 @@ export 'src/view/page/editor/plain.dart';
 export 'src/view/widget/store_switch.dart';
 export 'src/view/widget/hover.dart';
 export 'src/view/widget/text.dart';
-export 'src/view/widget/image.dart';
+export 'src/view/widget/img/compare.dart';
+export 'src/view/widget/img/image.dart';
 export 'src/view/widget/fade_in.dart';
 export 'src/view/widget/user.dart';
 export 'src/view/widget/card.dart';

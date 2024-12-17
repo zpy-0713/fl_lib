@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:extended_image/extended_image.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
@@ -26,21 +23,7 @@ final class ImageCard extends StatefulWidget {
     this.onRet,
     this.size,
     this.radius,
-  }) : imageProvider = fromUrl(imageUrl);
-
-  static ImageProvider fromUrl(String url) {
-    if (url.startsWith('http')) {
-      return ExtendedNetworkImageProvider(
-        url,
-        headers: UserApi.authHeaders,
-        cache: true,
-      );
-    } else if (url.startsWith('assets')) {
-      return AssetImage(url);
-    } else {
-      return FileImage(File(url));
-    }
-  }
+  }) : imageProvider = imageUrl.imageProvider;
 
   @override
   State<ImageCard> createState() => _ImageCardState();

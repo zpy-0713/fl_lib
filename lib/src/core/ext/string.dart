@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:fl_lib/src/core/utils/platform/base.dart';
+import 'package:extended_image/extended_image.dart';
+import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -232,4 +234,53 @@ abstract final class RandomStr {
     final random = secure ? Random.secure() : Random();
     return List.generate(length, (index) => chars[random.nextInt(chars.length)]).join();
   }
+}
+
+extension StringImgX on String {
+  /// Matches http and https schemes.
+  static final httpReg = RegExp(r'^https?://');
+
+  static final _transparentImgBytes = Base64Decoder().convert(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgAB/ax5kAAAAABJRU5ErkJggg==',
+  );
+
+  /// Get the image provider from the string.
+  ///
+  /// - [catchErr] If true, returns a placeholder image when the image fails to load.
+  /// - [headers] is the headers of the network image. It will override the default headers ([UserApi.authHeaders]).
+  /// - [cache] / [headers] / [retries] / [cancelToken] only work for the network image.
+  ImageProvider getImageProvider({
+    bool cache = true,
+    Map<String, String>? headers,
+    int retries = 3,
+    CancellationToken? cancelToken,
+    String? imageCacheName,
+    bool catchErr = false,
+  }) {
+    try {
+      if (startsWith(httpReg)) {
+        final isLpktApi = startsWith(ApiUrls.base);
+        final headers_ = (isLpktApi ? UserApi.authHeaders : null) ?? <String, String>{};
+        if (headers != null) headers_.addAll(headers);
+        return ExtendedNetworkImageProvider(
+          this,
+          headers: headers_,
+          cache: cache,
+          retries: retries,
+          cancelToken: cancelToken,
+          imageCacheName: imageCacheName,
+        );
+      } else if (startsWith('assets')) {
+        return ExtendedAssetImageProvider(this, imageCacheName: imageCacheName);
+      }
+      return ExtendedFileImageProvider(File(this), imageCacheName: imageCacheName);
+    } catch (e, s) {
+      dprint('getImageProvider', e, s);
+      if (!catchErr) rethrow;
+      return ExtendedMemoryImageProvider(_transparentImgBytes);
+    }
+  }
+
+  /// Get the image provider from the string.
+  ImageProvider get imageProvider => getImageProvider();
 }
