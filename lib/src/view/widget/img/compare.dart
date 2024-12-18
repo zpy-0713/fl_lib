@@ -209,9 +209,11 @@ final class _ImgCompareState extends State<ImgCompare> {
     final consRatio = _constraints.maxHeight / _constraints.maxWidth;
     final imgRatio = _imgRatio;
     if (imgRatio == null) return;
+    final delta = details.primaryDelta;
+    if (delta == null) return;
     final isNarrowImg = consRatio < imgRatio;
     setState(() {
-      _horizonPx += details.primaryDelta!;
+      _horizonPx += delta / _transformationMatrix.getMaxScaleOnAxis(); // divide by scale to adjust the drag speed
       if (isNarrowImg) {
         final imgWidth = _constraints.maxHeight / imgRatio;
         final imgLeft = (_windowSize.width - imgWidth) / 2;
