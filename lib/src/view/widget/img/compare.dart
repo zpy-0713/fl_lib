@@ -155,7 +155,7 @@ final class _ImgCompareState extends State<ImgCompare> {
         duration: Durations.long3,
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onHorizontalDragUpdate: _onDragUpdate,
+          onHorizontalDragUpdate: (v) => _onDragUpdate(v, true),
           child: Container(
             width: _kDragMinWidth, // Increased width for better touch area
             alignment: Alignment.center,
@@ -182,7 +182,7 @@ final class _ImgCompareState extends State<ImgCompare> {
         duration: Durations.long3,
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onHorizontalDragUpdate: _onDragUpdate,
+          onHorizontalDragUpdate: (v) => _onDragUpdate(v, false),
           child: SizedBox(
             width: widget.indicatorSize,
             height: widget.indicatorSize,
@@ -205,7 +205,7 @@ final class _ImgCompareState extends State<ImgCompare> {
     return transformedPosition;
   }
 
-  void _onDragUpdate(DragUpdateDetails details) {
+  void _onDragUpdate(DragUpdateDetails details, bool isDragLine) {
     final consRatio = _constraints.maxHeight / _constraints.maxWidth;
     final imgRatio = _imgRatio;
     if (imgRatio == null) return;
@@ -213,7 +213,11 @@ final class _ImgCompareState extends State<ImgCompare> {
     if (delta == null) return;
     final isNarrowImg = consRatio < imgRatio;
     setState(() {
-      _horizonPx += delta / _transformationMatrix.getMaxScaleOnAxis(); // divide by scale to adjust the drag speed
+      if (isDragLine) {
+        _horizonPx += delta;
+      } else {
+        _horizonPx += delta / _transformationMatrix.getMaxScaleOnAxis(); // divide by scale to adjust the drag speed
+      }
       if (isNarrowImg) {
         final imgWidth = _constraints.maxHeight / imgRatio;
         final imgLeft = (_windowSize.width - imgWidth) / 2;
