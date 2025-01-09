@@ -121,32 +121,67 @@ extension DialogX on BuildContext {
     if (multi && addOkBtn) {
       btns.add(TextButton(onPressed: () => pop(true), child: Text(l10n.ok)));
     }
-    final sure = await showRoundDialog<bool>(
-      title: title ?? l10n.select,
-      child: SingleChildScrollView(
-        child: Choice<T>(
-          onChanged: (value) {
-            vals = value;
-            if (!multi) pop(true);
-          },
-          multiple: multi,
-          clearable: clearable,
-          value: vals,
-          builder: (state, _) => Wrap(
-            children: List<Widget>.generate(
-              items.length,
-              (index) {
-                final item = items[index];
-                if (item == null) return UIs.placeholder;
-                return ChoiceChipX<T>(
-                  label: display?.call(item) ?? item.toString(),
-                  state: state,
-                  value: item,
-                );
-              },
-            ),
+
+    final itemsList = items.toList();
+    final isAscending = true.vn;
+
+    Widget buildChoice() {
+      return Choice<T>(
+        onChanged: (value) {
+          vals = value;
+          if (!multi) pop(true);
+        },
+        multiple: multi,
+        clearable: clearable,
+        value: vals,
+        builder: (state, _) => Wrap(
+          children: List<Widget>.generate(
+            itemsList.length,
+            (index) {
+              final item = itemsList[index];
+              if (item == null) return UIs.placeholder;
+              return ChoiceChipX<T>(
+                label: display?.call(item) ?? item.toString(),
+                state: state,
+                value: item,
+              );
+            },
           ),
         ),
+      );
+    }
+
+    Widget buildTitle(BuildContext context) {
+      Widget buildSortIcon(bool asc) {
+        return AnimatedSwitcher(
+          duration: Durations.medium1,
+          child: IconButton(
+            key: ValueKey(asc),
+            icon: Icon(asc ? Icons.arrow_upward : Icons.arrow_downward),
+            onPressed: () {
+              isAscending.value = !asc;
+              itemsList.sort((a, b) {
+                final aStr = display?.call(a) ?? a.toString();
+                final bStr = display?.call(b) ?? b.toString();
+                return asc ? aStr.compareTo(bStr) : bStr.compareTo(aStr);
+              });
+            },
+          ),
+        );
+      }
+
+      return Row(
+        children: [
+          Expanded(child: Text(title ?? l10n.select)),
+          isAscending.listenVal(buildSortIcon),
+        ],
+      );
+    }
+
+    final sure = await showRoundDialog<bool>(
+      titleBuilder: buildTitle,
+      child: SingleChildScrollView(
+        child: isAscending.listen(buildChoice),
       ),
       actions: btns.isEmpty ? null : btns,
     );
