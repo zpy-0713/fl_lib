@@ -46,7 +46,7 @@ abstract final class FileApi {
   }
 
   /// Download a file from the server. Returns the file content as bytes.
-  static Future<Uint8List> download(String name, {String? dir}) async {
+  static Future<Uint8List> download(String name, {String? dir, ResponseType? respType}) async {
     name = urlToName(name);
     final queries = {'name': name};
     if (dir != null) queries['dir'] = dir;
@@ -54,7 +54,10 @@ abstract final class FileApi {
     final resp = await myDio.get(
       ApiUrls.file,
       queryParameters: queries,
-      options: Options(headers: UserApi.authHeaders),
+      options: Options(
+        headers: UserApi.authHeaders,
+        responseType: respType ?? ResponseType.bytes,
+      ),
     );
     final contentTypes = resp.headers['content-type'];
     if (contentTypes != null && contentTypes.contains('application/json')) {
