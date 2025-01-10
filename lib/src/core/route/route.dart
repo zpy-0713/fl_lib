@@ -44,8 +44,9 @@ final class AppRoute<Ret, Arg extends Object> extends AppRouteIface {
     final ret = middlewares?.any((e) => !e((context: context, route: this)));
     if (ret == true) return Future.value(null);
 
-    Widget builder(BuildContext context) =>
-        args != null ? page(key: key, args: args) : page(key: key);
+    Widget builder(BuildContext context) => VirtualWindowFrame(
+          child: args != null ? page(key: key, args: args) : page(key: key),
+        );
 
     final route_ = route ??
         MaterialPageRoute<Ret>(
@@ -82,7 +83,7 @@ final class AppRouteArg<Ret, Arg extends Object> extends AppRouteIface {
 
     final route_ = route ??
         MaterialPageRoute<Ret>(
-          builder: (_) => page(key: key, args: args),
+          builder: (_) => VirtualWindowFrame(child: page(key: key, args: args)),
           settings: RouteSettings(name: path),
         );
     return Navigator.push<Ret>(context, route_);
@@ -114,7 +115,7 @@ final class AppRouteNoArg<Ret> extends AppRouteIface {
 
     final route_ = route ??
         MaterialPageRoute<Ret>(
-          builder: (_) => page(key: key),
+          builder: (_) => VirtualWindowFrame(child: page(key: key)),
           settings: RouteSettings(name: path),
         );
     return Navigator.push<Ret>(context, route_);
