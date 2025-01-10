@@ -2,6 +2,8 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart' as wm;
 
+import 'appbar.dart';
+
 class VirtualWindowFrame extends StatelessWidget {
   const VirtualWindowFrame({super.key, required this.child});
 
@@ -10,14 +12,14 @@ class VirtualWindowFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return wm.VirtualWindowFrame(
-      child: isMacOS
-          ? child
-          : Column(
+      child: CustomAppBar.drawTitlebar
+          ? Column(
               children: [
                 _WindowCaption(),
                 Expanded(child: child),
               ],
-            ),
+            )
+          : child,
     );
   }
 }
