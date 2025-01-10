@@ -26,10 +26,45 @@ class _ColorPickerState extends State<ColorPicker> {
   late var _g = widget.color.green255;
   late var _b = widget.color.blue255;
 
+  final ctrl = TextEditingController();
+
+  /// Get the color from the current RGB values.
+  Color get _color => Color.fromARGB(255, _r, _g, _b);
+
+  @override
+  void initState() {
+    super.initState();
+    ctrl.text = widget.color.toHexRGB;
+  }
+
   @override
   Widget build(BuildContext context) {
+    void onTextChanged(String v) {
+      final c = v.fromColorHexRGB;
+      if (c == null) return;
+      widget.onColorChanged(c);
+    }
+
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
+        Container(
+          height: 37,
+          width: 77,
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, _r, _g, _b),
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        Input(
+          onSubmitted: onTextChanged,
+          onChanged: onTextChanged,
+          controller: ctrl,
+          hint: '#8b2252',
+          icon: Icons.colorize,
+          suggestion: false,
+        ),
         _buildProgress(_ColorPropType.r, 'R', _r.toDouble()),
         _buildProgress(_ColorPropType.g, 'G', _g.toDouble()),
         _buildProgress(_ColorPropType.b, 'B', _b.toDouble()),
@@ -64,7 +99,11 @@ class _ColorPickerState extends State<ColorPicker> {
                     break;
                 }
               });
-              widget.onColorChanged(Color.fromARGB(255, _r, _g, _b));
+            },
+            onChangeEnd: (value) {
+              final c = _color;
+              ctrl.text = c.toHexRGB;
+              widget.onColorChanged(_color);
             },
             min: 0,
             max: 255,

@@ -37,6 +37,14 @@ extension ColorX on Color {
     return '#$alphaStr$redStr$greenStr$blueStr';
   }
 
+  /// Returns the color hex like `#112233`.
+  String get toHexRGB {
+    final redStr = red255.toRadixString(16).padLeft(2, '0');
+    final greenStr = green255.toRadixString(16).padLeft(2, '0');
+    final blueStr = blue255.toRadixString(16).padLeft(2, '0');
+    return '#$redStr$greenStr$blueStr';
+  }
+
   /// Whether this color is bright.
   bool get isBrightColor => estimateBrightness == Brightness.light;
 

@@ -52,6 +52,10 @@ dependencies:
       url: https://github.com/lollipopkit/dart_computer
       ref: v1.0.88
 
+dependency_overrides:
+  # flutter_markdown_latex:
+  #   path: ../flutter_markdown_latex
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

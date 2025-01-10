@@ -20,8 +20,11 @@ abstract final class FileApi {
   }
 
   /// Upload a file to the server.
+  /// 
+  /// - [paths] is the local file path.
+  /// - [dir] is the directory name.
+  /// 
   /// Returns the remote urls.
-  /// [path] is the local file path.
   static Future<List<String>> upload(List<String> paths, {String? dir}) async {
     final map = <String, dynamic>{
       if (dir != null) 'dir': dir,
@@ -45,7 +48,13 @@ abstract final class FileApi {
     return urls;
   }
 
-  /// Download a file from the server. Returns the file content as bytes.
+  /// Download a file from the server.
+  /// 
+  /// - [name] is the file name.
+  /// - [dir] is the directory name.
+  /// - [respType] is the response type.
+  /// 
+  /// Returns the file content as bytes by default.
   static Future<Uint8List> download(String name, {String? dir, ResponseType? respType}) async {
     name = urlToName(name);
     final queries = {'name': name};
@@ -68,7 +77,8 @@ abstract final class FileApi {
 
   /// Delete a file from the server.
   ///
-  /// [names] is file names.
+  /// - [names] is file names.
+  /// - [dir] is the directory name.
   static Future<void> delete(
     List<String> names, {
     String? dir,
