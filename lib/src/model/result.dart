@@ -4,12 +4,12 @@ import 'package:fl_lib/fl_lib.dart';
 
 /// {@template result_design}
 /// In common cases, use `try-catch` to handle errors.
-/// But we can use [Res] to handle errs in golang-like way.
+/// But we can use [FnRes] to handle errs in golang-like way.
 /// {@endtemplate}
-typedef Res<T> = (T? v, Object? e);
+typedef FnRes<T> = (T? v, Object? e);
 
 /// {@macro result_design}
-extension Resx<T> on Res<T> {
+extension Resx<T> on FnRes<T> {
   /// Returns `true` if there is no error.
   bool get ok => $2 == null;
 
@@ -25,7 +25,7 @@ extension Resx<T> on Res<T> {
   /// - [msg] is the message of the error.
   /// - [onErr] is the callback when an error occurs.
   /// {@endtemplate}
-  static Future<Res<T>> tryCatch<T>(
+  static Future<FnRes<T>> tryCatch<T>(
     Future<T> Function() fn, {
     String? msg,
     FutureOr<void> Function(Object e, StackTrace s)? onErr,
@@ -42,7 +42,7 @@ extension Resx<T> on Res<T> {
   /// Sync version of [tryCatch].
   ///
   /// {@macro resx_try_catch}
-  static Res<T> tryCatchSync<T>(
+  static FnRes<T> tryCatchSync<T>(
     T Function() fn, {
     String? msg,
     void Function(Object e, StackTrace s)? onErr,

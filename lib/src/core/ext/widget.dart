@@ -52,7 +52,7 @@ extension WidgetX on Widget {
     if (disable) return this;
 
     final child = InkWell(
-      onTap: onTap == null ? null : () => Funcs.throttle(onTap),
+      onTap: onTap == null ? null : () => Fns.throttle(onTap),
       onLongPress: onLongTap,
       onDoubleTap: onDoubleTap,
       child: this,

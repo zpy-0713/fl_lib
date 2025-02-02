@@ -45,7 +45,7 @@ abstract class SyncIface<T extends Mergeable> {
       await Future.delayed(Duration(milliseconds: milliDelay));
     }
     if (throttleMilli == 0) return await _sync(rs);
-    Funcs.throttle(
+    Fns.throttle(
       () => _sync(rs),
       id: 'SyncIface.sync',
       duration: throttleMilli,

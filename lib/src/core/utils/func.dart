@@ -1,6 +1,6 @@
 import 'dart:async';
 
-abstract final class Funcs {
+abstract final class Fns {
   static const _defaultDurationTime = 377;
   static const _defaultThrottleId = 'default';
   static final startTimeMap = <String, int>{_defaultThrottleId: 0};

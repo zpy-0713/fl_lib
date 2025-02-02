@@ -10,6 +10,18 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 extension DialogX on BuildContext {
+  /// Show a dialog with a title, a child and actions.
+  /// 
+  /// - [child] is the content of the dialog.
+  /// - [actions] is the list of actions.
+  /// - [title] is the title of the dialog.
+  /// - [barrierDismiss] if true, the dialog can be dismissed by tapping the barrier.
+  /// - [titleMaxLines] is the max lines of the title.
+  /// - [actionsPadding] is the padding of the actions.
+  /// - [contentPadding] is the padding of the content.
+  /// - [titleBuilder] is the function to build the title. If not null, [title] will be ignored.
+  /// - [childBuilder] is the function to build the child. If not null, [child] will be ignored.
+  /// - [actionsBuilder] is the function to build the actions. If not null, [actions] will be ignored.
   Future<T?> showRoundDialog<T>({
     Widget? child,
     List<Widget>? actions,
@@ -50,11 +62,11 @@ extension DialogX on BuildContext {
   /// - the dialog will be closed and an error dialog will be displayed
   /// - the [onErr] function will be called (awaited)
   /// - the return value will be `null`
-  Future<Res<T>> showLoadingDialog<T>({
+  Future<FnRes<T>> showLoadingDialog<T>({
     required Future<T> Function() fn,
     bool barrierDismiss = false,
     FutureOr<void> Function(Object e, StackTrace s)? onErr,
-    Duration? timeout = const Duration(seconds: 30),
+    Duration? timeout = const Duration(seconds: 17),
   }) async {
     showRoundDialog(
       child: SizedLoading.medium,
@@ -106,6 +118,18 @@ extension DialogX on BuildContext {
     );
   }
 
+  /// Show a dialog to pick a value from a list.
+  /// 
+  /// - [title] is the title of the dialog.
+  /// - [items] is the list of items to pick.
+  /// - [display] is the function to display the item.
+  /// - [multi] if true, the user can pick multiple items.
+  /// - [initial] is the initial value(s) of the dialog.
+  /// - [clearable] if true, the user can clear the selected items.
+  /// - [actions] is the list of actions.
+  /// - [addOkBtn] if true, the dialog will have an OK button.
+  /// - [showLoading] is the state to show the loading.
+  /// - [ascend] is the state to sort the items.
   Future<List<T>?> showPickDialog<T>({
     String? title,
     required List<T> items,
@@ -115,6 +139,8 @@ extension DialogX on BuildContext {
     bool clearable = false,
     List<Widget>? actions,
     bool addOkBtn = true,
+    VNode<bool>? showLoading,
+    VNode<bool>? ascend,
   }) async {
     var vals = initial ?? <T>[];
     final btns = actions ?? <Widget>[];
@@ -123,7 +149,8 @@ extension DialogX on BuildContext {
     }
 
     final itemsList = items.toList();
-    final isAscending = true.vn;
+    final isAscending = ascend ?? true.vn;
+    showLoading ??= false.vn;
 
     Widget buildChoice() {
       return Choice<T>(
@@ -178,17 +205,29 @@ extension DialogX on BuildContext {
       );
     }
 
+    Widget buildBody(bool loading) {
+      return loading ? SizedLoading.medium : isAscending.listen(buildChoice);
+    }
+
     final sure = await showRoundDialog<bool>(
       titleBuilder: buildTitle,
-      child: SingleChildScrollView(
-        child: isAscending.listen(buildChoice),
-      ),
+      child: showLoading.listenVal(buildBody),
       actions: btns.isEmpty ? null : btns,
     );
     if (sure == true) return vals;
     return null;
   }
 
+  /// Show a dialog to pick a single value from a list.
+  /// 
+  /// - [title] is the title of the dialog.
+  /// - [items] is the list of items to pick.
+  /// - [display] is the function to display the item.
+  /// - [initial] is the initial value of the dialog.
+  /// - [clearable] if true, the user can clear the selected item.
+  /// - [actions] is the list of actions.
+  /// - [addOkBtn] if true, the dialog will have an OK button.
+  /// - [showLoading] is the state to show the loading.
   Future<T?> showPickSingleDialog<T>({
     String? title,
     required List<T> items,
@@ -196,6 +235,8 @@ extension DialogX on BuildContext {
     T? initial,
     bool clearable = false,
     List<Widget>? actions,
+    bool addOkBtn = true,
+    VNode<bool>? showLoading,
   }) async {
     final vals = await showPickDialog<T>(
       title: title,
@@ -204,6 +245,9 @@ extension DialogX on BuildContext {
       multi: false,
       initial: initial == null ? null : [initial],
       actions: actions,
+      clearable: clearable,
+      addOkBtn: addOkBtn,
+      showLoading: showLoading,
     );
     if (vals != null && vals.isNotEmpty) {
       return vals.first;
@@ -211,6 +255,18 @@ extension DialogX on BuildContext {
     return null;
   }
 
+  /// Show a dialog to pick a value from a list with tags.
+  /// 
+  /// - [title] is the title of the dialog.
+  /// - [itemsBuilder] is the function to build the items with the tag.
+  /// - [tags] is the set of tags.
+  /// - [display] is the function to display the item.
+  /// - [initial] is the initial value(s) of the dialog.
+  /// - [clearable] if true, the user can clear the selected items.
+  /// - [multi] if true, the user can pick multiple items.
+  /// - [actions] is the list of actions.
+  /// - [showLoading] is the state to show the loading.
+  /// - [ascend] is the state to sort the items.
   Future<List<T>?> showPickWithTagDialog<T>({
     String? title,
     required List<T?> Function(String tag) itemsBuilder,
@@ -220,6 +276,8 @@ extension DialogX on BuildContext {
     bool clearable = false,
     bool multi = false,
     List<Widget>? actions,
+    VNode<bool>? showLoading,
+    VNode<bool>? ascend,
   }) async {
     var vals = initial ?? <T>[];
     final tag = ''.vn;
@@ -284,6 +342,11 @@ extension DialogX on BuildContext {
     return null;
   }
 
+  /// Show a dialog of error.
+  /// 
+  /// - [e] is the error.
+  /// - [s] is the stack trace.
+  /// - [operation] is the operation of the error.
   void showErrDialog([
     Object? e,
     StackTrace? s,
@@ -418,6 +481,9 @@ ${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
     }
   }
 
+  /// Show a dialog to migrate the configuration.
+  /// 
+  /// - [tip] is the tip of the migration.
   Future<bool?> showMigrationDialog(String tip) {
     return showRoundDialog<bool>(
       title: l10n.migrateCfg,
