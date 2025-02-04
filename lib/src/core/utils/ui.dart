@@ -53,6 +53,7 @@ abstract final class SystemUIs {
     if (hideTitleBar) await CustomAppBar.updateTitlebarHeight();
 
     final windowOptions = WindowOptions(
+      center: position == null,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
       titleBarStyle: hideTitleBar ? TitleBarStyle.hidden : null,
