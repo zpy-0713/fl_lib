@@ -22,9 +22,7 @@ abstract final class SystemUIs {
     if (isAndroid) {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
       SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(
-            systemNavigationBarColor: Colors.transparent,
-            systemNavigationBarContrastEnforced: true),
+        const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent, systemNavigationBarContrastEnforced: true),
       );
     }
   }
@@ -46,6 +44,7 @@ abstract final class SystemUIs {
   static Future<void> initDesktopWindow({
     required bool hideTitleBar,
     Size? size,
+    Offset? position,
     WindowListener? listener,
   }) async {
     if (!isDesktop) return;
@@ -54,7 +53,6 @@ abstract final class SystemUIs {
     if (hideTitleBar) await CustomAppBar.updateTitlebarHeight();
 
     final windowOptions = WindowOptions(
-      center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
       titleBarStyle: hideTitleBar ? TitleBarStyle.hidden : null,
@@ -62,6 +60,9 @@ abstract final class SystemUIs {
       size: size,
     );
     await windowManager.waitUntilReadyToShow(windowOptions, () async {
+      if (position != null) {
+        await windowManager.setPosition(position);
+      }
       await windowManager.show();
       await windowManager.focus();
       if (listener != null) {
