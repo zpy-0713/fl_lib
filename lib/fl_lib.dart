@@ -31,6 +31,7 @@ export 'src/core/utils/platform/base.dart';
 export 'src/core/utils/platform/auth.dart';
 export 'src/core/utils/platform/arch.dart';
 export 'src/core/utils/platform/path.dart';
+export 'src/core/utils/window_state.dart';
 export 'src/core/utils/ui.dart';
 export 'src/core/utils/font.dart';
 export 'src/core/utils/markdown.dart';
