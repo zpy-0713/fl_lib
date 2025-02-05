@@ -53,11 +53,15 @@ class HiveStore extends Store {
     String key, {
     T? defaultValue,
     bool updateLastModified = true,
+    T? Function(String)? fromStr,
+    String? Function(T?)? toStr,
   }) {
     return HiveProp<T>(
       this,
       key,
       updateLastUpdateTsOnSetProp: updateLastModified,
+      fromStr: fromStr,
+      toStr: toStr,
     );
   }
 
@@ -65,12 +69,16 @@ class HiveStore extends Store {
     String key,
     T defaultValue, {
     bool updateLastModified = StoreDefaults.defaultUpdateLastUpdateTs,
+    T? Function(String)? fromStr,
+    String? Function(T?)? toStr,
   }) {
     return HivePropDefault<T>(
       this,
       key,
       defaultValue,
       updateLastUpdateTsOnSetProp: updateLastModified,
+      fromStr: fromStr,
+      toStr: toStr,
     );
   }
 
