@@ -27,7 +27,6 @@ export 'src/core/ext/theme_data.dart';
 export 'src/core/ext/color.dart';
 export 'src/core/ext/datetime.dart';
 export 'src/core/mixin/after_layout.dart';
-export 'src/core/utils/window_size.dart';
 export 'src/core/utils/platform/base.dart';
 export 'src/core/utils/platform/auth.dart';
 export 'src/core/utils/platform/arch.dart';
