@@ -11,7 +11,7 @@ import 'package:icons_plus/icons_plus.dart';
 
 extension DialogX on BuildContext {
   /// Show a dialog with a title, a child and actions.
-  /// 
+  ///
   /// - [child] is the content of the dialog.
   /// - [actions] is the list of actions.
   /// - [title] is the title of the dialog.
@@ -119,7 +119,7 @@ extension DialogX on BuildContext {
   }
 
   /// Show a dialog to pick a value from a list.
-  /// 
+  ///
   /// - [title] is the title of the dialog.
   /// - [items] is the list of items to pick.
   /// - [display] is the function to display the item.
@@ -211,7 +211,9 @@ extension DialogX on BuildContext {
 
     final sure = await showRoundDialog<bool>(
       titleBuilder: buildTitle,
-      child: showLoading.listenVal(buildBody),
+      child: SingleChildScrollView(
+        child: showLoading.listenVal(buildBody),
+      ),
       actions: btns.isEmpty ? null : btns,
     );
     if (sure == true) return vals;
@@ -219,7 +221,7 @@ extension DialogX on BuildContext {
   }
 
   /// Show a dialog to pick a single value from a list.
-  /// 
+  ///
   /// - [title] is the title of the dialog.
   /// - [items] is the list of items to pick.
   /// - [display] is the function to display the item.
@@ -256,7 +258,7 @@ extension DialogX on BuildContext {
   }
 
   /// Show a dialog to pick a value from a list with tags.
-  /// 
+  ///
   /// - [title] is the title of the dialog.
   /// - [itemsBuilder] is the function to build the items with the tag.
   /// - [tags] is the set of tags.
@@ -343,7 +345,7 @@ extension DialogX on BuildContext {
   }
 
   /// Show a dialog of error.
-  /// 
+  ///
   /// - [e] is the error.
   /// - [s] is the stack trace.
   /// - [operation] is the operation of the error.
@@ -482,7 +484,7 @@ ${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
   }
 
   /// Show a dialog to migrate the configuration.
-  /// 
+  ///
   /// - [tip] is the tip of the migration.
   Future<bool?> showMigrationDialog(String tip) {
     return showRoundDialog<bool>(
