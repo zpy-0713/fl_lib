@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'lib_l10n.dart';
 
 // ignore_for_file: type=lint
@@ -276,7 +278,7 @@ class LibLocalizationsZh extends LibLocalizations {
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
 class LibLocalizationsZhTw extends LibLocalizationsZh {
-  LibLocalizationsZhTw(): super('zh_TW');
+  LibLocalizationsZhTw() : super('zh_TW');
 
   @override
   String get about => '關於';

@@ -1,6 +1,5 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/src/core/ext/offset.dart';
-import 'package:fl_lib/src/core/utils/debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:window_manager/window_manager.dart';
@@ -27,21 +26,21 @@ final class WindowStateListener extends WindowListener {
 
   WindowStateListener(this.windowSize);
 
-  final _debouncer = Debouncer(const Duration(milliseconds: 500));
-
-  void _updateState() {
-    _debouncer.run(() async {
-      final state = WindowState(
-        await windowManager.getSize(),
-        await windowManager.getPosition(),
-      );
-      windowSize.set(state);
-    });
+  void _updateState() async {
+    final state = WindowState(
+      await windowManager.getSize(),
+      await windowManager.getPosition(),
+    );
+    windowSize.set(state);
   }
 
   @override
   void onWindowMove() {
-    _updateState();
+    Fns.throttle(
+      _updateState,
+      id: 'WindowStateListener._updateState',
+      duration: 500,
+    );
   }
 
   @override

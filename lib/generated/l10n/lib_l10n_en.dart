@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'lib_l10n.dart';
 
 // ignore_for_file: type=lint
@@ -16,7 +18,8 @@ class LibLocalizationsEn extends LibLocalizations {
   String get all => 'All';
 
   @override
-  String get anonLoseDataTip => 'Currently logged in anonymously, continuing operations will result in data loss.';
+  String get anonLoseDataTip =>
+      'Currently logged in anonymously, continuing operations will result in data loss.';
 
   @override
   String get app => 'Application';
@@ -205,7 +208,8 @@ class LibLocalizationsEn extends LibLocalizations {
   String get pwd => 'Password';
 
   @override
-  String get pwdTip => 'Length 6-32, can be English letters, numbers, and punctuation';
+  String get pwdTip =>
+      'Length 6-32, can be English letters, numbers, and punctuation';
 
   @override
   String get register => 'Sign up';

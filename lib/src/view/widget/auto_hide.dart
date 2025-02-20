@@ -15,7 +15,8 @@ final class AutoHide extends StatefulWidget {
     required this.direction,
     this.hideController,
     this.offset = 55,
-  });
+  })  : assert(offset >= 0, 'Offset must be greater than or equal to 0'),
+        assert(key is! GlobalKey, 'GlobalKey is not recommended, use hideController instead');
 
   @override
   State<AutoHide> createState() => AutoHideState();
@@ -66,8 +67,7 @@ final class AutoHideState extends State<AutoHide> {
       if (!_controller.visible) return;
 
       // Check if scrolling is possible
-      final canScroll = widget.scrollController.hasClients && 
-          widget.scrollController.position.maxScrollExtent > 0;
+      final canScroll = widget.scrollController.hasClients && widget.scrollController.position.maxScrollExtent > 0;
       if (!canScroll) return;
 
       // Hide the widget

@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'lib_l10n.dart';
 
 // ignore_for_file: type=lint
@@ -16,7 +18,8 @@ class LibLocalizationsUk extends LibLocalizations {
   String get all => 'Все';
 
   @override
-  String get anonLoseDataTip => 'Наразі ви увійшли в систему анонімно, продовження роботи призведе до втрати даних.';
+  String get anonLoseDataTip =>
+      'Наразі ви увійшли в систему анонімно, продовження роботи призведе до втрати даних.';
 
   @override
   String get app => 'Застосунок';
@@ -205,7 +208,8 @@ class LibLocalizationsUk extends LibLocalizations {
   String get pwd => 'Пароль';
 
   @override
-  String get pwdTip => 'Довжина 6-32, може містити англійські літери, цифри та розділові знаки';
+  String get pwdTip =>
+      'Довжина 6-32, може містити англійські літери, цифри та розділові знаки';
 
   @override
   String get register => 'Зареєструватися';

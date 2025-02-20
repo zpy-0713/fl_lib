@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'lib_l10n.dart';
 
 // ignore_for_file: type=lint
@@ -16,7 +18,8 @@ class LibLocalizationsTr extends LibLocalizations {
   String get all => 'tümü';
 
   @override
-  String get anonLoseDataTip => 'Şu anda anonim olarak giriş yapılmış, işlemlere devam edilmesi veri kaybına neden olacaktır.';
+  String get anonLoseDataTip =>
+      'Şu anda anonim olarak giriş yapılmış, işlemlere devam edilmesi veri kaybına neden olacaktır.';
 
   @override
   String get app => 'Uygulama';
@@ -205,7 +208,8 @@ class LibLocalizationsTr extends LibLocalizations {
   String get pwd => 'şifre';
 
   @override
-  String get pwdTip => 'Uzunluk 6-32, İngilizce harfler, rakamlar ve noktalama işaretleri olabilir';
+  String get pwdTip =>
+      'Uzunluk 6-32, İngilizce harfler, rakamlar ve noktalama işaretleri olabilir';
 
   @override
   String get register => 'Kaydol';
