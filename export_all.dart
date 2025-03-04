@@ -5,7 +5,7 @@ import 'dart:io';
 
 void main() async {
   final exportAll = StringBuffer();
-  exportAll.writeln('library fl_lib;\n');
+  exportAll.writeln('library;\n');
 
   await for (final entity in Directory('lib/src').list(recursive: true)) {
     if (entity is File && entity.path.endsWith('.dart')) {

@@ -43,6 +43,8 @@ dependencies:
   shared_preferences: ^2.2.3
   url_launcher: ^6.2.6
   window_manager: ^0.4.0
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
   webdav_client:
     git:
       ref: v1.0.66
@@ -62,6 +64,8 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   build_runner: ^2.3.2
   json_serializable: ^6.8.0
+  riverpod_generator: ^2.6.1
+  riverpod_lint: ^2.6.1
 
 flutter:
   # assets:
