@@ -57,6 +57,7 @@ class _ColorPickerState extends State<ColorPicker> {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
+        UIs.height13,
         Input(
           onSubmitted: onTextChanged,
           onChanged: onTextChanged,
