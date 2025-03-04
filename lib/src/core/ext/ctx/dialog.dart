@@ -149,48 +149,41 @@ extension DialogX on BuildContext {
     }
 
     final itemsList = items.toList();
-    final isAscending = ascend ?? true.vn;
+    final isAscending = ascend ?? nvn<bool>();
     showLoading ??= false.vn;
 
     Widget buildChoice() {
-      return Choice<T>(
+      return ChoiceWidget<T>(
         onChanged: (value) {
           vals = value;
           if (!multi) pop(true);
         },
-        multiple: multi,
+        multi: multi,
         clearable: clearable,
-        value: vals,
-        builder: (state, _) => Wrap(
-          children: List<Widget>.generate(
-            itemsList.length,
-            (index) {
-              final item = itemsList[index];
-              if (item == null) return UIs.placeholder;
-              return ChoiceChipX<T>(
-                label: display?.call(item) ?? item.toString(),
-                state: state,
-                value: item,
-              );
-            },
-          ),
-        ),
+        items: itemsList,
+        selected: vals,
+        display: display,
       );
     }
 
     Widget buildTitle(BuildContext context) {
-      Widget buildSortIcon(bool asc) {
+      Widget buildSortIcon(bool? asc) {
         return AnimatedSwitcher(
           duration: Durations.medium1,
           child: IconButton(
             key: ValueKey(asc),
-            icon: Icon(asc ? Icons.arrow_upward : Icons.arrow_downward),
+            icon: Icon(switch (asc) {
+              true => Icons.arrow_upward,
+              false => Icons.arrow_downward,
+              null => Icons.sort,
+            }),
             onPressed: () {
-              isAscending.value = !asc;
+              final asc_ = asc ?? true;
+              isAscending.value = !asc_;
               itemsList.sort((a, b) {
                 final aStr = display?.call(a) ?? a.toString();
                 final bStr = display?.call(b) ?? b.toString();
-                return asc ? aStr.compareTo(bStr) : bStr.compareTo(aStr);
+                return asc_ ? aStr.compareTo(bStr) : bStr.compareTo(aStr);
               });
             },
           ),

@@ -2,6 +2,49 @@ import 'package:choice/choice.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
+final class ChoiceWidget<T> extends StatelessWidget {
+  const ChoiceWidget({
+    super.key,
+    this.clearable = false,
+    this.multi = false,
+    this.display,
+    required this.items,
+    required this.selected,
+    required this.onChanged,
+  });
+
+  final bool multi;
+  final bool clearable;
+  final String? Function(T)? display;
+  final List<T> items;
+  final List<T> selected;
+  final void Function(List<T>) onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Choice<T>(
+        onChanged: onChanged,
+        multiple: multi,
+        clearable: clearable,
+        value: selected,
+        builder: (state, _) => Wrap(
+          children: List<Widget>.generate(
+            items.length,
+            (index) {
+              final item = items.elementAtOrNull(index);
+              if (item == null) return UIs.placeholder;
+              return ChoiceChipX<T>(
+                label: display?.call(item) ?? item.toString(),
+                state: state,
+                value: item,
+              );
+            },
+          ),
+        ),
+      );
+  }
+}
+
 class ChoiceChipX<T> extends StatelessWidget {
   const ChoiceChipX({
     super.key,
@@ -42,7 +85,7 @@ class ChoiceChipX<T> extends StatelessWidget {
         showCheckmark: showCheckmark,
         padding: padding,
         labelPadding: labelPadding,
-        color: color ?? ChoiceChipColor(context),
+        color: color,// ?? ChoiceChipColor(context),
         selected: state.selected(value),
         elevation: 0,
         pressElevation: 0,
