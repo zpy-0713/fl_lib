@@ -6,6 +6,7 @@ export 'src/core/init.dart';
 export 'src/core/update.dart';
 export 'src/core/build.dart';
 export 'src/core/route/route.dart';
+export 'src/core/http_override.dart';
 export 'src/core/dio.dart';
 export 'src/core/ext/uint8list.dart';
 export 'src/core/ext/duration.dart';
