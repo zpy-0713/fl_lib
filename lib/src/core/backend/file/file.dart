@@ -1,4 +1,4 @@
-part of 'api.dart';
+part of '../api.dart';
 
 /// File API
 abstract final class FileApi {
