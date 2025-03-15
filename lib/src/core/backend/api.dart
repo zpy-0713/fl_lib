@@ -7,7 +7,7 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 part 'user.dart';
-part 'file/file.dart';
+part 'file.dart';
 part 'sse.dart';
 
 /// API URLs

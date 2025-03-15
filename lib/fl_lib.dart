@@ -42,6 +42,7 @@ export 'src/core/utils/encrypt.dart';
 export 'src/core/utils/func.dart';
 export 'src/core/utils/keyboard.dart';
 export 'src/core/utils/locale.dart';
+export 'src/core/backend/file/cached.dart';
 export 'src/core/backend/api.dart';
 export 'src/core/logger.dart';
 export 'src/core/sync/base.dart';
