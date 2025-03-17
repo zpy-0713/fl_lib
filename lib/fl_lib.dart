@@ -15,6 +15,7 @@ export 'src/core/ext/image.dart';
 export 'src/core/ext/order.dart';
 export 'src/core/ext/string.dart';
 export 'src/core/ext/offset.dart';
+export 'src/core/ext/file.dart';
 export 'src/core/ext/enum.dart';
 export 'src/core/ext/iter.dart';
 export 'src/core/ext/num.dart';
