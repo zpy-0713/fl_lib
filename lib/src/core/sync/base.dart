@@ -4,7 +4,7 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:icloud_storage/icloud_storage.dart';
-import 'package:webdav_client/webdav_client.dart';
+import 'package:webdav_client_plus/webdav_client_plus.dart';
 
 part 'webdav.dart';
 part 'icloud.dart';

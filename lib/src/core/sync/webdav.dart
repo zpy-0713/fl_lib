@@ -23,7 +23,7 @@ final class Webdav implements RemoteStorage<String> {
   WebdavClient? client;
 
   static final shared = Webdav(
-    client: WebdavClient(
+    client: WebdavClient.basicAuth(
       url: PrefProps.webdavUrl.get() ?? '',
       user: PrefProps.webdavUser.get() ?? '',
       pwd: PrefProps.webdavPwd.get() ?? '',
@@ -31,7 +31,7 @@ final class Webdav implements RemoteStorage<String> {
   );
 
   static Future<void> test(String url, String user, String pwd) async {
-    await WebdavClient(url: url, user: user, pwd: pwd).ping();
+    await WebdavClient.basicAuth(url: url, user: user, pwd: pwd).ping();
   }
 
   /// {@macro webdav_client}
@@ -71,7 +71,7 @@ final class Webdav implements RemoteStorage<String> {
     final names = <String>[];
     for (final item in list) {
       final name = item.name;
-      if ((item.isDir ?? true) || name == null) continue;
+      if (item.isDir || name.isEmpty) continue;
       names.add(name);
     }
     return names;
