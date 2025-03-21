@@ -47,14 +47,16 @@ dependencies:
   riverpod_annotation: ^2.6.1
   webdav_client_plus:
     git:
-      url: https://github.com/lollipopkit/webdav_client
-      ref: v1.0.84
+      url: git@github.com:lollipopkit/webdav_client
+      ref: v1.0.86
   computer:
     git:
-      url: https://github.com/lollipopkit/dart_computer
+      url: git@github.com:lollipopkit/dart_computer
       ref: v1.0.88
 
 # dependency_overrides:
+#   webdav_client_plus:
+#     path: ../webdav_client
   # flutter_markdown_latex:
   #   path: ../flutter_markdown_latex
 
