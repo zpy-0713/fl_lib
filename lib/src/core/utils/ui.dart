@@ -50,7 +50,6 @@ abstract final class SystemUIs {
     if (!isDesktop) return;
 
     await windowManager.ensureInitialized();
-    if (hideTitleBar) await CustomAppBar.updateTitlebarHeight();
 
     final windowOptions = WindowOptions(
       center: position == null,
