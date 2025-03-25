@@ -584,6 +584,12 @@ abstract class LibLocalizations {
   /// **'Theme mode'**
   String get themeMode;
 
+  /// No description provided for @unsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Not supported'**
+  String get unsupported;
+
   /// No description provided for @update.
   ///
   /// In en, this message translates to:

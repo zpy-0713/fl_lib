@@ -249,6 +249,9 @@ class LibLocalizationsDe extends LibLocalizations {
   String get themeMode => 'Themen-Modus';
 
   @override
+  String get unsupported => 'Nicht unterstützt';
+
+  @override
   String get update => 'Aktualisieren';
 
   @override

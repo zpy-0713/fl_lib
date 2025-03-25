@@ -249,6 +249,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get themeMode => '主题模式';
 
   @override
+  String get unsupported => '不支持';
+
+  @override
   String get update => '更新';
 
   @override
@@ -519,6 +522,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get themeMode => '主題模式';
+
+  @override
+  String get unsupported => '不支援';
 
   @override
   String get update => '更新';

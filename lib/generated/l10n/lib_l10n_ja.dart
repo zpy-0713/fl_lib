@@ -249,6 +249,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get themeMode => 'テーマモード';
 
   @override
+  String get unsupported => 'サポートされていません';
+
+  @override
   String get update => '更新';
 
   @override

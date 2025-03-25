@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class Hover extends StatefulWidget {
   final Widget Function(bool hover) builder;
+  final bool opaque;
 
-  const Hover({super.key, required this.builder});
+  const Hover({super.key, required this.builder, this.opaque = false});
 
   @override
   State<Hover> createState() => _HoverState();
@@ -19,6 +20,7 @@ class _HoverState extends State<Hover> {
     return MouseRegion(
       onEnter: (_) => _hover.value = true,
       onExit: (_) => _hover.value = false,
+      opaque: widget.opaque,
       child: _hover.listenVal(widget.builder),
     );
   }

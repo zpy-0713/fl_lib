@@ -249,6 +249,9 @@ class LibLocalizationsNl extends LibLocalizations {
   String get themeMode => 'Themamodus';
 
   @override
+  String get unsupported => 'Niet ondersteund';
+
+  @override
   String get update => 'Bijwerken';
 
   @override

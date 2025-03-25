@@ -63,6 +63,7 @@ export 'src/view/page/scan.dart';
 export 'src/view/page/image.dart';
 export 'src/view/page/user.dart';
 export 'src/view/page/intro.dart';
+export 'src/view/page/file.dart';
 export 'src/view/page/debug.dart';
 export 'src/view/page/bio_auth.dart';
 export 'src/view/page/search.dart';
