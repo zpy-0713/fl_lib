@@ -48,7 +48,7 @@ dependencies:
   webdav_client_plus:
     git:
       url: https://github.com/lollipopkit/webdav_client
-      ref: v1.0.86
+      ref: v1.0.87
   computer:
     git:
       url: https://github.com/lollipopkit/dart_computer
