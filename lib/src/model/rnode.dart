@@ -99,3 +99,12 @@ final class EmptyListenable<T> implements ValueListenable<T?> {
 
   const EmptyListenable();
 }
+
+/// [RNode]s for common use.
+abstract final class RNodes {
+  /// Root node for all [RNode]s.
+  static final app = RNode();
+
+  /// Listen on [Brightness] changes.
+  static final dark = false.vn;
+}
