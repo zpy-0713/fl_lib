@@ -1,3 +1,4 @@
+import 'package:fl_lib/generated/l10n/lib_l10n.dart';
 import 'package:flutter/material.dart';
 
 extension ContextX on BuildContext {
@@ -39,4 +40,9 @@ extension ContextX on BuildContext {
 
   /// Whether the text direction is right-to-left
   bool get isRTL => Directionality.of(this) == TextDirection.rtl;
+
+  /// L10n of this lib.
+  /// 
+  /// WARN: Hard decode nullable.
+  LibLocalizations get libL10n => LibLocalizations.of(this)!;
 }
