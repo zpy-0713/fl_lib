@@ -124,14 +124,26 @@ final class PrefStore extends Store {
 
   /// Get all keys.
   @override
-  Future<Set<String>> keys({bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys}) =>
-      Future.value(_instance!.getKeys());
+  Set<String> keys({
+    bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
+  }) {
+    final set_ = <String>{};
+    try {
+      for (final key in _instance!.getKeys()) {
+        if (!includeInternalKeys && isInternalKey(key)) continue;
+        set_.add(key);
+      }
+    } catch (e) {
+      dprintWarn('keys()', 'error: $e');
+    }
+    return set_;
+  }
 
   /// Remove the key.
   @override
   Future<bool> remove(String key, {bool? updateLastUpdateTsOnRemove}) {
-    updateLastUpdateTsOnRemove ??= this.updateLastUpdateTsOnRemove;
     final ret = _instance!.remove(key);
+    updateLastUpdateTsOnRemove ??= this.updateLastUpdateTsOnRemove;
     if (updateLastUpdateTsOnRemove) updateLastUpdateTs();
     return ret;
   }
@@ -208,36 +220,10 @@ final class PrefPropListenable<T extends Object> extends ValueListenable<T?> {
   final PrefStore store;
   final String key;
 
-  const PrefPropListenable(this.store, this.key);
-
-  @override
-  void addListener(VoidCallback listener) {
-    store.listeners.add((k) {
-      if (k == key) listener();
-    });
-  }
-
-  @override
-  void removeListener(VoidCallback listener) {
-    store.listeners.removeWhere((element) {
-      return element == listener;
-    });
-  }
-
-  @override
-  T? get value => store.get<T>(key);
-}
-
-/// The [ValueListenable] of the key with default value.
-final class PrefPropDefaultListenable<T extends Object> extends ValueListenable<T> {
-  final PrefStore store;
-  final String key;
-  final T defaultValue;
-
   /// The internal map of prop key listeners.
-  final _map = <int, PrefStoreKeyListener>{};
+  static final _map = <int, PrefStoreKeyListener>{};
 
-  PrefPropDefaultListenable(this.store, this.key, this.defaultValue);
+  const PrefPropListenable(this.store, this.key);
 
   @override
   void addListener(VoidCallback listener) {
@@ -254,10 +240,43 @@ final class PrefPropDefaultListenable<T extends Object> extends ValueListenable<
 
   @override
   void removeListener(VoidCallback listener) {
-    store.listeners.removeWhere((element) {
-      // Find the actual listener by [hashCode]
-      return element == _map.remove(listener.hashCode);
+    final actualListener = _map.remove(listener.hashCode);
+    if (actualListener != null) {
+      store.listeners.remove(actualListener);
+    }
+  }
+
+  @override
+  T? get value => store.get<T>(key);
+}
+
+/// The [ValueListenable] of the key with default value.
+final class PrefPropDefaultListenable<T extends Object> extends ValueListenable<T> {
+  final PrefStore store;
+  final String key;
+  final T defaultValue;
+
+  PrefPropDefaultListenable(this.store, this.key, this.defaultValue);
+
+  @override
+  void addListener(VoidCallback listener) {
+    final lis = PrefPropListenable._map.putIfAbsent(listener.hashCode, () {
+      // The actual listener
+      void lis(String k) {
+        if (k == key) listener();
+      }
+
+      return lis;
     });
+    store.listeners.add(lis);
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    final actualListener = PrefPropListenable._map.remove(listener.hashCode);
+    if (actualListener != null) {
+      store.listeners.remove(actualListener);
+    }
   }
 
   @override

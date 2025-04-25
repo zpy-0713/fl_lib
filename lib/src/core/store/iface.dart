@@ -116,10 +116,7 @@ sealed class Store {
   Stream<(String, Object?)> getAll({
     bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
   }) async* {
-    for (final key in await keys()) {
-      if (!includeInternalKeys && isInternalKey(key)) {
-        continue;
-      }
+    for (final key in await keys(includeInternalKeys: includeInternalKeys)) {
       yield (key, get(key));
     }
   }
@@ -132,10 +129,7 @@ sealed class Store {
   FutureOr<Map<String, Object?>> getAllMap({
     bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
   }) async {
-    final keys = await this.keys();
-    if (!includeInternalKeys) {
-      keys.removeWhere(isInternalKey);
-    }
+    final keys = await this.keys(includeInternalKeys: includeInternalKeys);
     final map = Map.fromIterables(keys, keys.map((key) => get(key)));
     return map;
   }
@@ -149,10 +143,7 @@ sealed class Store {
     bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
     StoreFromStr<T>? fromStr,
   }) async {
-    final keys = await this.keys();
-    if (!includeInternalKeys) {
-      keys.removeWhere(isInternalKey);
-    }
+    final keys = await this.keys(includeInternalKeys: includeInternalKeys);
     final map = <String, T>{};
     for (final key in keys) {
       final val = get(key);

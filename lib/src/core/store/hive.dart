@@ -122,6 +122,7 @@ class HiveStore extends Store {
     final set_ = <String>{};
     for (final key in box.keys) {
       if (key is String) {
+        if (!includeInternalKeys && isInternalKey(key)) continue;
         set_.add(key);
       }
     }
@@ -142,6 +143,42 @@ class HiveStore extends Store {
     updateLastUpdateTsOnClear ??= this.updateLastUpdateTsOnClear;
     if (updateLastUpdateTsOnClear) updateLastUpdateTs();
     return true;
+  }
+
+  @override
+  Map<String, Object?> getAllMap({
+    bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
+  }) {
+    final keys = this.keys(includeInternalKeys: includeInternalKeys);
+    return Map.fromIterables(keys, keys.map((key) => get(key)));
+  }
+
+  @override
+  Map<String, T> getAllMapTyped<T extends Object>({
+    bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
+    StoreFromStr<T>? fromStr,
+  }) {
+    final keys = this.keys(includeInternalKeys: includeInternalKeys);
+    final map = <String, T>{};
+    for (final key in keys) {
+      final val = get(key);
+      if (val is T) {
+        map[key] = val;
+        continue;
+      }
+      if (val is String) {
+        try {
+          final converted = fromStr?.call(val);
+          if (converted is T) {
+            map[key] = converted;
+            continue;
+          }
+        } catch (e) {
+          dprintWarn('getAllMapTyped()', 'convert `$key`: $e');
+        }
+      }
+    }
+    return map;
   }
 }
 
@@ -169,8 +206,8 @@ class HiveProp<T extends Object> extends StoreProp<T> {
   void delete() => super.remove();
 
   @override
-  ValueListenable<T> listenable() {
-    return HivePropListenable<T>(store.box, key, null);
+  ValueListenable<T?> listenable() {
+    return HivePropListenable<T>(this, key);
   }
 }
 
@@ -189,7 +226,7 @@ final class HivePropDefault<T extends Object> extends StorePropDefault<T> implem
 
   @override
   ValueListenable<T> listenable() {
-    return HivePropListenable<T>(store.box, key, defaultValue);
+    return HivePropDefaultListenable<T>(this, key, defaultValue);
   }
 
   @override
@@ -202,19 +239,18 @@ final class HivePropDefault<T extends Object> extends StorePropDefault<T> implem
   void delete() => super.remove();
 }
 
-class HivePropListenable<T> extends ValueListenable<T> {
-  HivePropListenable(this.box, this.key, this.defaultValue);
+class HivePropListenable<T extends Object> extends ValueListenable<T?> {
+  HivePropListenable(this.prop, this.key);
 
-  final Box box;
+  final HiveProp<T> prop;
   final String key;
-  T? defaultValue;
 
   final List<VoidCallback> _listeners = [];
   StreamSubscription? _subscription;
 
   @override
   void addListener(VoidCallback listener) {
-    _subscription ??= box.watch().listen((event) {
+    _subscription ??= prop.store.box.watch().listen((event) {
       if (key == event.key) {
         for (var listener in _listeners) {
           listener();
@@ -236,11 +272,42 @@ class HivePropListenable<T> extends ValueListenable<T> {
   }
 
   @override
-  T get value {
-    final val = box.get(key, defaultValue: defaultValue);
-    if (val == null || val is! T) {
-      return defaultValue!;
-    }
-    return val;
+  T? get value => prop.get();
+}
+
+class HivePropDefaultListenable<T extends Object> extends ValueListenable<T> {
+  HivePropDefaultListenable(this.prop, this.key, this.defaultValue);
+
+  final HivePropDefault<T> prop;
+  final String key;
+  T defaultValue;
+
+  final List<VoidCallback> _listeners = [];
+  StreamSubscription? _subscription;
+
+  @override
+  void addListener(VoidCallback listener) {
+    _subscription ??= prop.store.box.watch().listen((event) {
+      if (key == event.key) {
+        for (var listener in _listeners) {
+          listener();
+        }
+      }
+    });
+
+    _listeners.add(listener);
   }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    _listeners.remove(listener);
+
+    if (_listeners.isEmpty) {
+      _subscription?.cancel();
+      _subscription = null;
+    }
+  }
+
+  @override
+  T get value => prop.get();
 }
