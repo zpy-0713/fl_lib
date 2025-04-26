@@ -8,6 +8,7 @@ class PopupMenu<T> extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final T? initialValue;
   final String? tooltip;
+  final BorderRadius? borderRadius;
 
   const PopupMenu({
     super.key,
@@ -17,6 +18,7 @@ class PopupMenu<T> extends StatelessWidget {
     this.padding = const EdgeInsets.all(7),
     this.initialValue,
     this.tooltip,
+    this.borderRadius,
   });
 
   @override
@@ -28,6 +30,7 @@ class PopupMenu<T> extends StatelessWidget {
       padding: padding,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       tooltip: tooltip,
+      borderRadius: borderRadius,
       child: child,
     );
   }
