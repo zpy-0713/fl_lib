@@ -249,6 +249,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get themeMode => 'Mode tema';
 
   @override
+  String get thinking => 'Sedang berpikir';
+
+  @override
   String get unsupported => 'Tidak didukung';
 
   @override

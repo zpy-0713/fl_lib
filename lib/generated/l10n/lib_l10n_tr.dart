@@ -249,6 +249,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get themeMode => 'Tema modu';
 
   @override
+  String get thinking => 'Düşünüyor';
+
+  @override
   String get unsupported => 'Desteklenmiyor';
 
   @override

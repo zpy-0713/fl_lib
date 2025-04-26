@@ -584,6 +584,12 @@ abstract class LibLocalizations {
   /// **'Theme mode'**
   String get themeMode;
 
+  /// No description provided for @thinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Thinking'**
+  String get thinking;
+
   /// No description provided for @unsupported.
   ///
   /// In en, this message translates to:

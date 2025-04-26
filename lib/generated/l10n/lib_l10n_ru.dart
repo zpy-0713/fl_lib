@@ -249,6 +249,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get themeMode => 'режим темы';
 
   @override
+  String get thinking => 'Думаю';
+
+  @override
   String get unsupported => 'Не поддерживается';
 
   @override
