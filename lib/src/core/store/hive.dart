@@ -5,7 +5,7 @@ part of 'iface.dart';
 /// It implements [Store].
 class HiveStore extends Store {
   /// The internal hive box for this [Store].
-  late final Box box;
+  late final Box<dynamic> box;
 
   /// The name of the box. Used for the hive box.
   final String boxName;
@@ -246,7 +246,7 @@ class HivePropListenable<T extends Object> extends ValueListenable<T?> {
   final String key;
 
   final List<VoidCallback> _listeners = [];
-  StreamSubscription? _subscription;
+  StreamSubscription<BoxEvent>? _subscription;
 
   @override
   void addListener(VoidCallback listener) {
@@ -283,7 +283,7 @@ class HivePropDefaultListenable<T extends Object> extends ValueListenable<T> {
   T defaultValue;
 
   final List<VoidCallback> _listeners = [];
-  StreamSubscription? _subscription;
+  StreamSubscription<BoxEvent>? _subscription;
 
   @override
   void addListener(VoidCallback listener) {

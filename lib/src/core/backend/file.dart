@@ -42,7 +42,7 @@ abstract final class FileApi {
         responseType: ResponseType.json,
       ),
     );
-    final rPaths = _getRespData<List>(resp.data)?.cast<String>();
+    final rPaths = _getRespData<List<dynamic>>(resp.data)?.cast<String>();
     if (rPaths == null) throw 'Invalid resp: ${resp.data}';
     final urls = rPaths.map((rPath) => nameToUrl(rPath)).toList();
     return urls;
@@ -92,7 +92,7 @@ abstract final class FileApi {
       data: body,
       options: Options(headers: UserApi.authHeaders),
     );
-    final data = _getRespData<List>(resp.data)?.cast<String>();
+    final data = _getRespData<List<dynamic>>(resp.data)?.cast<String>();
     if (data == null) throw 'Invalid resp: ${resp.data}';
     final diffs = names.toSet().difference(data.toSet());
     if (diffs.isNotEmpty) {

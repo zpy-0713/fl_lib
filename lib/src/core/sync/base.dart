@@ -11,7 +11,7 @@ part 'icloud.dart';
 part 'iface.dart';
 
 /// Impl this interface to provide a backup service.
-abstract class SyncIface<T extends Mergeable> {
+abstract class SyncIface<T extends Mergeable, I> {
   const SyncIface();
 
   /// Init
@@ -24,10 +24,10 @@ abstract class SyncIface<T extends Mergeable> {
   FutureOr<void> saveToFile();
 
   /// {@macro remote_storage}
-  FutureOr<RemoteStorage?> get remoteStorage;
+  FutureOr<RemoteStorage<I>?> get remoteStorage;
 
   /// Backup data to remote storage.
-  FutureOr<void> backup([RemoteStorage? rs]) async {
+  FutureOr<void> backup([RemoteStorage<I>? rs]) async {
     rs ??= await remoteStorage;
     if (rs == null) return;
 
@@ -38,7 +38,7 @@ abstract class SyncIface<T extends Mergeable> {
   /// Sync data with remote storage.
   FutureOr<void> sync({
     int throttleMilli = 5000,
-    RemoteStorage? rs,
+    RemoteStorage<I>? rs,
     int milliDelay = 0,
   }) async {
     if (milliDelay > 0) {
@@ -52,7 +52,7 @@ abstract class SyncIface<T extends Mergeable> {
     );
   }
 
-  FutureOr<void> _sync([RemoteStorage? rs]) async {
+  FutureOr<void> _sync([RemoteStorage<I>? rs]) async {
     rs ??= await remoteStorage;
     if (rs == null) return;
 

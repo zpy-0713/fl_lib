@@ -79,7 +79,7 @@ abstract final class UserApi {
         responseType: ResponseType.json,
       ),
     );
-    final data = _getRespData<Map>(resp.data);
+    final data = _getRespData<Map<dynamic, dynamic>>(resp.data);
     if (data == null) throw 'Invalid resp: ${resp.data}';
     user.value = User.fromJson(data.cast());
     dprint(user.value);
