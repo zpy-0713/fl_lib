@@ -39,7 +39,7 @@ final class FileViewPage extends StatefulWidget {
   @override
   _FileViewPageState createState() => _FileViewPageState();
 
-  static final route = AppRouteArg<void, FileViewPageArgs>(
+  static const route = AppRouteArg<void, FileViewPageArgs>(
     page: FileViewPage.new,
     path: '/file_view',
   );

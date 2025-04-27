@@ -18,7 +18,7 @@ extension ColorX on Color {
   int get blue255 => (b * 255).round();
 
   /// Get the value of the color.
-  /// 
+  ///
   /// 0xffffffff => 4294967295
   int get value255 {
     final a = alpha255 << 24;

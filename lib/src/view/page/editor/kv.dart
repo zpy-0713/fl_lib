@@ -96,8 +96,7 @@ class _KvEditorState extends State<KvEditor> {
   ) {
     final title = SizedBox(width: _media.size.width * 0.5, child: Text(k));
 
-    final subtitle = SizedBox(
-        width: _media.size.width * 0.5, child: Text(v, style: UIs.textGrey));
+    final subtitle = SizedBox(width: _media.size.width * 0.5, child: Text(v, style: UIs.textGrey));
 
     final tile = ListTile(
       title: title,
@@ -155,7 +154,7 @@ class _KvEditorState extends State<KvEditor> {
       }
       _map.remove(k);
       _map[newK] = newV;
-      context.pop(true);
+      contextSafe?.pop(true);
     }
 
     final result = await context.showRoundDialog<bool>(
@@ -247,8 +246,7 @@ class _KvEditorState extends State<KvEditor> {
 
     if (result == true) {
       await Future.delayed(Durations.short3);
-      _listKey.currentState
-          ?.insertItem(_map.length - 1, duration: Durations.medium1);
+      _listKey.currentState?.insertItem(_map.length - 1, duration: Durations.medium1);
     }
   }
 

@@ -23,25 +23,25 @@ final class ChoiceWidget<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Choice<T>(
-        onChanged: onChanged,
-        multiple: multi,
-        clearable: clearable,
-        value: selected,
-        builder: (state, _) => Wrap(
-          children: List<Widget>.generate(
-            items.length,
-            (index) {
-              final item = items.elementAtOrNull(index);
-              if (item == null) return UIs.placeholder;
-              return ChoiceChipX<T>(
-                label: display?.call(item) ?? item.toString(),
-                state: state,
-                value: item,
-              );
-            },
-          ),
+      onChanged: onChanged,
+      multiple: multi,
+      clearable: clearable,
+      value: selected,
+      builder: (state, _) => Wrap(
+        children: List<Widget>.generate(
+          items.length,
+          (index) {
+            final item = items.elementAtOrNull(index);
+            if (item == null) return UIs.placeholder;
+            return ChoiceChipX<T>(
+              label: display?.call(item) ?? item.toString(),
+              state: state,
+              value: item,
+            );
+          },
         ),
-      );
+      ),
+    );
   }
 }
 
@@ -85,7 +85,7 @@ class ChoiceChipX<T> extends StatelessWidget {
         showCheckmark: showCheckmark,
         padding: padding,
         labelPadding: labelPadding,
-        color: color,// ?? ChoiceChipColor(context),
+        color: color, // ?? ChoiceChipColor(context),
         selected: state.selected(value),
         elevation: 0,
         pressElevation: 0,

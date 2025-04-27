@@ -6,7 +6,7 @@ import 'package:icons_plus/icons_plus.dart';
 enum SwitchDirection { previous, next }
 
 /// A widget that detects scroll gestures and shows a visual indicator for page switching
-/// 
+///
 /// This widget wraps a scrollable child and provides visual feedback when the user
 /// reaches the scroll boundaries, indicating they can switch to the previous or next page.
 class SwitchIndicator extends StatefulWidget {
@@ -26,16 +26,16 @@ class SwitchIndicator extends StatefulWidget {
 class _SwitchState extends State<SwitchIndicator> with TickerProviderStateMixin {
   /// Icon size for the switch indicator
   static const _kIconSize = 23.0;
-  
+
   /// Padding around the switch indicator
   static const _kPadding = 11.0;
-  
+
   /// Threshold for triggering overscroll-based page switches
   static const _kOverscrollThreshold = 0.2;
-  
+
   late final AnimationController _showIndicatorCtrl;
   late final Animation<double> _showIndicatorAnim;
-  
+
   SwitchDirection? _scrollDirection;
   Timer? _doSwitchTimer;
 
@@ -83,15 +83,15 @@ class _SwitchState extends State<SwitchIndicator> with TickerProviderStateMixin 
   }
 
   Widget _buildIndicator() {
-    final icon = _scrollDirection == null ? null : Icon(
-      _scrollDirection == SwitchDirection.previous 
-          ? MingCute.up_line 
-          : MingCute.down_line,
-      size: _kIconSize,
-    );
-    
+    final icon = _scrollDirection == null
+        ? null
+        : Icon(
+            _scrollDirection == SwitchDirection.previous ? MingCute.up_line : MingCute.down_line,
+            size: _kIconSize,
+          );
+
     if (icon == null) return UIs.placeholder;
-    
+
     return ClipOval(
       child: ColoredBox(
         color: UIs.colorSeed,
@@ -101,7 +101,7 @@ class _SwitchState extends State<SwitchIndicator> with TickerProviderStateMixin 
   }
 
   /// Handles all scroll-related notifications
-  /// 
+  ///
   /// Routes different types of scroll notifications to their respective handlers
   bool _handleNotification(ScrollNotification noti) {
     return switch (noti) {
@@ -133,7 +133,7 @@ class _SwitchState extends State<SwitchIndicator> with TickerProviderStateMixin 
     } else {
       _showIndicatorCtrl.reverse();
     }
-    
+
     return false;
   }
 
@@ -153,18 +153,18 @@ class _SwitchState extends State<SwitchIndicator> with TickerProviderStateMixin 
     );
 
     _scrollDirection = scrollDirection;
-    
+
     if (scrollDirection != null) {
       _doSwitchPage();
     } else {
       _showIndicatorCtrl.reverse();
     }
-    
+
     return false;
   }
 
   /// Determines the scroll direction based on scroll position
-  /// 
+  ///
   /// Returns [SwitchDirection.previous] when at bottom,
   /// [SwitchDirection.next] when at top, or null when in between
   SwitchDirection? _getScrollDirection({
@@ -177,7 +177,7 @@ class _SwitchState extends State<SwitchIndicator> with TickerProviderStateMixin 
   }
 
   /// Updates the current scroll direction
-  /// 
+  ///
   /// Returns true if the direction was successfully updated,
   /// false if the update was rejected due to conflicting directions
   bool _updateScrollDirection(SwitchDirection? newDirection) {
@@ -200,7 +200,7 @@ class _SwitchState extends State<SwitchIndicator> with TickerProviderStateMixin 
   }
 
   /// Initiates the page switching process with animation
-  /// 
+  ///
   /// Shows the direction indicator and triggers the switch callback after a delay
   Future<void> _doSwitchPage() async {
     await _showIndicatorCtrl.forward();
@@ -210,7 +210,7 @@ class _SwitchState extends State<SwitchIndicator> with TickerProviderStateMixin 
     _doSwitchTimer = Timer(Durations.medium3, () async {
       final direction = _scrollDirection;
       if (direction == null) return;
-      
+
       await widget.onSwitchPage(direction);
       await _showIndicatorCtrl.reverse();
       _scrollDirection = null;

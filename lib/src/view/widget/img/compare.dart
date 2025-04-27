@@ -87,7 +87,7 @@ final class _ImgCompareState extends State<ImgCompare> {
     stream.addListener(ImageStreamListener(listener));
     final ui.Image img = await completer.future;
 
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 100));
     // It affects all the widgets in the descendant tree.
     // So, it's safe to call setState here.
     setState(() {
@@ -347,7 +347,7 @@ final class _LinePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    canvas.drawLine(Offset(0, 0), Offset(0, size.height), paint);
+    canvas.drawLine(const Offset(0, 0), Offset(0, size.height), paint);
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 final class FutureWidget<T> extends StatelessWidget {
   final Future<T> future;
   final Widget loading;
-  final Widget Function(AsyncSnapshot? snapshot)? loadingBuilder;
+  final Widget Function(AsyncSnapshot<T>? snapshot)? loadingBuilder;
   final Widget Function(Object? error, StackTrace? trace)? error;
   final Widget Function(T? data) success;
   final bool cacheWidget;
@@ -29,8 +29,7 @@ final class FutureWidget<T> extends StatelessWidget {
       initialData: initialData,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return error?.call(snapshot.error, snapshot.stackTrace) ??
-              ErrorView.es(snapshot.error, snapshot.stackTrace);
+          return error?.call(snapshot.error, snapshot.stackTrace) ?? ErrorView.es(snapshot.error, snapshot.stackTrace);
         }
         switch (snapshot.connectionState) {
           case ConnectionState.none:

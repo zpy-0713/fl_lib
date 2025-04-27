@@ -1,5 +1,6 @@
 import 'package:fl_lib/generated/l10n/lib_l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 extension ContextX on BuildContext {
   /// Pops the current route off the navigator if possible.
@@ -42,7 +43,53 @@ extension ContextX on BuildContext {
   bool get isRTL => Directionality.of(this) == TextDirection.rtl;
 
   /// L10n of this lib.
-  /// 
+  ///
   /// WARN: Hard decode nullable.
   LibLocalizations get libL10n => LibLocalizations.of(this)!;
+}
+
+extension SafeContext on State {
+  /// Returns the current context if it is mounted.
+  BuildContext? get contextSafe {
+    try {
+      return context;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// SetState if mounted.
+  void setStateSafe(VoidCallback fn) {
+    if (mounted) {
+      // ignore: invalid_use_of_protected_member
+      setState(fn);
+    }
+  }
+}
+
+extension SafeRef on ConsumerState {
+  /// Returns the current context if it is mounted.
+  BuildContext? get contextSafe {
+    try {
+      return context;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// SetState if mounted.
+  void setStateSafe(VoidCallback fn) {
+    if (mounted) {
+      // ignore: invalid_use_of_protected_member
+      setState(fn);
+    }
+  }
+
+  /// Read the provider if mounted.
+  WidgetRef? get refSafe {
+    if (mounted) {
+      return ref;
+    }
+    return null;
+  }
 }

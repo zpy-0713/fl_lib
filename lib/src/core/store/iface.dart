@@ -35,7 +35,7 @@ sealed class Store {
   final String lastUpdateTsKey;
 
   /// {@template store_updateLastUpdateTsOn}
-  /// Whether to update the last update timestamp when modifying the store. 
+  /// Whether to update the last update timestamp when modifying the store.
   /// Default is [StoreDefaults.defaultUpdateLastUpdateTs].
   /// {@endtemplate}
   final bool updateLastUpdateTsOnSet;

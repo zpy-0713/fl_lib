@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:fl_lib/src/core/build.dart';
 import 'package:flutter/foundation.dart';
 
-abstract class Provider<T> {
+abstract class Provider {
   const Provider();
 
   /// (Re)Load data from store / network / etc.

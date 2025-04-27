@@ -46,7 +46,7 @@ class _FullscreenEditWidgetState extends State<PlainEditPage> {
           actions: Btnx.oks,
         );
         if (sure != true) return;
-        context.pop();
+        contextSafe?.pop();
       },
       child: Scaffold(
         appBar: CustomAppBar(

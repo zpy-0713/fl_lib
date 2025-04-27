@@ -31,7 +31,7 @@ final class AppRouteObserver extends NavigatorObserver {
   AppRouteObserver._() : super();
 
   @override
-  void didPush(Route route, Route? previousRoute) {
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     if (route is PageRoute) {
       _routes.add(route.settings);
 
@@ -42,7 +42,7 @@ final class AppRouteObserver extends NavigatorObserver {
   }
 
   @override
-  void didPop(Route route, Route? previousRoute) {
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     if (route is PageRoute) {
       _routes.remove(route.settings);
 

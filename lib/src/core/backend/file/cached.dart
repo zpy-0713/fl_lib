@@ -69,12 +69,12 @@ final class ApiFile {
   String get url => remote ?? local;
 
   /// Whether the user wants to upload the file to the server.
-  /// 
+  ///
   /// If null, the user has not decided yet.
   static bool? userWantToUpload;
 
   /// Whether the file can be uploaded to the server.
-  /// 
+  ///
   /// It depends on [userWantToUpload] and [UserApi.loggedIn].
   static bool get canUpload => UserApi.loggedIn && userWantToUpload == true;
 

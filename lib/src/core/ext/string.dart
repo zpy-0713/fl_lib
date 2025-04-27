@@ -232,7 +232,7 @@ abstract final class RandomStr {
     String charsSet = chars,
   }) {
     final random = secure ? Random.secure() : Random();
-    return List.generate(length, (index) => chars[random.nextInt(chars.length)]).join();
+    return List.generate(length, (_) => chars[random.nextInt(chars.length)]).join();
   }
 }
 
@@ -240,7 +240,7 @@ extension StringImgX on String {
   /// Matches http and https schemes.
   static final httpReg = RegExp(r'^https?://');
 
-  static final _transparentImgBytes = Base64Decoder().convert(
+  static final _transparentImgBytes = const Base64Decoder().convert(
     'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAgAB/ax5kAAAAABJRU5ErkJggg==',
   );
 

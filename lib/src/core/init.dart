@@ -18,7 +18,7 @@ abstract final class Inits {
     int computerCounts = 3,
     required String appName,
     String? bakName,
-    List<TypeAdapter> hiveAdapters = const [],
+    List<TypeAdapter<dynamic>> hiveAdapters = const [],
   }) async {
     Logger.root.level = Level.ALL;
     Logger.root.onRecord.listen((record) {
@@ -36,7 +36,7 @@ abstract final class Inits {
     //
     // ps: [Future.wait] is a function to run multiple futures in parallel. It's a
     // non-order function.
-    final futures = <Future>[];
+    final futures = <Future<dynamic>>[];
     futures.add(Hive.initFlutter());
     futures.add(Computer.shared.turnOn(workersCount: computerCounts));
     await Future.wait(futures);

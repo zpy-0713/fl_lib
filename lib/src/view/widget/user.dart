@@ -68,7 +68,7 @@ final class _UserCardState extends State<UserCard> {
         if (token == null || token.isEmpty) return;
         showTokenPaste.value = false;
         UserApi.tokenProp.set(token);
-        context.showLoadingDialog(fn: UserApi.refresh);
+        contextSafe?.showLoadingDialog(fn: UserApi.refresh);
       },
       child: Text('${l10n.paste} Token'),
     );

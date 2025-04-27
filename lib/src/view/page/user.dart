@@ -99,7 +99,7 @@ final class _UserPageState extends State<UserPage> {
     );
     if (sure != true) return;
     UserApi.logout(_onAnonyUserLogout);
-    context.pop();
+    contextSafe?.pop();
   }
 
   Future<bool> _onAnonyUserLogout() async {

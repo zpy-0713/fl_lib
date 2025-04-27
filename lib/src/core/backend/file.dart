@@ -20,10 +20,10 @@ abstract final class FileApi {
   }
 
   /// Upload a file to the server.
-  /// 
+  ///
   /// - [paths] is the local file path.
   /// - [dir] is the directory name.
-  /// 
+  ///
   /// Returns the remote urls.
   static Future<List<String>> upload(List<String> paths, {String? dir}) async {
     final map = <String, dynamic>{
@@ -49,11 +49,11 @@ abstract final class FileApi {
   }
 
   /// Download a file from the server.
-  /// 
+  ///
   /// - [name] is the file name.
   /// - [dir] is the directory name.
   /// - [respType] is the response type.
-  /// 
+  ///
   /// Returns the file content as bytes by default.
   static Future<Uint8List> download(String name, {String? dir, ResponseType? respType}) async {
     name = urlToName(name);
@@ -107,19 +107,19 @@ abstract final class FileApi {
 ///
 /// The code and data are optional.
 T? _getRespData<T extends Object>(resp) {
-  T? extractData(Map m) {
-    final code = m['code'];
-    if (code != null && code != 0) {
-      final msg = m['msg'] ?? 'Unknown error';
-      throw 'Error: $code, $msg';
-    }
-    final data = m['data'];
-    if (data is! T?) throw 'Invalid data type: $data';
-    return data;
-  }
-
   return switch (resp) {
-    final Map m => extractData(m),
+    final Map<dynamic, dynamic> m => extractData(m),
     _ => throw 'Invalid response: ${resp.runtimeType}, $resp',
   };
+}
+
+T? extractData<T>(Map<dynamic, dynamic> m) {
+  final code = m['code'];
+  if (code != null && code != 0) {
+    final msg = m['msg'] ?? 'Unknown error';
+    throw 'Error: $code, $msg';
+  }
+  final data = m['data'];
+  if (data is! T?) throw 'Invalid data type: $data';
+  return data;
 }

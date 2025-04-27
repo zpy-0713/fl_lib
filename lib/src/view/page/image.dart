@@ -93,7 +93,7 @@ final class ImagePage extends StatelessWidget {
               child: Text(l10n.delFmt(args.title ?? '???', l10n.image)),
               actions: Btnx.oks,
             );
-            if (sure != true) return;
+            if (sure != true || !context.mounted) return;
             context.pop(const ImagePageRet(isDeleted: true));
           },
           icon: const Icon(Icons.delete),

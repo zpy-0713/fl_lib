@@ -40,7 +40,8 @@ abstract final class AppUpdateIface {
 
     final changelog = AppUpdate.changelog ?? '~';
 
-    final size = MediaQuery.of(context).size;
+    if (!context.mounted) return;
+    final size = MediaQuery.sizeOf(context);
 
     void showUpdateDialog([bool force = false]) {
       context.showRoundDialog(

@@ -4,7 +4,6 @@ final class Turnstile extends CloudflareTurnstile {
   static const mySiteKey = String.fromEnvironment('TURNSTILE_SITE_KEY');
   static const verifyEndpoint = 'https://api.lpkt.cn/auth/turnstile';
 
-
   Turnstile({
     super.siteKey = mySiteKey,
     super.key,
