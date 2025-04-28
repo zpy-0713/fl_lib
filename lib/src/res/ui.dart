@@ -1,4 +1,4 @@
-import 'package:fl_lib/src/model/dyn_color.dart';
+import 'package:fl_lib/src/model/brightness_related.dart';
 import 'package:flutter/material.dart';
 
 abstract final class UIs {
