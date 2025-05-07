@@ -84,6 +84,15 @@ class SplitViewController {
     // Need at least one route to replace
     if (routes.value.isEmpty) return false;
 
+    // Compare the new page with the current top page by the key
+    final lastPage = routes.value.last; // Routes not empty => lastPage not null
+    if (lastPage.runtimeType == page.runtimeType) {
+      return false; // No need to replace if the same type
+    }
+    if (lastPage.key != null && lastPage.key == page.key) {
+      return false; // No need to replace if the same key
+    }
+
     _isPushing = true; // We'll use the same animation as pushing
     _isAnimating = true;
 
