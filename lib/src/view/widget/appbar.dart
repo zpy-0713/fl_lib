@@ -32,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: centerTitle,
       leading: leading,
       backgroundColor: backgroundColor,
-      toolbarHeight: sysStatusBarHeight + kToolbarHeight,
+      toolbarHeight: appBarHeight,
       bottom: bottom,
     );
     return bar;
@@ -43,9 +43,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return calcPreferredSize(bottomWidgetH: bottom?.preferredSize.height);
   }
 
+  static const double appBarHeight = kToolbarHeight - 10;
+
   static Size calcPreferredSize({double? bottomWidgetH}) {
     bottomWidgetH ??= 0;
-    const height = kToolbarHeight - 10;
-    return Size.fromHeight(sysStatusBarHeight + height + bottomWidgetH);
+    return Size.fromHeight(appBarHeight + bottomWidgetH);
   }
 }

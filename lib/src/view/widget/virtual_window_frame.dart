@@ -3,24 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart' as wm;
 
 class VirtualWindowFrame extends StatelessWidget {
-  const VirtualWindowFrame({super.key, required this.child});
-
   final Widget child;
+
+  /// Title of the window.
+  final String? title;
+
+  const VirtualWindowFrame({super.key, required this.child, this.title});
 
   @override
   Widget build(BuildContext context) {
-    final content = switch ((isMacOS, CustomAppBar.sysStatusBarHeight)) {
-      (true, _) || (_, 0.0) => child,
-      _ => Stack(
-          fit: StackFit.expand,
+    final content = switch (CustomAppBar.sysStatusBarHeight) {
+      0.0 => child,
+      _ => Column(
           children: [
-            child,
-            const Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: _WindowCaption(),
-            ),
+            _WindowCaption(title: title),
+            Expanded(child: child),
           ],
         ),
     };
@@ -29,16 +26,38 @@ class VirtualWindowFrame extends StatelessWidget {
 }
 
 class _WindowCaption extends StatelessWidget {
-  const _WindowCaption();
+  final String? title;
+
+  const _WindowCaption({this.title});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    final theme = Theme.of(context);
+    return Container(
+      color: theme.scaffoldBackgroundColor,
       height: CustomAppBar.sysStatusBarHeight,
       width: double.infinity,
-      child: wm.WindowCaption(
-        backgroundColor: Colors.transparent,
-        brightness: Theme.of(context).brightness,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          if (title != null)
+            Material(
+              color: Colors.transparent,
+              child: Text(
+                title!,
+                style: TextStyle(
+                  color: theme.colorScheme.onSurface,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          if (isLinux && isWindows)
+            wm.WindowCaption(
+              backgroundColor: Colors.transparent,
+              brightness: theme.brightness,
+            )
+        ],
       ),
     );
   }
