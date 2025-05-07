@@ -75,6 +75,32 @@ class SplitViewController {
     return true;
   }
 
+  /// Replaces the top page of the right view stack with a new page.
+  /// Returns a Future that completes when the animation finishes.
+  Future<bool> replace(Widget page) async {
+    // Don't allow operations during animation
+    if (_isAnimating) return false;
+    
+    // Need at least one route to replace
+    if (routes.value.isEmpty) return false;
+
+    _isPushing = true; // We'll use the same animation as pushing
+    _isAnimating = true;
+
+    // Update the stack in single operation to reduce rebuilds
+    final newRoutes = List<Widget>.from(routes.value);
+    newRoutes[newRoutes.length - 1] = page;
+    routes.value = newRoutes;
+
+    // Wait for animation to complete
+    if (_animationController != null) {
+      await _runAnimation();
+    }
+
+    _isAnimating = false;
+    return true;
+  }
+
   /// Runs the animation sequence
   /// 
   /// Extracted to a separate method to avoid duplication
@@ -140,6 +166,12 @@ class SplitViewNavigator {
   /// Returns a Future that completes when the animation finishes.
   static Future<bool> pop(BuildContext context) {
     return of(context).pop();
+  }
+
+  /// Replaces the top page of the right pane's navigation stack with a new page.
+  /// Returns a Future that completes when the animation finishes.
+  static Future<bool> replace(BuildContext context, Widget page) {
+    return of(context).replace(page);
   }
 
   /// Checks if the right pane's navigation stack can be popped.
