@@ -60,6 +60,7 @@ abstract final class Paths {
       return p;
     }
 
+    // macOS / iOS
     final dir = await getApplicationDocumentsDirectory();
     return dir.path;
   }

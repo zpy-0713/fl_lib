@@ -1,6 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 /// {@template brightness_related}
 /// A class that holds two values, one for light mode and one for dark mode.

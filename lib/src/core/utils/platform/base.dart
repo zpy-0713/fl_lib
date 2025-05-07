@@ -19,6 +19,7 @@ enum Pfs {
   fuchsia,
   unknown;
 
+  /// The current platform
   static final type = () {
     if (kIsWeb) {
       return web;
@@ -114,22 +115,26 @@ enum Pfs {
     await Share.shareXFiles([xfile]);
   }
 
+  /// Share string data with a file name.
   static Future<void> shareStr(String name, String data, {String? mime}) async {
     await Share.shareXFiles(
       [XFile.fromData(utf8.encode(data), name: name, mimeType: mime)],
     );
   }
 
+  /// Pick a file and return the [PlatformFile] object.
   static Future<PlatformFile?> pickFile() async {
     final result = await FilePicker.platform.pickFiles(type: FileType.any);
     return result?.files.single;
   }
 
+  /// Pick a file and return the file path.
   static Future<String?> pickFilePath() async {
     final picked = await pickFile();
     return picked?.path;
   }
 
+  /// Pick a file and return the file String.
   static Future<String?> pickFileString() async {
     final picked = await pickFile();
     if (picked == null) return null;
@@ -146,11 +151,13 @@ enum Pfs {
     }
   }
 
+  /// Copy the data to the clipboard.
   static void copy(dynamic data) => switch (data.runtimeType) {
         const (String) => Clipboard.setData(ClipboardData(text: data)),
         final val => throw UnimplementedError('Not supported type: $val(${val.runtimeType})'),
       };
 
+  /// Paste the data from the clipboard.
   static Future<String?> paste() async {
     final data = await Clipboard.getData(Clipboard.kTextPlain);
     return data?.text;
