@@ -52,7 +52,7 @@ class _WindowCaption extends StatelessWidget {
                 ),
               ),
             ),
-          if (isLinux && isWindows)
+          if (isLinux || isWindows)
             wm.WindowCaption(
               backgroundColor: Colors.transparent,
               brightness: theme.brightness,
