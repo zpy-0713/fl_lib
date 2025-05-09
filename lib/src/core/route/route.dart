@@ -17,7 +17,10 @@ final class AppRouteIface {
   const AppRouteIface({required this.path});
 
   /// Returns true if the current route is the same as this route.
-  bool get isAlreadyIn => AppRouteObserver.currentRoute?.name == path;
+  bool get alreadyIn => AppRouteObserver.currentRoute?.name == path;
+
+  /// Returns the [RouteSettings] of the this route.
+  RouteSettings get routeSettings => RouteSettings(name: path);
 }
 
 /// A route with non-null arguments.
@@ -44,14 +47,10 @@ final class AppRoute<Ret, Arg extends Object> extends AppRouteIface {
     final ret = middlewares?.any((e) => !e((context: context, route: this)));
     if (ret == true) return Future.value(null);
 
-    Widget builder(BuildContext context) => VirtualWindowFrame(
-          child: args != null ? page(key: key, args: args) : page(key: key),
-        );
-
     final route_ = route ??
         MaterialPageRoute<Ret>(
-          builder: builder,
-          settings: RouteSettings(name: path),
+          builder: (_) => VirtualWindowFrame(child: page(key: key, args: args)),
+          settings: routeSettings,
         );
     return Navigator.push<Ret>(context, route_);
   }
@@ -84,7 +83,7 @@ final class AppRouteArg<Ret, Arg extends Object> extends AppRouteIface {
     final route_ = route ??
         MaterialPageRoute<Ret>(
           builder: (_) => VirtualWindowFrame(child: page(key: key, args: args)),
-          settings: RouteSettings(name: path),
+          settings: routeSettings,
         );
     return Navigator.push<Ret>(context, route_);
   }
@@ -116,7 +115,7 @@ final class AppRouteNoArg<Ret> extends AppRouteIface {
     final route_ = route ??
         MaterialPageRoute<Ret>(
           builder: (_) => VirtualWindowFrame(child: page(key: key)),
-          settings: RouteSettings(name: path),
+          settings: routeSettings,
         );
     return Navigator.push<Ret>(context, route_);
   }
