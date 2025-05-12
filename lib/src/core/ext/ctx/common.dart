@@ -6,6 +6,12 @@ extension ContextX on BuildContext {
   /// Pops the current route off the navigator if possible.
   /// Returns without action if [canPop] is false.
   void pop<T extends Object?>([T? result]) {
+    // final splitCtx = SplitViewNavigator.of(this);
+    // final canPopSplitView = splitCtx?.canPop ?? false;
+    // if (canPopSplitView) {
+    //   splitCtx?.pop<T>(result);
+    //   return;
+    // }
     if (!canPop) return;
     Navigator.of(this).pop<T>(result);
   }

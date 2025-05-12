@@ -212,6 +212,50 @@ class SplitViewNavigator {
     return ctrl.push<T>(page);
   }
 
+  /// Navigates to the specified route with no arguments in the split view.
+  /// Returns a Future that completes with a result when the page is popped.
+  static Future<Ret?> pushRoute<Ret>(
+    BuildContext context,
+    AppRouteNoArg<Ret> route, {
+    Key? key,
+  }) async {
+    final ctrl = of(context);
+    if (ctrl == null) {
+      throw Exception('No SplitViewController found in context for pushRoute.');
+    }
+    return ctrl.push<Ret>(route.page(key: key));
+  }
+
+  /// Navigates to the specified route with optional arguments in the split view.
+  /// Returns a Future that completes with a result when the page is popped.
+  static Future<Ret?> pushRouteWithOptionalArg<Ret, Arg extends Object>(
+    BuildContext context,
+    AppRoute<Ret, Arg> route, {
+    Key? key,
+    Arg? args,
+  }) async {
+    final ctrl = of(context);
+    if (ctrl == null) {
+      throw Exception('No SplitViewController found in context for pushRouteWithOptionalArg.');
+    }
+    return ctrl.push<Ret>(route.page(key: key, args: args));
+  }
+
+  /// Navigates to the specified route with required arguments in the split view.
+  /// Returns a Future that completes with a result when the page is popped.
+  static Future<Ret?> pushRouteWithArg<Ret, Arg extends Object>(
+    BuildContext context,
+    AppRouteArg<Ret, Arg> route,
+    Arg args, {
+    Key? key,
+  }) async {
+    final ctrl = of(context);
+    if (ctrl == null) {
+      throw Exception('No SplitViewController found in context for pushRouteWithArg.');
+    }
+    return ctrl.push<Ret>(route.page(key: key, args: args));
+  }
+
   /// Pops the top page from the right pane's navigation stack.
   /// The [result] is passed to the Future returned by the corresponding `push` call.
   /// Returns a Future that completes when the animation finishes.
