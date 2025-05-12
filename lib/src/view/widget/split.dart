@@ -141,7 +141,7 @@ class SplitViewController {
 
   /// Returns true if the right view stack can be popped (i.e., contains more than one page).
   bool get canPop => routes.value.length > 1;
-
+         
   /// Disposes the controller and its resources.
   void dispose() {
     // Complete any pending completers to avoid leaks if controller is disposed early.

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 final class MultiList extends StatefulWidget {
   final List<List<Widget>> children;
-  final double horizonPadding;
-  final double bottomPadding;
+  final EdgeInsetsGeometry outerPadding;
   final double betweenPadding;
   final double widthDivider;
   final bool? thumbVisibility;
@@ -13,31 +12,32 @@ final class MultiList extends StatefulWidget {
   const MultiList({
     super.key,
     required this.children,
-    this.bottomPadding = 17,
-    this.horizonPadding = 17,
+    this.outerPadding = kOuterPadding,
     this.widthDivider = 2.2,
     this.thumbVisibility,
     this.trackVisibility,
     this.betweenPadding = 10,
   });
 
+  static const kOuterPadding = EdgeInsets.symmetric(horizontal: 17, vertical: 13);
+
   @override
   State<MultiList> createState() => _MultiListState();
 }
 
 final class _MultiListState extends State<MultiList> {
-  var _isWide = false;
-  final _wideScroll = ScrollController();
+  var _isMobile = false;
+  final _horizonScroll = ScrollController();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isWide = context.isWide;
+    _isMobile = context.isMobile;
   }
 
   @override
   void dispose() {
-    _wideScroll.dispose();
+    _horizonScroll.dispose();
     super.dispose();
   }
 
@@ -45,16 +45,15 @@ final class _MultiListState extends State<MultiList> {
   Widget build(BuildContext context) {
     final childrenLen = widget.children.length;
 
-    if (_isWide) {
-      final columnWidth = (context.windowSize.width - 2 * widget.horizonPadding) /
-          widget.widthDivider;
+    if (!_isMobile) {
+      final columnWidth = (context.windowSize.width - 2 * widget.outerPadding.horizontal) / widget.widthDivider;
       return Scrollbar(
-        controller: _wideScroll,
+        controller: _horizonScroll,
         thumbVisibility: widget.thumbVisibility,
         trackVisibility: widget.trackVisibility,
         child: ListView.builder(
-          padding: EdgeInsets.symmetric(horizontal: widget.horizonPadding),
-          controller: _wideScroll,
+          padding: widget.outerPadding,
+          controller: _horizonScroll,
           scrollDirection: Axis.horizontal,
           itemCount: childrenLen,
           itemBuilder: (_, i) {
@@ -66,7 +65,6 @@ final class _MultiListState extends State<MultiList> {
               child: ListView.builder(
                 padding: EdgeInsets.only(
                   right: rightPadding,
-                  bottom: widget.bottomPadding,
                 ),
                 itemCount: children.length,
                 itemBuilder: (_, index) => children[index],
@@ -79,23 +77,17 @@ final class _MultiListState extends State<MultiList> {
 
     // Flatten the list for single column display using List.expand instead of fold
     return ListView(
-      padding: EdgeInsets.only(
-        left: widget.horizonPadding,
-        right: widget.horizonPadding,
-        bottom: widget.bottomPadding,
-      ),
+      padding: widget.outerPadding,
       children: widget.children.expand((list) => list).toList(),
     );
   }
 }
 
-/// 自动根据 [columnWidth] 和 设备宽度，计算显示多少列，并且将 [children] 平均分割为
-/// n 列，采用更平衡的分布算法
+/// Splits the children into n columns based on the available window width and [columnWidth].
 final class AutoMultiList extends StatefulWidget {
   final List<Widget> children;
   final double columnWidth;
-  final double horizonPadding;
-  final double bottomPadding;
+  final EdgeInsetsGeometry outerPadding;
   final double betweenPadding;
   final bool? thumbVisibility;
   final bool? trackVisibility;
@@ -103,9 +95,8 @@ final class AutoMultiList extends StatefulWidget {
   const AutoMultiList({
     super.key,
     required this.children,
+    this.outerPadding = MultiList.kOuterPadding,
     this.columnWidth = UIs.columnWidth,
-    this.horizonPadding = 17,
-    this.bottomPadding = 17,
     this.betweenPadding = 10,
     this.thumbVisibility,
     this.trackVisibility,
@@ -118,7 +109,7 @@ final class AutoMultiList extends StatefulWidget {
 class _AutoMultiListState extends State<AutoMultiList> {
   @override
   Widget build(BuildContext context) {
-    final availableWidth = context.windowSize.width - 2 * widget.horizonPadding;
+    final availableWidth = context.windowSize.width - 2 * widget.outerPadding.horizontal;
     final columnCount = (availableWidth / widget.columnWidth).floor();
     final actualColumnCount = columnCount.clamp(1, 10); // Add upper limit for safety
 
@@ -150,8 +141,6 @@ class _AutoMultiListState extends State<AutoMultiList> {
     }
 
     return MultiList(
-      horizonPadding: widget.horizonPadding,
-      bottomPadding: widget.bottomPadding,
       betweenPadding: widget.betweenPadding,
       widthDivider: actualColumnCount.toDouble(),
       thumbVisibility: widget.thumbVisibility,

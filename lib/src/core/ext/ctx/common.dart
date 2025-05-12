@@ -1,6 +1,7 @@
 import 'package:fl_lib/generated/l10n/lib_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 extension ContextX on BuildContext {
   /// Pops the current route off the navigator if possible.
@@ -39,11 +40,16 @@ extension ContextX on BuildContext {
   /// Uses [MediaQuery.sizeOf] for better performance
   Size get windowSize => MediaQuery.sizeOf(this);
 
-  /// Whether the window width is greater than its height
-  bool get isWide {
-    final size = windowSize;
-    return size.width > size.height;
-  }
+  /// Returns the [ResponsiveBreakpointsData] of the current context
+  ResponsiveBreakpointsData get responsiveBreakpoints => ResponsiveBreakpoints.of(this);
+
+  /// {@template responsive_breakpoints}
+  /// Whether reached the breakpoint, useful for responsive design
+  /// {@endtemplate}
+  bool get isMobile => responsiveBreakpoints.isMobile || responsiveBreakpoints.isPhone;
+
+  /// {@macro responsive_breakpoints}
+  bool get isDesktop => responsiveBreakpoints.isDesktop || responsiveBreakpoints.isTablet;
 
   /// Whether the text direction is right-to-left
   bool get isRTL => Directionality.of(this) == TextDirection.rtl;
