@@ -87,4 +87,8 @@ abstract final class UIs {
   static const bgColor = DynColor(light: Colors.white, dark: Colors.black);
 
   static const textColor = DynColor(light: Colors.black, dark: Color.fromARGB(255, 233, 233, 233));
+
+  /// Single column width.
+  /// Used for desktop and tablet. 
+  static const columnWidth = 330.0;
 }
