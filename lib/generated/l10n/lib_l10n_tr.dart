@@ -222,6 +222,12 @@ class LibLocalizationsTr extends LibLocalizations {
   String get rename => 'yeniden adlandır';
 
   @override
+  String get replace => 'Değiştir';
+
+  @override
+  String get replaceAll => 'Tümünü değiştir';
+
+  @override
   String get restore => 'Geri Yükleme';
 
   @override

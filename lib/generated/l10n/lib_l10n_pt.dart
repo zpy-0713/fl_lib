@@ -222,6 +222,12 @@ class LibLocalizationsPt extends LibLocalizations {
   String get rename => 'Renomear';
 
   @override
+  String get replace => 'Substituir';
+
+  @override
+  String get replaceAll => 'Substituir tudo';
+
+  @override
   String get restore => 'Restaurar';
 
   @override

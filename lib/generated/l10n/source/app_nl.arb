@@ -69,6 +69,8 @@
   "pwdTip": "Lengte 6-32, kan Engelse letters, cijfers en leestekens bevatten",
   "register": "Registreren",
   "rename": "Hernoemen",
+  "replace": "Vervangen",
+  "replaceAll": "Alles vervangen",
   "restore": "Herstellen",
   "save": "Opslaan",
   "search": "Zoeken",

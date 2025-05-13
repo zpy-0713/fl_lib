@@ -222,6 +222,12 @@ class LibLocalizationsFr extends LibLocalizations {
   String get rename => 'Renommer';
 
   @override
+  String get replace => 'Remplacer';
+
+  @override
+  String get replaceAll => 'Tout remplacer';
+
+  @override
   String get restore => 'Restaurer';
 
   @override

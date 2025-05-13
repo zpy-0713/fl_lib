@@ -69,6 +69,8 @@
   "pwdTip": "Panjang 6-32, dapat berupa huruf bahasa Inggris, angka, dan tanda baca",
   "register": "Daftar",
   "rename": "Ubah nama",
+  "replace": "Ganti",
+  "replaceAll": "Ganti semua",
   "restore": "Pulihkan",
   "save": "Simpan",
   "search": "Cari",

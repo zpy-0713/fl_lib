@@ -69,6 +69,8 @@
   "pwdTip": "Uzunluk 6-32, İngilizce harfler, rakamlar ve noktalama işaretleri olabilir",
   "register": "Kaydol",
   "rename": "yeniden adlandır",
+  "replace": "Değiştir",
+  "replaceAll": "Tümünü değiştir",
   "restore": "Geri Yükleme",
   "save": "Kaydet",
   "search": "Ara",

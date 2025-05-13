@@ -69,6 +69,8 @@
   "pwdTip": "Longueur de 6 à 32, peut contenir des lettres anglaises, des chiffres et des signes de ponctuation",
   "register": "S'inscrire",
   "rename": "Renommer",
+  "replace": "Remplacer",
+  "replaceAll": "Tout remplacer",
   "restore": "Restaurer",
   "save": "Enregistrer",
   "search": "Rechercher",

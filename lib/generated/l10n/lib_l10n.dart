@@ -530,6 +530,18 @@ abstract class LibLocalizations {
   /// **'Rename'**
   String get rename;
 
+  /// No description provided for @replace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get replace;
+
+  /// No description provided for @replaceAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace all'**
+  String get replaceAll;
+
   /// No description provided for @restore.
   ///
   /// In en, this message translates to:

@@ -69,6 +69,8 @@
   "pwdTip": "Länge 6-32, kann aus englischen Buchstaben, Zahlen und Satzzeichen bestehen",
   "register": "Registrieren",
   "rename": "Umbenennen",
+  "replace": "Ersetzen",
+  "replaceAll": "Alle ersetzen",
   "restore": "Wiederherstellen",
   "save": "Speichern",
   "search": "Suchen",

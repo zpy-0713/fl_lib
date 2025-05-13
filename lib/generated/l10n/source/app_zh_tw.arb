@@ -69,6 +69,8 @@
   "pwdTip": "長度6-32，可以是英文字母、數字、標點符號",
   "register": "註冊",
   "rename": "重命名",
+  "replace": "替換",
+  "replaceAll": "全部替換",
   "restore": "恢復",
   "save": "儲存",
   "search": "搜尋",

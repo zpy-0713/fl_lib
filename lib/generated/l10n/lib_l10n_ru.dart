@@ -222,6 +222,12 @@ class LibLocalizationsRu extends LibLocalizations {
   String get rename => 'Переименовать';
 
   @override
+  String get replace => 'Заменить';
+
+  @override
+  String get replaceAll => 'Заменить всё';
+
+  @override
   String get restore => 'Восстановление';
 
   @override

@@ -222,6 +222,12 @@ class LibLocalizationsNl extends LibLocalizations {
   String get rename => 'Hernoemen';
 
   @override
+  String get replace => 'Vervangen';
+
+  @override
+  String get replaceAll => 'Alles vervangen';
+
+  @override
   String get restore => 'Herstellen';
 
   @override

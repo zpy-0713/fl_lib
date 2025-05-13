@@ -222,6 +222,12 @@ class LibLocalizationsDe extends LibLocalizations {
   String get rename => 'Umbenennen';
 
   @override
+  String get replace => 'Ersetzen';
+
+  @override
+  String get replaceAll => 'Alle ersetzen';
+
+  @override
   String get restore => 'Wiederherstellen';
 
   @override

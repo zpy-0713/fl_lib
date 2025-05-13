@@ -222,6 +222,12 @@ class LibLocalizationsId extends LibLocalizations {
   String get rename => 'Ubah nama';
 
   @override
+  String get replace => 'Ganti';
+
+  @override
+  String get replaceAll => 'Ganti semua';
+
+  @override
   String get restore => 'Pulihkan';
 
   @override

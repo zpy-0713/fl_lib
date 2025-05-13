@@ -222,6 +222,12 @@ class LibLocalizationsZh extends LibLocalizations {
   String get rename => '重命名';
 
   @override
+  String get replace => '替换';
+
+  @override
+  String get replaceAll => '替换全部';
+
+  @override
   String get restore => '恢复';
 
   @override
@@ -512,6 +518,12 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get rename => '重命名';
+
+  @override
+  String get replace => '替換';
+
+  @override
+  String get replaceAll => '全部替換';
 
   @override
   String get restore => '恢復';

@@ -69,6 +69,8 @@
   "pwdTip": "長さ6〜32文字、英語の文字、数字、句読点が使用可能",
   "register": "登録",
   "rename": "名前変更",
+  "replace": "置換",
+  "replaceAll": "すべて置換",
   "restore": "リストア",
   "save": "保存",
   "search": "検索",

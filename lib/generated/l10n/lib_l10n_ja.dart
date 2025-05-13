@@ -222,6 +222,12 @@ class LibLocalizationsJa extends LibLocalizations {
   String get rename => '名前変更';
 
   @override
+  String get replace => '置換';
+
+  @override
+  String get replaceAll => 'すべて置換';
+
+  @override
   String get restore => 'リストア';
 
   @override

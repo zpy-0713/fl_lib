@@ -222,6 +222,12 @@ class LibLocalizationsUk extends LibLocalizations {
   String get rename => 'Перейменувати';
 
   @override
+  String get replace => 'Замінити';
+
+  @override
+  String get replaceAll => 'Замінити все';
+
+  @override
   String get restore => 'Відновити';
 
   @override
