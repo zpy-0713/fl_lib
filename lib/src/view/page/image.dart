@@ -48,7 +48,14 @@ final class ImagePage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    Widget child = Image(image: args.image);
+    Widget child = Image(image: args.image, fit: BoxFit.contain).expanded();
+
+    // child = InteractiveViewer(
+    //   constrained: false,
+    //   maxScale: 3,
+    //   child: child,
+    // );
+
     if (args.heroTag != null) {
       child = Hero(
         tag: args.heroTag!,
@@ -57,13 +64,10 @@ final class ImagePage extends StatelessWidget {
       );
     }
 
-    return GestureDetector(
-      onTap: context.pop,
-      child: Container(
-        color: Colors.black,
-        alignment: Alignment.center,
-        child: child,
-      ),
+    return Container(
+      color: Colors.black,
+      alignment: Alignment.center,
+      child: child,
     );
   }
 

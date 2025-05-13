@@ -554,6 +554,12 @@ abstract class LibLocalizations {
   /// **'Share'**
   String get share;
 
+  /// No description provided for @sizeTooLargeOnlyPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Content too large, displaying only the first {bytes}'**
+  String sizeTooLargeOnlyPrefix(Object bytes);
+
   /// No description provided for @success.
   ///
   /// In en, this message translates to:

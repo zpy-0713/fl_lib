@@ -73,6 +73,7 @@
   "select": "Pilih",
   "setting": "Pengaturan",
   "share": "Bagikan",
+  "sizeTooLargeOnlyPrefix": "Konten terlalu besar, hanya menampilkan {bytes} pertama",
   "success": "Sukses",
   "sync": "Sinkronisasi",
   "tag": "Label",

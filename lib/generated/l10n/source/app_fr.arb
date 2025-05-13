@@ -73,6 +73,7 @@
   "select": "Sélectionner",
   "setting": "Paramètres",
   "share": "Partager",
+  "sizeTooLargeOnlyPrefix": "Contenu trop volumineux, affichage des {bytes} premiers caractères uniquement",
   "success": "Succès",
   "sync": "Synchroniser",
   "tag": "Étiquette",

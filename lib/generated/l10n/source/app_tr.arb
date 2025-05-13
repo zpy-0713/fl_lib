@@ -73,6 +73,7 @@
   "select": "seç",
   "setting": "Ayarlar",
   "share": "Paylaş",
+  "sizeTooLargeOnlyPrefix": "İçerik çok büyük, yalnızca ilk {bytes} gösteriliyor",
   "success": "başarılı",
   "sync": "Senkronize etmek",
   "tag": "etiket",

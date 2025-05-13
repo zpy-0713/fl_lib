@@ -73,6 +73,7 @@
   "select": "選択",
   "setting": "設定",
   "share": "共有",
+  "sizeTooLargeOnlyPrefix": "コンテンツが大きすぎるため、最初の {bytes} のみを表示しています",
   "success": "成功",
   "sync": "同期",
   "tag": "タグ",

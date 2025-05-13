@@ -234,6 +234,11 @@ class LibLocalizationsJa extends LibLocalizations {
   String get share => '共有';
 
   @override
+  String sizeTooLargeOnlyPrefix(Object bytes) {
+    return 'コンテンツが大きすぎるため、最初の $bytes のみを表示しています';
+  }
+
+  @override
   String get success => '成功';
 
   @override

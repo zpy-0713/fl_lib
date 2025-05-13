@@ -73,6 +73,7 @@
   "select": "Seleccionar",
   "setting": "Configuración",
   "share": "Compartir",
+  "sizeTooLargeOnlyPrefix": "Contenido demasiado grande, mostrando solo los primeros {bytes}",
   "success": "Éxito",
   "sync": "Sincronizar",
   "tag": "Etiqueta",

@@ -73,6 +73,7 @@
   "select": "选择",
   "setting": "设置",
   "share": "分享",
+  "sizeTooLargeOnlyPrefix": "内容过大，仅显示前 {bytes}",
   "success": "成功",
   "sync": "同步",
   "tag": "标签",

@@ -234,6 +234,11 @@ class LibLocalizationsId extends LibLocalizations {
   String get share => 'Bagikan';
 
   @override
+  String sizeTooLargeOnlyPrefix(Object bytes) {
+    return 'Konten terlalu besar, hanya menampilkan $bytes pertama';
+  }
+
+  @override
   String get success => 'Sukses';
 
   @override

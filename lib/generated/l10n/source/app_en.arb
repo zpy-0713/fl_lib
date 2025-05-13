@@ -73,6 +73,7 @@
   "select": "Select",
   "setting": "Settings",
   "share": "Share",
+  "sizeTooLargeOnlyPrefix": "Content too large, displaying only the first {bytes}",
   "success": "Success",
   "sync": "Synchronize",
   "tag": "Tag",

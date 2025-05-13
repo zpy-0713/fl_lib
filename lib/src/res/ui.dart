@@ -38,8 +38,7 @@ abstract final class UIs {
 
   /// Padding
 
-  static const roundRectCardPadding =
-      EdgeInsets.symmetric(horizontal: 17, vertical: 13);
+  static const roundRectCardPadding = EdgeInsets.symmetric(horizontal: 17, vertical: 13);
 
   /// SizedBox
 
@@ -69,11 +68,17 @@ abstract final class UIs {
         ),
       );
 
-  static const centerLoading = Center(child: CircularProgressIndicator());
+  static const centerLoading = Padding(
+    padding: EdgeInsets.symmetric(vertical: 7),
+    child: Center(child: CircularProgressIndicator()),
+  );
 
-  static const smallLinearLoading = SizedBox(
-    height: 37,
-    child: LinearProgressIndicator(),
+  static const smallLinearLoading = Padding(
+    padding: EdgeInsets.symmetric(vertical: 17),
+    child: SizedBox(
+      height: 3,
+      child: LinearProgressIndicator(),
+    ),
   );
 
   /// Colors
@@ -89,6 +94,6 @@ abstract final class UIs {
   static const textColor = DynColor(light: Colors.black, dark: Color.fromARGB(255, 233, 233, 233));
 
   /// Single column width.
-  /// Used for desktop and tablet. 
+  /// Used for desktop and tablet.
   static const columnWidth = 330.0;
 }

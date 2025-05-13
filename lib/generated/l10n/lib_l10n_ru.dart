@@ -234,6 +234,11 @@ class LibLocalizationsRu extends LibLocalizations {
   String get share => 'Поделиться';
 
   @override
+  String sizeTooLargeOnlyPrefix(Object bytes) {
+    return 'Содержимое слишком большое, отображаются только первые $bytes';
+  }
+
+  @override
   String get success => 'Успех';
 
   @override

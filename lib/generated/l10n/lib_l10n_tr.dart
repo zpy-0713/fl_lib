@@ -234,6 +234,11 @@ class LibLocalizationsTr extends LibLocalizations {
   String get share => 'Paylaş';
 
   @override
+  String sizeTooLargeOnlyPrefix(Object bytes) {
+    return 'İçerik çok büyük, yalnızca ilk $bytes gösteriliyor';
+  }
+
+  @override
   String get success => 'başarılı';
 
   @override

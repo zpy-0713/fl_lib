@@ -234,6 +234,11 @@ class LibLocalizationsZh extends LibLocalizations {
   String get share => '分享';
 
   @override
+  String sizeTooLargeOnlyPrefix(Object bytes) {
+    return '内容过大，仅显示前 $bytes';
+  }
+
+  @override
   String get success => '成功';
 
   @override
@@ -510,6 +515,11 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get share => '分享';
+
+  @override
+  String sizeTooLargeOnlyPrefix(Object bytes) {
+    return '內容過大，僅顯示前 $bytes';
+  }
 
   @override
   String get success => '成功';

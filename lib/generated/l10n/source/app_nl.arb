@@ -73,6 +73,7 @@
   "select": "Selecteren",
   "setting": "Instellingen",
   "share": "Delen",
+  "sizeTooLargeOnlyPrefix": "Inhoud te groot, alleen de eerste {bytes} worden weergegeven",
   "success": "Succes",
   "sync": "Synchroniseren",
   "tag": "Tag",
