@@ -181,6 +181,9 @@ class LibLocalizationsEn extends LibLocalizations {
   String get network => 'Network';
 
   @override
+  String get next => 'Next';
+
+  @override
   String notExistFmt(Object file) {
     return '$file not exist';
   }
@@ -199,6 +202,9 @@ class LibLocalizationsEn extends LibLocalizations {
 
   @override
   String get path => 'Path';
+
+  @override
+  String get previous => 'Previous';
 
   @override
   String get primaryColorSeed => 'Primary color seed';
@@ -220,6 +226,9 @@ class LibLocalizationsEn extends LibLocalizations {
 
   @override
   String get save => 'Save';
+
+  @override
+  String get search => 'Search';
 
   @override
   String get second => 'Seconds';

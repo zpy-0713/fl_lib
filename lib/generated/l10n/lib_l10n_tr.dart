@@ -181,6 +181,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get network => 'Ağ';
 
   @override
+  String get next => 'Sonraki';
+
+  @override
   String notExistFmt(Object file) {
     return '$file mevcut değil';
   }
@@ -199,6 +202,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get path => 'Yol';
+
+  @override
+  String get previous => 'Önceki';
 
   @override
   String get primaryColorSeed => 'Birincil renk tohumu';
@@ -220,6 +226,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get save => 'Kaydet';
+
+  @override
+  String get search => 'Ara';
 
   @override
   String get second => 'saniye';

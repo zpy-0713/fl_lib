@@ -181,6 +181,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get network => '网络';
 
   @override
+  String get next => '下一个';
+
+  @override
   String notExistFmt(Object file) {
     return '$file 不存在';
   }
@@ -199,6 +202,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get path => '路径';
+
+  @override
+  String get previous => '上一个';
 
   @override
   String get primaryColorSeed => '主题色种子';
@@ -220,6 +226,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get save => '保存';
+
+  @override
+  String get search => '搜索';
 
   @override
   String get second => '秒';
@@ -464,6 +473,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get network => '網絡';
 
   @override
+  String get next => '下一個';
+
+  @override
   String notExistFmt(Object file) {
     return '$file 不存在';
   }
@@ -482,6 +494,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get path => '路徑';
+
+  @override
+  String get previous => '上一個';
 
   @override
   String get primaryColorSeed => '主要色調種子';
@@ -503,6 +518,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get save => '儲存';
+
+  @override
+  String get search => '搜尋';
 
   @override
   String get second => '秒';

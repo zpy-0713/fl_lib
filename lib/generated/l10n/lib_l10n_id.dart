@@ -181,6 +181,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get network => 'Jaringan';
 
   @override
+  String get next => 'Berikutnya';
+
+  @override
   String notExistFmt(Object file) {
     return '$file tidak ada';
   }
@@ -199,6 +202,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get path => 'Jalur';
+
+  @override
+  String get previous => 'Sebelumnya';
 
   @override
   String get primaryColorSeed => 'Warna utama';
@@ -220,6 +226,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get save => 'Simpan';
+
+  @override
+  String get search => 'Cari';
 
   @override
   String get second => 'Detik';

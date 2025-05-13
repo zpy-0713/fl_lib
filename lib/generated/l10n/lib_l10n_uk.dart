@@ -181,6 +181,9 @@ class LibLocalizationsUk extends LibLocalizations {
   String get network => 'Мережа';
 
   @override
+  String get next => 'Далі';
+
+  @override
   String notExistFmt(Object file) {
     return '$file не існує';
   }
@@ -199,6 +202,9 @@ class LibLocalizationsUk extends LibLocalizations {
 
   @override
   String get path => 'Шлях';
+
+  @override
+  String get previous => 'Попередній';
 
   @override
   String get primaryColorSeed => 'Основний колір';
@@ -220,6 +226,9 @@ class LibLocalizationsUk extends LibLocalizations {
 
   @override
   String get save => 'Зберегти';
+
+  @override
+  String get search => 'Пошук';
 
   @override
   String get second => 'Секунди';

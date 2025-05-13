@@ -452,6 +452,12 @@ abstract class LibLocalizations {
   /// **'Network'**
   String get network;
 
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
   /// No description provided for @notExistFmt.
   ///
   /// In en, this message translates to:
@@ -487,6 +493,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Path'**
   String get path;
+
+  /// No description provided for @previous.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get previous;
 
   /// No description provided for @primaryColorSeed.
   ///
@@ -529,6 +541,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
 
   /// No description provided for @second.
   ///
