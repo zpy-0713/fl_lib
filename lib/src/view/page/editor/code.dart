@@ -128,14 +128,10 @@ class _EditorPageState extends State<EditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: _onPop,
-      child: Scaffold(
-        backgroundColor: _codeTheme['root']?.backgroundColor,
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return Scaffold(
+      backgroundColor: _codeTheme['root']?.backgroundColor,
+      appBar: _buildAppBar(),
+      body: _buildBody(),
     );
   }
 
@@ -145,6 +141,11 @@ class _EditorPageState extends State<EditorPage> {
       title: TwoLineText(
         up: widget.args?.title ?? widget.args?.path?.getFileName() ?? libL10n.unknown,
         down: libL10n.editor,
+      ),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        tooltip: libL10n.exit,
+        onPressed: _onPop,
       ),
       actions: [
         IconButton(
@@ -241,7 +242,7 @@ extension on _EditorPageState {
       _saved = true;
 
       final pop_ = widget.args?.closeAfterSave ?? _kCloseAfterSave;
-      if (pop_) _pop();
+      if (pop_) Future.microtask(_pop);
       return;
     }
 
@@ -251,7 +252,7 @@ extension on _EditorPageState {
     _saved = true;
 
     final pop_ = widget.args?.closeAfterSave ?? _kCloseAfterSave;
-    if (pop_) _pop();
+    if (pop_) Future.microtask(_pop);
   }
 
   void _pop() async {
@@ -266,12 +267,13 @@ extension on _EditorPageState {
     contextSafe?.pop();
   }
 
-  void _onPop<T>(bool didPop, T? result) async {
-    if (_saved || didPop) {
+  void _onPop() async {
+    if (_saved) {
       contextSafe?.pop();
       return;
     }
-    final shouldSave = await contextSafe?.showRoundDialog(
+
+    final shouldSave = await contextSafe?.showRoundDialog<bool>(
       title: libL10n.attention,
       child: Text(libL10n.actionAndAction(libL10n.save, libL10n.exit)),
       actions: [
@@ -287,10 +289,7 @@ extension on _EditorPageState {
     );
     if (shouldSave == true) {
       _onSave();
-      contextSafe?.pop();
-    } else if (shouldSave == false) {
-      contextSafe?.pop();
     }
-    contextSafe?.pop();
+    if (shouldSave != null) contextSafe?.pop();
   }
 }
