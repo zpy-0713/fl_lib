@@ -12,6 +12,11 @@ class LibLocalizationsJa extends LibLocalizations {
   String get about => '約';
 
   @override
+  String actionAndAction(Object action1, Object action2) {
+    return '$action1してから$action2？';
+  }
+
+  @override
   String get add => '追加';
 
   @override
@@ -122,6 +127,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get exitConfirmTip => 'もう一度戻ると終了します';
+
+  @override
+  String get exitDirectly => '直接終了する';
 
   @override
   String get export => 'エクスポート';

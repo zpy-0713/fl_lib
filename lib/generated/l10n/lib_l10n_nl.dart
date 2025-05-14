@@ -12,6 +12,11 @@ class LibLocalizationsNl extends LibLocalizations {
   String get about => 'Over';
 
   @override
+  String actionAndAction(Object action1, Object action2) {
+    return '$action1 en dan $action2?';
+  }
+
+  @override
   String get add => 'Toevoegen';
 
   @override
@@ -122,6 +127,9 @@ class LibLocalizationsNl extends LibLocalizations {
 
   @override
   String get exitConfirmTip => 'Druk nogmaals op terug om te sluiten';
+
+  @override
+  String get exitDirectly => 'Direct afsluiten';
 
   @override
   String get export => 'Exporteren';

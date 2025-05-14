@@ -1,6 +1,7 @@
 {
   "@@locale": "ja",
   "about": "約",
+  "actionAndAction": "{action1}してから{action2}？",
   "add": "追加",
   "all": "全て",
   "anonLoseDataTip": "現在匿名でログインしています。操作を続行するとデータが失われます。",
@@ -37,6 +38,7 @@
   "execute": "実行",
   "exit": "終了",
   "exitConfirmTip": "もう一度戻ると終了します",
+  "exitDirectly": "直接終了する",
   "export": "エクスポート",
   "fail": "失敗",
   "feedback": "フィードバック",

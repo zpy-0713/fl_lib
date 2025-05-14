@@ -1,6 +1,7 @@
 {
   "@@locale": "zh_TW",
   "about": "關於",
+  "actionAndAction": "{action1} 然後 {action2}？",
   "add": "添加",
   "all": "所有",
   "anonLoseDataTip": "目前以匿名方式登入，繼續操作將導致資料遺失。",
@@ -37,6 +38,7 @@
   "execute": "執行",
   "exit": "退出",
   "exitConfirmTip": "再次返回以退出",
+  "exitDirectly": "直接退出",
   "export": "匯出",
   "fail": "失敗",
   "feedback": "反饋",

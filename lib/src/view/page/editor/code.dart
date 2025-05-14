@@ -45,7 +45,7 @@ final class EditorPageArgs {
   final HighlightTheme? darkTheme;
 
   /// The callback when the editor is saved
-  final void Function(BuildContext, EditorPageRet) onSave;
+  final void Function(EditorPageRet) onSave;
 
   /// Whether to soft wrap the text
   final bool softWrap;
@@ -55,6 +55,10 @@ final class EditorPageArgs {
 
   /// Whether to close the editor after saving
   final bool closeAfterSave;
+
+  /// The controller of the selection toolbar.
+  /// eg.: [CodeContextMenuController]
+  final SelectionToolbarController? toolbarController;
 
   const EditorPageArgs({
     this.path,
@@ -67,6 +71,7 @@ final class EditorPageArgs {
     this.softWrap = _kSoftWrap,
     this.enableHighlight = _kEnableHighlight,
     this.closeAfterSave = _kCloseAfterSave,
+    this.toolbarController,
   });
 }
 
@@ -125,9 +130,7 @@ class _EditorPageState extends State<EditorPage> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        _pop();
-      },
+      onPopInvokedWithResult: _onPop,
       child: Scaffold(
         backgroundColor: _codeTheme['root']?.backgroundColor,
         appBar: _buildAppBar(),
@@ -198,7 +201,7 @@ class _EditorPageState extends State<EditorPage> {
         );
       },
       findBuilder: (context, controller, readOnly) => CodeFindPanelView(controller: controller, readOnly: readOnly),
-      toolbarController: const CodeContextMenuController(),
+      toolbarController: widget.args?.toolbarController,
     );
   }
 }
@@ -234,7 +237,7 @@ extension on _EditorPageState {
         return;
       }
       final ret = EditorPageRet(EditorPageRetType.path, path);
-      widget.args?.onSave(context, ret);
+      widget.args?.onSave(ret);
       _saved = true;
 
       final pop_ = widget.args?.closeAfterSave ?? _kCloseAfterSave;
@@ -244,7 +247,7 @@ extension on _EditorPageState {
 
     // it's a text editor
     final ret = EditorPageRet(EditorPageRetType.text, _controller.text);
-    widget.args?.onSave(context, ret);
+    widget.args?.onSave(ret);
     _saved = true;
 
     final pop_ = widget.args?.closeAfterSave ?? _kCloseAfterSave;
@@ -253,12 +256,40 @@ extension on _EditorPageState {
 
   void _pop() async {
     if (!_saved) {
-      final ret = await context.showRoundDialog(
+      final ret = await contextSafe?.showRoundDialog(
         title: libL10n.attention,
         child: Text(libL10n.askContinue(libL10n.exit)),
         actions: Btnx.cancelOk,
       );
       if (ret != true) return;
+    }
+    contextSafe?.pop();
+  }
+
+  void _onPop<T>(bool didPop, T? result) async {
+    if (_saved || didPop) {
+      contextSafe?.pop();
+      return;
+    }
+    final shouldSave = await contextSafe?.showRoundDialog(
+      title: libL10n.attention,
+      child: Text(libL10n.actionAndAction(libL10n.save, libL10n.exit)),
+      actions: [
+        TextButton(
+          onPressed: () => contextSafe?.pop(false),
+          child: Text(libL10n.exitDirectly),
+        ),
+        TextButton(
+          onPressed: () => contextSafe?.pop(true),
+          child: Text(libL10n.ok),
+        ),
+      ],
+    );
+    if (shouldSave == true) {
+      _onSave();
+      contextSafe?.pop();
+    } else if (shouldSave == false) {
+      contextSafe?.pop();
     }
     contextSafe?.pop();
   }

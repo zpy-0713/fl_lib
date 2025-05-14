@@ -1,6 +1,7 @@
 {
   "@@locale": "es",
   "about": "Acerca de",
+  "actionAndAction": "¿{action1} y luego {action2}?",
   "add": "Añadir",
   "all": "Todos",
   "anonLoseDataTip": "Actualmente se ha iniciado sesión de forma anónima, continuar con las operaciones provocará la pérdida de datos.",
@@ -37,6 +38,7 @@
   "execute": "Ejecutar",
   "exit": "Salir",
   "exitConfirmTip": "Presiona atrás nuevamente para salir",
+  "exitDirectly": "Salir directamente",
   "export": "Exportar",
   "fail": "Fracaso",
   "feedback": "Retroalimentación",

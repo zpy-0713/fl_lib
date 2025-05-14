@@ -1,6 +1,7 @@
 {
   "@@locale": "tr",
   "about": "Hakkında",
+  "actionAndAction": "{action1}, sonra {action2}?",
   "add": "ekle",
   "all": "tümü",
   "anonLoseDataTip": "Şu anda anonim olarak giriş yapılmış, işlemlere devam edilmesi veri kaybına neden olacaktır.",
@@ -37,6 +38,7 @@
   "execute": "Yürüt",
   "exit": "çıkış",
   "exitConfirmTip": "çıkmak için tekrar geri dön",
+  "exitDirectly": "Doğrudan çık",
   "export": "Dışa aktar",
   "fail": "başarısız",
   "feedback": "Geri bildirim",

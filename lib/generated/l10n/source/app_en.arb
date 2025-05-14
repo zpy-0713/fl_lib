@@ -1,6 +1,7 @@
 {
   "@@locale": "en",
   "about": "About",
+  "actionAndAction": "{action1} and then {action2}?",
   "add": "Add",
   "all": "All",
   "anonLoseDataTip": "Currently logged in anonymously, continuing operations will result in data loss.",
@@ -37,6 +38,7 @@
   "execute": "Execute",
   "exit": "Exit",
   "exitConfirmTip": "Press back again to exit",
+  "exitDirectly": "Exit directly",
   "export": "Export",
   "fail": "Failure",
   "feedback": "Feedback",

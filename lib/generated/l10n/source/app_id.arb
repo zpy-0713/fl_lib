@@ -1,6 +1,7 @@
 {
   "@@locale": "id",
   "about": "Tentang",
+  "actionAndAction": "{action1} lalu {action2}?",
   "add": "Tambah",
   "all": "Semua",
   "anonLoseDataTip": "Saat ini masuk secara anonim, melanjutkan operasi akan mengakibatkan hilangnya data.",
@@ -37,6 +38,7 @@
   "execute": "Jalankan",
   "exit": "Keluar",
   "exitConfirmTip": "Tekan kembali lagi untuk keluar",
+  "exitDirectly": "Keluar langsung",
   "export": "Ekspor",
   "fail": "Gagal",
   "feedback": "Masukan",

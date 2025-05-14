@@ -12,6 +12,11 @@ class LibLocalizationsZh extends LibLocalizations {
   String get about => '关于';
 
   @override
+  String actionAndAction(Object action1, Object action2) {
+    return '$action1 然后 $action2？';
+  }
+
+  @override
   String get add => '添加';
 
   @override
@@ -122,6 +127,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get exitConfirmTip => '再次返回以退出';
+
+  @override
+  String get exitDirectly => '直接退出';
 
   @override
   String get export => '导出';
@@ -319,6 +327,11 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get about => '關於';
 
   @override
+  String actionAndAction(Object action1, Object action2) {
+    return '$action1 然後 $action2？';
+  }
+
+  @override
   String get add => '添加';
 
   @override
@@ -429,6 +442,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get exitConfirmTip => '再次返回以退出';
+
+  @override
+  String get exitDirectly => '直接退出';
 
   @override
   String get export => '匯出';

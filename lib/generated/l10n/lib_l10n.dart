@@ -122,6 +122,12 @@ abstract class LibLocalizations {
   /// **'About'**
   String get about;
 
+  /// No description provided for @actionAndAction.
+  ///
+  /// In en, this message translates to:
+  /// **'{action1} and then {action2}?'**
+  String actionAndAction(Object action1, Object action2);
+
   /// No description provided for @add.
   ///
   /// In en, this message translates to:
@@ -337,6 +343,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Press back again to exit'**
   String get exitConfirmTip;
+
+  /// No description provided for @exitDirectly.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit directly'**
+  String get exitDirectly;
 
   /// No description provided for @export.
   ///

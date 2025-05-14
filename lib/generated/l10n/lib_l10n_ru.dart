@@ -12,6 +12,11 @@ class LibLocalizationsRu extends LibLocalizations {
   String get about => 'о';
 
   @override
+  String actionAndAction(Object action1, Object action2) {
+    return '$action1, а потом $action2?';
+  }
+
+  @override
   String get add => 'Добавить';
 
   @override
@@ -122,6 +127,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get exitConfirmTip => 'Нажмите назад еще раз, чтобы выйти';
+
+  @override
+  String get exitDirectly => 'Выйти сразу';
 
   @override
   String get export => 'экспорт';

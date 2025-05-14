@@ -12,6 +12,11 @@ class LibLocalizationsTr extends LibLocalizations {
   String get about => 'Hakkında';
 
   @override
+  String actionAndAction(Object action1, Object action2) {
+    return '$action1, sonra $action2?';
+  }
+
+  @override
   String get add => 'ekle';
 
   @override
@@ -122,6 +127,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get exitConfirmTip => 'çıkmak için tekrar geri dön';
+
+  @override
+  String get exitDirectly => 'Doğrudan çık';
 
   @override
   String get export => 'Dışa aktar';

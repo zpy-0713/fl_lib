@@ -1,6 +1,7 @@
 {
   "@@locale": "nl",
   "about": "Over",
+  "actionAndAction": "{action1} en dan {action2}?",
   "add": "Toevoegen",
   "all": "Alle",
   "anonLoseDataTip": "Momenteel anoniem ingelogd, verdere handelingen zullen leiden tot gegevensverlies.",
@@ -37,6 +38,7 @@
   "execute": "Uitvoeren",
   "exit": "Afsluiten",
   "exitConfirmTip": "Druk nogmaals op terug om te sluiten",
+  "exitDirectly": "Direct afsluiten",
   "export": "Exporteren",
   "fail": "Mislukking",
   "feedback": "Feedback",
