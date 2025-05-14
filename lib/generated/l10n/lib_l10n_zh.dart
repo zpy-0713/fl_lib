@@ -68,6 +68,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get copy => '复制';
 
   @override
+  String get cut => '剪切';
+
+  @override
   String get dark => '暗';
 
   @override
@@ -98,6 +101,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get edit => '编辑';
+
+  @override
+  String get editor => '编辑器';
 
   @override
   String get empty => '空';
@@ -272,6 +278,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get thinking => '思考中';
 
   @override
+  String get unknown => '未知';
+
+  @override
   String get unsupported => '不支持';
 
   @override
@@ -366,6 +375,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get copy => '複製';
 
   @override
+  String get cut => '剪下';
+
+  @override
   String get dark => '暗';
 
   @override
@@ -396,6 +408,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get edit => '編輯';
+
+  @override
+  String get editor => '編輯器';
 
   @override
   String get empty => '空';
@@ -568,6 +583,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get thinking => '思考中';
+
+  @override
+  String get unknown => '未知';
 
   @override
   String get unsupported => '不支援';

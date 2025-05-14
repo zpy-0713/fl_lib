@@ -230,6 +230,12 @@ abstract class LibLocalizations {
   /// **'Copy'**
   String get copy;
 
+  /// No description provided for @cut.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut'**
+  String get cut;
+
   /// No description provided for @dark.
   ///
   /// In en, this message translates to:
@@ -289,6 +295,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Edit'**
   String get edit;
+
+  /// No description provided for @editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Editor'**
+  String get editor;
 
   /// No description provided for @empty.
   ///
@@ -625,6 +637,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Thinking'**
   String get thinking;
+
+  /// No description provided for @unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
 
   /// No description provided for @unsupported.
   ///

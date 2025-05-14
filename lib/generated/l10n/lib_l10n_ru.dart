@@ -68,6 +68,9 @@ class LibLocalizationsRu extends LibLocalizations {
   String get copy => 'Копировать';
 
   @override
+  String get cut => 'Вырезать';
+
+  @override
   String get dark => 'Темный';
 
   @override
@@ -98,6 +101,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get edit => 'Редактировать';
+
+  @override
+  String get editor => 'Редактор';
 
   @override
   String get empty => 'Пусто';
@@ -270,6 +276,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get thinking => 'Думаю';
+
+  @override
+  String get unknown => 'Неизвестно';
 
   @override
   String get unsupported => 'Не поддерживается';

@@ -68,6 +68,9 @@ class LibLocalizationsFr extends LibLocalizations {
   String get copy => 'Copier';
 
   @override
+  String get cut => 'Couper';
+
+  @override
   String get dark => 'Sombre';
 
   @override
@@ -98,6 +101,9 @@ class LibLocalizationsFr extends LibLocalizations {
 
   @override
   String get edit => 'Éditer';
+
+  @override
+  String get editor => 'Éditeur';
 
   @override
   String get empty => 'Vide';
@@ -270,6 +276,9 @@ class LibLocalizationsFr extends LibLocalizations {
 
   @override
   String get thinking => 'En train de réfléchir';
+
+  @override
+  String get unknown => 'Inconnu';
 
   @override
   String get unsupported => 'Non pris en charge';

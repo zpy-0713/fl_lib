@@ -68,6 +68,9 @@ class LibLocalizationsTr extends LibLocalizations {
   String get copy => 'kopyala';
 
   @override
+  String get cut => 'Kes';
+
+  @override
   String get dark => 'Koyu';
 
   @override
@@ -98,6 +101,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get edit => 'düzenle';
+
+  @override
+  String get editor => 'Düzenleyici';
 
   @override
   String get empty => 'boş';
@@ -270,6 +276,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get thinking => 'Düşünüyor';
+
+  @override
+  String get unknown => 'Bilinmiyor';
 
   @override
   String get unsupported => 'Desteklenmiyor';

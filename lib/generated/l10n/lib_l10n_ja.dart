@@ -68,6 +68,9 @@ class LibLocalizationsJa extends LibLocalizations {
   String get copy => 'コピーする';
 
   @override
+  String get cut => '切り取り';
+
+  @override
   String get dark => '暗い';
 
   @override
@@ -98,6 +101,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get edit => '編集';
+
+  @override
+  String get editor => 'エディター';
 
   @override
   String get empty => '空';
@@ -270,6 +276,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get thinking => '考え中';
+
+  @override
+  String get unknown => '不明';
 
   @override
   String get unsupported => 'サポートされていません';

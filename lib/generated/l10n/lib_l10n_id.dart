@@ -68,6 +68,9 @@ class LibLocalizationsId extends LibLocalizations {
   String get copy => 'Salin';
 
   @override
+  String get cut => 'Potong';
+
+  @override
   String get dark => 'Gelap';
 
   @override
@@ -98,6 +101,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get edit => 'Edit';
+
+  @override
+  String get editor => 'Editor';
 
   @override
   String get empty => 'Kosong';
@@ -270,6 +276,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get thinking => 'Sedang berpikir';
+
+  @override
+  String get unknown => 'Tidak diketahui';
 
   @override
   String get unsupported => 'Tidak didukung';

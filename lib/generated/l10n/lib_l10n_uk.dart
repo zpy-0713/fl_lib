@@ -68,6 +68,9 @@ class LibLocalizationsUk extends LibLocalizations {
   String get copy => 'Скопіювати';
 
   @override
+  String get cut => 'Вирізати';
+
+  @override
   String get dark => 'Темний';
 
   @override
@@ -98,6 +101,9 @@ class LibLocalizationsUk extends LibLocalizations {
 
   @override
   String get edit => 'Редагувати';
+
+  @override
+  String get editor => 'Редактор';
 
   @override
   String get empty => 'Пустий';
@@ -270,6 +276,9 @@ class LibLocalizationsUk extends LibLocalizations {
 
   @override
   String get thinking => 'Обмірковую';
+
+  @override
+  String get unknown => 'Невідомо';
 
   @override
   String get unsupported => 'Не підтримується';
