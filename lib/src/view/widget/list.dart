@@ -15,19 +15,11 @@ final class MultiList extends StatefulWidget {
   /// Number used to divide available width for column sizing.
   final double widthDivider;
 
-  /// Whether to show the scrollbar thumb.
-  final bool? thumbVisibility;
-
-  /// Whether to show the scrollbar track.
-  final bool? trackVisibility;
-
   const MultiList({
     super.key,
     required this.children,
     this.outerPadding = kOuterPadding,
     this.widthDivider = 2.2,
-    this.thumbVisibility,
-    this.trackVisibility,
     this.betweenPadding = 10,
   });
 
@@ -83,29 +75,24 @@ final class _MultiListState extends State<MultiList> {
       final totalBetweenPadding = widget.betweenPadding * (len - 1);
       final columnWidth = (cons.maxWidth - widget.outerPadding.horizontal - totalBetweenPadding) / widget.widthDivider;
 
-      return Scrollbar(
+      return ListView.separated(
+        padding: widget.outerPadding,
         controller: _horizonScroll,
-        thumbVisibility: widget.thumbVisibility,
-        trackVisibility: widget.trackVisibility,
-        child: ListView.separated(
-          padding: widget.outerPadding,
-          controller: _horizonScroll,
-          scrollDirection: Axis.horizontal,
-          itemCount: len,
-          separatorBuilder: (_, __) => SizedBox(width: widget.betweenPadding),
-          itemBuilder: (_, i) {
-            final col = widget.children[i];
+        scrollDirection: Axis.horizontal,
+        itemCount: len,
+        separatorBuilder: (_, __) => SizedBox(width: widget.betweenPadding),
+        itemBuilder: (_, i) {
+          final col = widget.children[i];
 
-            return SizedBox(
-              width: columnWidth,
-              child: ListView.builder(
-                key: PageStorageKey(i), // Keep independent scroll position
-                itemCount: col.length,
-                itemBuilder: (_, index) => col[index],
-              ),
-            );
-          },
-        ),
+          return SizedBox(
+            width: columnWidth,
+            child: ListView.builder(
+              // key: PageStorageKey(i), // Keep independent scroll position
+              itemCount: col.length,
+              itemBuilder: (_, index) => col[index],
+            ),
+          );
+        },
       );
     });
   }
@@ -125,20 +112,12 @@ final class AutoMultiList extends StatefulWidget {
   /// Padding between columns.
   final double betweenPadding;
 
-  /// Whether to show the scrollbar thumb.
-  final bool? thumbVisibility;
-
-  /// Whether to show the scrollbar track.
-  final bool? trackVisibility;
-
   const AutoMultiList({
     super.key,
     required this.children,
     this.outerPadding = MultiList.kOuterPadding,
     this.columnWidth = UIs.columnWidth,
     this.betweenPadding = 10,
-    this.thumbVisibility,
-    this.trackVisibility,
   });
 
   @override
@@ -196,8 +175,6 @@ class _AutoMultiListState extends State<AutoMultiList> {
         betweenPadding: widget.betweenPadding,
         outerPadding: widget.outerPadding,
         widthDivider: _actualColumnCount.toDouble(),
-        thumbVisibility: widget.thumbVisibility,
-        trackVisibility: widget.trackVisibility,
         children: _distributedChildren,
       );
     });
