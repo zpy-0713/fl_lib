@@ -8,20 +8,14 @@ final class ValBuilder<T> extends ValueListenableBuilder<T> {
     super.key,
     required this.listenable,
     required Widget Function(T) builder,
-  }) : super(
-          valueListenable: listenable,
-          builder: (_, val, __) => builder(val),
-        );
+  }) : super(valueListenable: listenable, builder: (_, val, __) => builder(val));
 
   ValBuilder.child({
     super.key,
     required this.listenable,
     required Widget Function(T, Widget?) builder,
     super.child,
-  }) : super(
-          valueListenable: listenable,
-          builder: (_, val, child) => builder(val, child),
-        );
+  }) : super(valueListenable: listenable, builder: (_, val, child) => builder(val, child));
 }
 
 final class ListenBuilder extends ListenableBuilder {
@@ -29,22 +23,17 @@ final class ListenBuilder extends ListenableBuilder {
     super.key,
     required super.listenable,
     required Widget Function() builder,
-  }) : super(
-          builder: (_, __) => builder(),
-        );
+  }) : super(builder: (_, __) => builder());
 
   ListenBuilder.child({
     super.key,
     required super.listenable,
     required Widget Function(Widget?) builder,
     super.child,
-  }) : super(
-          builder: (_, child) => builder(child),
-        );
+  }) : super(builder: (_, child) => builder(child));
 }
 
-final class PreferredSizeListenBuilder extends ListenBuilder
-    implements PreferredSizeWidget {
+final class PreferredSizeListenBuilder extends ListenBuilder implements PreferredSizeWidget {
   final Size preferSize;
 
   PreferredSizeListenBuilder({

@@ -52,6 +52,14 @@ final class _MultiListState extends State<MultiList> {
   }
 
   @override
+  void didUpdateWidget(covariant MultiList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(oldWidget.children, widget.children)) {
+      setState(() {});
+    }
+  }
+
+  @override
   void dispose() {
     _horizonScroll.dispose();
     super.dispose();
@@ -59,15 +67,17 @@ final class _MultiListState extends State<MultiList> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_isMobile) return _buildDesktop;
+    if (_isMobile) {
+      return ListView(
+        padding: widget.outerPadding,
+        children: widget.children.expand((list) => list).toList(),
+      );
+    }
 
-    return ListView(
-      padding: widget.outerPadding,
-      children: widget.children.expand((list) => list).toList(),
-    );
+    return _buildDesktop(context);
   }
 
-  Widget get _buildDesktop {
+  Widget _buildDesktop(BuildContext context) {
     return LayoutBuilder(builder: (_, cons) {
       final len = widget.children.length;
       final totalBetweenPadding = widget.betweenPadding * (len - 1);
@@ -82,20 +92,16 @@ final class _MultiListState extends State<MultiList> {
           controller: _horizonScroll,
           scrollDirection: Axis.horizontal,
           itemCount: len,
-          separatorBuilder: (_, i) => SizedBox(width: widget.betweenPadding),
+          separatorBuilder: (_, __) => SizedBox(width: widget.betweenPadding),
           itemBuilder: (_, i) {
-            final children = (i < widget.children.length) ? widget.children[i] : null;
-            if (children == null) return UIs.placeholder;
+            final col = widget.children[i];
 
             return SizedBox(
               width: columnWidth,
               child: ListView.builder(
-                itemCount: children.length,
-                itemBuilder: (_, index) {
-                  final child = (index < children.length) ? children[index] : null;
-                  if (child == null) return UIs.placeholder;
-                  return child;
-                },
+                key: PageStorageKey(i), // Keep independent scroll position
+                itemCount: col.length,
+                itemBuilder: (_, index) => col[index],
               ),
             );
           },
@@ -153,22 +159,31 @@ class _AutoMultiListState extends State<AutoMultiList> {
   /// Last total width used for distribution.
   double _lastTotalWidth = 1.0;
 
+  /// Hash code of the last children list to detect changes
+  int _lastChildrenHashCode = 0;
+
   @override
   void didUpdateWidget(covariant AutoMultiList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.children != widget.children ||
+    if (!identical(widget.children, oldWidget.children) ||
         oldWidget.columnWidth != widget.columnWidth ||
         oldWidget.outerPadding != widget.outerPadding) {
-      _updateDistribution();
+      _updateDistribution(forceUpdate: true);
+      setState(() {});
     }
   }
 
-  void _updateDistribution() {
-    if (_totalWidth == _lastTotalWidth) return;
+  void _updateDistribution({bool forceUpdate = false}) {
+    final currentChildrenHashCode = widget.children.hashCode;
+    if (!forceUpdate && _totalWidth == _lastTotalWidth && currentChildrenHashCode == _lastChildrenHashCode) {
+      return;
+    }
+
     final availableWidth = _totalWidth - widget.outerPadding.horizontal;
     _actualColumnCount = (availableWidth / widget.columnWidth).floor().clamp(1, 10);
     _distributedChildren = _distributeChildrenToColumns(widget.children, _actualColumnCount);
     _lastTotalWidth = _totalWidth;
+    _lastChildrenHashCode = currentChildrenHashCode;
   }
 
   @override
@@ -179,6 +194,7 @@ class _AutoMultiListState extends State<AutoMultiList> {
 
       return MultiList(
         betweenPadding: widget.betweenPadding,
+        outerPadding: widget.outerPadding,
         widthDivider: _actualColumnCount.toDouble(),
         thumbVisibility: widget.thumbVisibility,
         trackVisibility: widget.trackVisibility,
