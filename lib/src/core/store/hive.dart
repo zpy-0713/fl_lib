@@ -118,6 +118,23 @@ class HiveStore extends Store {
   }
 
   @override
+  bool setAll<T extends Object>(
+    Map<String, T> map, {
+    StoreToStr<T>? toStr,
+    bool? updateLastUpdateTsOnSet,
+  }) {
+    updateLastUpdateTsOnSet ??= this.updateLastUpdateTsOnSet;
+    for (final entry in map.entries) {
+      final res = set(entry.key, entry.value, toStr: toStr, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
+      if (!res) {
+        dprintWarn('setAll()', 'failed to set ${entry.key}');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  @override
   Set<String> keys({bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys}) {
     final set_ = <String>{};
     for (final key in box.keys) {

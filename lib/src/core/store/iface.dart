@@ -61,15 +61,35 @@ sealed class Store {
 
   /// Set the value of the key.
   ///
+  /// {@template store_set}
   /// - If [T] is specified, the store will try to convert the value to string by
   /// calling [toStr].
   /// - If you want to set to `null`, use [remove] instead.
+  /// {@endtemplate}
   FutureOr<bool> set<T extends Object>(
     String key,
     T val, {
     StoreToStr<T>? toStr,
     bool? updateLastUpdateTsOnSet,
   });
+
+  /// Set the map of key-value pairs.
+  /// 
+  /// {@macro store_set}
+  FutureOr<bool> setAll<T extends Object>(
+    Map<String, T> map, {
+    StoreToStr<T>? toStr,
+    bool? updateLastUpdateTsOnSet,
+  }) async {
+    for (final entry in map.entries) {
+      final res = await set(entry.key, entry.value, toStr: toStr, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
+      if (!res) {
+        dprintWarn('setAll()', 'failed to set ${entry.key}');
+        return false;
+      }
+    }
+    return true;
+  }
 
   /// Get all keys.
   ///
