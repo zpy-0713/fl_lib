@@ -33,6 +33,7 @@ export 'src/core/ext/color.dart';
 export 'src/core/ext/datetime.dart';
 export 'src/core/mixin/after_layout.dart';
 export 'src/core/mixin/global_ref.dart';
+export 'src/core/utils/id.dart';
 export 'src/core/utils/window_state.dart';
 export 'src/core/utils/platform/base.dart';
 export 'src/core/utils/platform/auth.dart';
