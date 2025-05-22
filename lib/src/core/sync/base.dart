@@ -29,7 +29,10 @@ abstract class SyncIface<T extends Mergeable, I> {
   /// Backup data to remote storage.
   FutureOr<void> backup([RemoteStorage<I>? rs]) async {
     rs ??= await remoteStorage;
-    if (rs == null) return;
+    if (rs == null) {
+      Loggers.app.warning('No remote storage available');
+      return;
+    }
 
     await saveToFile();
     await rs.upload(relativePath: Paths.bakName);
@@ -54,22 +57,32 @@ abstract class SyncIface<T extends Mergeable, I> {
 
   FutureOr<void> _sync([RemoteStorage<I>? rs]) async {
     rs ??= await remoteStorage;
-    if (rs == null) return;
-
-    try {
-      await rs.download(relativePath: Paths.bakName);
-    } catch (_) {
-      return await backup();
+    if (rs == null) {
+      Loggers.app.warning('No remote storage available');
+      return;
     }
 
-    try {
-      final dlBak = await compute(fromFile, Paths.bak);
-      await dlBak.merge();
-    } catch (e, s) {
-      Loggers.app.warning('Sync iCloud backup', e, s);
+    final remoteExists = await rs.exists(Paths.bakName);
+
+    // Only try to merge if the remote backup file exists
+    if (remoteExists) {
+      try {
+        await rs.download(relativePath: Paths.bakName);
+      } catch (e, s) {
+        Loggers.app.warning('Download backup', e, s);
+        return;
+      }
+
+      try {
+        final dlBak = await compute(fromFile, Paths.bak);
+        await dlBak.merge();
+      } catch (e, s) {
+        Loggers.app.warning('Merge backup', e, s);
+      }
     }
 
-    await Future.delayed(const Duration(milliseconds: 37));
+    // Upload merged or new backup
+    await Future.delayed(const Duration(milliseconds: 77));
     await backup();
   }
 }

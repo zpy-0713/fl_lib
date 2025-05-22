@@ -3,7 +3,7 @@ part of 'iface.dart';
 /// Properties saved in SharedPreferences.
 abstract final class PrefProps {
   /// Used for migration
-  static const lastVer = PrefPropDefault<int>('last_ver', 0);
+  static const lastVer = PrefPropDefault<int>('last_ver', 0, updateLastUpdateTsOnSetProp: false);
 
   /// `null` means not set, `''` means empty password
   static const bakPwd = PrefProp<String>('bak_pwd');
@@ -23,10 +23,10 @@ abstract final class PrefProps {
   static const webdavPwd = PrefProp<String>('webdav_pwd');
 
   /// {@macro webdav_settings}
-  static const webdavSync = PrefPropDefault('webdav_sync', false);
+  static const webdavSync = PrefPropDefault('webdav_sync', false, updateLastUpdateTsOnSetProp: false);
 
   /// iCloud sync
-  static const icloudSync = PrefPropDefault('icloud_sync', false);
+  static const icloudSync = PrefPropDefault('icloud_sync', false, updateLastUpdateTsOnSetProp: false);
 }
 
 /// The listener of the SharedPreferences.
@@ -109,13 +109,17 @@ final class PrefStore extends Store {
       final int val => _instance!.setInt(key, val),
       final String val => _instance!.setString(key, val),
       final List<String> val => _instance!.setStringList(key, val),
-      _ => () {
+      _ => () async {
           if (toStr != null) {
             final str = toStr(val);
-            if (str is String) return _instance!.setString(key, str);
+            if (str != null) {
+              return _instance!.setString(key, str);
+            } else {
+              return _instance!.remove(key);
+            }
           }
           dprintWarn('set("$key")', 'invalid type: ${val.runtimeType}');
-          return Future.value(false);
+          return false;
         }(),
     };
     if (updateLastUpdateTsOnSet ?? this.updateLastUpdateTsOnSet) updateLastUpdateTs();
@@ -215,17 +219,16 @@ final class PrefPropDefault<T extends Object> extends StorePropDefault<T> {
   ValueListenable<T> listenable() => PrefPropDefaultListenable<T>(store, key, defaultValue);
 }
 
-/// The [ValueListenable] of the key.
-final class PrefPropListenable<T extends Object> extends ValueListenable<T?> {
+/// Base class for PrefProp listenables to avoid code duplication
+abstract class _BasePrefPropListenable {
   final PrefStore store;
   final String key;
 
   /// The internal map of prop key listeners.
   static final _map = <int, PrefStoreKeyListener>{};
 
-  const PrefPropListenable(this.store, this.key);
+  const _BasePrefPropListenable(this.store, this.key);
 
-  @override
   void addListener(VoidCallback listener) {
     final lis = _map.putIfAbsent(listener.hashCode, () {
       // The actual listener
@@ -238,49 +241,29 @@ final class PrefPropListenable<T extends Object> extends ValueListenable<T?> {
     store.listeners.add(lis);
   }
 
-  @override
   void removeListener(VoidCallback listener) {
     final actualListener = _map.remove(listener.hashCode);
     if (actualListener != null) {
       store.listeners.remove(actualListener);
     }
   }
+}
+
+/// The [ValueListenable] of the key.
+final class PrefPropListenable<T extends Object> extends _BasePrefPropListenable implements ValueListenable<T?> {
+  const PrefPropListenable(super.store, super.key);
 
   @override
   T? get value => store.get<T>(key);
 }
 
 /// The [ValueListenable] of the key with default value.
-final class PrefPropDefaultListenable<T extends Object> extends ValueListenable<T> {
-  final PrefStore store;
-  final String key;
+final class PrefPropDefaultListenable<T extends Object> extends _BasePrefPropListenable implements ValueListenable<T> {
   final T defaultValue;
 
-  PrefPropDefaultListenable(this.store, this.key, this.defaultValue);
+  PrefPropDefaultListenable(super.store, super.key, this.defaultValue);
 
   @override
-  void addListener(VoidCallback listener) {
-    final lis = PrefPropListenable._map.putIfAbsent(listener.hashCode, () {
-      // The actual listener
-      void lis(String k) {
-        if (k == key) listener();
-      }
-
-      return lis;
-    });
-    store.listeners.add(lis);
-  }
-
-  @override
-  void removeListener(VoidCallback listener) {
-    final actualListener = PrefPropListenable._map.remove(listener.hashCode);
-    if (actualListener != null) {
-      store.listeners.remove(actualListener);
-    }
-  }
-
-  @override
-
   /// Since the value is retrieved from the store, so the value is not guaranteed
   /// to be the same as expected(the actual modified value).
   T get value => store.get<T>(key) ?? defaultValue;

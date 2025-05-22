@@ -59,4 +59,15 @@ final class ICloud implements RemoteStorage<ICloudFile> {
     );
     return completer.future;
   }
+
+  @override
+  Future<bool> exists(String relativePath) async {
+    try {
+      final files = await list();
+      return files.any((file) => file.relativePath == relativePath);
+    } catch (e) {
+      Loggers.app.warning('Check if file exists in iCloud', e);
+      return false;
+    }
+  }
 }

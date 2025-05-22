@@ -30,6 +30,9 @@ abstract base class RemoteStorage<ListItemType> {
   /// {@macro remote_storage_upload}
   Future<void> download({required String relativePath, String? localPath});
 
+  /// Check if a file exists in remote storage
+  Future<bool> exists(String relativePath);
+
   /// List files in remote storage
   Future<List<ListItemType>> list();
 }

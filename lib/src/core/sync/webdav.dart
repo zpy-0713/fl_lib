@@ -64,6 +64,18 @@ final class Webdav implements RemoteStorage<String> {
     );
   }
 
+  /// Check if a file exists in WebDAV storage
+  @override
+  Future<bool> exists(String relativePath) async {
+    try {
+      final path = prefix + relativePath;
+      return await client!.exists(path);
+    } catch (e) {
+      Loggers.app.warning('Check if file exists in WebDAV', e);
+      return false;
+    }
+  }
+
   /// {@macro webdav_client}
   @override
   Future<List<String>> list() async {
