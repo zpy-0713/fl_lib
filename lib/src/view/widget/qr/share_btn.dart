@@ -37,31 +37,20 @@ final class QrShareBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final qrWidget = QrView(
-      key: qrKey,
-      data: data,
-      size: size,
-      tip: tip,
-      tip2: tip2,
-      centerImg: centerImg,
-    );
+    final qrWidget = QrView(key: qrKey, data: data, size: size, tip: tip, tip2: tip2, centerImg: centerImg);
 
     final shareTextBtn = Btn.text(
       text: libL10n.save,
       onTap: () async {
         final res = await ScreenshotController().captureFromWidget(qrWidget);
-        Pfs.share(bytes: res, name: _sharePicName, mime: 'image/png');
+        Pfs.shareBytes(bytes: res, title: _sharePicName, fileName: _sharePicName, mime: 'image/png');
       },
     );
 
     return Btn.icon(
       icon: const Icon(Icons.share),
       onTap: () {
-        context.showRoundDialog(
-          title: libL10n.share,
-          child: qrWidget,
-          actions: shareTextBtn.toList,
-        );
+        context.showRoundDialog(title: libL10n.share, child: qrWidget, actions: shareTextBtn.toList);
       },
     );
   }

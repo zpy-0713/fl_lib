@@ -10,7 +10,6 @@ import 'dart:io';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
 
 /// File card view;
 ///
@@ -350,7 +349,7 @@ extension on _FileViewPageState {
     final path = widget.args.path;
     if (path == null) return;
     try {
-      await Share.shareXFiles([XFile(path)], subject: widget.args.name ?? '');
+      await Pfs.sharePaths(paths: [path], title: widget.args.name);
     } catch (e) {
       contextSafe?.showErrDialog(e);
     }

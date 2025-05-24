@@ -42,7 +42,6 @@ export 'src/core/utils/platform/path.dart';
 export 'src/core/utils/ui.dart';
 export 'src/core/utils/font.dart';
 export 'src/core/utils/markdown.dart';
-export 'src/core/utils/encrypt.dart';
 export 'src/core/utils/func.dart';
 export 'src/core/utils/keyboard.dart';
 export 'src/core/utils/locale.dart';

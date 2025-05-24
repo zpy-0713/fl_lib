@@ -23,7 +23,8 @@ class LibLocalizationsEs extends LibLocalizations {
   String get all => 'Todos';
 
   @override
-  String get anonLoseDataTip => 'Actualmente se ha iniciado sesión de forma anónima, continuar con las operaciones provocará la pérdida de datos.';
+  String get anonLoseDataTip =>
+      'Actualmente se ha iniciado sesión de forma anónima, continuar con las operaciones provocará la pérdida de datos.';
 
   @override
   String get app => 'Aplicación';
@@ -183,7 +184,8 @@ class LibLocalizationsEs extends LibLocalizations {
   String get migrateCfg => 'Migración de configuración';
 
   @override
-  String get migrateCfgTip => 'Para adaptarse a la nueva configuración requerida';
+  String get migrateCfgTip =>
+      'Para adaptarse a la nueva configuración requerida';
 
   @override
   String get minute => 'Minutos';
@@ -227,7 +229,8 @@ class LibLocalizationsEs extends LibLocalizations {
   String get pwd => 'Contraseña';
 
   @override
-  String get pwdTip => 'Longitud de 6 a 32, puede contener letras en inglés, números y signos de puntuación';
+  String get pwdTip =>
+      'Longitud de 6 a 32, puede contener letras en inglés, números y signos de puntuación';
 
   @override
   String get register => 'Registrarse';

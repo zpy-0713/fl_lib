@@ -81,10 +81,9 @@ final class ImagePage extends StatelessWidget {
               fn: () => _getImgData(args.url),
             );
             if (err != null || path == null) return;
-            await Pfs.share(
-              path: path,
-              name: 'gptbox_img.jpg',
-              mime: 'image/jpeg',
+            await Pfs.sharePaths(
+              paths: [path],
+              title: args.title,
             );
           },
           icon: const Icon(Icons.share),

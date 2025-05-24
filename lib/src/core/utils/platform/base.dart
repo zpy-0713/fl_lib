@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:fl_lib/src/core/ext/string.dart';
+import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
@@ -47,10 +47,10 @@ enum Pfs {
 
   @override
   String toString() => switch (this) {
-        macos => 'macOS',
-        ios => 'iOS',
-        final val => val.name.capitalize,
-      };
+    macos => 'macOS',
+    ios => 'iOS',
+    final val => val.name.capitalize,
+  };
 
   static final String seperator = isWindows ? '\\' : '/';
 
@@ -66,60 +66,46 @@ enum Pfs {
     return null;
   }();
 
+  /// Share files.
   /// Open share sheet on mobile, reveal in file explorer on desktop.
-  /// - [path] or [bytes] or [content] is required.
-  static Future<void> share({
-    String? path,
-    Uint8List? bytes,
-    String? content,
-    String name = 'fl_lib_share',
-    String? mime,
-  }) async {
-    if (path == null && bytes == null && content == null) {
-      throw ArgumentError('path / bytes / content is required');
-    }
-
+  static Future<ShareResult?> sharePaths({required List<String> paths, String? title}) async {
     if (isDesktop) {
-      if (path != null) {
+      /// Open the paths
+      for (final path in paths) {
+        final file = File(path);
+        if (!await file.exists()) {
+          Logger.root.warning('File not found: $path');
+          continue;
+        }
         await revealPath(path);
-      } else {
-        final tempDir = Directory.systemTemp;
-        var file = File('${tempDir.path}/$name');
-        if (await file.exists()) {
-          final nameWithoutExt = name.split('.').firstOrNull ?? name;
-          final ext = name.split('.').lastOrNull ?? '';
-          var i = 1;
-          while (await file.exists()) {
-            file = File('${tempDir.path}/$nameWithoutExt-$i.$ext');
-            i++;
-          }
-        }
-        if (bytes != null) {
-          await file.writeAsBytes(bytes);
-        } else if (content != null) {
-          await file.writeAsString(content);
-        }
-        await revealPath(file.path);
       }
-      return;
+      return null;
     }
 
-    final XFile xfile;
-    if (path != null) {
-      xfile = XFile(path, name: name, mimeType: mime);
-    } else if (bytes != null) {
-      xfile = XFile.fromData(bytes, name: name, mimeType: mime);
-    } else {
-      xfile = XFile.fromData(utf8.encode(content!), name: name, mimeType: mime);
-    }
-    await Share.shareXFiles([xfile]);
+    title ??= libL10n.share;
+    final files = paths.map((path) => XFile(path)).toList();
+    final params = ShareParams(title: title, files: files);
+    return SharePlus.instance.share(params);
   }
 
   /// Share string data with a file name.
-  static Future<void> shareStr(String name, String data, {String? mime}) async {
-    await Share.shareXFiles(
-      [XFile.fromData(utf8.encode(data), name: name, mimeType: mime)],
-    );
+  static Future<ShareResult> shareStr(String data, {String? title}) async {
+    title ??= libL10n.share;
+    final params = ShareParams(text: data, title: title);
+    return SharePlus.instance.share(params);
+  }
+
+  /// Share bytes data.
+  static Future<ShareResult> shareBytes({
+    required Uint8List bytes,
+    String? title,
+    String? fileName,
+    String mime = 'application/octet-stream',
+  }) async {
+    title;
+    final xfile = XFile.fromData(bytes, mimeType: mime, name: fileName ?? 'shared_file_${DateTimeX.timestamp}.bin');
+    final params = ShareParams(files: [xfile], title: title ?? libL10n.share);
+    return SharePlus.instance.share(params);
   }
 
   /// Pick a file and return the [PlatformFile] object.
@@ -153,9 +139,9 @@ enum Pfs {
 
   /// Copy the data to the clipboard.
   static void copy(dynamic data) => switch (data.runtimeType) {
-        const (String) => Clipboard.setData(ClipboardData(text: data)),
-        final val => throw UnimplementedError('Not supported type: $val(${val.runtimeType})'),
-      };
+    const (String) => Clipboard.setData(ClipboardData(text: data)),
+    final val => throw UnimplementedError('Not supported type: $val(${val.runtimeType})'),
+  };
 
   /// Paste the data from the clipboard.
   static Future<String?> paste() async {
