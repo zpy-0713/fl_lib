@@ -8,10 +8,10 @@ extension ThemeDataX on ThemeData {
         scaffoldBackgroundColor: Colors.black,
         drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
         appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
-        dialogTheme: const DialogTheme(backgroundColor: Colors.black),
+        dialogTheme: const DialogThemeData(backgroundColor: Colors.black),
         bottomSheetTheme: const BottomSheetThemeData(backgroundColor: bgInDark),
         listTileTheme: const ListTileThemeData(tileColor: bgInDark),
-        cardTheme: const CardTheme(color: bgInDark),
+        cardTheme: const CardThemeData(color: bgInDark),
         navigationBarTheme:
             const NavigationBarThemeData(backgroundColor: Colors.black),
         popupMenuTheme: const PopupMenuThemeData(color: Colors.black),
