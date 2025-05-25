@@ -1,6 +1,5 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
-import 'package:screenshot/screenshot.dart';
 
 final class QrShareBtn extends StatelessWidget {
   /// The data to be encoded.
@@ -39,24 +38,11 @@ final class QrShareBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     final qrWidget = QrView(key: qrKey, data: data, size: size, tip: tip, tip2: tip2, centerImg: centerImg);
 
-    final shareTextBtn = Btn.text(
-      text: libL10n.save,
-      onTap: () async {
-        final res = await ScreenshotController().captureFromWidget(qrWidget);
-        Pfs.shareBytes(bytes: res, title: _sharePicName, fileName: _sharePicName, mime: 'image/png');
-      },
-    );
-
     return Btn.icon(
       icon: const Icon(Icons.share),
       onTap: () {
-        context.showRoundDialog(title: libL10n.share, child: qrWidget, actions: shareTextBtn.toList);
+        context.showRoundDialog(title: libL10n.share, child: qrWidget, actions: Btnx.oks);
       },
     );
-  }
-
-  String get _sharePicName {
-    if (sharePicName != null) return sharePicName!;
-    return 'qr_code_${DateTimeX.timestamp}.png';
   }
 }
