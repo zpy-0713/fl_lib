@@ -3,7 +3,7 @@ part of 'iface.dart';
 /// Properties saved in SharedPreferences.
 abstract final class PrefProps {
   /// Used for migration
-  static const lastVer = PrefPropDefault<int>('last_ver', 0, updateLastUpdateTsOnSetProp: false);
+  static const lastVer = PrefPropDefault('last_ver', 0, updateLastUpdateTsOnSetProp: false);
 
   /// `null` means not set, `''` means empty password
   static const bakPwd = PrefProp<String>('bak_pwd');
@@ -77,20 +77,46 @@ final class PrefStore extends Store {
   /// Get the value of the key.
   ///
   /// {@template pref_store_types}
-  /// Only support types: [bool], [double], [int], [String], `List<String>`.
+  /// Native support types: [bool], [double], [int], [String], `List<String>`, `Map<String, dynamic>`.
+  ///
+  /// If not supported, you can use [fromStr] to convert the string value to the desired type.
   /// {@endtemplate}
   @override
   T? get<T extends Object>(String key, {StoreFromStr<T>? fromStr}) {
-    final val = _instance!.get(key);
-    if (val is! T) {
-      if (val == null) return null;
-      if (val is String && fromStr != null) {
-        return fromStr(val);
-      }
-      dprintWarn('get("$key")', 'is: ${val.runtimeType}');
+    final instance = _instance;
+    if (instance == null) {
+      dprintWarn('get("$key")', 'instance not initialized');
       return null;
     }
-    return val;
+
+    try {
+      final res = switch (T) {
+        const (bool) => instance.getBool(key),
+        const (double) => instance.getDouble(key),
+        const (int) => instance.getInt(key),
+        const (String) => instance.getString(key),
+        const (List<String>) => instance.getStringList(key),
+        const (Map<String, dynamic>) => () {
+            final str = instance.getString(key);
+            if (str == null) return null;
+            return json.decode(str) as Map<String, dynamic>;
+          }(),
+        _ => () {
+            final str = instance.getString(key);
+            if (str == null) return null;
+            return fromStr?.call(str);
+          }(),
+      };
+      if (res is! T?) {
+        dprintWarn('get("$key")', 'is: ${res.runtimeType}, expected: $T');
+        return null;
+      }
+
+      return res;
+    } catch (e) {
+      dprintWarn('get("$key")', 'error: $e');
+      return null;
+    }
   }
 
   /// Set the value of the key.
@@ -103,26 +129,32 @@ final class PrefStore extends Store {
     StoreToStr<T>? toStr,
     bool? updateLastUpdateTsOnSet,
   }) {
+    final instance = _instance;
+    if (instance == null) {
+      dprintWarn('set("$key")', 'instance not initialized');
+      return Future.value(false);
+    }
+
     final res = switch (val) {
-      final bool val => _instance!.setBool(key, val),
-      final double val => _instance!.setDouble(key, val),
-      final int val => _instance!.setInt(key, val),
-      final String val => _instance!.setString(key, val),
-      final List<String> val => _instance!.setStringList(key, val),
+      final bool val => instance.setBool(key, val),
+      final double val => instance.setDouble(key, val),
+      final int val => instance.setInt(key, val),
+      final String val => instance.setString(key, val),
+      final List<String> val => instance.setStringList(key, val),
+      final Map<String, dynamic> val => instance.setString(key, json.encode(val)),
       _ => () async {
-          if (toStr != null) {
-            final str = toStr(val);
-            if (str != null) {
-              return _instance!.setString(key, str);
-            } else {
-              return _instance!.remove(key);
-            }
+          if (toStr == null) {
+            dprintWarn('set("$key")', 'invalid type: ${val.runtimeType}');
+            return false;
           }
-          dprintWarn('set("$key")', 'invalid type: ${val.runtimeType}');
-          return false;
+          final str = toStr(val);
+          if (str != null) {
+            return instance.setString(key, str);
+          }
+          return instance.remove(key);
         }(),
     };
-    if (updateLastUpdateTsOnSet ?? this.updateLastUpdateTsOnSet) updateLastUpdateTs();
+    if (updateLastUpdateTsOnSet ?? this.updateLastUpdateTsOnSet) updateLastUpdateTs(key: key);
     return res;
   }
 
@@ -148,7 +180,7 @@ final class PrefStore extends Store {
   Future<bool> remove(String key, {bool? updateLastUpdateTsOnRemove}) {
     final ret = _instance!.remove(key);
     updateLastUpdateTsOnRemove ??= this.updateLastUpdateTsOnRemove;
-    if (updateLastUpdateTsOnRemove) updateLastUpdateTs();
+    if (updateLastUpdateTsOnRemove) updateLastUpdateTs(key: key);
     return ret;
   }
 
@@ -157,7 +189,7 @@ final class PrefStore extends Store {
   Future<bool> clear({bool? updateLastUpdateTsOnClear}) {
     final ret = _instance!.clear();
     updateLastUpdateTsOnClear ??= this.updateLastUpdateTsOnClear;
-    if (updateLastUpdateTsOnClear) updateLastUpdateTs();
+    if (updateLastUpdateTsOnClear) updateLastUpdateTs(key: null);
     return ret;
   }
 }
@@ -264,6 +296,7 @@ final class PrefPropDefaultListenable<T extends Object> extends _BasePrefPropLis
   PrefPropDefaultListenable(super.store, super.key, this.defaultValue);
 
   @override
+
   /// Since the value is retrieved from the store, so the value is not guaranteed
   /// to be the same as expected(the actual modified value).
   T get value => store.get<T>(key) ?? defaultValue;

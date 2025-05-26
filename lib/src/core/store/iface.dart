@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:fl_lib/fl_lib.dart';
@@ -74,7 +75,7 @@ sealed class Store {
   });
 
   /// Set the map of key-value pairs.
-  /// 
+  ///
   /// {@macro store_set}
   FutureOr<bool> setAll<T extends Object>(
     Map<String, T> map, {
@@ -106,11 +107,28 @@ sealed class Store {
 
   /// Update the last update timestamp.
   ///
-  /// You can override the timestamp by passing [ts].
+  /// - [ts] You can override the timestamp by this.
+  /// - [key] is the key of map(`store.lastUpdateTsKey`) to the last update timestamp.
+  /// If [key] is `null`, it's triggered by [clear].
   ///
   /// {@macro store_last_update_ts}
-  FutureOr<void> updateLastUpdateTs([int? ts]) {
-    return set(lastUpdateTsKey, ts ?? DateTimeX.timestamp, updateLastUpdateTsOnSet: false);
+  FutureOr<void> updateLastUpdateTs({int? ts, required String? key}) {
+    try {
+      final map = get(lastUpdateTsKey, fromStr: (raw) => (json.decode(raw) as Map).cast<String, int>()) ?? <String, int>{};
+      ts ??= DateTimeX.timestamp;
+      if (key != null) {
+        map[key] = ts;
+      } else {
+        // Set all keys to the current timestamp.
+        for (final k in map.keys) {
+          map[k] = ts;
+        }
+      }
+      return set(lastUpdateTsKey, json.encode(map), updateLastUpdateTsOnSet: false);
+    } catch (e) {
+      dprintWarn('updateLastUpdateTs()', 'update last ts: $e');
+    }
+    return null;
   }
 
   /// Get the last update timestamp.

@@ -108,12 +108,12 @@ class HiveStore extends Store {
       final str = toStr(val);
       if (str is String) {
         box.put(key, str);
-        if (updateLastUpdateTsOnSet) updateLastUpdateTs();
+        if (updateLastUpdateTsOnSet) updateLastUpdateTs(key: key);
         return true;
       }
     }
     box.put(key, val);
-    if (updateLastUpdateTsOnSet) updateLastUpdateTs();
+    if (updateLastUpdateTsOnSet) updateLastUpdateTs(key: key);
     return true;
   }
 
@@ -150,7 +150,7 @@ class HiveStore extends Store {
   bool remove(String key, {bool? updateLastUpdateTsOnRemove}) {
     box.delete(key);
     updateLastUpdateTsOnRemove ??= this.updateLastUpdateTsOnRemove;
-    if (updateLastUpdateTsOnRemove) updateLastUpdateTs();
+    if (updateLastUpdateTsOnRemove) updateLastUpdateTs(key: key);
     return true;
   }
 
@@ -158,7 +158,7 @@ class HiveStore extends Store {
   bool clear({bool? updateLastUpdateTsOnClear}) {
     box.clear();
     updateLastUpdateTsOnClear ??= this.updateLastUpdateTsOnClear;
-    if (updateLastUpdateTsOnClear) updateLastUpdateTs();
+    if (updateLastUpdateTsOnClear) updateLastUpdateTs(key: null);
     return true;
   }
 
