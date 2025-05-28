@@ -24,8 +24,8 @@ dependencies:
   flutter_markdown: ^0.7.1
   flutter_markdown_latex: ^0.3.1
   re_highlight: ^0.0.3
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
+  hive_ce: ^2.11.3
+  hive_ce_flutter: ^1.1.0
   icloud_storage: ^2.2.0
   icons_plus: ^5.0.0
   image: ^4.2.0

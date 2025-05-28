@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:fl_lib/src/core/store/iface.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 
 /// The secure store.
 ///

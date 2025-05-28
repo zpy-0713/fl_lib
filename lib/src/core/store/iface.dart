@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -113,31 +113,31 @@ sealed class Store {
   ///
   /// {@macro store_last_update_ts}
   FutureOr<void> updateLastUpdateTs({int? ts, required String? key}) {
+    var map = <String, int>{};
     try {
-      final map = get(lastUpdateTsKey, fromStr: (raw) => (json.decode(raw) as Map).cast<String, int>()) ?? <String, int>{};
-      ts ??= DateTimeX.timestamp;
-      if (key != null) {
-        map[key] = ts;
-      } else {
-        // Set all keys to the current timestamp.
-        for (final k in map.keys) {
-          map[k] = ts;
-        }
+      final fetched = get(lastUpdateTsKey, fromStr: (raw) => (json.decode(raw) as Map).cast<String, int>());
+      if (fetched != null) {
+        map = fetched;
       }
-      return set(lastUpdateTsKey, json.encode(map), updateLastUpdateTsOnSet: false);
-    } catch (e) {
-      dprintWarn('updateLastUpdateTs()', 'update last ts: $e');
+    } catch (_) {}
+    ts ??= DateTimeX.timestamp;
+    if (key != null) {
+      map[key] = ts;
+    } else {
+      // Set all keys to the current timestamp.
+      for (final k in map.keys) {
+        map[k] = ts;
+      }
     }
-    return null;
+    return set(lastUpdateTsKey, json.encode(map), updateLastUpdateTsOnSet: false);
   }
 
   /// Get the last update timestamp.
   ///
   /// {@macro store_last_update_ts}
-  DateTime? get lastUpdateTs {
-    final ts = get<int>(lastUpdateTsKey);
-    if (ts == null) return null;
-    return ts.tsToDateTime;
+  Map<String, int>? get lastUpdateTs {
+    final ts = get<Map<String, int>>(lastUpdateTsKey);
+    return ts;
   }
 
   /// Whether the key is an internal key.

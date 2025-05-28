@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:computer/computer.dart';
 import 'package:fl_lib/fl_lib.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
 
 /// All components to initialize the `fl_lib` package and the apps depend on this.

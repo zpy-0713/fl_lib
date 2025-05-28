@@ -11,7 +11,7 @@ class HiveStore extends Store {
   final String boxName;
 
   /// Constructor.
-  HiveStore(this.boxName, {super.lastUpdateTsKey = '_sbi_lastModified'});
+  HiveStore(this.boxName, {super.lastUpdateTsKey});
 
   /// Initialize the [HiveStore].
   Future<void> init() async {
@@ -87,8 +87,17 @@ class HiveStore extends Store {
     final val = box.get(key);
     if (val is! T) {
       if (val == null) return null;
-      if (val is String && fromStr != null) {
-        return fromStr(val);
+      if (val is String) {
+        final converted = fromStr?.call(val);
+        if (converted is T) return converted;
+        if (T is Map) {
+          try {
+            final map = json.decode(val) as T?;
+            return map;
+          } catch (e) {
+            dprintWarn('get("$key")', 'json decode error: $e');
+          }
+        }
       }
       dprintWarn('get("$key")', 'is: ${val.runtimeType}');
       return null;
