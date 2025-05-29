@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'hive.dart';
 part 'pref.dart';
+part 'mock.dart';
 
 /// {@template store_from_to_str}
 /// If there is a type which is not supported by the store, the store will call
@@ -203,14 +204,9 @@ sealed class Store {
     return map;
   }
 
-  /// Format the warning msg.
-  String fmtWarnMsg(String fn, String msg) {
-    return '$runtimeType.$fn $msg';
-  }
-
   /// Print the formatted warning msg.
   void dprintWarn(String fn, String msg) {
-    dprint(fmtWarnMsg(fn, msg));
+    dprint('$runtimeType.$fn $msg');
   }
 }
 

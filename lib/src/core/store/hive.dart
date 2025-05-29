@@ -11,7 +11,13 @@ class HiveStore extends Store {
   final String boxName;
 
   /// Constructor.
-  HiveStore(this.boxName, {super.lastUpdateTsKey});
+  HiveStore(
+    this.boxName, {
+    super.lastUpdateTsKey,
+    super.updateLastUpdateTsOnClear,
+    super.updateLastUpdateTsOnRemove,
+    super.updateLastUpdateTsOnSet,
+  });
 
   /// Initialize the [HiveStore].
   Future<void> init() async {
@@ -165,7 +171,12 @@ class HiveStore extends Store {
 
   @override
   bool clear({bool? updateLastUpdateTsOnClear}) {
+    final lastUpdateTsMap = lastUpdateTs;
     box.clear();
+    if (lastUpdateTsMap != null) {
+      set(lastUpdateTsKey, lastUpdateTsMap, updateLastUpdateTsOnSet: false);
+    }
+
     updateLastUpdateTsOnClear ??= this.updateLastUpdateTsOnClear;
     if (updateLastUpdateTsOnClear) updateLastUpdateTs(key: null);
     return true;

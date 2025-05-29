@@ -163,9 +163,15 @@ final class PrefStore extends Store {
   Set<String> keys({
     bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
   }) {
+    final instance = _instance;
+    if (instance == null) {
+      dprintWarn('keys()', 'instance not initialized');
+      return {};
+    }
+
     final set_ = <String>{};
     try {
-      for (final key in _instance!.getKeys()) {
+      for (final key in instance.getKeys()) {
         if (!includeInternalKeys && isInternalKey(key)) continue;
         set_.add(key);
       }
@@ -178,7 +184,13 @@ final class PrefStore extends Store {
   /// Remove the key.
   @override
   Future<bool> remove(String key, {bool? updateLastUpdateTsOnRemove}) {
-    final ret = _instance!.remove(key);
+    final instance = _instance;
+    if (instance == null) {
+      dprintWarn('remove("$key")', 'instance not initialized');
+      return Future.value(false);
+    }
+
+    final ret = instance.remove(key);
     updateLastUpdateTsOnRemove ??= this.updateLastUpdateTsOnRemove;
     if (updateLastUpdateTsOnRemove) updateLastUpdateTs(key: key);
     return ret;
@@ -187,7 +199,18 @@ final class PrefStore extends Store {
   /// Clear the store.
   @override
   Future<bool> clear({bool? updateLastUpdateTsOnClear}) {
-    final ret = _instance!.clear();
+    final instance = _instance;
+    if (instance == null) {
+      dprintWarn('clear()', 'instance not initialized');
+      return Future.value(false);
+    }
+
+    final lastUpTsMap = lastUpdateTs;
+    final ret = instance.clear();
+    if (lastUpTsMap != null) {
+      set(lastUpdateTsKey, lastUpTsMap, updateLastUpdateTsOnSet: false);
+    }
+
     updateLastUpdateTsOnClear ??= this.updateLastUpdateTsOnClear;
     if (updateLastUpdateTsOnClear) updateLastUpdateTs(key: null);
     return ret;
