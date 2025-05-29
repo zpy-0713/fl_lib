@@ -53,9 +53,12 @@ final class PrefStore extends Store {
   /// {@macro PrefStore.init}
   PrefStore({
     this.prefix,
+    super.name = 'Pref',
     Set<PrefStoreKeyListener>? listeners,
-    super.updateLastUpdateTsOnSet,
     super.lastUpdateTsKey,
+    super.updateLastUpdateTsOnSet,
+    super.updateLastUpdateTsOnClear,
+    super.updateLastUpdateTsOnRemove,
   }) : listeners = listeners ?? {};
 
   /// Single instance for the whole app.

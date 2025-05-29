@@ -48,7 +48,11 @@ sealed class Store {
   /// {@macro store_updateLastUpdateTsOn}
   final bool updateLastUpdateTsOnClear;
 
+  /// Name of the store
+  final String name;
+
   const Store({
+    required this.name,
     this.updateLastUpdateTsOnSet = StoreDefaults.defaultUpdateLastUpdateTs,
     this.updateLastUpdateTsOnRemove = StoreDefaults.defaultUpdateLastUpdateTs,
     this.updateLastUpdateTsOnClear = StoreDefaults.defaultUpdateLastUpdateTs,
@@ -113,7 +117,12 @@ sealed class Store {
   /// If [key] is `null`, it's triggered by [clear].
   ///
   /// {@macro store_last_update_ts}
-  FutureOr<void> updateLastUpdateTs({int? ts, required String? key}) {
+  FutureOr<bool> updateLastUpdateTs({int? ts, required String? key}) async {
+    if (key != null && isInternalKey(key)) {
+      dprintWarn('updateLastUpdateTs()', 'key `$key` is an internal key, ignored.');
+      return false;
+    }
+
     var map = <String, int>{};
     try {
       final fetched = get(lastUpdateTsKey, fromStr: (raw) => (json.decode(raw) as Map).cast<String, int>());

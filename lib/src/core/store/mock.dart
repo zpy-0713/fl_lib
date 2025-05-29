@@ -12,6 +12,7 @@ class MockStore extends Store {
     super.updateLastUpdateTsOnRemove,
     super.updateLastUpdateTsOnClear,
     super.lastUpdateTsKey,
+    super.name = 'Mock',
   });
 
   @override
@@ -123,8 +124,13 @@ class MockStore extends Store {
   }
 
   @override
-  void updateLastUpdateTs({int? ts, required String? key}) {
-    final timestampMap = (_mem[this.lastUpdateTsKey] as Map).cast<String, int>();
+  bool updateLastUpdateTs({int? ts, required String? key}) {
+    if (key != null && isInternalKey(key)) {
+      dprintWarn('updateLastUpdateTs()', 'Attempted to update timestamp for internal key "$key". Ignored.');
+      return false;
+    }
+
+    final timestampMap = (_mem[this.lastUpdateTsKey] as Map?)?.cast<String, int>() ?? {};
     final currentTs = ts ?? DateTimeX.timestamp;
 
     if (key != null) {
@@ -137,6 +143,7 @@ class MockStore extends Store {
       }
     }
     _mem[this.lastUpdateTsKey] = timestampMap;
+    return true;
   }
 
   @override

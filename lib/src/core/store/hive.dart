@@ -17,7 +17,7 @@ class HiveStore extends Store {
     super.updateLastUpdateTsOnClear,
     super.updateLastUpdateTsOnRemove,
     super.updateLastUpdateTsOnSet,
-  });
+  }) : super(name: boxName);
 
   /// Initialize the [HiveStore].
   Future<void> init() async {

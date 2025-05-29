@@ -40,4 +40,78 @@ abstract base class RemoteStorage<ListItemType> {
 abstract class Mergeable {
   /// Merge backup with current data
   Future<void> merge();
+
+  // Helper function to merge a specific store
+  static Future<void> mergeStore({
+    required Map<String, Object?> backupData,
+    required Store store,
+    required bool force,
+  }) async {
+    // Extract the timestamps from the backup data
+    final storeName = store.name;
+    final lastModTimeMap = backupData[store.lastUpdateTsKey] as Map<String, dynamic>?;
+    if (lastModTimeMap == null) {
+      Loggers.app.warning('$storeName: No timestamp data found in backup');
+      return;
+    }
+
+    // Remove the timestamp data to get only the actual data
+    backupData.remove(store.lastUpdateTsKey);
+
+    // Get current data
+    final curKeys =
+        (await store.keys(includeInternalKeys: true)).where((key) => !key.startsWith('_') && !store.isInternalKey(key)).toSet();
+    final bakKeys = backupData.keys.toSet();
+
+    // Determine which keys to add, update, or delete
+    final newKeys = bakKeys.difference(curKeys);
+    Loggers.app.fine('$storeName: New keys to add: $newKeys');
+    final delKeys = force ? curKeys.difference(bakKeys) : <String>{};
+    Loggers.app.fine('$storeName: Keys to delete: $delKeys');
+    final updateKeys = curKeys.intersection(bakKeys);
+    Loggers.app.fine('$storeName: Keys to update: $updateKeys');
+
+    // Add new keys
+    for (final key in newKeys) {
+      final value = backupData[key];
+      if (value == null) {
+        Loggers.app.warning('$storeName: No value for $key in backup');
+        continue;
+      }
+      await store.set(key, value);
+      Loggers.app.fine('$storeName: Added $key');
+    }
+
+    // Delete keys 
+    for (final key in delKeys) {
+      await store.remove(key);
+      Loggers.app.fine('$storeName: Deleted $key');
+    }
+
+    // Update existing keys (if backup is newer or force is true)
+    for (final key in updateKeys) {
+      final bakTimestamp = lastModTimeMap[key] as int?;
+      if (bakTimestamp == null) {
+        Loggers.app.warning('$storeName: No timestamp for $key in backup');
+        continue;
+      }
+
+      // Check if we should update based on timestamp or force
+      final curLastUpdateTs = store.lastUpdateTs;
+      final curTimestamp = curLastUpdateTs?[key];
+      final shouldUpdate = force || curTimestamp == null || bakTimestamp > curTimestamp;
+
+      if (shouldUpdate) {
+        final value = backupData[key];
+        if (value == null) {
+          await store.remove(key);
+        } else {
+          await store.set(key, value);
+        }
+        Loggers.app.fine('$storeName: Updated $key (backup: $bakTimestamp, current: $curTimestamp)');
+      } else {
+        Loggers.app.fine('$storeName: Skipping $key (backup: $bakTimestamp, current: $curTimestamp)');
+      }
+    }
+  }
 }
