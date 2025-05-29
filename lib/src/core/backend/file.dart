@@ -106,7 +106,7 @@ abstract final class FileApi {
 /// eg.: {'code': 0, 'msg': 'ok', 'data': {...}}
 ///
 /// The code and data are optional.
-T? _getRespData<T extends Object>(resp) {
+T? _getRespData<T extends Object>(Object resp) {
   return switch (resp) {
     final Map<dynamic, dynamic> m => extractData(m),
     _ => throw 'Invalid response: ${resp.runtimeType}, $resp',

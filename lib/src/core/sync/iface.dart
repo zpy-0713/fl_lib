@@ -39,7 +39,7 @@ abstract base class RemoteStorage<ListItemType> {
 
 abstract class Mergeable {
   /// Merge backup with current data
-  Future<void> merge();
+  Future<void> merge({bool force = false});
 
   // Helper function to merge a specific store
   static Future<void> mergeStore({
@@ -65,11 +65,11 @@ abstract class Mergeable {
 
     // Determine which keys to add, update, or delete
     final newKeys = bakKeys.difference(curKeys);
-    Loggers.app.fine('$storeName: New keys to add: $newKeys');
+    // Loggers.app.fine('$storeName: New keys to add: $newKeys');
     final delKeys = force ? curKeys.difference(bakKeys) : <String>{};
-    Loggers.app.fine('$storeName: Keys to delete: $delKeys');
+    // Loggers.app.fine('$storeName: Keys to delete: $delKeys');
     final updateKeys = curKeys.intersection(bakKeys);
-    Loggers.app.fine('$storeName: Keys to update: $updateKeys');
+    // Loggers.app.fine('$storeName: Keys to update: $updateKeys');
 
     // Add new keys
     for (final key in newKeys) {
