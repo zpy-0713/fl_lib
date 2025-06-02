@@ -7,7 +7,7 @@ extension ThemeDataX on ThemeData {
   ThemeData get toAmoled => copyWith(
         scaffoldBackgroundColor: Colors.black,
         drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
-        appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
+        appBarTheme: const AppBarTheme(backgroundColor: Colors.black, scrolledUnderElevation: 0),
         dialogTheme: const DialogThemeData(backgroundColor: Colors.black),
         bottomSheetTheme: const BottomSheetThemeData(backgroundColor: bgInDark),
         listTileTheme: const ListTileThemeData(tileColor: bgInDark),

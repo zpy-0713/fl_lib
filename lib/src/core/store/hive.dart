@@ -57,7 +57,7 @@ class HiveStore extends Store {
   @override
   T? get<T extends Object>(String key, {StoreFromObj<T>? fromObj}) {
     final val = box.get(key);
-    if (val is! T) {
+    if (val is! T?) {
       if (val == null) return null;
 
       if (fromObj != null) {
@@ -212,6 +212,23 @@ class HiveStore extends Store {
       defaultValue,
       updateLastUpdateTsOnSetProp: updateLastModified,
       fromObj: fromObj,
+      toObj: toObj,
+    );
+  }
+
+  HivePropDefault<List<T>> listProperty<T extends Object>(
+    String key, {
+    List<T> defaultValue = const [],
+    bool updateLastModified = StoreDefaults.defaultUpdateLastUpdateTs,
+    StoreFromObj<List<T>>? fromObj,
+    StoreToObj<List<T>>? toObj,
+  }) {
+    return HivePropDefault<List<T>>(
+      this,
+      key,
+      defaultValue,
+      updateLastUpdateTsOnSetProp: updateLastModified,
+      fromObj: fromObj ?? (obj) => List<T>.from(obj as Iterable),
       toObj: toObj,
     );
   }

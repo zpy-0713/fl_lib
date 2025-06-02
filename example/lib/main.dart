@@ -7,6 +7,7 @@ import 'preview/image_page.dart';
 import 'preview/loading_widget.dart';
 import 'preview/color_picker_widget.dart';
 import 'preview/error_widget.dart';
+import 'preview/custom_appbar_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,6 +46,7 @@ class MainPage extends StatelessWidget {
       _PreviewEntry('Loading Widget', const PreviewLoadingWidget()),
       _PreviewEntry('Color Picker Widget', const PreviewColorPickerWidget()),
       _PreviewEntry('Error Widget', const PreviewErrorWidget()),
+      _PreviewEntry('Custom App Bar Page', const PreviewCustomAppBarPage()),
     ];
     return Scaffold(
       appBar: AppBar(
