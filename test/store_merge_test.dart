@@ -184,8 +184,7 @@ void main() {
         force: false,
       );
 
-      // Verify no changes were made due to missing timestamp data
-      expect(store.get('newKey'), null);
+      expect(store.get('newKey'), 'newValue');
     });
 
     test('handles missing timestamp for specific key', () async {
@@ -212,7 +211,6 @@ void main() {
         force: false,
       );
 
-      // Verify only key with timestamp was updated
       expect(store.get('commonKey'), 'currentValue');
       expect(store.get('anotherKey'), 'anotherValue');
     });

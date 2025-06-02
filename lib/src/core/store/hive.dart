@@ -54,57 +54,21 @@ class HiveStore extends Store {
     box = enc;
   }
 
-  /// A property of the [HiveStore].
-  HiveProp<T> property<T extends Object>(
-    String key, {
-    T? defaultValue,
-    bool updateLastModified = true,
-    T? Function(String)? fromStr,
-    String? Function(T?)? toStr,
-  }) {
-    return HiveProp<T>(
-      this,
-      key,
-      updateLastUpdateTsOnSetProp: updateLastModified,
-      fromStr: fromStr,
-      toStr: toStr,
-    );
-  }
-
-  HivePropDefault<T> propertyDefault<T extends Object>(
-    String key,
-    T defaultValue, {
-    bool updateLastModified = StoreDefaults.defaultUpdateLastUpdateTs,
-    T? Function(String)? fromStr,
-    String? Function(T?)? toStr,
-  }) {
-    return HivePropDefault<T>(
-      this,
-      key,
-      defaultValue,
-      updateLastUpdateTsOnSetProp: updateLastModified,
-      fromStr: fromStr,
-      toStr: toStr,
-    );
-  }
-
   @override
-  T? get<T extends Object>(String key, {StoreFromStr<T>? fromStr}) {
+  T? get<T extends Object>(String key, {StoreFromObj<T>? fromObj}) {
     final val = box.get(key);
     if (val is! T) {
       if (val == null) return null;
-      if (val is String) {
-        final converted = fromStr?.call(val);
-        if (converted is T) return converted;
-        if (T is Map) {
-          try {
-            final map = json.decode(val) as T?;
-            return map;
-          } catch (e) {
-            dprintWarn('get("$key")', 'json decode error: $e');
-          }
+
+      if (fromObj != null) {
+        try {
+          final converted = fromObj(val);
+          if (converted is T) return converted;
+        } catch (_) {
+          dprintWarn('get("$key")', 'fromObj failed for key "$key"');
         }
       }
+
       dprintWarn('get("$key")', 'is: ${val.runtimeType}');
       return null;
     }
@@ -115,12 +79,12 @@ class HiveStore extends Store {
   bool set<T extends Object>(
     String key,
     T val, {
-    StoreToStr<T>? toStr,
+    StoreToObj<T>? toObj,
     bool? updateLastUpdateTsOnSet,
   }) {
     updateLastUpdateTsOnSet ??= this.updateLastUpdateTsOnSet;
-    if (toStr != null) {
-      final str = toStr(val);
+    if (toObj != null) {
+      final str = toObj(val);
       if (str is String) {
         box.put(key, str);
         if (updateLastUpdateTsOnSet) updateLastUpdateTs(key: key);
@@ -135,12 +99,12 @@ class HiveStore extends Store {
   @override
   bool setAll<T extends Object>(
     Map<String, T> map, {
-    StoreToStr<T>? toStr,
+    StoreToObj<T>? toObj,
     bool? updateLastUpdateTsOnSet,
   }) {
     updateLastUpdateTsOnSet ??= this.updateLastUpdateTsOnSet;
     for (final entry in map.entries) {
-      final res = set(entry.key, entry.value, toStr: toStr, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
+      final res = set(entry.key, entry.value, toObj: toObj, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
       if (!res) {
         dprintWarn('setAll()', 'failed to set ${entry.key}');
         return false;
@@ -193,7 +157,7 @@ class HiveStore extends Store {
   @override
   Map<String, T> getAllMapTyped<T extends Object>({
     bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
-    StoreFromStr<T>? fromStr,
+    StoreFromObj<T>? fromStr,
   }) {
     final keys = this.keys(includeInternalKeys: includeInternalKeys);
     final map = <String, T>{};
@@ -217,6 +181,40 @@ class HiveStore extends Store {
     }
     return map;
   }
+
+  /// A property of the [HiveStore].
+  HiveProp<T> property<T extends Object>(
+    String key, {
+    T? defaultValue,
+    bool updateLastModified = true,
+    StoreFromObj<T>? fromObj,
+    StoreToObj<T>? toObj,
+  }) {
+    return HiveProp<T>(
+      this,
+      key,
+      updateLastUpdateTsOnSetProp: updateLastModified,
+      fromObj: fromObj,
+      toObj: toObj,
+    );
+  }
+
+  HivePropDefault<T> propertyDefault<T extends Object>(
+    String key,
+    T defaultValue, {
+    bool updateLastModified = StoreDefaults.defaultUpdateLastUpdateTs,
+    StoreFromObj<T>? fromObj,
+    StoreToObj<T>? toObj,
+  }) {
+    return HivePropDefault<T>(
+      this,
+      key,
+      defaultValue,
+      updateLastUpdateTsOnSetProp: updateLastModified,
+      fromObj: fromObj,
+      toObj: toObj,
+    );
+  }
 }
 
 /// A property of the [HiveStore].
@@ -228,8 +226,8 @@ class HiveProp<T extends Object> extends StoreProp<T> {
     this.store,
     super.key, {
     super.updateLastUpdateTsOnSetProp,
-    super.fromStr,
-    super.toStr,
+    super.fromObj,
+    super.toObj,
   });
 
   /// {@template hive_store_fn_backward_compatibility}
@@ -240,7 +238,7 @@ class HiveProp<T extends Object> extends StoreProp<T> {
   /// {@macro hive_store_fn_backward_compatibility}
   void put(T value) => set(value);
 
-  void delete() => super.remove();
+  void delete() => remove();
 
   @override
   ValueListenable<T?> listenable() {
@@ -257,8 +255,8 @@ final class HivePropDefault<T extends Object> extends StorePropDefault<T> implem
     super.key,
     super.defaultValue, {
     super.updateLastUpdateTsOnSetProp,
-    super.fromStr,
-    super.toStr,
+    super.fromObj,
+    super.toObj,
   });
 
   @override
@@ -273,7 +271,7 @@ final class HivePropDefault<T extends Object> extends StorePropDefault<T> implem
   void put(T value) => set(value);
 
   @override
-  void delete() => super.remove();
+  void delete() => remove();
 }
 
 class HivePropListenable<T extends Object> extends ValueListenable<T?> {

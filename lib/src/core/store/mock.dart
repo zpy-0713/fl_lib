@@ -16,7 +16,7 @@ class MockStore extends Store {
   });
 
   @override
-  T? get<T extends Object>(String key, {StoreFromStr<T>? fromStr}) {
+  T? get<T extends Object>(String key, {StoreFromObj<T>? fromObj}) {
     final value = _mem[key];
     if (value == null) {
       return null;
@@ -26,9 +26,9 @@ class MockStore extends Store {
       return value;
     }
 
-    if (fromStr != null && value is String) {
+    if (fromObj != null && value is String) {
       try {
-        return fromStr(value);
+        return fromObj(value);
       } catch (e, s) {
         dprintWarn('get<$T>()', 'fromStr failed for key "$key": $e\n$s');
         return null;
@@ -43,7 +43,7 @@ class MockStore extends Store {
       }
     }
 
-    if (fromStr == null && value is! T) {
+    if (fromObj == null && value is! T) {
       try {
         return value as T;
       } catch (e, s) {
@@ -52,7 +52,7 @@ class MockStore extends Store {
       }
     }
 
-    if (fromStr != null && value is! String) {
+    if (fromObj != null && value is! String) {
       dprintWarn('get<$T>()', 'fromStr provided for key "$key" but value is not a String. Value type: ${value.runtimeType}');
       return null;
     }
@@ -65,12 +65,12 @@ class MockStore extends Store {
   bool set<T extends Object>(
     String key,
     T val, {
-    StoreToStr<T>? toStr,
+    StoreToObj<T>? toObj,
     bool? updateLastUpdateTsOnSet,
   }) {
     Object? valueToStore;
-    if (toStr != null) {
-      final strVal = toStr(val);
+    if (toObj != null) {
+      final strVal = toObj(val);
       if (strVal == null) {
         dprintWarn('set<$T>()', 'toStr returned null for key "$key". Value not set.');
         return false;
@@ -175,7 +175,7 @@ class MockStore extends Store {
   @override
   Map<String, T> getAllMapTyped<T extends Object>({
     bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
-    StoreFromStr<T>? fromStr,
+    StoreFromObj<T>? fromStr,
   }) {
     final result = <String, T>{};
     for (final key in keys(includeInternalKeys: includeInternalKeys)) {
@@ -202,11 +202,11 @@ class MockStore extends Store {
   @override
   bool setAll<T extends Object>(
     Map<String, T> map, {
-    StoreToStr<T>? toStr,
+    StoreToObj<T>? toObj,
     bool? updateLastUpdateTsOnSet,
   }) {
     for (final entry in map.entries) {
-      final res = set(entry.key, entry.value, toStr: toStr, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
+      final res = set(entry.key, entry.value, toObj: toObj, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
       if (!res) {
         dprintWarn('setAllSync()', 'failed to set ${entry.key}');
         return false;
@@ -225,13 +225,13 @@ class MockStoreProp<T extends Object> extends StoreProp<T> {
     this.store, // Store instance
     String key, // Positional key
     {
-    StoreFromStr<T>? fromStr,
-    StoreToStr<T>? toStr,
+    StoreFromObj<T>? fromStr,
+    StoreToObj<T>? toStr,
     bool updateLastUpdateTsOnSetProp = StoreDefaults.defaultUpdateLastUpdateTs,
   }) : super(
           key, // Pass key to super constructor
-          fromStr: fromStr,
-          toStr: toStr,
+          fromObj: fromStr,
+          toObj: toStr,
           updateLastUpdateTsOnSetProp: updateLastUpdateTsOnSetProp,
         );
 
@@ -255,14 +255,14 @@ class MockStorePropDefault<T extends Object> extends StorePropDefault<T> {
     String key, // Positional key
     T defaultValue, // Positional defaultValue
     {
-    StoreFromStr<T>? fromStr,
-    StoreToStr<T>? toStr,
+    StoreFromObj<T>? fromObj,
+    StoreToObj<T>? toObj,
     bool updateLastUpdateTsOnSetProp = StoreDefaults.defaultUpdateLastUpdateTs,
   }) : super(
           key, // Pass key to super constructor
           defaultValue, // Pass defaultValue to super constructor
-          fromStr: fromStr,
-          toStr: toStr,
+          fromObj: fromObj,
+          toObj: toObj,
           updateLastUpdateTsOnSetProp: updateLastUpdateTsOnSetProp,
         );
 

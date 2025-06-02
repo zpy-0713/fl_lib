@@ -37,10 +37,10 @@ void main() {
 
     test('get with fromStr', () {
       store.set<String>('parsableKey', '123');
-      expect(store.get<int>('parsableKey', fromStr: (s) => int.tryParse(s)), 123);
+      expect(store.get<int>('parsableKey', fromObj: (s) => int.tryParse(s as String)), 123);
 
       store.set<String>('nonParsableKey', 'abc');
-      expect(store.get<int>('nonParsableKey', fromStr: (s) => int.tryParse(s)), isNull);
+      expect(store.get<int>('nonParsableKey', fromObj: (s) => int.tryParse(s as String)), isNull);
     });
 
     test('get with type mismatch and no fromStr', () {
@@ -57,7 +57,7 @@ void main() {
           store.set<Map<String, dynamic>>(
             'complexKey',
             complexObject,
-            toStr: (val) => val.toString(),
+            toObj: (val) => val.toString(),
           ),
           isTrue);
       expect(store.get<String>('complexKey'), complexObject.toString());
@@ -65,7 +65,7 @@ void main() {
     });
 
     test('set with toStr returning null', () {
-      expect(store.set<String>('key', 'value', toStr: (val) => null), isFalse);
+      expect(store.set<String>('key', 'value', toObj: (val) => null), isFalse);
       expect(store.get<String>('key'), isNull);
     });
 

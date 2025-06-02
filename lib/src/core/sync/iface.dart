@@ -49,19 +49,44 @@ abstract class Mergeable {
   }) async {
     // Extract the timestamps from the backup data
     final storeName = store.name;
-    final lastModTimeMap = backupData[store.lastUpdateTsKey] as Map<String, dynamic>?;
-    if (lastModTimeMap == null) {
-      Loggers.app.warning('$storeName: No timestamp data found in backup');
-      return;
+    final rawLastModTs = backupData[store.lastUpdateTsKey];
+    late final Map<String, dynamic> lastModTimeMap;
+
+    if (rawLastModTs is String) {
+      // Try parsing JSON string to a map; if that fails, treat it as a single int timestamp
+      try {
+        final decoded = json.decode(rawLastModTs);
+        if (decoded is Map) {
+          lastModTimeMap = Map<String, dynamic>.from(decoded);
+        } else {
+          final tsInt = int.tryParse(rawLastModTs) ?? 0;
+          lastModTimeMap = <String, dynamic>{
+            for (final k in backupData.keys.where((k) => k != store.lastUpdateTsKey)) k: tsInt
+          };
+        }
+      } catch (_) {
+        final tsInt = int.tryParse(rawLastModTs) ?? 0;
+        lastModTimeMap = <String, dynamic>{
+          for (final k in backupData.keys.where((k) => k != store.lastUpdateTsKey)) k: tsInt
+        };
+      }
+    } else if (rawLastModTs is int) {
+      lastModTimeMap = <String, dynamic>{
+        for (final k in backupData.keys.where((k) => k != store.lastUpdateTsKey)) k: rawLastModTs
+      };
+    } else if (rawLastModTs is Map) {
+      lastModTimeMap = Map<String, dynamic>.from(rawLastModTs);
+    } else {
+      lastModTimeMap = <String, dynamic>{};
     }
 
-    // Remove the timestamp data to get only the actual data
-    backupData.remove(store.lastUpdateTsKey);
-
     // Get current data
-    final curKeys =
-        (await store.keys(includeInternalKeys: true)).where((key) => !key.startsWith('_') && !store.isInternalKey(key)).toSet();
-    final bakKeys = backupData.keys.toSet();
+    final curKeys = (await store.keys(includeInternalKeys: true))
+        .where((key) => key != store.lastUpdateTsKey)
+        .toSet();
+    final bakKeys = backupData.keys
+        .where((key) => key != store.lastUpdateTsKey)
+        .toSet();
 
     // Determine which keys to add, update, or delete
     final newKeys = bakKeys.difference(curKeys);
@@ -82,7 +107,7 @@ abstract class Mergeable {
       Loggers.app.fine('$storeName: Added $key');
     }
 
-    // Delete keys 
+    // Delete keys
     for (final key in delKeys) {
       await store.remove(key);
       Loggers.app.fine('$storeName: Deleted $key');
@@ -92,14 +117,14 @@ abstract class Mergeable {
     for (final key in updateKeys) {
       final bakTimestamp = lastModTimeMap[key] as int?;
       if (bakTimestamp == null) {
-        Loggers.app.warning('$storeName: No timestamp for $key in backup');
+        // Loggers.app.warning('$storeName: No timestamp for $key in backup');
         continue;
       }
 
       // Check if we should update based on timestamp or force
       final curLastUpdateTs = store.lastUpdateTs;
       final curTimestamp = curLastUpdateTs?[key];
-      final shouldUpdate = force || curTimestamp == null || bakTimestamp > curTimestamp;
+      final shouldUpdate = force || bakTimestamp > (curTimestamp ?? 0);
 
       if (shouldUpdate) {
         final value = backupData[key];
@@ -110,7 +135,7 @@ abstract class Mergeable {
         }
         Loggers.app.fine('$storeName: Updated $key (backup: $bakTimestamp, current: $curTimestamp)');
       } else {
-        Loggers.app.fine('$storeName: Skipping $key (backup: $bakTimestamp, current: $curTimestamp)');
+        // Loggers.app.fine('$storeName: Skipping $key (backup: $bakTimestamp, current: $curTimestamp)');
       }
     }
   }

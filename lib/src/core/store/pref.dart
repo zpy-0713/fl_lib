@@ -82,10 +82,10 @@ final class PrefStore extends Store {
   /// {@template pref_store_types}
   /// Native support types: [bool], [double], [int], [String], `List<String>`, `Map<String, dynamic>`.
   ///
-  /// If not supported, you can use [fromStr] to convert the string value to the desired type.
+  /// If not supported, you can use [fromObj] to convert the string value to the desired type.
   /// {@endtemplate}
   @override
-  T? get<T extends Object>(String key, {StoreFromStr<T>? fromStr}) {
+  T? get<T extends Object>(String key, {StoreFromObj<T>? fromObj}) {
     final instance = _instance;
     if (instance == null) {
       dprintWarn('get("$key")', 'instance not initialized');
@@ -107,7 +107,7 @@ final class PrefStore extends Store {
         _ => () {
             final str = instance.getString(key);
             if (str == null) return null;
-            return fromStr?.call(str);
+            return fromObj?.call(str);
           }(),
       };
       if (res is! T?) {
@@ -129,7 +129,7 @@ final class PrefStore extends Store {
   Future<bool> set<T extends Object>(
     String key,
     T val, {
-    StoreToStr<T>? toStr,
+    StoreToObj<T>? toObj,
     bool? updateLastUpdateTsOnSet,
   }) {
     final instance = _instance;
@@ -138,25 +138,20 @@ final class PrefStore extends Store {
       return Future.value(false);
     }
 
-    final res = switch (val) {
-      final bool val => instance.setBool(key, val),
-      final double val => instance.setDouble(key, val),
-      final int val => instance.setInt(key, val),
-      final String val => instance.setString(key, val),
-      final List<String> val => instance.setStringList(key, val),
-      final Map<String, dynamic> val => instance.setString(key, json.encode(val)),
-      _ => () async {
-          if (toStr == null) {
-            dprintWarn('set("$key")', 'invalid type: ${val.runtimeType}');
-            return false;
-          }
-          final str = toStr(val);
-          if (str != null) {
-            return instance.setString(key, str);
-          }
-          return instance.remove(key);
-        }(),
-    };
+    final res = _set(key, val, ifNotSupported: () async {
+      if (toObj == null) {
+        dprintWarn('set("$key")', 'invalid type: ${val.runtimeType}');
+        return false;
+      }
+      final obj = toObj(val);
+      if (obj != null) {
+        return _set(key, obj, ifNotSupported: () {
+          dprintWarn('set("$key")', 'unsupported type: ${obj.runtimeType}');
+          return Future.value(false);
+        });
+      }
+      return instance.remove(key);
+    });
     if (updateLastUpdateTsOnSet ?? this.updateLastUpdateTsOnSet) updateLastUpdateTs(key: key);
     return res;
   }
@@ -218,6 +213,28 @@ final class PrefStore extends Store {
     if (updateLastUpdateTsOnClear) updateLastUpdateTs(key: null);
     return ret;
   }
+
+  Future<bool> _set<T extends Object>(
+    String key,
+    T val, {
+    required Future<bool> Function() ifNotSupported,
+  }) {
+    final instance = _instance;
+    if (instance == null) {
+      dprintWarn('set("$key")', 'instance not initialized');
+      return Future.value(false);
+    }
+
+    return switch (val) {
+      final bool obj => instance.setBool(key, obj),
+      final double obj => instance.setDouble(key, obj),
+      final int obj => instance.setInt(key, obj),
+      final String obj => instance.setString(key, obj),
+      final List<String> obj => instance.setStringList(key, obj),
+      final Map<String, dynamic> obj => instance.setString(key, json.encode(obj)),
+      _ => ifNotSupported(),
+    };
+  }
 }
 
 /// A single Property in SharedPreferences.
@@ -234,8 +251,8 @@ final class PrefProp<T extends Object> extends StoreProp<T> {
   const PrefProp(
     super.key, {
     PrefStore? store,
-    super.fromStr,
-    super.toStr,
+    super.fromObj,
+    super.toObj,
     super.updateLastUpdateTsOnSetProp,
   }) : _store = store;
 
@@ -265,8 +282,8 @@ final class PrefPropDefault<T extends Object> extends StorePropDefault<T> {
     super.key,
     super.defaultValue, {
     PrefStore? store,
-    super.fromStr,
-    super.toStr,
+    super.fromObj,
+    super.toObj,
     super.updateLastUpdateTsOnSetProp,
   }) : _store = store;
 

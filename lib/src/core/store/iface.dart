@@ -12,16 +12,16 @@ part 'hive.dart';
 part 'pref.dart';
 part 'mock.dart';
 
-/// {@template store_from_to_str}
+/// {@template store_from_to}
 /// If there is a type which is not supported by the store, the store will call
-/// this function to convert the value(string) between the type.
+/// this function to convert the value between the type.
 ///
-/// Call it as `XxxStr` to avoid the conflict with the `toString` method.
+/// **DO NOT** use this if the raw value will effect the performance significantly, since it runs synchronously on the main thread.
 /// {@endtemplate}
-typedef StoreFromStr<T extends Object> = T? Function(String rawString);
+typedef StoreFromObj<T extends Object> = T? Function(Object? val);
 
-/// {@macro store_from_to_str}
-typedef StoreToStr<T extends Object> = String? Function(T? value);
+/// {@macro store_from_to}
+typedef StoreToObj<T extends Object> = Object? Function(T? value);
 
 /// The interface of any [Store].
 ///
@@ -62,20 +62,20 @@ sealed class Store {
   /// Get the value of the key.
   ///
   /// If [T] is specified, the store will try to convert the value to [T] by
-  /// calling [fromStr].
-  T? get<T extends Object>(String key, {StoreFromStr<T>? fromStr});
+  /// calling [fromObj].
+  T? get<T extends Object>(String key, {StoreFromObj<T>? fromObj});
 
   /// Set the value of the key.
   ///
   /// {@template store_set}
   /// - If [T] is specified, the store will try to convert the value to string by
-  /// calling [toStr].
+  /// calling [toObj].
   /// - If you want to set to `null`, use [remove] instead.
   /// {@endtemplate}
   FutureOr<bool> set<T extends Object>(
     String key,
     T val, {
-    StoreToStr<T>? toStr,
+    StoreToObj<T>? toObj,
     bool? updateLastUpdateTsOnSet,
   });
 
@@ -84,11 +84,11 @@ sealed class Store {
   /// {@macro store_set}
   FutureOr<bool> setAll<T extends Object>(
     Map<String, T> map, {
-    StoreToStr<T>? toStr,
+    StoreToObj<T>? toObj,
     bool? updateLastUpdateTsOnSet,
   }) async {
     for (final entry in map.entries) {
-      final res = await set(entry.key, entry.value, toStr: toStr, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
+      final res = await set(entry.key, entry.value, toObj: toObj, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
       if (!res) {
         dprintWarn('setAll()', 'failed to set ${entry.key}');
         return false;
@@ -119,13 +119,13 @@ sealed class Store {
   /// {@macro store_last_update_ts}
   FutureOr<bool> updateLastUpdateTs({int? ts, required String? key}) async {
     if (key != null && isInternalKey(key)) {
-      dprintWarn('updateLastUpdateTs()', 'key `$key` is an internal key, ignored.');
+      // dprintWarn('updateLastUpdateTs()', 'key `$key` is an internal key, ignored.');
       return false;
     }
 
     var map = <String, int>{};
     try {
-      final fetched = get(lastUpdateTsKey, fromStr: (raw) => (json.decode(raw) as Map).cast<String, int>());
+      final fetched = lastUpdateTs;
       if (fetched != null) {
         map = fetched;
       }
@@ -146,7 +146,14 @@ sealed class Store {
   ///
   /// {@macro store_last_update_ts}
   Map<String, int>? get lastUpdateTs {
-    final ts = get<Map<String, int>>(lastUpdateTsKey);
+    final ts = get<Map<String, int>>(lastUpdateTsKey, fromObj: (raw) {
+      if (raw is String) {
+        return json.decode(raw).cast<String, int>();
+      } else if (raw is Map<String, int>) {
+        return raw;
+      }
+      return null;
+    });
     return ts;
   }
 
@@ -188,7 +195,7 @@ sealed class Store {
   /// {@macro store_include_internal_keys}
   FutureOr<Map<String, T>> getAllMapTyped<T extends Object>({
     bool includeInternalKeys = StoreDefaults.defaultIncludeInternalKeys,
-    StoreFromStr<T>? fromStr,
+    StoreFromObj<T>? fromStr,
   }) async {
     final keys = await this.keys(includeInternalKeys: includeInternalKeys);
     final map = <String, T>{};
@@ -227,10 +234,10 @@ abstract class StoreProp<T extends Object> {
   final String key;
 
   /// Convert the value(string) to [T].
-  final StoreFromStr<T>? fromStr;
+  final StoreFromObj<T>? fromObj;
 
   /// Convert the value to string.
-  final StoreToStr<T>? toStr;
+  final StoreToObj<T>? toObj;
 
   /// Whether to update the last update timestamp when setting a value for this property.
   ///
@@ -241,15 +248,15 @@ abstract class StoreProp<T extends Object> {
   /// Constructor.
   ///
   /// - [key] is the key of the property.
-  /// - [fromStr] & [toStr], you can refer to [StoreFromStr] & [StoreToStr].
+  /// - [fromObj] & [toObj], you can refer to [StoreFromObj] & [StoreToObj].
   /// - [store] is the store of the property.
   /// - [updateLastUpdateTsOnSetProp] is whether to update the last update timestamp
-  /// of this [Store] when setting a value for this property.
+  ///of this [Store] when setting a value for this property.
   /// {@endtemplate}
   const StoreProp(
     this.key, {
-    this.fromStr,
-    this.toStr,
+    this.fromObj,
+    this.toObj,
     this.updateLastUpdateTsOnSetProp = StoreDefaults.defaultUpdateLastUpdateTs,
   });
 
@@ -257,12 +264,12 @@ abstract class StoreProp<T extends Object> {
   Store get store;
 
   /// Get the value of the key.
-  T? get() => store.get(key, fromStr: fromStr);
+  T? get() => store.get(key, fromObj: this.fromObj);
 
   /// Set the value of the key.
   ///
   /// If you want to set `null`, use `remove()` instead.
-  FutureOr<void> set(T value) => store.set(key, value, toStr: toStr, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
+  FutureOr<void> set(T value) => store.set(key, value, toObj: this.toObj, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
 
   /// Remove the key.
   FutureOr<void> remove() => store.remove(key);
@@ -292,22 +299,22 @@ abstract class StorePropDefault<T extends Object> extends StoreProp<T> {
   ///
   /// - [key] is the key of the property.
   /// - [defaultValue] is the default value of the property.
-  /// - [fromStr] & [toStr], you can refer to [StoreFromStr] & [StoreToStr].
+  /// - [fromObj] & [toObj], you can refer to [StoreFromObj] & [StoreToObj].
   const StorePropDefault(
     super.key,
     this.defaultValue, {
-    super.fromStr,
-    super.toStr,
+    super.fromObj,
+    super.toObj,
     super.updateLastUpdateTsOnSetProp = StoreDefaults.defaultUpdateLastUpdateTs,
   });
 
   /// Get the value of the key.
   @override
-  T get() => store.get(key, fromStr: fromStr) ?? defaultValue;
+  T get() => store.get(key, fromObj: fromObj) ?? defaultValue;
 
   /// Set the value of the key.
   @override
-  FutureOr<void> set(T value) => store.set(key, value, toStr: toStr, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
+  FutureOr<void> set(T value) => store.set(key, value, toObj: toObj, updateLastUpdateTsOnSet: updateLastUpdateTsOnSet);
 
   /// {@macro store_prop_listenable}
   @override
