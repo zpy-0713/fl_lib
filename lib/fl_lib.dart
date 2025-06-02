@@ -55,6 +55,7 @@ export 'src/core/store/secure.dart';
 export 'src/provider/debug.dart';
 export 'src/model/update.dart';
 export 'src/model/provider.dart';
+export 'src/model/err.dart';
 export 'src/model/notify.dart';
 export 'src/model/backend/user.dart';
 export 'src/model/async_queue.dart';
