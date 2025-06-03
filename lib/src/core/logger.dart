@@ -39,13 +39,16 @@ abstract final class Loggers {
   }
 }
 
-
-/// Print [msg] only in debug mode.
-/// [msg] will convert to string by default.
 /// Print [msg]s only in debug mode.
-/// [msg] will convert to string by default.
 void dprint(Object? msg, [Object? msg2, Object? msg3, Object? msg4]) {
   if (!BuildMode.isDebug) return;
+  lprint(msg, msg2, msg3, msg4, 3);
+}
+
+/// Print [msg]s to console and debug provider.
+/// 
+/// With [Loggers.log], it will also print the source file and line number.
+void lprint(Object? msg, [Object? msg2, Object? msg3, Object? msg4, int skipFrames = 2]) {
   final sb = StringBuffer();
   sb.write(msg.toString()); // Always print the first message
 
@@ -59,6 +62,6 @@ void dprint(Object? msg, [Object? msg2, Object? msg3, Object? msg4]) {
     sb.write('\t$msg4');
   }
   final str = sb.toString();
-  Loggers.log(str, skipFrames: 2);
+  Loggers.log(str, skipFrames: skipFrames);
   DebugProvider.addString(str);
 }
