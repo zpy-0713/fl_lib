@@ -11,10 +11,10 @@ class WindowState {
 
   factory WindowState.fromJson(Map<String, dynamic> json) => _$WindowStateFromJson(json);
 
-  @SizeJsonConverter()
+  @_SizeJsonConverter()
   final Size size;
 
-  @OffsetJsonConverter()
+  @_OffsetJsonConverter()
   final Offset position;
 
   Map<String, dynamic> toJson() => _$WindowStateToJson(this);
@@ -45,5 +45,39 @@ final class WindowStateListener extends WindowListener {
   @override
   void onWindowResize() {
     _updateState();
+  }
+}
+
+class _SizeJsonConverter implements JsonConverter<Size, Map<String, dynamic>> {
+  const _SizeJsonConverter();
+
+  @override
+  Size fromJson(Map<String, dynamic> json) {
+    return Size(json['width'] as double, json['height'] as double);
+  }
+
+  @override
+  Map<String, dynamic> toJson(Size object) {
+    return {
+      'width': object.width,
+      'height': object.height,
+    };
+  }
+}
+
+class _OffsetJsonConverter implements JsonConverter<Offset, Map<String, dynamic>> {
+  const _OffsetJsonConverter();
+
+  @override
+  Offset fromJson(Map<String, dynamic> json) {
+    return Offset(json['dx'] as double, json['dy'] as double);
+  }
+
+  @override
+  Map<String, dynamic> toJson(Offset object) {
+    return {
+      'dx': object.dx,
+      'dy': object.dy,
+    };
   }
 }

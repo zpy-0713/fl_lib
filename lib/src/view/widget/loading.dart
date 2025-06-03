@@ -1,25 +1,35 @@
+import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 
 final class SizedLoading extends StatelessWidget {
   final double size;
+  final double padding;
+  final double? strokeWidth;
+  final Animation<Color>? valueColor;
 
-  const SizedLoading({
+  const SizedLoading(
+    this.size, {
+    this.padding = 7,
+    this.strokeWidth,
+    this.valueColor,
     super.key,
-    this.size = 30,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size,
-      height: size,
-      child: const Center(
-        child: CircularProgressIndicator(),
-      ),
+    return Center(
+      child: SizedBox(
+        width: size - 2 * padding,
+        height: size - 2 * padding,
+        child: CircularProgressIndicator(
+          strokeWidth: strokeWidth,
+          valueColor: valueColor,
+        ),
+      ).paddingAll(padding),
     );
   }
 
-  static const small = SizedLoading(size: 20);
-  static const medium = SizedLoading(size: 50);
-  static const large = SizedLoading(size: 70);
+  static const small = SizedLoading(30);
+  static const medium = SizedLoading(50);
+  static const large = SizedLoading(70);
 }

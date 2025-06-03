@@ -13,7 +13,7 @@ final class FutureWidget<T> extends StatelessWidget {
   const FutureWidget({
     super.key,
     required this.future,
-    this.loading = SizedLoading.small,
+    this.loading = SizedLoading.medium,
     this.error,
     required this.success,
     this.cacheWidget = true,
