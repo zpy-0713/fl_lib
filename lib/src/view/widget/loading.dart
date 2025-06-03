@@ -23,7 +23,7 @@ final class SizedLoading extends StatelessWidget {
         height: size - 2 * padding,
         child: CircularProgressIndicator(
           strokeWidth: strokeWidth,
-          valueColor: valueColor,
+          valueColor: valueColor ?? AlwaysStoppedAnimation(UIs.primaryColor),
         ),
       ).paddingAll(padding),
     );

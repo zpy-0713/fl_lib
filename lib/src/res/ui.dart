@@ -95,5 +95,5 @@ abstract final class UIs {
 
   /// Single column width.
   /// Used for desktop and tablet.
-  static const columnWidth = 430.0;
+  static const columnWidth = 330.0;
 }

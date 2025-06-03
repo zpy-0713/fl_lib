@@ -15,8 +15,7 @@ final class KeyboardCtrlListener {
     required this.key,
     Set<PhysicalKeyboardKey>? ctrlKeys,
   }) {
-    this.ctrlKeys =
-        ctrlKeys ?? (isMacOS ? macOSCtrlKeys : linuxWindowsCtrlKeys);
+    this.ctrlKeys = ctrlKeys ?? (isMacOS ? macOSCtrlKeys : linuxWindowsCtrlKeys);
     HardwareKeyboard.instance.addHandler(_handler);
   }
 
