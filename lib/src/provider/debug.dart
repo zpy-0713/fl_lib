@@ -53,6 +53,26 @@ final class DebugProvider {
     }
   }
 
+  static void addString(String message) {
+    final title = '[${DateTime.now().hourMinute}][Debug]';
+    lines.add('$title: $message');
+    widgets.value.add(Text.rich(TextSpan(
+      children: [
+        TextSpan(text: title, style: const TextStyle(color: Color(0xff8b2252))),
+        TextSpan(text: '\n$message', style: const TextStyle(color: Colors.white)),
+      ],
+    )));
+    widgets.value.add(UIs.height13);
+    if (widgets.value.length > maxLines) {
+      widgets.value.removeRange(0, widgets.value.length - maxLines);
+    }
+    widgets.notify();
+
+    if (lines.length > maxLines) {
+      lines.removeRange(0, lines.length - maxLines);
+    }
+  }
+
   static void clear() {
     widgets.value.clear();
     lines.clear();

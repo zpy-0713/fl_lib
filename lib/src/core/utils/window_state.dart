@@ -37,14 +37,18 @@ final class WindowStateListener extends WindowListener {
   void onWindowMove() {
     Fns.throttle(
       _updateState,
-      id: 'WindowStateListener._updateState',
-      duration: 500,
+      id: 'WindowStateListener.onWindowMove',
+      duration: 100,
     );
   }
 
   @override
   void onWindowResize() {
-    _updateState();
+    Fns.throttle(
+      _updateState,
+      id: 'WindowStateListener.onWindowResize',
+      duration: 100,
+    );
   }
 }
 
