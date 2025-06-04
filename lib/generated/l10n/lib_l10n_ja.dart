@@ -43,10 +43,16 @@ class LibLocalizationsJa extends LibLocalizations {
   String get auto => '自動';
 
   @override
+  String get background => '背景';
+
+  @override
   String get backup => 'バックアップ';
 
   @override
   String get bioAuth => '生体認証';
+
+  @override
+  String get blurRadius => 'ぼかし半径';
 
   @override
   String get bright => '明るい';
@@ -207,6 +213,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get ok => 'いいです';
+
+  @override
+  String get opacity => '不透明度';
 
   @override
   String get open => '開く';

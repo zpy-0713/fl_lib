@@ -44,10 +44,16 @@ class LibLocalizationsRu extends LibLocalizations {
   String get auto => 'авто';
 
   @override
+  String get background => 'Фон';
+
+  @override
   String get backup => 'Резервное копирование';
 
   @override
   String get bioAuth => 'Биометрическая аутентификация';
+
+  @override
+  String get blurRadius => 'Радиус размытия';
 
   @override
   String get bright => 'Светлый';
@@ -208,6 +214,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get ok => 'Хорошо';
+
+  @override
+  String get opacity => 'Прозрачность';
 
   @override
   String get open => 'Открыть';

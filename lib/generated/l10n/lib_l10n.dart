@@ -73,7 +73,7 @@ import 'lib_l10n_zh.dart';
 /// property.
 abstract class LibLocalizations {
   LibLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -96,11 +96,11 @@ abstract class LibLocalizations {
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -116,7 +116,7 @@ abstract class LibLocalizations {
     Locale('tr'),
     Locale('uk'),
     Locale('zh'),
-    Locale('zh', 'TW'),
+    Locale('zh', 'TW')
   ];
 
   /// No description provided for @about.
@@ -179,6 +179,12 @@ abstract class LibLocalizations {
   /// **'Auto'**
   String get auto;
 
+  /// No description provided for @background.
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get background;
+
   /// No description provided for @backup.
   ///
   /// In en, this message translates to:
@@ -190,6 +196,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Biometric authentication'**
   String get bioAuth;
+
+  /// No description provided for @blurRadius.
+  ///
+  /// In en, this message translates to:
+  /// **'Blur Radius'**
+  String get blurRadius;
 
   /// No description provided for @bright.
   ///
@@ -503,6 +515,12 @@ abstract class LibLocalizations {
   /// **'Okay'**
   String get ok;
 
+  /// No description provided for @opacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Opacity'**
+  String get opacity;
+
   /// No description provided for @open.
   ///
   /// In en, this message translates to:
@@ -719,19 +737,19 @@ class _LibLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) => <String>[
-    'de',
-    'en',
-    'es',
-    'fr',
-    'id',
-    'ja',
-    'nl',
-    'pt',
-    'ru',
-    'tr',
-    'uk',
-    'zh',
-  ].contains(locale.languageCode);
+        'de',
+        'en',
+        'es',
+        'fr',
+        'id',
+        'ja',
+        'nl',
+        'pt',
+        'ru',
+        'tr',
+        'uk',
+        'zh'
+      ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_LibLocalizationsDelegate old) => false;
@@ -779,9 +797,8 @@ LibLocalizations lookupLibLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-    'LibLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
-  );
+      'LibLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

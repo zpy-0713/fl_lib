@@ -44,10 +44,16 @@ class LibLocalizationsId extends LibLocalizations {
   String get auto => 'Otomatis';
 
   @override
+  String get background => 'Latar Belakang';
+
+  @override
   String get backup => 'Cadangkan';
 
   @override
   String get bioAuth => 'Autentikasi biometrik';
+
+  @override
+  String get blurRadius => 'Radius Blur';
 
   @override
   String get bright => 'Terang';
@@ -209,6 +215,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get ok => 'Baik';
+
+  @override
+  String get opacity => 'Opasitas';
 
   @override
   String get open => 'Buka';

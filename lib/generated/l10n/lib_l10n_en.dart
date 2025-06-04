@@ -44,10 +44,16 @@ class LibLocalizationsEn extends LibLocalizations {
   String get auto => 'Auto';
 
   @override
+  String get background => 'Background';
+
+  @override
   String get backup => 'Backup';
 
   @override
   String get bioAuth => 'Biometric authentication';
+
+  @override
+  String get blurRadius => 'Blur Radius';
 
   @override
   String get bright => 'Bright';
@@ -208,6 +214,9 @@ class LibLocalizationsEn extends LibLocalizations {
 
   @override
   String get ok => 'Okay';
+
+  @override
+  String get opacity => 'Opacity';
 
   @override
   String get open => 'Open';

@@ -1,3 +1,5 @@
+import 'package:fl_lib/fl_lib.dart';
+
 /// {@template fllib_err}
 /// An abstract class representing an error with a type and an optional message.
 /// {@endtemplate}
@@ -9,7 +11,7 @@ abstract class Err<T extends Enum> {
   final String? message;
 
   /// The solution for the error, if available.
-  /// 
+  ///
   /// ```dart
   /// String? get solution => switch (type) {
   ///   ErrType.network => 'Check your internet connection.',
@@ -23,6 +25,6 @@ abstract class Err<T extends Enum> {
 
   @override
   String toString() {
-    return '$runtimeType<${type.name}>: $message';
+    return '$runtimeType<${type.name.capitalize}>: $message';
   }
 }

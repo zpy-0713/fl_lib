@@ -44,10 +44,16 @@ class LibLocalizationsTr extends LibLocalizations {
   String get auto => 'Otomatik';
 
   @override
+  String get background => 'Arka Plan';
+
+  @override
   String get backup => 'Yedekleme';
 
   @override
   String get bioAuth => 'biyometrik doğrulama';
+
+  @override
+  String get blurRadius => 'Bulanıklık Yarıçapı';
 
   @override
   String get bright => 'Açık';
@@ -208,6 +214,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get ok => 'tamam';
+
+  @override
+  String get opacity => 'Opaklık';
 
   @override
   String get open => 'Aç';

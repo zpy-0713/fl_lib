@@ -44,10 +44,16 @@ class LibLocalizationsNl extends LibLocalizations {
   String get auto => 'Auto';
 
   @override
+  String get background => 'Achtergrond';
+
+  @override
   String get backup => 'Back-up';
 
   @override
   String get bioAuth => 'Biometrische authenticatie';
+
+  @override
+  String get blurRadius => 'Vervagingradius';
 
   @override
   String get bright => 'nl: Donker, Licht\n';
@@ -209,6 +215,9 @@ class LibLocalizationsNl extends LibLocalizations {
 
   @override
   String get ok => 'Goed';
+
+  @override
+  String get opacity => 'Transparantie';
 
   @override
   String get open => 'Openen';

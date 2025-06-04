@@ -43,10 +43,16 @@ class LibLocalizationsZh extends LibLocalizations {
   String get auto => '自动';
 
   @override
+  String get background => '背景';
+
+  @override
   String get backup => '备份';
 
   @override
   String get bioAuth => '生物认证';
+
+  @override
+  String get blurRadius => '模糊半径';
 
   @override
   String get bright => '亮';
@@ -209,6 +215,9 @@ class LibLocalizationsZh extends LibLocalizations {
   String get ok => '好';
 
   @override
+  String get opacity => '透明度';
+
+  @override
   String get open => '打开';
 
   @override
@@ -358,10 +367,16 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get auto => '自動';
 
   @override
+  String get background => '背景';
+
+  @override
   String get backup => '備份';
 
   @override
   String get bioAuth => '生物認證';
+
+  @override
+  String get blurRadius => '模糊半徑';
 
   @override
   String get bright => '亮';
@@ -522,6 +537,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get ok => '好';
+
+  @override
+  String get opacity => '透明度';
 
   @override
   String get open => '打開';
