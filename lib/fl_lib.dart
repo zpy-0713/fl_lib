@@ -71,6 +71,7 @@ export 'src/view/page/search.dart';
 export 'src/view/page/editor/kv.dart';
 export 'src/view/page/editor/plain.dart';
 export 'src/view/page/editor/code.dart';
+export 'src/view/widget/avg.dart';
 export 'src/view/widget/split.dart';
 export 'src/view/widget/store_switch.dart';
 export 'src/view/widget/hover.dart';

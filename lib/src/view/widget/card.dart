@@ -10,6 +10,14 @@ class CardX extends StatelessWidget {
   static const borderRadius = BorderRadius.all(Radius.circular(13));
 
   @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return switch (minLevel) {
+      DiagnosticLevel.debug => 'CardX(child: $child, color: $color, radius: $radius)',
+      _ => 'CardX(${child.runtimeType})',
+    };
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       key: key,
