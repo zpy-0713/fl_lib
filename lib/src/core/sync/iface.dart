@@ -41,14 +41,12 @@ abstract class Mergeable {
   /// Merge backup with current data
   Future<void> merge({bool force = false});
 
-  // Helper function to merge a specific store
   static Future<void> mergeStore({
     required Map<String, Object?> backupData,
     required Store store,
     required bool force,
   }) async {
     // Extract the timestamps from the backup data
-    final storeName = store.name;
     final rawLastModTs = backupData[store.lastUpdateTsKey];
     late final Map<String, dynamic> lastModTimeMap;
 
@@ -60,15 +58,11 @@ abstract class Mergeable {
           lastModTimeMap = Map<String, dynamic>.from(decoded);
         } else {
           final tsInt = int.tryParse(rawLastModTs) ?? 0;
-          lastModTimeMap = <String, dynamic>{
-            for (final k in backupData.keys.where((k) => k != store.lastUpdateTsKey)) k: tsInt
-          };
+          lastModTimeMap = <String, dynamic>{for (final k in backupData.keys.where((k) => k != store.lastUpdateTsKey)) k: tsInt};
         }
       } catch (_) {
         final tsInt = int.tryParse(rawLastModTs) ?? 0;
-        lastModTimeMap = <String, dynamic>{
-          for (final k in backupData.keys.where((k) => k != store.lastUpdateTsKey)) k: tsInt
-        };
+        lastModTimeMap = <String, dynamic>{for (final k in backupData.keys.where((k) => k != store.lastUpdateTsKey)) k: tsInt};
       }
     } else if (rawLastModTs is int) {
       lastModTimeMap = <String, dynamic>{
@@ -80,62 +74,70 @@ abstract class Mergeable {
       lastModTimeMap = <String, dynamic>{};
     }
 
-    // Get current data
-    final curKeys = (await store.keys(includeInternalKeys: true))
-        .where((key) => key != store.lastUpdateTsKey)
-        .toSet();
-    final bakKeys = backupData.keys
-        .where((key) => key != store.lastUpdateTsKey)
-        .toSet();
+    // Get current data timestamps
+    final curLastModTimeMap = store.lastUpdateTs ?? <String, int>{};
 
-    // Determine which keys to add, update, or delete
-    final newKeys = bakKeys.difference(curKeys);
-    // Loggers.app.fine('$storeName: New keys to add: $newKeys');
-    final delKeys = force ? curKeys.difference(bakKeys) : <String>{};
-    // Loggers.app.fine('$storeName: Keys to delete: $delKeys');
-    final updateKeys = curKeys.intersection(bakKeys);
-    // Loggers.app.fine('$storeName: Keys to update: $updateKeys');
+    // Get current and backup keys (excluding timestamp key)
+    final curKeys = (await store.keys(includeInternalKeys: true)).where((key) => key != store.lastUpdateTsKey).toSet();
+    final bakKeys = backupData.keys.where((key) => key != store.lastUpdateTsKey).toSet();
 
-    // Add new keys
-    for (final key in newKeys) {
-      final value = backupData[key];
-      if (value == null) {
-        Loggers.app.warning('$storeName: No value for $key in backup');
-        continue;
-      }
-      await store.set(key, value);
-      Loggers.app.fine('$storeName: Added $key');
-    }
+    final processedKeys = <String>{};
 
-    // Delete keys
-    for (final key in delKeys) {
-      await store.remove(key);
-      Loggers.app.fine('$storeName: Deleted $key');
-    }
+    Future<void> processKeys(Set<String> keys, bool isBackup) async {
+      for (final key in keys) {
+        if (processedKeys.contains(key)) continue;
+        processedKeys.add(key);
 
-    // Update existing keys (if backup is newer or force is true)
-    for (final key in updateKeys) {
-      final bakTimestamp = lastModTimeMap[key] as int?;
-      if (bakTimestamp == null) {
-        // Loggers.app.warning('$storeName: No timestamp for $key in backup');
-        continue;
-      }
+        final bakTs = lastModTimeMap[key] is int ? lastModTimeMap[key] as int : 0;
+        final curTs = curLastModTimeMap[key] ?? 0;
 
-      // Check if we should update based on timestamp or force
-      final curLastUpdateTs = store.lastUpdateTs;
-      final curTimestamp = curLastUpdateTs?[key];
-      final shouldUpdate = force || bakTimestamp > (curTimestamp ?? 0);
+        final bakHasKey = bakKeys.contains(key);
+        final curHasKey = curKeys.contains(key);
 
-      if (shouldUpdate) {
-        final value = backupData[key];
-        if (value == null) {
-          await store.remove(key);
-        } else {
-          await store.set(key, value);
+        if (bakHasKey && !curHasKey) {
+          if (force || bakTs > curTs) {
+            final value = backupData[key];
+            if (value != null) {
+              await store.set(key, value, updateLastUpdateTsOnSet: false);
+              await store.updateLastUpdateTs(ts: bakTs, key: key);
+            }
+          }
+        } else if (!bakHasKey && curHasKey) {
+          if (force || bakTs > curTs) {
+            await store.remove(key, updateLastUpdateTsOnRemove: false);
+            await store.updateLastUpdateTs(ts: curTs, key: key);
+          }
+        } else if (bakHasKey && curHasKey) {
+          if (force || bakTs > curTs) {
+            final bakValue = backupData[key];
+            final curValue = store.get(key);
+
+            if (bakValue != curValue) {
+              if (bakValue != null) {
+                await store.set(key, bakValue, updateLastUpdateTsOnSet: false);
+              } else {
+                await store.remove(key, updateLastUpdateTsOnRemove: false);
+              }
+              await store.updateLastUpdateTs(ts: bakTs, key: key);
+            }
+          }
         }
-        Loggers.app.fine('$storeName: Updated $key (backup: $bakTimestamp, current: $curTimestamp)');
-      } else {
-        // Loggers.app.fine('$storeName: Skipping $key (backup: $bakTimestamp, current: $curTimestamp)');
+      }
+    }
+
+    await processKeys(bakKeys, true);
+    await processKeys(curKeys, false);
+
+    if (force) {
+      int maxBakTs = 0;
+      lastModTimeMap.forEach((key, value) {
+        if (value is int && value > maxBakTs) {
+          maxBakTs = value;
+        }
+      });
+
+      if (maxBakTs > 0) {
+        await store.updateLastUpdateTs(ts: maxBakTs, key: null);
       }
     }
   }
