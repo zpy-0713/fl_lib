@@ -1,30 +1,22 @@
 import 'dart:io';
 
-import 'package:fl_lib/src/core/utils/platform/base.dart';
 import 'package:fl_lib/src/res/l10n.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth/error_codes.dart' as errs;
 
-abstract final class BioAuth {
+abstract final class LocalAuth {
   static final _auth = LocalAuthentication();
-
-  static final isPlatformSupported = isAndroid || isIOS || isWindows;
 
   static bool _isAuthing = false;
 
   static Future<bool> get isAvail async {
-    if (!isPlatformSupported) return false;
-    if (!await _auth.canCheckBiometrics) {
+    try {
+      return await _auth.isDeviceSupported();
+    } catch (e) {
+      // If an error occurs, assume biometrics are not available
       return false;
     }
-    final biometrics = await _auth.getAvailableBiometrics();
-
-    /// [biometrics] on Android and Windows is returned with error
-    /// Handle it specially
-    if (isAndroid || isWindows) return biometrics.isNotEmpty;
-    return biometrics.contains(BiometricType.face) ||
-        biometrics.contains(BiometricType.fingerprint);
   }
 
   static Future<void> go({VoidCallback? onUnavailable}) async {
@@ -46,14 +38,14 @@ abstract final class BioAuth {
     }
   }
 
-  static Future<AuthResult> goWithResult() async {
+  static Future<AuthResult> goWithResult({bool onlyBio = false}) async {
     if (!await isAvail) return AuthResult.notAvail;
     try {
       await _auth.stopAuthentication();
       final reuslt = await _auth.authenticate(
         localizedReason: '🔐 ${l10n.authRequired}',
-        options: const AuthenticationOptions(
-          biometricOnly: true,
+        options: AuthenticationOptions(
+          biometricOnly: onlyBio,
           stickyAuth: true,
         ),
       );

@@ -6,31 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-final class BioAuthPageArgs {
+final class LocalAuthPageArgs {
   final bool autoReqAuth;
   final void Function()? onAuthSuccess;
 
-  const BioAuthPageArgs({
+  const LocalAuthPageArgs({
     this.autoReqAuth = true,
     this.onAuthSuccess,
   });
 }
 
-final class BioAuthPage extends StatefulWidget {
-  final BioAuthPageArgs? args;
+final class LocalAuthPage extends StatefulWidget {
+  final LocalAuthPageArgs? args;
 
-  const BioAuthPage({super.key, this.args});
+  const LocalAuthPage({super.key, this.args});
 
-  static const route = AppRoute<bool, BioAuthPageArgs>(
-    page: BioAuthPage.new,
-    path: '/bio_auth',
+  static const route = AppRoute<bool, LocalAuthPageArgs>(
+    page: LocalAuthPage.new,
+    path: '/local_auth',
   );
 
   @override
-  State<BioAuthPage> createState() => _BioAuthPageState();
+  State<LocalAuthPage> createState() => _LocalAuthPageState();
 }
 
-final class _BioAuthPageState extends State<BioAuthPage> with AfterLayoutMixin {
+final class _LocalAuthPageState extends State<LocalAuthPage> with AfterLayoutMixin {
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -57,7 +57,7 @@ final class _BioAuthPageState extends State<BioAuthPage> with AfterLayoutMixin {
   }
 
   void _reqAuth() async {
-    switch (await BioAuth.goWithResult()) {
+    switch (await LocalAuth.goWithResult()) {
       case AuthResult.success:
         context.pop();
         widget.args?.onAuthSuccess?.call();

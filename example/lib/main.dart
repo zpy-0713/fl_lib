@@ -36,7 +36,7 @@ class MainPage extends StatelessWidget {
       _PreviewEntry('Debug Page', const DebugPage()),
       _PreviewEntry('Intro Page', const PreviewIntroPage()),
       _PreviewEntry('File Page', const PreviewFilePage()),
-      _PreviewEntry('Bio Auth Page', const BioAuthPage()),
+      _PreviewEntry('Bio Auth Page', const LocalAuthPage()),
       _PreviewEntry('Search Page', const PreviewSearchPage()),
       _PreviewEntry('Image Page', const PreviewImagePage()),
       _PreviewEntry('Scan Page', const BarcodeScannerPage()),
