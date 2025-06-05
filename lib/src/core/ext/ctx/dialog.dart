@@ -391,19 +391,29 @@ extension DialogX on BuildContext {
             icon: const Icon(MingCute.clipboard_line),
           ),
           if (modelDef != null)
-            ExpandTile(
-              title: Text(l10n.example),
-              children: [
-                SimpleMarkdown(
-                  data: '''
+            Btn.tile(
+              text: l10n.example,
+              icon: const Icon(MingCute.paragraph_fill),
+              onTap: () {
+                final content = const JsonEncoder.withIndent('\t\t').convert([modelDef]);
+                showRoundDialog(
+                  title: l10n.example,
+                  child: SingleChildScrollView(
+                      child: SimpleMarkdown(
+                    data: '''
 ```json
-[
-${const JsonEncoder.withIndent('\t\t').convert(modelDef)}
-]
+$content
 ```''',
-                  selectable: true,
-                ),
-              ],
+                    selectable: true,
+                  )),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Pfs.copy(content),
+                      child: Text(l10n.copy),
+                    ),
+                  ],
+                );
+              },
             ),
         ],
       ),
