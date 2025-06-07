@@ -1,12 +1,10 @@
 import 'package:fl_lib/fl_lib.dart';
-import 'package:fl_lib/generated/l10n/lib_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:re_editor/re_editor.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 /// Material Design implementation of [SelectionToolbarController]
-class MaterialSelectionToolbarController extends SelectionToolbarController {
-  MaterialSelectionToolbarController({
+class AdaptiveSelectionToolbarController extends SelectionToolbarController {
+  AdaptiveSelectionToolbarController({
     this.animationConfig = SelectionToolbarAnimationConfig.material,
   });
 
@@ -37,22 +35,13 @@ class MaterialSelectionToolbarController extends SelectionToolbarController {
 
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
-        return Localizations(
-          locale: Localizations.localeOf(context),
-          delegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            LibLocalizations.delegate,
-          ],
-          child: _AnimatedCodeLineSelectionToolbar(
-            controller: controller,
-            anchors: adjustedAnchors,
-            renderRect: renderRect,
-            layerLink: layerLink,
-            onHide: () => hide(context),
-            animationConfig: animationConfig,
-          ),
+        return _AnimatedCodeLineSelectionToolbar(
+          controller: controller,
+          anchors: adjustedAnchors,
+          renderRect: renderRect,
+          layerLink: layerLink,
+          onHide: () => hide(context),
+          animationConfig: animationConfig,
         );
       },
     );

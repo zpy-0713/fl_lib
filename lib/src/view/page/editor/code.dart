@@ -203,8 +203,7 @@ class _EditorPageState extends State<EditorPage> {
         );
       },
       findBuilder: (context, controller, readOnly) => CodeFindPanelView(controller: controller, readOnly: readOnly),
-      toolbarController: widget.args?.toolbarController ??
-          MaterialSelectionToolbarController(),
+      toolbarController: widget.args?.toolbarController ?? (isMobile ? AdaptiveSelectionToolbarController() : null),
     );
   }
 }
