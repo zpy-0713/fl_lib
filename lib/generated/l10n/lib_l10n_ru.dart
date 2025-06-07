@@ -196,6 +196,12 @@ class LibLocalizationsRu extends LibLocalizations {
   String get minute => 'Минуты';
 
   @override
+  String get moveDown => 'Отменить';
+
+  @override
+  String get moveUp => 'Вверх';
+
+  @override
   String get name => 'Имя';
 
   @override
@@ -239,6 +245,9 @@ class LibLocalizationsRu extends LibLocalizations {
   @override
   String get pwdTip =>
       'Длина от 6 до 32 символов, может содержать английские буквы, цифры и знаки препинания';
+
+  @override
+  String get redo => 'Повторить';
 
   @override
   String get register => 'Зарегистрироваться';
@@ -295,6 +304,9 @@ class LibLocalizationsRu extends LibLocalizations {
 
   @override
   String get thinking => 'Думаю';
+
+  @override
+  String get undo => 'Отменить';
 
   @override
   String get unknown => 'Неизвестно';

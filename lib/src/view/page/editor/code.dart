@@ -193,6 +193,7 @@ class _EditorPageState extends State<EditorPage> {
       indicatorBuilder: (context, editingController, chunkController, notifier) {
         return Row(
           children: [
+            UIs.width7,
             DefaultCodeLineNumber(
               controller: editingController,
               notifier: notifier,
@@ -202,7 +203,8 @@ class _EditorPageState extends State<EditorPage> {
         );
       },
       findBuilder: (context, controller, readOnly) => CodeFindPanelView(controller: controller, readOnly: readOnly),
-      toolbarController: widget.args?.toolbarController,
+      toolbarController: widget.args?.toolbarController ??
+          MaterialSelectionToolbarController(),
     );
   }
 }

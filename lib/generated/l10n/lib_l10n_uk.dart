@@ -196,6 +196,12 @@ class LibLocalizationsUk extends LibLocalizations {
   String get minute => 'Хвилини';
 
   @override
+  String get moveDown => 'Вниз';
+
+  @override
+  String get moveUp => 'Вгору';
+
+  @override
   String get name => 'Назва';
 
   @override
@@ -239,6 +245,9 @@ class LibLocalizationsUk extends LibLocalizations {
   @override
   String get pwdTip =>
       'Довжина 6-32, може містити англійські літери, цифри та розділові знаки';
+
+  @override
+  String get redo => 'Повторити';
 
   @override
   String get register => 'Зареєструватися';
@@ -295,6 +304,9 @@ class LibLocalizationsUk extends LibLocalizations {
 
   @override
   String get thinking => 'Обмірковую';
+
+  @override
+  String get undo => 'Скасувати';
 
   @override
   String get unknown => 'Невідомо';

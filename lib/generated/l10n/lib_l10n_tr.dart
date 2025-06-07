@@ -196,6 +196,12 @@ class LibLocalizationsTr extends LibLocalizations {
   String get minute => 'dakika';
 
   @override
+  String get moveDown => 'Aşağı Taşı';
+
+  @override
+  String get moveUp => 'Yukarı Taşı';
+
+  @override
   String get name => 'ad';
 
   @override
@@ -239,6 +245,9 @@ class LibLocalizationsTr extends LibLocalizations {
   @override
   String get pwdTip =>
       'Uzunluk 6-32, İngilizce harfler, rakamlar ve noktalama işaretleri olabilir';
+
+  @override
+  String get redo => 'Yeniden Yap';
 
   @override
   String get register => 'Kaydol';
@@ -295,6 +304,9 @@ class LibLocalizationsTr extends LibLocalizations {
 
   @override
   String get thinking => 'Düşünüyor';
+
+  @override
+  String get undo => 'Geri Al';
 
   @override
   String get unknown => 'Bilinmiyor';

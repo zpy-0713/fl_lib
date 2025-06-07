@@ -24,25 +24,16 @@ enum Pfs {
     if (kIsWeb) {
       return web;
     }
-    if (Platform.isAndroid) {
-      return android;
-    }
-    if (Platform.isIOS) {
-      return ios;
-    }
-    if (Platform.isLinux) {
-      return linux;
-    }
-    if (Platform.isMacOS) {
-      return macos;
-    }
-    if (Platform.isWindows) {
-      return windows;
-    }
-    if (Platform.isFuchsia) {
-      return fuchsia;
-    }
-    return unknown;
+    return switch (Platform.operatingSystem) {
+      'android' => android,
+      'ios' => ios,
+      'linux' => linux,
+      'macos' => macos,
+      'windows' => windows,
+      'fuchsia' => fuchsia,
+      // If the platform is not recognized, return unknown
+      _ => unknown,
+    };
   }();
 
   @override

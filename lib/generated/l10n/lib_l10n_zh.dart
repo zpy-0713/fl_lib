@@ -195,6 +195,12 @@ class LibLocalizationsZh extends LibLocalizations {
   String get minute => '分';
 
   @override
+  String get moveDown => '下移';
+
+  @override
+  String get moveUp => '上移';
+
+  @override
   String get name => '名称';
 
   @override
@@ -237,6 +243,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get pwdTip => '长度6-32，可以是英文的字母、数字、标点';
+
+  @override
+  String get redo => '重做';
 
   @override
   String get register => '注册';
@@ -293,6 +302,9 @@ class LibLocalizationsZh extends LibLocalizations {
 
   @override
   String get thinking => '思考中';
+
+  @override
+  String get undo => '撤销';
 
   @override
   String get unknown => '未知';
@@ -519,6 +531,12 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
   String get minute => '分';
 
   @override
+  String get moveDown => '下移';
+
+  @override
+  String get moveUp => '上移';
+
+  @override
   String get name => '名稱';
 
   @override
@@ -561,6 +579,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get pwdTip => '長度6-32，可以是英文字母、數字、標點符號';
+
+  @override
+  String get redo => '重做';
 
   @override
   String get register => '註冊';
@@ -617,6 +638,9 @@ class LibLocalizationsZhTw extends LibLocalizationsZh {
 
   @override
   String get thinking => '思考中';
+
+  @override
+  String get undo => '復原';
 
   @override
   String get unknown => '未知';

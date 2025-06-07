@@ -479,6 +479,18 @@ abstract class LibLocalizations {
   /// **'Minutes'**
   String get minute;
 
+  /// No description provided for @moveDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Move Down'**
+  String get moveDown;
+
+  /// No description provided for @moveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move Up'**
+  String get moveUp;
+
   /// No description provided for @name.
   ///
   /// In en, this message translates to:
@@ -562,6 +574,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Length 6-32, can be English letters, numbers, and punctuation'**
   String get pwdTip;
+
+  /// No description provided for @redo.
+  ///
+  /// In en, this message translates to:
+  /// **'Redo'**
+  String get redo;
 
   /// No description provided for @register.
   ///
@@ -670,6 +688,12 @@ abstract class LibLocalizations {
   /// In en, this message translates to:
   /// **'Thinking'**
   String get thinking;
+
+  /// No description provided for @undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undo;
 
   /// No description provided for @unknown.
   ///

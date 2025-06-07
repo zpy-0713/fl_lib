@@ -195,6 +195,12 @@ class LibLocalizationsJa extends LibLocalizations {
   String get minute => '分';
 
   @override
+  String get moveDown => '下へ移動';
+
+  @override
+  String get moveUp => '上へ移動';
+
+  @override
   String get name => '名前';
 
   @override
@@ -237,6 +243,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get pwdTip => '長さ6〜32文字、英語の文字、数字、句読点が使用可能';
+
+  @override
+  String get redo => 'やり直す';
 
   @override
   String get register => '登録';
@@ -293,6 +302,9 @@ class LibLocalizationsJa extends LibLocalizations {
 
   @override
   String get thinking => '考え中';
+
+  @override
+  String get undo => '元に戻す';
 
   @override
   String get unknown => '不明';

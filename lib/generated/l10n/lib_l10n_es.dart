@@ -197,6 +197,12 @@ class LibLocalizationsEs extends LibLocalizations {
   String get minute => 'Minutos';
 
   @override
+  String get moveDown => 'Bajar';
+
+  @override
+  String get moveUp => 'Subir';
+
+  @override
   String get name => 'Nombre';
 
   @override
@@ -240,6 +246,9 @@ class LibLocalizationsEs extends LibLocalizations {
   @override
   String get pwdTip =>
       'Longitud de 6 a 32, puede contener letras en inglés, números y signos de puntuación';
+
+  @override
+  String get redo => 'Rehacer';
 
   @override
   String get register => 'Registrarse';
@@ -296,6 +305,9 @@ class LibLocalizationsEs extends LibLocalizations {
 
   @override
   String get thinking => 'Pensando';
+
+  @override
+  String get undo => 'Deshacer';
 
   @override
   String get unknown => 'Desconocido';

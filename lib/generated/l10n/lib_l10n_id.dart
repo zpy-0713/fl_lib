@@ -197,6 +197,12 @@ class LibLocalizationsId extends LibLocalizations {
   String get minute => 'Menit';
 
   @override
+  String get moveDown => 'Turun';
+
+  @override
+  String get moveUp => 'Naik';
+
+  @override
   String get name => 'Nama';
 
   @override
@@ -240,6 +246,9 @@ class LibLocalizationsId extends LibLocalizations {
   @override
   String get pwdTip =>
       'Panjang 6-32, dapat berupa huruf bahasa Inggris, angka, dan tanda baca';
+
+  @override
+  String get redo => 'Ulangi';
 
   @override
   String get register => 'Daftar';
@@ -296,6 +305,9 @@ class LibLocalizationsId extends LibLocalizations {
 
   @override
   String get thinking => 'Sedang berpikir';
+
+  @override
+  String get undo => 'Batalkan';
 
   @override
   String get unknown => 'Tidak diketahui';
