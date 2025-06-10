@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 extension WidgetX on Widget {
   Widget get cardx => CardX(child: this);
 
-  Widget paddingAll(double value) =>
-      Padding(padding: EdgeInsets.all(value), child: this);
+  Widget paddingAll(double value) => Padding(padding: EdgeInsets.all(value), child: this);
 
-  Widget paddingSymmetric({double horizontal = 0, double vertical = 0}) =>
-      Padding(
+  Widget paddingSymmetric({double horizontal = 0, double vertical = 0}) => Padding(
         padding: EdgeInsets.symmetric(
           horizontal: horizontal,
           vertical: vertical,
@@ -36,11 +34,9 @@ extension WidgetX on Widget {
 
   Widget center() => Center(child: this);
 
-  Widget align(AlignmentGeometry alignment) =>
-      Align(alignment: alignment, child: this);
+  Widget align(AlignmentGeometry alignment) => Align(alignment: alignment, child: this);
 
-  Widget sized({double? width, double? height}) =>
-      SizedBox(width: width, height: height, child: this);
+  Widget sized({double? width, double? height}) => SizedBox(width: width, height: height, child: this);
 
   Widget tap({
     VoidCallback? onTap,
@@ -65,6 +61,14 @@ extension WidgetX on Widget {
         color: Colors.transparent,
         child: child,
       ),
+    );
+  }
+
+  /// Wrap this widget in a [SliverToBoxAdapter].
+  SliverToBoxAdapter sliver({Key? key}) {
+    return SliverToBoxAdapter(
+      key: key,
+      child: this,
     );
   }
 }

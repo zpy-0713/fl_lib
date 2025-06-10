@@ -1,16 +1,13 @@
-import 'dart:math';
-
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:re_editor/re_editor.dart';
 
 const EdgeInsetsGeometry _kDefaultFindMargin = EdgeInsets.only(right: 10);
 const double _kDefaultFindPanelWidth = 360;
-const double _kDefaultFindPanelHeight = 36;
+const double _kDefaultFindPanelHeight = 48;
 const double _kDefaultReplacePanelHeight = _kDefaultFindPanelHeight * 2;
 const double _kDefaultFindIconSize = 16;
 const double _kDefaultFindIconWidth = 30;
-const double _kDefaultFindIconHeight = 30;
 const double _kDefaultFindInputFontSize = 13;
 const double _kDefaultFindResultFontSize = 12;
 const EdgeInsetsGeometry _kDefaultFindPadding = EdgeInsets.only(left: 5, right: 5, top: 2.5, bottom: 2.5);
@@ -225,15 +222,12 @@ class CodeFindPanelView extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildIconButton({required IconData icon, VoidCallback? onPressed, String? tooltip}) {
-    return IconButton(
-      onPressed: onPressed,
+    return Btn.icon(
+      onTap: onPressed,
       icon: Icon(
         icon,
         size: iconSize,
       ),
-      constraints: const BoxConstraints(maxWidth: _kDefaultFindIconWidth, maxHeight: _kDefaultFindIconHeight),
-      tooltip: tooltip,
-      splashRadius: max(_kDefaultFindIconWidth, _kDefaultFindIconHeight) / 2,
     );
   }
 }
