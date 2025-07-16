@@ -21,7 +21,7 @@ class HiveStore extends Store {
 
   /// Initialize the [HiveStore].
   Future<void> init() async {
-    if (SecureStore.cipher == null) await SecureStore.init();
+    if (_HiveEnc._cipher == null) await _HiveEnc._initCipher();
 
     final path = switch (Pfs.type) {
       /// The default path of Hive is the HOME dir
@@ -32,7 +32,7 @@ class HiveStore extends Store {
     final enc = await Hive.openBox(
       '${boxName}_enc',
       path: path,
-      encryptionCipher: SecureStore.cipher,
+      encryptionCipher: _HiveEnc._cipher,
     );
 
     final unencryptedFile = File('${path.joinPath(boxName)}.hive');
@@ -362,4 +362,33 @@ class HivePropDefaultListenable<T extends Object> extends ValueListenable<T> {
 
   @override
   T get value => prop.get();
+}
+
+extension _HiveEnc on HiveStore {
+  /// The cipher of the [HiveStore].
+  static HiveAesCipher? _cipher;
+
+  static const _hiveEncKey = 'hive_key';
+
+  /// The encryption key of the [HiveStore].
+  static Future<String?> get _encryptionKey async {
+    final hiveKey = PrefStore.shared.get<String>(_hiveEncKey);
+    if (hiveKey != null) return hiveKey;
+    return PrefStore.shared.get<String>('flutter.$_hiveEncKey');
+  }
+
+  /// Initialize the [SecureStore].
+  static Future<void> _initCipher() async {
+    final encryptionKeyString = await _encryptionKey;
+    if (encryptionKeyString == null) {
+      final key = Hive.generateSecureKey();
+      await PrefStore.shared.set(_hiveEncKey, base64UrlEncode(key));
+    }
+    final key = await _encryptionKey;
+    if (key == null) {
+      throw Exception('Failed to init SecureStore');
+    }
+    final encryptionKeyUint8List = base64Url.decode(key);
+    _cipher = HiveAesCipher(encryptionKeyUint8List);
+  }
 }

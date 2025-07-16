@@ -1,36 +1,74 @@
 import 'dart:convert';
 
-import 'package:fl_lib/src/core/store/iface.dart';
-import 'package:hive_ce/hive.dart';
+import 'package:fl_lib/fl_lib.dart';
+import 'package:fl_lib/src/model/json.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// The secure store.
 ///
 /// It uses system built-in vault to store the data.
 abstract final class SecureStore {
-  /// The cipher of the [HiveStore].
-  static HiveAesCipher? cipher;
+  /// The name of default user account. Such as 'debug.user1' or 'release.user1'.
+  /// 
+  /// - Only available on iOS and macOS. 
+  /// - Not [IOSOptions.groupId].
+  static const defaultAccountName = 'fl_lib_default_account';
 
-  static const _hiveKey = 'hive_key';
+  /// The secure storage instance.
+  /// 
+  /// With [defaultAccountName], [KeychainAccessibility.first_unlock_this_device], 
+  static const storage = FlutterSecureStorage(
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+      resetOnError: true,
+    ),
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock_this_device,
+      accountName: defaultAccountName,
+      synchronizable: false,
+      groupId: null,
+    ),
+    mOptions: MacOsOptions(
+      accountName: defaultAccountName,
+      synchronizable: false,
+      accessibility: KeychainAccessibility.first_unlock_this_device,
+      groupId: null,
+    ),
+  );
 
-  /// The encryption key of the [HiveStore].
-  static Future<String?> get encryptionKey async {
-    final hiveKey = PrefStore.shared.get<String>(_hiveKey);
-    if (hiveKey != null) return hiveKey;
-    return PrefStore.shared.get<String>('flutter.$_hiveKey');
+  Future<T?> readJson<T>(String key, JsonFromJson<T> fromJson) {
+    return storage.readJson<T>(key, fromJson);
   }
 
-  /// Initialize the [SecureStore].
-  static Future<void> init() async {
-    final encryptionKeyString = await encryptionKey;
-    if (encryptionKeyString == null) {
-      final key = Hive.generateSecureKey();
-      await PrefStore.shared.set(_hiveKey, base64UrlEncode(key));
+  Future<bool> writeJson<T>(String key, T value, JsonToJson<T> toJson) {
+    return storage.writeJson<T>(key, value, toJson);
+  }
+}
+
+/// Includes [readJson] and [writeJson].
+extension SecureStoreExt on FlutterSecureStorage {
+  /// Read a JSON object from secure storage.
+  Future<T?> readJson<T>(String key, JsonFromJson<T> fromJson) async {
+    try {
+      final jsonStr = await read(key: key);
+      if (jsonStr == null) return null;
+      final obj = fromJson(json.decode(jsonStr));
+      return obj;
+    } catch (e) {
+      dprint('Error reading JSON from secure storage: $e');
+      return null;
     }
-    final key = await encryptionKey;
-    if (key == null) {
-      throw Exception('Failed to init SecureStore');
+  }
+
+  /// Write a JSON object to secure storage.
+  Future<bool> writeJson<T>(String key, T value, JsonToJson<T> toJson) async {
+    try {
+      final jsonStr = json.encode(toJson(value));
+      await write(key: key, value: jsonStr);
+      return true;
+    } catch (e) {
+      dprint('Error writing JSON to secure storage: $e');
     }
-    final encryptionKeyUint8List = base64Url.decode(key);
-    cipher = HiveAesCipher(encryptionKeyUint8List);
+    return false;
   }
 }
