@@ -15,6 +15,11 @@ extension ThemeDataX on ThemeData {
         navigationBarTheme:
             const NavigationBarThemeData(backgroundColor: Colors.black),
         popupMenuTheme: const PopupMenuThemeData(color: Colors.black),
+        navigationRailTheme: const NavigationRailThemeData(
+          backgroundColor: Colors.black,
+          selectedIconTheme: IconThemeData(color: Colors.white),
+          unselectedIconTheme: IconThemeData(color: Colors.white70),
+        ),
       );
 }
 
