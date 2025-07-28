@@ -103,7 +103,7 @@ export 'src/view/widget/card.dart';
 // export 'src/view/widget/future_widget.dart';
 // export 'src/view/widget/turnstile.dart';
 // export 'src/view/widget/error.dart';
-// export 'src/view/widget/auto_hide.dart';
+export 'src/view/widget/auto_hide.dart';
 // export 'src/view/widget/color_picker.dart';
 // export 'src/view/widget/loading.dart';
 // export 'src/view/widget/overlay.dart';
